@@ -1,77 +1,18 @@
-:host {
-  display: block;
-  width: 100%;
-  overflow: hidden;
-}
-
-.carousel-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.carousel {
-  display: flex;
-  gap: 30px; /* Espaço entre os itens */
-  overflow-x: hidden; /* Oculta o overflow horizontal */
-  scroll-behavior: smooth;
-  padding: 20px 80px;
-  box-sizing: border-box;
-  cursor: grab;
-
-  &.dragging {
-    cursor: grabbing;
-  }
-}
-
-.item {
-  width: 500px;
-  height: 296px;
-  background-color: #9db2a8;
-  flex-shrink: 0;
+.rectangle-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Garante que a imagem não ultrapasse o container */
+  width: 500px; 
+  height: 300px; 
+  overflow: hidden;
+  background-color: #f0f0f0;
+  margin: 0 5px; 
+  border: 1px solid #ccc; 
+  border-radius: 10px;
 }
 
-.item img {
+.rectangle-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Ajusta a imagem para cobrir o container sem distorção */
-}
-
-.arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
-  width: 80px;
-  height: 100%;
-  background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0));
-  border: none;
-  font-size: 50px;
-  color: #3b5f51;
-  cursor: pointer;
-  padding: 0;
-}
-
-.arrow.right {
-  right: 0;
-  background: linear-gradient(to left, #fff, rgba(255, 255, 255, 0));
-}
-
-.arrow.left {
-  left: 0;
-}
-
-@media (max-width: 1280px) {
-  .carousel {
-    padding: 20px 40px;
-  }
-
-  .arrow {
-    width: 60px;
-    font-size: 30px;
-  }
+  object-fit: cover; 
 }

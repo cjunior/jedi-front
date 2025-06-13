@@ -1,25 +1,27 @@
-:host {
-  display: block;
+.item {
   width: 100%;
+  height: 
+  768px; 
+  background-color: #9db2a8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-img {
-  object-fit: cover;
-  height: 500px;
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
 }
 
-.carousel-inner {
-  max-height: 500px;
+.card{
+  margin-top: 100px;
 }
 
-#carouselExample{
-  width: 82%;
-    margin: 0 auto;
-}
 
-@media (max-width: 768px) {
-  #carouselExample{
-    width: auto !important;
-      margin: 0 auto;
+@media (max-width: 780px) {
+  .item {
+    height: 100%;
   }
 }
