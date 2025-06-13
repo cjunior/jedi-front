@@ -9,7 +9,14 @@ import { DropdownComponent } from "./components/dropdown/dropdown.component";
 
 @Component({
   selector: 'app-lading-page',
-  imports: [CarouselComponent, AcordionComponent, FormComponent, CarouselContentComponent, CarouselSquareComponent, DropdownComponent],
+  imports: [
+    CarouselComponent,
+    AcordionComponent,
+    FormComponent,
+    CarouselContentComponent,
+    CarouselSquareComponent,
+    DropdownComponent,
+  ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss'
 })
@@ -43,5 +50,5 @@ export class LadingPageComponent {
   toggleMenu() {
     this.menuAberto = !this.menuAberto;
   }
-  
+
 }
