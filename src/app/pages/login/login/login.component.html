@@ -1,0 +1,39 @@
+<div class="login-container">
+    <div class="image-container">
+    </div>
+    <div class="login-card">
+      <h1>DÊ UM PLAY NO SEU FUTURO</h1>
+      <p>Área de acesso para gestão de conteúdos</p>
+  
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <div class="p-field">
+          <input
+            type="email"
+            name="email"
+            placeholder="E-mail"
+            required
+          />
+        </div>
+  
+        <div class="p-field">
+          <input
+            type="password"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Senha"
+            required
+          />
+        </div>
+  
+        <button
+          pButton
+          type="submit"
+          label="Entrar"
+          class="login-button"
+          [disabled]="!loginForm.valid"
+        ></button>
+      </form>
+  
+      <a href="#" class="forgot-password">Esqueceu <strong>sua senha?</strong></a>
+    </div>
+  </div>
