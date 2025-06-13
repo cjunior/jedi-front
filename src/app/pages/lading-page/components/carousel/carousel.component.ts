@@ -1,89 +1,66 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
+import { CarouselModule } from 'primeng/carousel';
+import { ButtonModule } from 'primeng/button';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-carousel',
-  imports: [CommonModule],
+  standalone: true,
+  imports: [CommonModule, CarouselModule, ButtonModule, TagModule],
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements AfterViewInit {
-  @ViewChild('carousel') carousel!: ElementRef<HTMLDivElement>;
-
+export class CarouselComponent {
   items = [
-    '/fotoend2.png',
-    '/diva2.svg',
-    '/divos.svg',
-    '/cap.png',
-    '/divos.svg',
-    'fotoend2.png',
-    '/cap.png',
-    '/divos.svg',
-    'fotoend2.png',
-    'divos.svg'
+    { image: '/fotoend2.png', alt: 'Foto End 2' },
+    { image: '/diva2.svg', alt: 'Diva 2' },
+    { image: '/divos.svg', alt: 'Divos' },
+    { image: '/cap.png', alt: 'Cap' },
+    { image: '/divos.svg', alt: 'Divos' },
+    { image: '/fotoend2.png', alt: 'Foto End 2' },
+    { image: '/cap.png', alt: 'Cap' },
+    { image: '/divos.svg', alt: 'Divos' },
+    { image: '/fotoend2.png', alt: 'Foto End 2' },
+    { image: '/divos.svg', alt: 'Divos' }
   ];
-  itemWidth: number = 0; 
-  isDragging = false;
-  startX = 0;
-  scrollLeft = 0;
 
-  ngAfterViewInit() {
-   
-    const firstItem = this.carousel.nativeElement.querySelector('.item') as HTMLElement;
-    if (firstItem) {
-      const style = window.getComputedStyle(firstItem);
-      const marginRight = parseFloat(style.marginRight || '0');
-      this.itemWidth = firstItem.offsetWidth + marginRight; 
+  products = [
+    { name: 'Product 1', price: 100, image: 'product1.jpg', inventoryStatus: 'In Stock' },
+    { name: 'Product 2', price: 200, image: 'product2.jpg', inventoryStatus: 'Low Stock' },
+    { name: 'Product 3', price: 300, image: 'product3.jpg', inventoryStatus: 'Out of Stock' },
+    { name: 'Product 4', price: 400, image: 'product4.jpg', inventoryStatus: 'In Stock' },
+    { name: 'Product 5', price: 500, image: 'product5.jpg', inventoryStatus: 'Low Stock' }
+  ];
+
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5,
+      numScroll: 1
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3,
+      numScroll: 1
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1
     }
+  ];
 
-    this.centerItems();
-  }
-
-  scrollCarousel(direction: number) {
-    if (this.carousel && this.carousel.nativeElement) {
-      const scrollPosition = this.carousel.nativeElement.scrollLeft;
-      const newScrollPosition = scrollPosition + direction * this.itemWidth;
-
-      this.carousel.nativeElement.scrollTo({
-        left: newScrollPosition,
-        behavior: 'smooth'
-      });
+  getSeverity(status: string): string {
+    switch (status) {
+      case 'In Stock':
+        return 'success';
+      case 'Low Stock':
+        return 'warning';
+      case 'Out of Stock':
+        return 'danger';
+      default:
+        return '';
     }
-  }
-
-  centerItems() {
-    if (this.carousel && this.carousel.nativeElement) {
-      const carouselWidth = this.carousel.nativeElement.offsetWidth;
-      const totalItemsWidth = this.items.length * this.itemWidth;
-      const emptySpace = carouselWidth - totalItemsWidth;
-
-      if (emptySpace > 0) {
-        this.carousel.nativeElement.style.justifyContent = 'center';
-      } else {
-        this.carousel.nativeElement.style.justifyContent = 'flex-start';
-      }
-    }
-  }
-
-  onDragStart(event: MouseEvent | TouchEvent) {
-    this.isDragging = true;
-    this.startX = this.getEventX(event) - this.carousel.nativeElement.offsetLeft;
-    this.scrollLeft = this.carousel.nativeElement.scrollLeft;
-  }
-
-  onDragMove(event: MouseEvent | TouchEvent) {
-    if (!this.isDragging) return;
-    event.preventDefault();
-    const x = this.getEventX(event) - this.carousel.nativeElement.offsetLeft;
-    const walk = (x - this.startX) * 1;
-    this.carousel.nativeElement.scrollLeft = this.scrollLeft - walk;
-  }
-
-  onDragEnd() {
-    this.isDragging = false;
-  }
-
-  private getEventX(event: MouseEvent | TouchEvent): number {
-    return event instanceof MouseEvent ? event.pageX : event.touches[0].pageX;
   }
 }

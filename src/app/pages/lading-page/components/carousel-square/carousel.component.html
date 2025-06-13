@@ -1,21 +1,14 @@
-<div class="carousel-container">
-
-  <button class="arrow left" (click)="scrollCarousel(-1)">&#x2039;</button>
-  <div
-    class="carousel"
-    #carousel
-    (mousedown)="onDragStart($event)"
-    (mousemove)="onDragMove($event)"
-    (mouseup)="onDragEnd()"
-    (mouseleave)="onDragEnd()"
-    (touchstart)="onDragStart($event)"
-    (touchmove)="onDragMove($event)"
-    (touchend)="onDragEnd()"
-  >
-    <div class="item" *ngFor="let item of items; let i = index">
-      <img [src]="item" alt="Carousel item {{ i + 1 }}" />
-    </div>
-  </div>
-
-  <button class="arrow right" (click)="scrollCarousel(1)">&#x203A;</button>
+<div class="card">
+  <p-carousel 
+    [value]="items" 
+    [numVisible]="3" 
+    [numScroll]="1" 
+    [responsiveOptions]="responsiveOptions"
+    [showIndicators]="false">
+    <ng-template let-item pTemplate="item">
+      <div class="rectangle-container">
+        <img [src]="item" alt="Carousel item" class="rectangle-image" />
+      </div>
+    </ng-template>
+  </p-carousel>
 </div>
