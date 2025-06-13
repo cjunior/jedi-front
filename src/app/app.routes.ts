@@ -7,6 +7,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/lading-page/lading-page.component').then(m => m.LadingPageComponent)
     },
     {
+        path: 'login',
+        loadComponent: () => import('./pages/login/login/login.component').then(m => m.LoginComponent)
+    },
+    {
       path: 'configuracoes',
       children: userConfigsRoutes
     }
