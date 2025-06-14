@@ -1,0 +1,14 @@
+<div class="card">
+  <p-carousel 
+    [value]="items" 
+    [numVisible]="3" 
+    [numScroll]="1" 
+    [responsiveOptions]="responsiveOptions"
+    [showIndicators]="false">
+    <ng-template let-item pTemplate="item">
+      <div class="rectangle-container">
+        <img [src]="item" alt="Carousel item" class="rectangle-image" />
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>
