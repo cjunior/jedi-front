@@ -7,7 +7,15 @@
     [showIndicators]="false">
     <ng-template let-item pTemplate="item">
       <div class="rectangle-container">
-        <img [src]="item" alt="Carousel item" class="rectangle-image" />
+        <img [src]="item.image" [alt]="item.alt" class="rectangle-image" />
+        <label class="edit-button">
+          Editar
+          <input 
+            type="file" 
+            class="file-input" 
+            (change)="onFileSelected($event, item)" 
+          />
+        </label>
       </div>
     </ng-template>
   </p-carousel>

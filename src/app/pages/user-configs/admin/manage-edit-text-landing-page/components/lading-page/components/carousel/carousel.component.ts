@@ -25,14 +25,6 @@ export class CarouselComponent {
     { image: '/divos.svg', alt: 'Divos' }
   ];
 
-  products = [
-    { name: 'Product 1', price: 100, image: 'product1.jpg', inventoryStatus: 'In Stock' },
-    { name: 'Product 2', price: 200, image: 'product2.jpg', inventoryStatus: 'Low Stock' },
-    { name: 'Product 3', price: 300, image: 'product3.jpg', inventoryStatus: 'Out of Stock' },
-    { name: 'Product 4', price: 400, image: 'product4.jpg', inventoryStatus: 'In Stock' },
-    { name: 'Product 5', price: 500, image: 'product5.jpg', inventoryStatus: 'Low Stock' }
-  ];
-
   responsiveOptions = [
     {
       breakpoint: '1024px',
@@ -51,16 +43,20 @@ export class CarouselComponent {
     }
   ];
 
-  getSeverity(status: string): string {
-    switch (status) {
-      case 'In Stock':
-        return 'success';
-      case 'Low Stock':
-        return 'warning';
-      case 'Out of Stock':
-        return 'danger';
-      default:
-        return '';
+  onFileSelected(event: Event, item: { image: string; alt: string }) {
+    const index = this.items.indexOf(item); // Calcula o índice do item
+    if (index !== -1) { // Verifica se o item existe no array
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.items[index].image = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      console.error(`Índice inválido: ${index}`);
     }
   }
 }

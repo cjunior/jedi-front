@@ -1,163 +1,168 @@
 <div class="container">
-    <div class="top">
-      <app-dropdown></app-dropdown>
-      <div class="itens">
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
-      </div>
+  <div class="top">
+    <app-dropdown></app-dropdown>
+    <div class="itens">
+      <div class="square"></div>
+      <div class="square"></div>
+      <div class="square"></div>
     </div>
-    <nav>
-      <img src="./logo.svg" alt="">
-      <ul>
-        <li><a href="#project">O Projeto</a></li>
-        <li><a href="#contentC">Conteúdo</a></li>
-        <li><a href="#help">Ajuda</a></li>
-        <li><a href="#red">#RedeJED</a></li>
-      </ul>
-      <button><img src="./tes.svg" alt="">Entrar</button>
-    </nav>
-  
-    <div class="container-one">
-      <div class="containertext">
-        <div class="text">
-          <h1>
-            <span *ngIf="!editingTitle">{{ title }}</span>
-            <input *ngIf="editingTitle" [(ngModel)]="title" class="edit-input" />
-          </h1>
-          <button (click)="toggleEdit('title')">
-            {{ editingTitle ? 'Salvar' : 'Editar' }}
-          </button>
-        </div>
-        <h1 class="sub">
-          <span *ngIf="!editingSubtitle">{{ subtitle }}</span>
-          <input *ngIf="editingSubtitle" [(ngModel)]="subtitle" class="edit-input" />
+  </div>
+  <nav>
+    <img src="./logo.svg" alt="">
+    <ul>
+      <li><a href="#project">O Projeto</a></li>
+      <li><a href="#contentC">Conteúdo</a></li>
+      <li><a href="#help">Ajuda</a></li>
+      <li><a href="#red">#RedeJED</a></li>
+    </ul>
+    <button><img src="./tes.svg" alt="">Entrar</button>
+  </nav>
+
+  <div class="container-one">
+    <div class="containertext">
+      <div class="text">
+        <h1>
+          <span *ngIf="!editingTitle">{{ title }}</span>
+          <input *ngIf="editingTitle" [(ngModel)]="title" class="edit-input" maxlength="36" />
         </h1>
-        <button (click)="toggleEdit('subtitle')">
-          {{ editingSubtitle ? 'Salvar' : 'Editar' }}
+        <button (click)="toggleEdit('title')">
+          {{ editingTitle ? 'Salvar' : 'Editar' }}
         </button>
       </div>
-  
-      <div class="photo">
-        <img class="foto" src="./fotoH.jpg" alt="">
-        <img id="project" class="onda" src="./ondas.svg" alt="">
-      </div>
-  
-      <div class="project">
-        <h1 class="pr">O projeto</h1>
-        <div class="text-project">
-          <h1>
-            <span *ngIf="!editingProjectText">{{ projectText }}</span>
-            <textarea *ngIf="editingProjectText" [(ngModel)]="projectText" class="edit-input"></textarea>
-          </h1>
-          <button (click)="toggleEdit('projectText')">
-            {{ editingProjectText ? 'Salvar' : 'Editar' }}
-          </button>
-        </div>
+      <h1 class="sub">
+        <span *ngIf="!editingSubtitle">{{ subtitle }}</span>
+        <input *ngIf="editingSubtitle" [(ngModel)]="subtitle" class="edit-input" maxlength="100" />
+      </h1>
+      <button (click)="toggleEdit('subtitle')">
+        {{ editingSubtitle ? 'Salvar' : 'Editar' }}
+      </button>
+    </div>
+
+    <div class="photo">
+      <img class="foto" src="./fotoH.jpg" alt="">
+      <img id="project" class="onda" src="./ondas.svg" alt="">
+    </div>
+
+    <div class="project">
+      <h1 class="pr">O projeto</h1>
+      <div class="text-project">
+        <h1>
+          <span *ngIf="!editingProjectText1">{{ projectText1 }}</span>
+          <textarea *ngIf="editingProjectText1" [(ngModel)]="projectText1" class="edit-input" maxlength="150"></textarea>
+        </h1>
+        <button (click)="toggleEdit('projectText1')">
+          {{ editingProjectText1 ? 'Salvar' : 'Editar' }}
+        </button>
+        <h1>
+          <span *ngIf="!editingProjectText2">{{ projectText2 }}</span>
+          <textarea *ngIf="editingProjectText2" [(ngModel)]="projectText2" class="edit-input" maxlength="150"></textarea>
+        </h1>
+        <button (click)="toggleEdit('projectText2')">
+          {{ editingProjectText2 ? 'Salvar' : 'Editar' }}
+        </button>
       </div>
     </div>
-  
-    <div class="container-two">
-      <div class="square-content">
-        <div class="circle">
-          <h1># de estudantes</h1>
-        </div>
+  </div>
+
+  <div class="container-two">
+    <div class="square-content">
+      <div class="circle"><h1># de estudantes</h1></div>
+      <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.</span>
+    </div>
+    <img src="./divos.svg" alt="">
+    <div class="square-content-two">
+      <div class="circle">
+        <h1># de alcance</h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-three">
+    <h1>Equipe</h1>
+    <app-carousel></app-carousel>
+  </div>
+
+  <img id="contentC" src="./onda2.svg" alt="">
+  <div class="container-four">
+    <div class="text">
+      <h1>CONTEÚDOS</h1>
+      <div class="text-content">
+        <h2>Lorem ipsum</h2>
         <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.</span>
       </div>
-      <img src="./divos.svg" alt="">
-      <div class="square-content-two">
-        <div class="circle">
-          <h1># de alcance</h1>
-        </div>
-      </div>
     </div>
-  
-    <div class="container-three">
-      <h1>Equipe</h1>
-      <app-carousel></app-carousel>
-    </div>
-  
-    <img id="contentC" src="./onda2.svg" alt="">
-    <div class="container-four">
-      <div class="text">
-        <h1>CONTEÚDOS</h1>
-        <div class="text-content">
-          <h2>Lorem ipsum</h2>
-          <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.</span>
-        </div>
-      </div>
-  
-      <div class="card">
-        <div class="content">
-          <h1>PERCURSO BÁSICO</h1>
-        </div>
-      </div>
-    </div>
-  
-    <div class="container-five">
-      <app-carousel-square></app-carousel-square>
-    </div>
-  
-    <div id="help" class="container-six">
-      <div class="text5">
-        <h1>AJUDA</h1>
-        <h2>Dúvidas frequentes</h2>
-      </div>
-      <app-acordion></app-acordion>
-    </div>
-  
-    <div class="container-seven">
-      <div class="container-text">
-        <div class="text">
-          <h1>Fale conosco</h1>
-          <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat lobortis dui vitae laoreet.</h2>
-        </div>
-        <h2>Preencha o formulário ao lado para entrar em contato.</h2>
-      </div>
-      <app-form></app-form>
-    </div>
-  
-    <div id="red" class="container-eight">
-      <h1>Rede#JED</h1>
-      <app-carousel-content></app-carousel-content>
-    </div>
-  
-    <div class="container-nine">
+
+    <div class="card">
       <div class="content">
-        <div class="photo">
-          <img src="./fotoend.svg" alt="">
-        </div>
-        <div class="pencil">
-          <div class="edit">
-            <img src="./edit.svg" alt="">
-            <span>Escrita por Maria</span>
-          </div>
-          <div class="date">
-            08 Abril, 2025 / 02min de leitura
-          </div>
-        </div>
-        <h1>Insira o título da postagem do blog nesse trecho</h1>
+        <h1>PERCURSO BÁSICO</h1>
       </div>
-      <div class="cards">
-        <div *ngFor="let card of cards; let i = index" class="minor-card">
-          <div class="photo">
-            <img [src]="card.imagem" alt="">
-          </div>
-          <div class="content-minor-card">
-            <h4>
-              <span *ngIf="!editingCards[i]">{{ card.titulo }}</span>
-              <input *ngIf="editingCards[i]" [(ngModel)]="card.titulo" class="edit-input" />
-            </h4>
-            <button (click)="toggleEditCard(i)">
-              {{ editingCards[i] ? 'Salvar' : 'Editar' }}
-            </button>
-            <span>Escrito por {{ card.autor }}</span>
-            <div class="date">
-              <span>{{ card.data }}</span>
-              <span>{{ card.tempoLeitura }}</span>
-            </div>
+    </div>
+  </div>
+
+  <div class="container-five">
+    <app-carousel-square></app-carousel-square>
+  </div>
+
+  <div id="help" class="container-six">
+    <div class="text5">
+      <h1>AJUDA</h1>
+      <h2>Dúvidas frequentes</h2>
+    </div>
+    <app-acordion></app-acordion>
+  </div>
+
+  <div class="container-seven">
+    <div class="container-text">
+      <div class="text">
+        <h1>Fale conosco</h1>
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat lobortis dui vitae laoreet.</h2>
+      </div>
+      <h2>Preencha o formulário ao lado para entrar em contato.</h2>
+    </div>
+    <app-form></app-form>
+  </div>
+
+  <div id="red" class="container-eight">
+    <h1>Rede#JED</h1>
+    <app-carousel-content></app-carousel-content>
+  </div>
+
+  <div class="container-nine">
+    <div class="content">
+      <div class="photo">
+        <img src="./fotoend.svg" alt="">
+      </div>
+      <div class="pencil">
+        <div class="edit">
+          <img src="./edit.svg" alt="">
+          <span>Escrita por Maria</span>
+        </div>
+        <div class="date">
+          08 Abril, 2025 / 02min de leitura
+        </div>
+      </div>
+      <h1>Insira o título da postagem do blog nesse trecho</h1>
+    </div>
+    <div class="cards">
+      <div *ngFor="let card of cards; let i = index" class="minor-card">
+        <div class="photo">
+          <img [src]="card.imagem" alt="">
+        </div>
+        <div class="content-minor-card">
+          <h4>
+            <span *ngIf="!editingCards[i]">{{ card.titulo }}</span>
+            <input *ngIf="editingCards[i]" [(ngModel)]="card.titulo" class="edit-input" maxlength="50" />
+          </h4>
+          <button (click)="toggleEditCard(i)">
+            {{ editingCards[i] ? 'Salvar' : 'Editar' }}
+          </button>
+          <span>Escrito por {{ card.autor }}</span>
+          <div class="date">
+            <span>{{ card.data }}</span>
+            <span>{{ card.tempoLeitura }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

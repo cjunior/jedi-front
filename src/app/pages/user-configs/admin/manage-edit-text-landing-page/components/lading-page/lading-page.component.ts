@@ -25,16 +25,14 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './lading-page.component.scss'
 })
 export class LadingPageeditComponent {
-  menuAberto = false;
-
- 
   title = 'DÊ UM PLAY NO SEU FUTURO';
   subtitle = 'Curso online com formação personalizada para você empreender de forma inteligente e estratégica';
-  projectText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.';
+  projectText1 = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus. Nunc cursus orci tortor, sed interdum mi commodo a.';
+  projectText2 = 'Duis fermentum velit at sapien iaculis tincidunt. Integer ultrices mollis sagittis. Nulla facilisi. Nulla facilisi.';
   editingTitle = false;
   editingSubtitle = false;
-  editingProjectText = false;
-  editingCards: boolean[] = [];
+  editingProjectText1 = false;
+  editingProjectText2 = false;
 
   cards = [
     {
@@ -60,34 +58,21 @@ export class LadingPageeditComponent {
     }
   ];
 
+  editingCards: boolean[] = Array(this.cards.length).fill(false);
+
   toggleEdit(field: string) {
     if (field === 'title') {
       this.editingTitle = !this.editingTitle;
-      if (!this.editingTitle) {
-        this.saveData({ title: this.title });
-      }
     } else if (field === 'subtitle') {
       this.editingSubtitle = !this.editingSubtitle;
-      if (!this.editingSubtitle) {
-        this.saveData({ subtitle: this.subtitle });
-      }
-    } else if (field === 'projectText') {
-      this.editingProjectText = !this.editingProjectText;
-      if (!this.editingProjectText) {
-        this.saveData({ projectText: this.projectText });
-      }
+    } else if (field === 'projectText1') {
+      this.editingProjectText1 = !this.editingProjectText1;
+    } else if (field === 'projectText2') {
+      this.editingProjectText2 = !this.editingProjectText2;
     }
   }
 
   toggleEditCard(index: number) {
     this.editingCards[index] = !this.editingCards[index];
-    if (!this.editingCards[index]) {
-      this.saveData({ card: this.cards[index] });
-    }
-  }
-
-  saveData(data: any) {
-    console.log('Dados enviados para o backend:', data);
-
   }
 }

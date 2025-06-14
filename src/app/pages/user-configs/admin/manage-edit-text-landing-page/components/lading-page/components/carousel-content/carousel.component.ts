@@ -40,4 +40,21 @@ export class CarouselContentComponent {
       numScroll: 1
     }
   ];
+
+  onFileSelected(event: Event, item: { image: string; alt: string }) {
+    const index = this.items.indexOf(item); // Calcula o índice do item
+    if (index !== -1) { // Verifica se o item existe no array
+      const input = event.target as HTMLInputElement;
+      if (input.files && input.files.length > 0) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.items[index].image = reader.result as string;
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      console.error(`Índice inválido: ${index}`);
+    }
+  }
 }
