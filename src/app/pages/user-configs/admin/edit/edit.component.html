@@ -1,61 +1,114 @@
-<div class="grid gap-6 p-8 bg-gray-100">
+<p-accordion [multiple]="true" class="p-8 bg-gray-100">
+
+  <!-- Seção 1: Logo + Menu -->
+  <p-accordionTab header="Logo e Navegação">
     <p-card header="Logotipo">
       <input pInputText type="text" [(ngModel)]="logo" placeholder="URL do logotipo" class="w-full" />
     </p-card>
-  
     <p-card header="Menu">
-      <input pInputText type="text" [(ngModel)]="menu.home" placeholder="Home" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.fotos" placeholder="Fotos" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.videos" placeholder="Vídeos" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.equipe" placeholder="Equipe" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.ajuda" placeholder="Ajuda" class="w-full" />
+      <input pInputText type="text" [(ngModel)]="menu.projeto" placeholder="O Projeto" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.conteudo" placeholder="Conteúdo" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.ajuda" placeholder="Ajuda" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.red" placeholder="#RedeJED" class="w-full" />
     </p-card>
-  
-    <p-card header="O Projeto">
-      <input pInputText type="text" [(ngModel)]="projeto" placeholder="Descrição do projeto" class="w-full" />
+  </p-accordionTab>
+
+  <!-- Seção 2: Imagem Manifesto -->
+  <p-accordionTab header="Imagem Manifesto">
+    <p-card header="Imagem do Manifesto">
+      <input type="file" (change)="onFileSelect($event, manifestoImagem)" />
     </p-card>
-    <p-card header="Dê um play no seu FUTURO">
-        <input pInputText type="text" [(ngModel)]="projeto" placeholder="Descrição do projeto" class="w-full" />
-      </p-card>
-      <p-card header="O Projeto">
-        <input pInputText type="text" [(ngModel)]="projeto" placeholder="Descrição do projeto" class="w-full" />
-      </p-card>
-  
-    <p-card header="Carrossel - Equipe">
+  </p-accordionTab>
+
+  <!-- Seção 3: Chamada Principal -->
+  <p-accordionTab header="Chamada Principal">
+    <p-card>
+      <input pInputText [(ngModel)]="chamada.titulo" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="chamada.subtitulo" placeholder="Subtítulo" class="w-full" />
+    </p-card>
+  </p-accordionTab>
+
+  <!-- Seção 4: Projeto Destaques -->
+  <p-accordionTab header="Destaques do Projeto">
+    <p-card>
+      <input pInputText [(ngModel)]="bolas.titulo1" placeholder="Título Bola 1" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="bolas.titulo2" placeholder="Título Bola 2" class="w-full mb-2" />
+      <textarea pInputTextarea [(ngModel)]="bolas.descricao" placeholder="Descrição" class="w-full mb-2"></textarea>
+      <input type="file" (change)="onFileSelect($event, bolasImagem)" />
+    </p-card>
+  </p-accordionTab>
+
+  <!-- Seção 5: Carrossel Equipe -->
+  <p-accordionTab header="Carrossel Equipe">
+    <p-card>
       <div *ngFor="let file of equipeCarrossel; let i = index" class="flex items-center gap-4 mb-2">
-        <img *ngIf="file" [src]="file ? (file | filePreview) : ''" alt="preview" class="w-16 h-16 object-cover rounded" />
+        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
         <span class="text-sm">{{ file.name }}</span>
         <button pButton icon="pi pi-trash" (click)="removerImagem(equipeCarrossel, i)" severity="danger"></button>
       </div>
       <input type="file" (change)="onFileSelect($event, equipeCarrossel)" />
     </p-card>
-  
-    <p-card header="Carrossel - Conteúdo">
-      <div *ngFor="let file of conteudoCarrossel; let i = index" class="flex items-center gap-4 mb-2">
-        <img *ngIf="file" [src]="file ? (file | filePreview) : ''" alt="preview" class="w-16 h-16 object-cover rounded" />
-        <span class="text-sm">{{ file.name }}</span>
-        <button pButton icon="pi pi-trash" (click)="removerImagem(conteudoCarrossel, i)" severity="danger"></button>
-      </div>
-      <input type="file" (change)="onFileSelect($event, conteudoCarrossel)" />
+  </p-accordionTab>
+
+  <!-- Seção 6: Conteúdo com Imagem -->
+  <p-accordionTab header="Conteúdo com Imagem">
+    <p-card>
+      <input pInputText [(ngModel)]="conteudo.nome" placeholder="Nome Conteúdo" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="conteudo.titulo" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="conteudo.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
+      <input type="file" (change)="onFileSelect($event, conteudoImagem)" />
     </p-card>
-  
-    <p-card header="Outro Carrossel">
+  </p-accordionTab>
+
+  <!-- Seção 7: Outro Carrossel -->
+  <p-accordionTab header="Carrossel Diverso">
+    <p-card>
       <div *ngFor="let file of outroCarrossel; let i = index" class="flex items-center gap-4 mb-2">
-        <img *ngIf="file" [src]="file ? (file | filePreview) : ''" alt="preview" class="w-16 h-16 object-cover rounded" />
+        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
         <span class="text-sm">{{ file.name }}</span>
         <button pButton icon="pi pi-trash" (click)="removerImagem(outroCarrossel, i)" severity="danger"></button>
       </div>
       <input type="file" (change)="onFileSelect($event, outroCarrossel)" />
     </p-card>
-  
-    <p-card header="Ajuda">
-      <input pInputText type="text" [(ngModel)]="ajuda.nome" placeholder="Nome" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="ajuda.email" placeholder="E-mail" class="w-full mb-2" />
-      <textarea pInputTextarea [(ngModel)]="ajuda.mensagem" placeholder="Mensagem" class="w-full mb-2"></textarea>
-      <input pInputText type="text" [(ngModel)]="ajuda.redesociais" placeholder="Redes sociais" class="w-full" />
-    </p-card>
-  
-    <div class="col-span-full flex justify-center mt-4">
-      <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvar()"></button>
+  </p-accordionTab>
+
+  <!-- Seção 8: Acordions Dinâmicos -->
+  <p-accordionTab header="Acordions Dinâmicos">
+    <div *ngFor="let item of acordions; let i = index" class="mb-4">
+      <p-card>
+        <input pInputText [(ngModel)]="item.titulo" placeholder="Título" class="w-full mb-2" />
+        <input pInputText [(ngModel)]="item.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
+        <textarea pInputTextarea [(ngModel)]="item.texto" placeholder="Texto" class="w-full"></textarea>
+        <button pButton icon="pi pi-trash" label="Remover" (click)="removerAccordion(i)" class="mt-2 p-button-danger"></button>
+      </p-card>
     </div>
+    <button pButton icon="pi pi-plus" label="Adicionar Acordion" (click)="adicionarAccordion()" class="p-button-success"></button>
+  </p-accordionTab>
+
+  <!-- Seção 9: Rodapé -->
+  <p-accordionTab header="Rodapé">
+    <p-card>
+      <input pInputText [(ngModel)]="footer.titulo" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="footer.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
+      <textarea pInputTextarea [(ngModel)]="footer.descricao" placeholder="Descrição" class="w-full"></textarea>
+    </p-card>
+  </p-accordionTab>
+
+  <!-- Seção 10: Carrossel de Imagens -->
+  <p-accordionTab header="Carrossel Final de Imagens">
+    <p-card>
+      <div *ngFor="let file of carrosselFinal; let i = index" class="flex items-center gap-4 mb-2">
+        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
+        <span class="text-sm">{{ file.name }}</span>
+        <button pButton icon="pi pi-trash" (click)="removerImagem(carrosselFinal, i)" severity="danger"></button>
+      </div>
+      <input type="file" (change)="onFileSelect($event, carrosselFinal)" />
+    </p-card>
+  </p-accordionTab>
+
+  <!-- Botão Salvar -->
+  <div class="col-span-full flex justify-center mt-4">
+    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvar()"></button>
   </div>
+
+</p-accordion>
