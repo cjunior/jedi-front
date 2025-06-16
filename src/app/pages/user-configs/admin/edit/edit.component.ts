@@ -7,7 +7,7 @@ import { CardModule } from 'primeng/card';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
-import { FilePreviewPipe } from './utils/pipe'; // pipe para visualizar os arquivos locais
+import { FilePreviewPipe } from './utils/pipe';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -27,7 +27,19 @@ import { FilePreviewPipe } from './utils/pipe'; // pipe para visualizar os arqui
   styleUrls: ['./edit.component.scss']
 })
 export class AdminDashboardComponent {
-  // Seção 1: Logo e menu
+  previewVisible = false; 
+  previewImage = ''; 
+
+  openPreview() {
+    
+    this.previewImage = '/header.png'; 
+    this.previewVisible = true; 
+  }
+
+  closePreview() {
+    this.previewVisible = false; 
+  }
+
   logo = '';
   menu = {
     projeto: '',
@@ -36,16 +48,13 @@ export class AdminDashboardComponent {
     red: ''
   };
 
-  // Seção 2: Manifesto
   manifestoImagem: File | null = null;
 
-  // Seção 3: Chamada
   chamada = {
     titulo: '',
     subtitulo: ''
   };
 
-  // Seção 4: Destaques
   bolas = {
     titulo1: '',
     titulo2: '',
@@ -53,10 +62,8 @@ export class AdminDashboardComponent {
   };
   bolasImagem: File | null = null;
 
-  // Seção 5: Equipe Carrossel
   equipeCarrossel: File[] = [];
 
-  // Seção 6: Conteúdo com Imagem
   conteudo = {
     nome: '',
     titulo: '',
@@ -64,11 +71,30 @@ export class AdminDashboardComponent {
   };
   conteudoImagem: File | null = null;
 
-  // Seção 7: Outro Carrossel
   outroCarrossel: File[] = [];
 
-  // Seção 8: Acordions Dinâmicos
   acordions: { titulo: string; subtitulo: string; texto: string }[] = [];
+
+  footer = {
+    titulo: '',
+    subtitulo: '',
+    descricao: ''
+  };
+
+  carrosselFinal: File[] = [];
+
+  accordionItems = [
+    { key: 'logoNav', label: 'Logo e Navegação' },
+    { key: 'manifesto', label: 'Imagem Manifesto' },
+    { key: 'chamada', label: 'Chamada Principal' },
+    { key: 'bolas', label: 'Destaques do Projeto' },
+    { key: 'equipe', label: 'Carrossel Equipe' },
+    { key: 'conteudo', label: 'Conteúdo com Imagem' },
+    { key: 'diverso', label: 'Carrossel Diverso' },
+    { key: 'accordions', label: 'Acordions Dinâmicos' },
+    { key: 'footer', label: 'Rodapé' },
+    { key: 'carrosselFinal', label: 'Carrossel Final de Imagens' }
+  ];
 
   adicionarAccordion() {
     this.acordions.push({ titulo: '', subtitulo: '', texto: '' });
@@ -78,24 +104,13 @@ export class AdminDashboardComponent {
     this.acordions.splice(index, 1);
   }
 
-  // Seção 9: Rodapé
-  footer = {
-    titulo: '',
-    subtitulo: '',
-    descricao: ''
-  };
-
-  // Seção 10: Carrossel Final
-  carrosselFinal: File[] = [];
-
   onFileSelect(event: any, destino: File[] | File | null) {
     const file = event.target.files[0];
     if (!file) return;
-  
+
     if (Array.isArray(destino)) {
       destino.push(file);
     } else {
-      // Checagem explícita para os campos únicos
       if (destino === this.manifestoImagem) {
         this.manifestoImagem = file;
       } else if (destino === this.bolasImagem) {
@@ -105,13 +120,11 @@ export class AdminDashboardComponent {
       }
     }
   }
-  
 
   removerImagem(lista: File[], index: number) {
     lista.splice(index, 1);
   }
 
-  // Salvar
   salvar() {
     const dados = {
       logo: this.logo,
@@ -130,8 +143,5 @@ export class AdminDashboardComponent {
     };
 
     console.log('✅ Dados salvos:', dados);
-
-    // Aqui você pode enviar para sua API, ex:
-    // this.apiService.salvarDashboard(dados).subscribe(...)
   }
 }
