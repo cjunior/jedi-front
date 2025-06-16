@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -8,6 +8,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { FilePreviewPipe } from './utils/pipe';
+import { editService } from './service/edit.service';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -26,19 +27,10 @@ import { FilePreviewPipe } from './utils/pipe';
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
-export class AdminDashboardComponent {
-  previewVisible = false; 
-  previewImage = ''; 
-
-  openPreview() {
-    
-    this.previewImage = '/header.png'; 
-    this.previewVisible = true; 
-  }
-
-  closePreview() {
-    this.previewVisible = false; 
-  }
+export class AdminDashboardComponent implements OnInit {
+  previewVisible = false;
+  previewImage = '';
+  private readonly serviceapi = inject(editService);
 
   logo = '';
   menu = {
@@ -96,6 +88,43 @@ export class AdminDashboardComponent {
     { key: 'carrosselFinal', label: 'Carrossel Final de Imagens' }
   ];
 
+  ngOnInit() {
+    this.serviceapi.getdados().subscribe({
+      next: (dados) => {
+        console.log('Dados recebidos:', dados);
+        this.carregarDados(dados);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar dados:', err);
+      }
+    });
+  }
+
+  carregarDados(dados: any) {
+    this.logo = dados.logo || '';
+    this.menu = dados.menu || { projeto: '', conteudo: '', ajuda: '', red: '' };
+    this.manifestoImagem = dados.manifestoImagem || null;
+    this.chamada = dados.chamada || { titulo: '', subtitulo: '' };
+    this.bolas = dados.bolas || { titulo1: '', titulo2: '', descricao: '' };
+    this.bolasImagem = dados.bolasImagem || null;
+    this.equipeCarrossel = dados.equipeCarrossel || [];
+    this.conteudo = dados.conteudo || { nome: '', titulo: '', subtitulo: '' };
+    this.conteudoImagem = dados.conteudoImagem || null;
+    this.outroCarrossel = dados.outroCarrossel || [];
+    this.acordions = dados.acordions || [];
+    this.footer = dados.footer || { titulo: '', subtitulo: '', descricao: '' };
+    this.carrosselFinal = dados.carrosselFinal || [];
+  }
+
+  openPreview() {
+    this.previewImage = '/header.png';
+    this.previewVisible = true;
+  }
+
+  closePreview() {
+    this.previewVisible = false;
+  }
+
   adicionarAccordion() {
     this.acordions.push({ titulo: '', subtitulo: '', texto: '' });
   }
@@ -126,22 +155,34 @@ export class AdminDashboardComponent {
   }
 
   salvar() {
-    const dados = {
-      logo: this.logo,
-      menu: this.menu,
-      manifestoImagem: this.manifestoImagem,
-      chamada: this.chamada,
-      bolas: this.bolas,
-      bolasImagem: this.bolasImagem,
-      equipeCarrossel: this.equipeCarrossel,
-      conteudo: this.conteudo,
-      conteudoImagem: this.conteudoImagem,
-      outroCarrossel: this.outroCarrossel,
-      acordions: this.acordions,
-      footer: this.footer,
-      carrosselFinal: this.carrosselFinal
-    };
-
-    console.log('✅ Dados salvos:', dados);
+    const dados = [
+      {
+        
+        logo: this.logo,
+        menu: this.menu,
+        manifestoImagem: this.manifestoImagem ? this.manifestoImagem.toString() : null,
+        chamada: this.chamada,
+        bolas: this.bolas,
+        bolasImagem: this.bolasImagem ? this.bolasImagem.toString() : null,
+        equipeCarrossel: this.equipeCarrossel.map(file => file.name || file.toString()),
+        conteudo: this.conteudo,
+        conteudoImagem: this.conteudoImagem ? this.conteudoImagem.toString() : null,
+        outroCarrossel: this.outroCarrossel.map(file => file.name || file.toString()),
+        acordions: this.acordions,
+        footer: this.footer,
+        carrosselFinal: this.carrosselFinal.map(file => file.name || file.toString())
+      }
+    ];
+  
+    console.log('Dados enviados:', JSON.stringify(dados, null, 2));
+  
+    this.serviceapi.putdados(dados).subscribe({
+      next: (response) => {
+        console.log('✅ Dados atualizados com sucesso:', response);
+      },
+      error: (err) => {
+        console.error('❌ Erro ao atualizar dados:', err);
+      }
+    });
   }
 }

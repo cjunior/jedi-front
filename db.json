@@ -1,0 +1,42 @@
+{
+  "clientes": [
+    {
+      "0": {
+        "logo": "",
+        "menu": {
+          "projeto": "estando o proj",
+          "conteudo": "cuidado amigo",
+          "ajuda": "é foda viu",
+          "red": "complicado"
+        },
+        "manifestoImagem": null,
+        "chamada": {
+          "titulo": "",
+          "subtitulo": ""
+        },
+        "bolas": {
+          "titulo1": "",
+          "titulo2": "",
+          "descricao": ""
+        },
+        "bolasImagem": null,
+        "equipeCarrossel": [],
+        "conteudo": {
+          "nome": "",
+          "titulo": "",
+          "subtitulo": ""
+        },
+        "conteudoImagem": null,
+        "outroCarrossel": [],
+        "acordions": [],
+        "footer": {
+          "titulo": "",
+          "subtitulo": "",
+          "descricao": ""
+        },
+        "carrosselFinal": []
+      },
+      "id": "1"
+    }
+  ]
+}
