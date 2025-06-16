@@ -20,13 +20,10 @@ export class CarouselComponent {
     { image: '/fotoend2.png', alt: 'Foto End 2' },
     { image: '/diva2.svg', alt: 'Diva 2' },
     { image: '/divos.svg', alt: 'Divos' },
-    { image: '/cap.png', alt: 'Cap' },
     { image: '/divos.svg', alt: 'Divos' },
-    { image: '/fotoend2.png', alt: 'Foto End 2' },
-    { image: '/cap.png', alt: 'Cap' },
     { image: '/divos.svg', alt: 'Divos' },
-    { image: '/fotoend2.png', alt: 'Foto End 2' },
-    { image: '/divos.svg', alt: 'Divos' }
+    { image: '/divos.svg', alt: 'Divos' },
+  
   ];
 
   responsiveOptions = [

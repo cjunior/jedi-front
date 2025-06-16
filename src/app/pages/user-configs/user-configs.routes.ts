@@ -12,7 +12,7 @@ export const userConfigsRoutes: Routes = [
       },
       {
         path: 'edit-landing-page',
-        loadComponent: () => import('./admin/manage-edit-text-landing-page/manage-edit-landing-page.component').then(m => m.ManageEditLandingPageComponent)
+        loadComponent: () => import('./admin/edit/edit.component').then(m => m.AdminDashboardComponent)
       }
     ]
   }
