@@ -6,6 +6,10 @@ import { FormComponent } from "./components/form/form.component";
 import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 import { CarouselSquareComponent } from "./components/carousel-square/carousel.component";
 import { DropdownComponent } from "./components/dropdown/dropdown.component";
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { DialogModule } from 'primeng/dialog';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @Component({
   selector: 'app-lading-page',
@@ -16,6 +20,10 @@ import { DropdownComponent } from "./components/dropdown/dropdown.component";
     CarouselContentComponent,
     CarouselSquareComponent,
     DropdownComponent,
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    InputMaskModule
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss'
@@ -49,6 +57,12 @@ export class LadingPageComponent {
 
   toggleMenu() {
     this.menuAberto = !this.menuAberto;
+  }
+
+  visible: boolean = false;
+
+  showDialog() {
+      this.visible = true;
   }
 
 }
