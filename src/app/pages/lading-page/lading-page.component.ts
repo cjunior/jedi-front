@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CarouselComponent } from "./components/carousel/carousel.component";
 
 import { AcordionComponent } from "./components/acordion/acordion.component";
@@ -10,6 +10,8 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Message } from 'primeng/message';
 
 @Component({
   selector: 'app-lading-page',
@@ -23,13 +25,24 @@ import { InputMaskModule } from 'primeng/inputmask';
     DialogModule,
     ButtonModule,
     InputTextModule,
-    InputMaskModule
+    InputMaskModule,
+    Message,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss'
 })
 export class LadingPageComponent {
+  private readonly formBuilder = inject(FormBuilder)
   menuAberto = false;
+  showErrors = signal(false)
+
+  form = this.formBuilder.group({
+    name: ['', [Validators.minLength(6), Validators.required]],
+    email: ['', [Validators.email, Validators.required]],
+    phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
+  });
 
   cards = [
     {
@@ -56,6 +69,7 @@ export class LadingPageComponent {
   ];
 
   toggleMenu() {
+    this.form.reset()
     this.menuAberto = !this.menuAberto;
   }
 
@@ -63,6 +77,18 @@ export class LadingPageComponent {
 
   showDialog() {
       this.visible = true;
+  }
+
+  onSubmit() {
+    this.showErrors.set(true);
+    console.log('Formulário enviado:', this.form.value);
+    if (this.form.valid) {
+      console.log('Form enviado com sucesso:', this.form.value);
+      this.visible = false;
+      this.form.reset()
+    } else {
+      this.form.markAllAsTouched();
+    }
   }
 
 }
