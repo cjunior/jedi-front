@@ -30,7 +30,8 @@ export class LadingPageComponent implements OnInit {
     projeto: 'O Projeto',
     conteudo: 'Conteúdo',
     ajuda: 'Ajuda',
-    red: '#RedeJED'
+    red: '#RedeJED',
+    buttontext: 'Entrar'
   };
 
   cards = [
@@ -61,17 +62,16 @@ export class LadingPageComponent implements OnInit {
       next: (dados) => {
         console.log('Dados recebidos da API:', dados);
   
-        // Verifica se 'dados' existe e contém pelo menos um item
         if (dados && dados.length > 0 && dados[0] && dados[0]["0"]) {
-          const menuData = dados[0]["0"].menu; // Acessa o objeto 'menu' dentro de dados[0]["0"]
+          const menuData = dados[0]["0"].menu; 
           console.log('Dados do menu:', menuData);
   
           if (menuData) {
-            // Atualiza os valores do menu com os dados recebidos
-            this.menu.projeto = menuData.projeto || 'Projeto Padrão';
-            this.menu.conteudo = menuData.conteudo || 'Conteúdo Padrão';
-            this.menu.ajuda = menuData.ajuda || 'Ajuda Padrão';
-            this.menu.red = menuData.red || '#RedeJED';
+            this.menu.projeto = menuData.headerText1 || 'Projeto Padrão';
+            this.menu.conteudo = menuData.headerText2 || 'Conteúdo Padrão';
+            this.menu.ajuda = menuData.headerText3 || 'Ajuda Padrão';
+            this.menu.red = menuData.headerText4 || '#RedeJED';
+            this.menu.buttontext = menuData.headerButtonText || 'Entrar';
           } else {
             console.warn('O objeto "menu" está ausente em dados[0]["0"].');
           }

@@ -34,10 +34,13 @@ export class AdminDashboardComponent implements OnInit {
 
   logo = '';
   menu = {
-    projeto: '',
-    conteudo: '',
-    ajuda: '',
-    red: ''
+    headerFile: '',
+    headerText1: '',
+    headerText2: '',
+    headerText3: '',
+    headerText4: '',
+    headerButtonText: '',
+
   };
 
   logoImagem: File | null = null;
@@ -105,7 +108,7 @@ export class AdminDashboardComponent implements OnInit {
 
   carregarDados(dados: any) {
     this.logo = dados.logo || '';
-    this.menu = dados.menu || { projeto: '', conteudo: '', ajuda: '', red: '' };
+    this.menu = dados.menu || {headerFile: '', headerText1: '', headerText2: '', headerText3: '', headerText4: '', headerButtonText: '' };
     this.manifestoImagem = dados.manifestoImagem || null;
     this.chamada = dados.chamada || { titulo: '', subtitulo: '' };
     this.bolas = dados.bolas || { titulo1: '', titulo2: '', descricao: '' };
