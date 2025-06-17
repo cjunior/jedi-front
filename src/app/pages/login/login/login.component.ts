@@ -1,25 +1,60 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { LoginService } from '../services/login.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { PasswordModule } from 'primeng/password';
+import { MessageModule } from 'primeng/message';
+import { ToastModule } from 'primeng/toast';
+import { AuthService } from '../../../core/services/auth.service';
+import { MessageService } from 'primeng/api';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    InputTextModule,
+    ButtonModule,
+    FloatLabelModule,
+    PasswordModule,
+    MessageModule,
+    ToastModule,
+  ],
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  providers: [MessageService]
 })
 export class LoginComponent {
-  username = '';
-  password = '';
+  private readonly formBuilder = inject(FormBuilder)
+  private readonly loginService = inject(LoginService);
+  private readonly authService = inject(AuthService);
+  private readonly messageService = inject(MessageService)
 
-  login() {
-    if (this.username === 'admin' && this.password === 'admin') {
-      alert('Login bem-sucedido!');
-    } else {
-      alert('Usuário ou senha inválidos!');
+  private readonly submittedSignal = signal(false);
+  submitted = computed(() => this.submittedSignal());
+
+  form = this.formBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+
+
+  onSubmit() {
+    this.submittedSignal.set(true);
+    const email = this.form.value.email ?? '';
+    const password = this.form.value.password ?? '';
+    if (this.form.valid) {
+      this.loginService.login(email, password).subscribe({
+        next: (response) => {
+          this.authService.login(response.token)
+          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Login feito com sucess!'})
+        }
+      })
     }
   }
 }
