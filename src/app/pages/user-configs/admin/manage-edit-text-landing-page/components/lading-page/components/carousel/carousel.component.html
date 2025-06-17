@@ -1,0 +1,23 @@
+<div class="card">
+  <button pButton label="Gerenciar Carrossel" icon="pi pi-cog" (click)="openModal()" class="p-mb-3"></button>
+
+  <p-carousel 
+    [value]="items" 
+    [numVisible]="5" 
+    [numScroll]="1" 
+    [responsiveOptions]="responsiveOptions"
+    [showIndicators]="false">
+    <ng-template let-item pTemplate="item">
+      <div class="circle-container">
+        <img [src]="item.image" [alt]="item.alt" class="circle-image" />
+      </div>
+    </ng-template>
+  </p-carousel>
+
+  <app-manage-carousel-modal 
+  [visible]="modalVisible"
+  [items]="items"
+  (save)="onSave($event)"
+  (close)="modalVisible = false">
+</app-manage-carousel-modal>
+</div>

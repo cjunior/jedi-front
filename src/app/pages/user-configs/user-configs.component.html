@@ -14,13 +14,30 @@
     </div>
   </div>
   <nav class="flex flex-col gap-2 p-4">
-    <div class="flex items-cente py-2 px-4 d-flex gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg">
+    <div
+      class="flex items-center py-2 px-4 d-flex gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+      routerLink="pagina-informativa"
+      routerLinkActive="active"
+    >
       <i class="pi pi-file"></i>
-      <a
-        class="text-sm font-medium"
-        routerLink="pagina-informativa"
-      >Página Informativa</a>
+      <span class="text-sm font-medium">Página Informativa</span>
     </div>
+    <div
+      class="flex items-center py-2 px-4 d-flex gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+      routerLink="edit-landing-page"
+      routerLinkActive="active"
+    >
+      <i class="pi pi-file"></i>
+      <span class="text-sm font-medium">Editar Página Inicial</span>
+    </div>
+    <div
+    class="flex items-center py-2 px-4 d-flex gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+    routerLink="edit-landing-page2"
+    routerLinkActive="active"
+  >
+    <i class="pi pi-file"></i>
+    <span class="text-sm font-medium">Editar Página Inicial 2</span>
+  </div>
   </nav>
 </aside>
 

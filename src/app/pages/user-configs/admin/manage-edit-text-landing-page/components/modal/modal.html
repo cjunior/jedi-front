@@ -1,0 +1,23 @@
+<p-dialog header="Gerenciar Carrossel" [(visible)]="visible" modal [style]="{ width: '50vw' }">
+    <ng-container *ngFor="let item of items; let i = index">
+      <h4>Carrossel {{ i + 1 }}</h4>
+      <p><strong>Nome:</strong> {{ item.alt || 'Sem nome' }}</p>
+      <img [src]="item.image" alt="Imagem {{ i + 1 }}" class="preview" />
+  
+      <div class="actions">
+        <input type="file" hidden (change)="updateImage($event, i)" #editInput />
+        <button pButton icon="pi pi-refresh" label="Alterar imagem" (click)="editInput.click()"></button>
+  
+        <button pButton icon="pi pi-trash" class="p-button-danger" label="Excluir" (click)="removeItem(i)"></button>
+      </div>
+      <hr />
+    </ng-container>
+  
+    <div class="footer">
+      <input type="file" hidden (change)="addImage($event)" #addInput />
+      <button pButton icon="pi pi-plus" label="Adicionar nova imagem" (click)="triggerFileInput(addInput)"></button>
+  
+      <button pButton icon="pi pi-check" label="Salvar alterações" class="p-button-success" (click)="confirm()"></button>
+    </div>
+  </p-dialog>
+  
