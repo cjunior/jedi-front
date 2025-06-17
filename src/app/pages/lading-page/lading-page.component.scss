@@ -61,7 +61,7 @@
       }
     }
 
-    button {
+    button.primary-btn {
       width: 133px;
       height: 49px;
       background-color: #213820;
@@ -868,7 +868,7 @@
   @media (max-width: 500px) {
     nav {
       padding: 0px 10px;
-      button{
+      button.primary-btn{
         font-size: 14px;
       }
       img {
@@ -876,7 +876,7 @@
         height: 80px;
       }
 
-      button {
+      button.primary-btn {
         width: 94px;
         height: 41px;
 
