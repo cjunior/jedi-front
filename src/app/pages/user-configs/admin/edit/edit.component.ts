@@ -40,6 +40,9 @@ export class AdminDashboardComponent implements OnInit {
     red: ''
   };
 
+  logoImagem: File | null = null;
+
+
   manifestoImagem: File | null = null;
 
   chamada = {
@@ -114,6 +117,8 @@ export class AdminDashboardComponent implements OnInit {
     this.acordions = dados.acordions || [];
     this.footer = dados.footer || { titulo: '', subtitulo: '', descricao: '' };
     this.carrosselFinal = dados.carrosselFinal || [];
+    this.logoImagem = null; 
+
   }
 
   openPreview() {
@@ -136,7 +141,7 @@ export class AdminDashboardComponent implements OnInit {
   onFileSelect(event: any, destino: File[] | File | null) {
     const file = event.target.files[0];
     if (!file) return;
-
+  
     if (Array.isArray(destino)) {
       destino.push(file);
     } else {
@@ -146,9 +151,12 @@ export class AdminDashboardComponent implements OnInit {
         this.bolasImagem = file;
       } else if (destino === this.conteudoImagem) {
         this.conteudoImagem = file;
+      } else if (destino === this.logoImagem) {
+        this.logoImagem = file;
       }
     }
   }
+  
 
   removerImagem(lista: File[], index: number) {
     lista.splice(index, 1);
@@ -158,7 +166,7 @@ export class AdminDashboardComponent implements OnInit {
     const dados = [
       {
         
-        logo: this.logo,
+        logo: this.logoImagem ? this.logoImagem.name || this.logoImagem.toString() : '',
         menu: this.menu,
         manifestoImagem: this.manifestoImagem ? this.manifestoImagem.toString() : null,
         chamada: this.chamada,

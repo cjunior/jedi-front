@@ -16,13 +16,20 @@
     </p-dialog>
     
     <p-card header="Logotipo">
-      <input pInputText type="text" [(ngModel)]="logo" placeholder="URL do logotipo" class="w-full" />
+      <div *ngIf="logoImagem" class="mb-2">
+        <img [src]="logoImagem | filePreview" class="w-32 h-32 object-contain border rounded" alt="Logo Preview" />
+      </div>
+      <input type="file" (change)="onFileSelect($event, logoImagem)" />
     </p-card>
+    
     <p-card header="Menu">
       <input pInputText type="text" [(ngModel)]="menu.projeto" placeholder="O Projeto" class="w-full mb-2" />
       <input pInputText type="text" [(ngModel)]="menu.conteudo" placeholder="Conteúdo" class="w-full mb-2" />
       <input pInputText type="text" [(ngModel)]="menu.ajuda" placeholder="Ajuda" class="w-full mb-2" />
       <input pInputText type="text" [(ngModel)]="menu.red" placeholder="#RedeJED" class="w-full" />
+    </p-card>
+    <p-card header="Botão">
+      <input pInputText type="titulo do botão" [(ngModel)]="logo" placeholder="URL do logotipo" class="w-full" />
     </p-card>
   </p-accordionTab>
 
