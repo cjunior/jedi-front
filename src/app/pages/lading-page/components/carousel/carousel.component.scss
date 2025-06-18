@@ -15,3 +15,20 @@
   height: 100%;
   object-fit: cover;
 }
+
+::ng-deep .p-carousel .p-carousel-items-content {
+  justify-content: center !important;
+  display: flex !important;
+}
+
+::ng-deep .p-carousel .p-carousel-items-container {
+  justify-content: center !important;
+  display: flex !important;
+}
+
+
+::ng-deep #pn_id_7 .p-carousel-item{
+  flex: 0 !important
+}
+
+ 

@@ -8,14 +8,14 @@
       </div>
     </div>
     <nav>
-        <img src="./logo.svg" alt="">
+        <img [src]="headerResponseDto.urllogo" alt="">
         <ul>
-            <li><a href="#project">{{ menu.projeto }}</a></li>
-            <li><a href="#contentC">{{ menu.conteudo }}</a></li>
-            <li><a href="#help">{{ menu.ajuda }}</a></li>
-            <li><a href="#red">{{ menu.red }}</a></li>
+            <li><a href="#project">{{ headerResponseDto.projeto }}</a></li>
+            <li><a href="#contentC">{{ headerResponseDto.conteudo }}</a></li>
+            <li><a href="#help">{{ headerResponseDto.ajuda }}</a></li>
+            <li><a href="#red">{{ headerResponseDto.red }}</a></li>
     </ul>
-    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">Cadastrar</button>
+    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">{{headerResponseDto.buttontext}}</button>
     <p-dialog
       styleClass="!bg-orange-50"
       [modal]="true"
@@ -125,21 +125,31 @@
     <div class="container-one">
         <div class="containertext">
             <div class="text">
-                <H1>DÊ UM PLAY NO SEU FUTURO</H1>
+                <H1>{{bannerResponseDto.title}}</H1>
             </div>
-            <h1 class="sub">Curso online com formação personalizada para você empreender de forma inteligente e estratégica</h1>
+            <h1 class="sub">{{bannerResponseDto.description}}</h1>
         </div>
 
         <div class="photo">
-        <img class="foto" src="./fotoH.jpg" alt="">
-        <img id="project" class="onda" src="./ondas.svg" alt="">
-    </div>
+          <p-carousel
+            [value]="carouselImages"
+            [numVisible]="1"
+            [numScroll]="1"
+            [circular]="true"
+            [autoplayInterval]="3000"
+            [showNavigators]="false"
+          >
+            <ng-template pTemplate="item" let-image>
+              <img [src]="image" class="foto" alt="" style="object-fit: cover;" />
+            </ng-template>
+          </p-carousel>
+        </div>
 
         <div  class="project">
-            <h1 class="pr">O projeto</h1>
+            <h1 class="pr">{{presentationSectionResponseDto.title}}</h1>
             <div class="text-project">
-                <h1>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus. Nunc cursus orci tortor, sed interdum mi commodo a.</h1>
-                <h1>Duis fermentum velit at sapien iaculis tincidunt. Integer ultrices mollis sagittis. Nulla facilisi. Nulla facilisi.</h1>
+                <h1>{{presentationSectionResponseDto.firstDescription}}</h1>
+                <h1>{{presentationSectionResponseDto.secondDescription}}</h1>
             </div>
 
         </div>
@@ -147,13 +157,13 @@
     </div>
     <div class="container-two">
         <div class="square-content">
-            <div class="circle"><h1># de estudantes</h1></div>
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.</span>
+            <div class="circle"><h1>{{presentationSectionResponseDto.firstStatistic}}</h1></div>
+            <span>{{presentationSectionResponseDto.imgDescription}}</span>
         </div>
-        <img src="./divos.svg" alt="">
+        <img [src]="presentationSectionResponseDto.imgUrl" alt="">
         <div class="square-content-two">
             <div class="circle">
-                <h1># de alcance</h1>
+                <h1>{{presentationSectionResponseDto.secondStatistic}}</h1>
             </div>
         </div>
     </div>
@@ -186,8 +196,8 @@
     </div>
     <div id="help" class="container-six">
         <div class="text5">
-            <h1>AJUDA</h1>
-            <h2>Dúvidas frequentes</h2>
+            <h1>{{faqSectionResponseDto.title}}</h1>
+            <h2>{{faqSectionResponseDto.subtitle}}</h2>
         </div>
 
         <app-acordion/>

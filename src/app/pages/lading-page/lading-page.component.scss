@@ -100,8 +100,9 @@
 
     .foto {
       width: 100%;
-      height: auto;
-      margin-top: 149px;
+    max-height: 809.63px;
+    height: 100%;
+     
     }
 
     .onda {
@@ -110,13 +111,13 @@
 
     .containertext {
       width: 100%;
-      height: 280px;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
       padding: 0 80px;
       padding-top: 250px;
+      margin-bottom: 74px;
 
       .text {
         width: auto;
@@ -154,6 +155,7 @@
       justify-content: space-between;
       padding: 0px 150px;
       gap: 30px;
+      margin-top: 40px;
 
       .pr {
         font-family: "Bebas Neue", sans-serif;
@@ -533,9 +535,21 @@
       border-bottom: 2px solid #dfe6ef;
 
       .photo {
-        width: 170.55px;
-        height: 165.6px;
+        width: 100%;
+        max-width: 600px; /* ajuste conforme seu layout */
+        height: 300px;    /* ajuste conforme seu layout */
+        margin: 0 auto;
+        position: relative;
+
+        .foto {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
       }
+      
+    
 
       .content-minor-card {
         display: flex;
@@ -956,4 +970,17 @@
       margin-top: 46px !important;
     }
   }
+}
+
+
+
+::ng-deep .p-carousel-content-container{
+  position: relative;
+}
+::ng-deep .p-carousel-indicator-list{
+  position: absolute;
+z-index: 1000;
+bottom: 0px;
+left: 46%;
+right: 44%;
 }

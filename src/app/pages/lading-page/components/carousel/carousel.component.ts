@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
+import { landingPageService } from '../../services/lading-page.service';
 
 @Component({
   selector: 'app-carousel',
@@ -11,19 +12,26 @@ import { TagModule } from 'primeng/tag';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent {
-  items = [
-    { image: '/fotoend2.png', alt: 'Foto End 2' },
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/divos.svg', alt: 'Divos' },
-    { image: '/cap.png', alt: 'Cap' },
-    { image: '/divos.svg', alt: 'Divos' },
-    { image: '/fotoend2.png', alt: 'Foto End 2' },
-    { image: '/cap.png', alt: 'Cap' },
-    { image: '/divos.svg', alt: 'Divos' },
-    { image: '/fotoend2.png', alt: 'Foto End 2' },
-    { image: '/divos.svg', alt: 'Divos' }
-  ];
+export class CarouselComponent implements OnInit {
+  private readonly landingPageService = inject(landingPageService);
+
+  items: { image: string; alt: string }[] = [];
+
+  ngOnInit() {
+    this.landingPageService.getdados().subscribe({
+      next: (dados) => {
+        console.log('Dados recebidos4:', dados);
+        this.items = dados.teamResponseDto.items.map((item: any) => {
+          console.log('Imagem recebida:', item.imgUrl);
+          console.log('Item recebido:', item);
+          return {
+            image: item.imgUrl,
+            alt: item.name || 'Foto da equipe'
+          };
+        });
+      }
+    });
+  }
 
   products = [
     { name: 'Product 1', price: 100, image: 'product1.jpg', inventoryStatus: 'In Stock' },

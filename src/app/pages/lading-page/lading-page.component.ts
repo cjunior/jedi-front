@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CarouselComponent } from "./components/carousel/carousel.component";
 
 import { AcordionComponent } from "./components/acordion/acordion.component";
@@ -17,6 +17,7 @@ import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
 import { landingPageService } from './services/lading-page.service';
+import { CarouselModule } from 'primeng/carousel';
 
 @Component({
   selector: 'app-lading-page',
@@ -34,13 +35,14 @@ import { landingPageService } from './services/lading-page.service';
     Message,
     FormsModule,
     ReactiveFormsModule,
+    CarouselModule,
     Toast
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
   providers: [MessageService]
 })
-export class LadingPageComponent {
+export class LadingPageComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder)
   private readonly pregristrationService = inject(PreRegistrationService)
   private readonly messageService = inject(MessageService)
@@ -55,9 +57,47 @@ export class LadingPageComponent {
     email: ['', [Validators.email, Validators.required]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
   });
+  ngOnInit() {
+  this.landingPageService.getdados().subscribe({
+    next: (dados) => {
+      console.log('Dados recebidos:', dados);
+      this.headerResponseDto = {
+        urllogo: dados.headerResponseDto.logoUrl,
+        projeto: dados.headerResponseDto.text1,
+        conteudo: dados.headerResponseDto.text2,
+        ajuda: dados.headerResponseDto.text3,
+        red: dados.headerResponseDto.text4,
+        buttontext: dados.headerResponseDto.buttonText
+      }
+      this.bannerResponseDto = {
+        title: dados.bannerResponseDto.title,
+        description: dados.bannerResponseDto.description
+      }
+      this.presentationSectionResponseDto = {
+        title: dados.presentationSectionResponseDto.title,
+        firstDescription: dados.presentationSectionResponseDto.firstDescription,
+        secondDescription: dados.presentationSectionResponseDto.secondDescription,
+        firstStatistic: dados.presentationSectionResponseDto.firstStatistic,
+        secondStatistic:dados.presentationSectionResponseDto.secondStatistic,
+        imgUrl: dados.presentationSectionResponseDto.imgUrl,
+        imgDescription: dados.presentationSectionResponseDto.imgDescription
+      }
+      this.faqSectionResponseDto = {
+        title: dados.faqSectionResponseDto.title,
+        subtitle: dados.faqSectionResponseDto.subtitle
+      }
+      this.carouselImages = dados.bannerResponseDto.items.map((item: any) => item.imgUrl);
+    }
+  })
+}
 
+<<<<<<< HEAD
+headerResponseDto =
+=======
   menu =
+>>>>>>> development
     {
+      urllogo: './logo.svg',
       projeto: 'Projeto',
       conteudo: 'Conteúdo',
       ajuda: 'Ajuda',
@@ -65,6 +105,36 @@ export class LadingPageComponent {
       buttontext: 'Entrar'
     }
 
+<<<<<<< HEAD
+    bannerResponseDto = {
+      title: "DÊ UM PLAY NO SEU FUTURO",
+      description: "Curso online com formação personalizada para você empreender de forma inteligente e estratégica"
+
+    }
+
+    presentationSectionResponseDto = {
+      title: "O projeto",
+      firstDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus. Nunc cursus orci tortor, sed interdum mi commodo a.",
+      secondDescription: "Duis fermentum velit at sapien iaculis tincidunt. Integer ultrices mollis sagittis. Nulla facilisi. Nulla facilisi.",
+      firstStatistic: "# de estudantes",
+      secondStatistic: "# de alcance",
+      imgUrl: "./divos.svg",
+      imgDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus."
+    }
+
+    faqSectionResponseDto = {
+      title: "Perguntas frequentes",
+      subtitle: "Dúvidas comuns sobre o curso",
+    }
+
+    carouselImages = [
+      './fotoH.jpg',
+      './fotoH2.jpg',
+      './fotoH3.jpg'
+    ];
+
+=======
+>>>>>>> development
 
   cards = [
     {
@@ -89,6 +159,8 @@ export class LadingPageComponent {
       tempoLeitura: '2min de leitura'
     }
   ];
+<<<<<<< HEAD
+=======
   ngOnInit(): void {
     this.landingPageService.getdados().subscribe({
       next: (dados) => {
@@ -99,6 +171,7 @@ export class LadingPageComponent {
       }
     });
   }
+>>>>>>> development
 
   toggleMenu() {
     this.form.reset()
