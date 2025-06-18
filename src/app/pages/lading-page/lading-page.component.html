@@ -10,10 +10,10 @@
     <nav>
         <img src="./logo.svg" alt="">
         <ul>
-        <li><a href="#project">O Projeto</a></li>
-        <li><a href="#contentC">Conteudo</a></li>
-        <li><a href="#help">Ajuda</a></li>
-        <li><a href="#red">#RedeJED</a></li>
+            <li><a href="#project">{{ menu.projeto }}</a></li>
+            <li><a href="#contentC">{{ menu.conteudo }}</a></li>
+            <li><a href="#help">{{ menu.ajuda }}</a></li>
+            <li><a href="#red">{{ menu.red }}</a></li>
     </ul>
     <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">Cadastrar</button>
     <p-dialog

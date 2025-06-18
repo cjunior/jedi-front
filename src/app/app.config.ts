@@ -1,8 +1,8 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection, LOCALE_ID } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
-import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { registerLocaleData } from '@angular/common';
 import ptBr from "@angular/common/locales/pt"
 
 registerLocaleData(ptBr)
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimations(),
+    provideHttpClient(),
     providePrimeNG({
       translation: {
         accept: 'Aceitar',
@@ -47,6 +49,11 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: false
         }
       }
-    })
+    }),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ]
 };

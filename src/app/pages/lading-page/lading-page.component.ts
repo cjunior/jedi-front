@@ -16,6 +16,7 @@ import { PreRegistrationService } from '../../core/services/pre-registration.ser
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
+import { landingPageService } from './services/lading-page.service';
 
 @Component({
   selector: 'app-lading-page',
@@ -44,6 +45,7 @@ export class LadingPageComponent {
   private readonly pregristrationService = inject(PreRegistrationService)
   private readonly messageService = inject(MessageService)
 
+  private readonly landingPageService = inject(landingPageService);
   menuAberto = false;
   showErrors = signal(false)
   isLoading = signal(false);
@@ -53,6 +55,16 @@ export class LadingPageComponent {
     email: ['', [Validators.email, Validators.required]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
   });
+
+  menu =
+    {
+      projeto: 'Projeto',
+      conteudo: 'Conteúdo',
+      ajuda: 'Ajuda',
+      red: '#RedeJED',
+      buttontext: 'Entrar'
+    }
+
 
   cards = [
     {
@@ -77,6 +89,16 @@ export class LadingPageComponent {
       tempoLeitura: '2min de leitura'
     }
   ];
+  ngOnInit(): void {
+    this.landingPageService.getdados().subscribe({
+      next: (dados) => {
+
+      },
+      error: (err) => {
+        console.error('Erro ao buscar dados:', err);
+      }
+    });
+  }
 
   toggleMenu() {
     this.form.reset()
