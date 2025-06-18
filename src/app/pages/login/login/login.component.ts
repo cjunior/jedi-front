@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../../core/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -34,9 +35,11 @@ export class LoginComponent {
   private readonly loginService = inject(LoginService);
   private readonly authService = inject(AuthService);
   private readonly messageService = inject(MessageService)
+  private readonly router = inject(Router)
 
   private readonly submittedSignal = signal(false);
-  submitted = computed(() => this.submittedSignal());
+  protected submitted = computed(() => this.submittedSignal());
+  protected isLoading = signal(false);
 
   form = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -49,10 +52,12 @@ export class LoginComponent {
     const email = this.form.value.email ?? '';
     const password = this.form.value.password ?? '';
     if (this.form.valid) {
+      this.isLoading.set(true);
       this.loginService.login(email, password).subscribe({
         next: (response) => {
           this.authService.login(response.token)
-          this.messageService.add({severity: 'success', summary: 'Success', detail: 'Login feito com sucess!'})
+          this.router.navigate(['/configuracoes']);
+          this.isLoading.set(false);
         }
       })
     }

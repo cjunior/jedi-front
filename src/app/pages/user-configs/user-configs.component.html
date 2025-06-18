@@ -42,8 +42,26 @@
 </aside>
 
 <div class="dashboard flex flex-col gap-8">
-  <header>
-    <h2 class="text-lg">Olá, <span>Genilton</span>!</h2>
+  <header class="flex justify-between">
+    <h2 class="text-lg font-medium">Olá, <span class="font-bold">Genilton</span>!</h2>
+    <button pButton (click)="op.toggle($event)" class="!bg-transparent !p-0 !m-0 !block !border-none">
+      <p-avatar label="J" styleClass="!bg-emerald-800 text-white!" size="large" shape="circle" />
+      <p-popover #op>
+        <div class="flex flex-col gap-4 w-40">
+          <div>
+            <span class="font-semibold block mb-2">Ações</span>
+            <ul class="list-none p-0 m-0 flex flex-col">
+              <li class="flex items-center gap-2 px-2 py-3 hover:bg-emerald-50 cursor-pointer rounded-md" (click)="logout()">
+                <div class="flex gap-2 items-center">
+                  <i class="pi pi-sign-out"></i>
+                  <span class="font-medium">Sair</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+       </div>
+      </p-popover>
+    </button>
   </header>
   <div class="w-full p-4 lg:h-[90vh] h-full bg-white rounded-lg">
     <router-outlet></router-outlet>
