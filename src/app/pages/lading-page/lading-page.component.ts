@@ -12,6 +12,10 @@ import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Message } from 'primeng/message';
+import { PreRegistrationService } from '../../core/services/pre-registration.service';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
 import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
 
@@ -31,16 +35,22 @@ import { CarouselModule } from 'primeng/carousel';
     Message,
     FormsModule,
     ReactiveFormsModule,
-    CarouselModule
+    CarouselModule,
+    Toast
   ],
   templateUrl: './lading-page.component.html',
-  styleUrl: './lading-page.component.scss'
+  styleUrl: './lading-page.component.scss',
+  providers: [MessageService]
 })
 export class LadingPageComponent implements OnInit {
   private readonly formBuilder = inject(FormBuilder)
+  private readonly pregristrationService = inject(PreRegistrationService)
+  private readonly messageService = inject(MessageService)
+
   private readonly landingPageService = inject(landingPageService);
   menuAberto = false;
   showErrors = signal(false)
+  isLoading = signal(false);
 
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
@@ -81,7 +91,11 @@ export class LadingPageComponent implements OnInit {
   })
 }
 
-headerResponseDto = 
+<<<<<<< HEAD
+headerResponseDto =
+=======
+  menu =
+>>>>>>> development
     {
       urllogo: './logo.svg',
       projeto: 'Projeto',
@@ -91,10 +105,11 @@ headerResponseDto =
       buttontext: 'Entrar'
     }
 
+<<<<<<< HEAD
     bannerResponseDto = {
       title: "DÊ UM PLAY NO SEU FUTURO",
       description: "Curso online com formação personalizada para você empreender de forma inteligente e estratégica"
-      
+
     }
 
     presentationSectionResponseDto = {
@@ -117,7 +132,9 @@ headerResponseDto =
       './fotoH2.jpg',
       './fotoH3.jpg'
     ];
-  
+
+=======
+>>>>>>> development
 
   cards = [
     {
@@ -142,6 +159,19 @@ headerResponseDto =
       tempoLeitura: '2min de leitura'
     }
   ];
+<<<<<<< HEAD
+=======
+  ngOnInit(): void {
+    this.landingPageService.getdados().subscribe({
+      next: (dados) => {
+
+      },
+      error: (err) => {
+        console.error('Erro ao buscar dados:', err);
+      }
+    });
+  }
+>>>>>>> development
 
   toggleMenu() {
     this.form.reset()
@@ -151,19 +181,41 @@ headerResponseDto =
   visible: boolean = false;
 
   showDialog() {
+      this.form.reset();
       this.visible = true;
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.showErrors.set(true);
-    console.log('Formulário enviado:', this.form.value);
+    const completeName = this.form.value.name ?? '';
+    const email = this.form.value.email ?? '';
+    const cellphone = this.form.value.phone ?? '';
+
     if (this.form.valid) {
-      console.log('Form enviado com sucesso:', this.form.value);
-      this.visible = false;
-      this.form.reset()
+      this.isLoading.set(true);
+
+      this.pregristrationService.makePreRegistration({ completeName, email, cellphone }).subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso!',
+            detail: response.message
+          });
+
+          this.showErrors.set(false);
+          this.visible = false;
+          this.form.reset();
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          console.error('Error during pre-registration:', error);
+          alert('An error occurred during pre-registration. Please try again later.');
+        }
+      });
     } else {
       this.form.markAllAsTouched();
     }
   }
-
 }
