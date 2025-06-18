@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { Popover } from 'primeng/popover';
 import { ButtonModule } from 'primeng/button';
@@ -7,7 +7,7 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-user-configs',
-  imports: [RouterOutlet, RouterLink, AvatarModule, Popover, ButtonModule],
+  imports: [RouterOutlet, RouterLink,  RouterLinkActive, AvatarModule, Popover, ButtonModule],
   templateUrl: './user-configs.component.html',
   styleUrl: './user-configs.component.scss'
 })
