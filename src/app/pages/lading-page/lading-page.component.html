@@ -38,6 +38,7 @@
             <input
               pInputText
               id="name"
+              placeholder="Seu nome"
               formControlName="name"
               class="flex-auto !border-gray-300 h-10"
               autocomplete="off"
@@ -62,6 +63,7 @@
             <input
               pInputText
               id="email"
+              placeholder="email@exemplo.com"
               formControlName="email"
               class="flex-auto !border-gray-300 h-10"
               autocomplete="off"
@@ -110,6 +112,7 @@
               pButton
               type="submit"
               class="!bg-emerald-800 hover:bg-emerald-900! border-emerald-700 w-30 !py-3 !rounded-xl"
+              [loading]="isLoading()"
             >
               Enviar
             </button>
@@ -245,3 +248,5 @@
         </div>
     </div>
 </div>
+
+<p-toast />
