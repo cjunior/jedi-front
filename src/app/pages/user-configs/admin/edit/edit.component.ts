@@ -44,6 +44,12 @@ export class AdminDashboardComponent implements OnInit {
 
   };
 
+manifestoImagens: { file: File, buttonText: string, buttonUrl: string }[] = [];
+botaobanner = {
+  buttonText: '',
+  buttonUrl: ''
+};
+
   logoImagem: File | null = null;
 
 
@@ -107,6 +113,39 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+
+onManifestoSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      this.manifestoImagens.push({
+        file,
+        buttonText: '',
+        buttonUrl: ''
+      });
+    }
+  }
+}
+onUpload(event: any) {
+  console.log('Upload concluído:', event);
+}
+
+removerManifestoImagem(index: number) {
+  this.manifestoImagens.splice(index, 1);
+}
+
+atualizarManifestoImagem(event: any, index: number) {
+  const file = event.target.files[0];
+  if (file) {
+    this.manifestoImagens[index].file = file;
+  }
+}
+
+onLogoSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    this.logoImagem = event.files[0];
+  }
+}
+
   carregarDados(dados: any) {
     this.logo = dados.logo || '';
     this.menu = dados.menu || {headerFile: '', headerText1: '', headerText2: '', headerText3: '', headerText4: '', headerButtonText: '' };
@@ -142,43 +181,48 @@ export class AdminDashboardComponent implements OnInit {
     this.acordions.splice(index, 1);
   }
 
-  onFileSelect(event: any, destino: File[] | File | null) {
-    const file = event.target.files[0];
-    if (!file) return;
-  
-    if (Array.isArray(destino)) {
-      destino.push(file);
-    } else {
-      if (destino === this.manifestoImagem) {
-        this.manifestoImagem = file;
-      } else if (destino === this.bolasImagem) {
-        this.bolasImagem = file;
-      } else if (destino === this.conteudoImagem) {
-        this.conteudoImagem = file;
-      } else if (destino === this.logoImagem) {
-        this.logoImagem = file;
-      }
-    }
+onFileSelect(event: any, destino: string) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  if (destino === 'logoImagem') {
+    this.logoImagem = file;
+  } else if (destino === 'manifestoImagem') {
+    this.manifestoImagem = file;
+  } else if (destino === 'bolasImagem') {
+    this.bolasImagem = file;
+  } else if (destino === 'conteudoImagem') {
+    this.conteudoImagem = file;
+  } else if (destino === 'equipeCarrossel') {
+    this.equipeCarrossel.push(file);
+  } else if (destino === 'outroCarrossel') {
+    this.outroCarrossel.push(file);
+  } else if (destino === 'carrosselFinal') {
+    this.carrosselFinal.push(file);
   }
+}
   
 
   removerImagem(lista: File[], index: number) {
     lista.splice(index, 1);
   }
-
-  salvar() {
-    const formData = new FormData();
+salvar() {
+  const formData = new FormData();
 
   if (this.logoImagem) {
-    formData.append('headerFile', this.logoImagem);
+    formData.append('file', this.logoImagem);
   }
 
+  formData.append('text1', this.menu.headerFile || '');
+  formData.append('text2', this.menu.headerText2 || '');
+  formData.append('text3', this.menu.headerText3 || '');
+  formData.append('text4', this.menu.headerText4 || '');
+  formData.append('buttonText', this.menu.headerButtonText || '');
 
-  formData.append('headerText1', this.menu.headerText1 || '');
-  formData.append('headerText2', this.menu.headerText2 || '');
-  formData.append('headerText3', this.menu.headerText3 || '');
-  formData.append('headerText4', this.menu.headerText4 || '');
-  formData.append('headerButtonText', this.menu.headerButtonText || '');
+  // Visualizar o conteúdo do FormData
+  for (const pair of formData.entries()) {
+    console.log(pair[0], pair[1]);
+  }
 
   this.serviceapi.putdados(formData).subscribe({
     next: (res) => {
@@ -187,6 +231,38 @@ export class AdminDashboardComponent implements OnInit {
     error: (err) => {
       console.error('Erro ao enviar', err);
     }
+  });
+
+
+  //salvar banner
+}
+
+salvarBanner() {
+ const formData = new FormData();
+
+this.manifestoImagens.forEach((img, i) => {
+  formData.append('file', img.file); 
+  formData.append('buttonText', img.buttonText);
+  formData.append('buttonUrl', img.buttonUrl);
+});
+  this.serviceapi.postBanner(formData).subscribe({
+    next: (res) => console.log('Enviado com sucesso', res),
+    error: (err) => console.error('Erro ao enviar', err)
+  });
+}
+
+salvartextbanner() {
+  console.log('Enviando:', {
+    title: this.botaobanner.buttonText,
+    description: this.botaobanner.buttonUrl
+  });
+
+  this.serviceapi.puttextmanifest(
+    this.botaobanner.buttonText,
+    this.botaobanner.buttonUrl
+  ).subscribe({
+    next: res => console.log('Atualizado com sucesso', res),
+    error: err => console.error('Erro ao atualizar', err)
   });
 }
 }

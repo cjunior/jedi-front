@@ -16,7 +16,34 @@ export class editService {
       }
       
       putdados(formData: FormData): Observable<any> {
-        return this.http.put(`${this.apiUrl}loadlandpage/update-all`, formData);
+        return this.http.put(`${this.apiUrl}header/update`, formData);
       }
+
+
+      //parte das imagens manifesto
+
+     postBanner(formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}banner/slides/add`, formData, { responseType: 'text' });
+}
+
+         putimage(formData: FormData): Observable<any> {
+        return this.http.post(`${this.apiUrl}banner/slide/update`, formData);
+      }
+
+           deleteimage(id: number): Observable<any> {
+        return this.http.delete(`${this.apiUrl}banner/slide/${id}`,);
+      }
+
+    puttextmanifest(title: string, description: string): Observable<any> {
+  const body = {
+    title,
+    description
+  };
+  return this.http.put(`${this.apiUrl}banner/update`, body);
+}
+
+      
+
+
  
 }
