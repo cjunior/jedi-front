@@ -20,10 +20,7 @@ export class CarouselComponent implements OnInit {
   ngOnInit() {
     this.landingPageService.getdados().subscribe({
       next: (dados) => {
-        console.log('Dados recebidos4:', dados);
         this.items = dados.teamResponseDto.items.map((item: any) => {
-          console.log('Imagem recebida:', item.imgUrl);
-          console.log('Item recebido:', item);
           return {
             image: item.imgUrl,
             alt: item.name || 'Foto da equipe'

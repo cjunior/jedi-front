@@ -86,6 +86,17 @@ export class LadingPageComponent {
           title: dados.faqSectionResponseDto.title,
           subtitle: dados.faqSectionResponseDto.subtitle
         }
+        this.contentResponseDto = {
+           title:dados.contentResponseDto.title,
+        subTitle:dados.contentResponseDto.subTitle,
+        description: dados.contentResponseDto.description,
+        mainImg: dados.contentResponseDto.mainImg
+        }
+        this.contactUsResponseDto = {
+          title: dados.contactUsResponseDto.title,
+          subTitle: dados.contactUsResponseDto.subTitle,
+          description: dados.contactUsResponseDto.description
+        }
         this.carouselImages = dados.bannerResponseDto.items.map((item: any) => item.imgUrl);
       }
     })
@@ -120,6 +131,20 @@ export class LadingPageComponent {
       faqSectionResponseDto = {
         title: "Perguntas frequentes",
         subtitle: "Dúvidas comuns sobre o curso",
+      }
+
+      contentResponseDto = {
+        title: "CONTEÚDOS",
+        subTitle:"Lorem ipsum",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.",
+        mainImg: "./fotoH.jpg"
+      }
+      
+      contactUsResponseDto = {
+        title: "Fale Conosco",
+        subTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat lobortis dui vitae laoreet.",
+        description: "Preencha o formulário ao lado para entrar em contato."
+
       }
 
       carouselImages = [
