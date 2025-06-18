@@ -16,6 +16,10 @@ export class PreRegistrationService {
     return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload);
   }
 
+  completeRegistration(payload: FormData, token: string): Observable<IPreRegistrationResponse> {
+    return this.http.put<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/continuar/${token}`, payload);
+  }
+
   verifyPreRegistration(token: string): Observable<IPreRegistration> {
     return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`);
   }
