@@ -10,7 +10,7 @@ import { FluidModule } from 'primeng/fluid';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PreRegistrationService } from '../../core/services/pre-registration.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
@@ -19,7 +19,6 @@ import { MessageService } from 'primeng/api';
   standalone: true,
   imports: [
     PanelModule,
-    FloatLabel,
     InputTextModule,
     ReactiveFormsModule,
     DropdownModule,
@@ -39,6 +38,7 @@ export class CompleteRegisterComponent implements OnInit{
   private readonly preRegistrationService = inject(PreRegistrationService)
   private readonly route = inject(ActivatedRoute);
   private readonly messageService = inject(MessageService)
+  private readonly router = inject(Router)
 
   nomeArquivoRG = signal<string | null>(null);
   nomeArquivoComprovante = signal<string | null>(null);
@@ -121,11 +121,17 @@ export class CompleteRegisterComponent implements OnInit{
           this.form.reset();
           this.nomeArquivoRG.set(null);
           this.nomeArquivoComprovante.set(null);
-
+          setInterval(() => {
+            this.router.navigate(['/']);
+          }, 1000)
         },
         error: (err) => {
           this.isLoading.set(false);
-          console.error('Erro ao enviar cadastro completo:', err);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: err.error?.message || 'Ocorreu um erro ao completar o cadastro. Por favor, tente novamente.'
+          });
         }
       });
     }
