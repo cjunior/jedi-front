@@ -12,6 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Message } from 'primeng/message';
+import { landingPageService } from './services/lading-page.service';
 
 @Component({
   selector: 'app-lading-page',
@@ -35,6 +36,7 @@ import { Message } from 'primeng/message';
 })
 export class LadingPageComponent {
   private readonly formBuilder = inject(FormBuilder)
+  private readonly landingPageService = inject(landingPageService);
   menuAberto = false;
   showErrors = signal(false)
 
@@ -43,6 +45,16 @@ export class LadingPageComponent {
     email: ['', [Validators.email, Validators.required]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
   });
+
+  menu = 
+    {
+      projeto: 'Projeto',
+      conteudo: 'Conteúdo',
+      ajuda: 'Ajuda',
+      red: '#RedeJED',
+      buttontext: 'Entrar'
+    }
+  
 
   cards = [
     {
@@ -67,6 +79,16 @@ export class LadingPageComponent {
       tempoLeitura: '2min de leitura'
     }
   ];
+  ngOnInit(): void {
+    this.landingPageService.getdados().subscribe({
+      next: (dados) => {
+       
+      },
+      error: (err) => {
+        console.error('Erro ao buscar dados:', err);
+      }
+    });
+  }
 
   toggleMenu() {
     this.form.reset()

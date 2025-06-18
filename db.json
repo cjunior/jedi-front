@@ -1,0 +1,44 @@
+{
+  "clientes": [
+    {
+      "0": {
+        "logo": "",
+        "menu": {
+          "headerFile": "",
+          "headerText1": "gggg",
+          "headerText2": "gggg",
+          "headerText3": "gggg",
+          "headerText4": "gggg",
+          "headerButtonText": "gggg"
+        },
+        "manifestoImagem": null,
+        "chamada": {
+          "titulo": "",
+          "subtitulo": ""
+        },
+        "bolas": {
+          "titulo1": "",
+          "titulo2": "",
+          "descricao": ""
+        },
+        "bolasImagem": null,
+        "equipeCarrossel": [],
+        "conteudo": {
+          "nome": "",
+          "titulo": "",
+          "subtitulo": ""
+        },
+        "conteudoImagem": null,
+        "outroCarrossel": [],
+        "acordions": [],
+        "footer": {
+          "titulo": "",
+          "subtitulo": "",
+          "descricao": ""
+        },
+        "carrosselFinal": []
+      },
+      "id": "1"
+    }
+  ]
+}

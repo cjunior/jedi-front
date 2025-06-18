@@ -16,28 +16,84 @@
     </p-dialog>
     
     <p-card header="Logotipo">
-      <input pInputText type="text" [(ngModel)]="logo" placeholder="URL do logotipo" class="w-full" />
-    </p-card>
+<p-fileUpload
+  name="logo"
+  [customUpload]="true"
+  accept="image/*"
+  maxFileSize="1000000"
+  mode="advanced"
+  [showUploadButton]="false"
+  [showCancelButton]="false"
+  (onSelect)="onLogoSelect($event)"
+  chooseLabel="Escolha uma foto">
+  <ng-template #empty>
+    <div>Arraste a imagem aqui ou clique para selecionar.</div>
+  </ng-template>
+</p-fileUpload>
+</p-card>
+    
     <p-card header="Menu">
-      <input pInputText type="text" [(ngModel)]="menu.projeto" placeholder="O Projeto" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.conteudo" placeholder="Conteúdo" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.ajuda" placeholder="Ajuda" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.red" placeholder="#RedeJED" class="w-full" />
+      <input pInputText type="text" [(ngModel)]="menu.headerFile" placeholder="O Projeto" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.headerText2" placeholder="Conteúdo" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.headerText3" placeholder="Ajuda" class="w-full mb-2" />
+      <input pInputText type="text" [(ngModel)]="menu.headerText4" placeholder="#RedeJED" class="w-full" />
+    </p-card>
+    <p-card header="Botão">
+      <input pInputText type="titulo do botão" [(ngModel)]="menu.headerButtonText" placeholder="Nome do Botão" class="w-full" />
     </p-card>
   </p-accordionTab>
 
-  <p-accordionTab header="Imagem Manifesto">
-    <p-card header="Imagem do Manifesto">
-      <input type="file" (change)="onFileSelect($event, manifestoImagem)" />
-    </p-card>
-  </p-accordionTab>
-
-  <p-accordionTab header="Chamada Principal">
+   <p-accordionTab header="Chamada Principal">
     <p-card>
       <input pInputText [(ngModel)]="chamada.titulo" placeholder="Título" class="w-full mb-2" />
       <input pInputText [(ngModel)]="chamada.subtitulo" placeholder="Subtítulo" class="w-full" />
     </p-card>
   </p-accordionTab>
+
+<!-- ...existing code... -->
+<p-accordionTab header="Imagem Manifesto">
+  <p-card header="Imagens do Manifesto">
+    <p-fileUpload
+      name="manifesto"
+      [customUpload]="true"
+      [multiple]="true"
+      accept="image/*"
+      maxFileSize="1000000"
+      mode="advanced"
+      (onSelect)="onManifestoSelect($event)"
+      chooseLabel="Escolha as fotos">
+      <ng-template #empty>
+        <div>Arraste as imagens aqui ou clique para selecionar.</div>
+      </ng-template>
+    </p-fileUpload>
+
+    <div class="flex flex-wrap gap-4 mt-4">
+      <div *ngFor="let img of manifestoImagens; let i = index" class="relative group w-80">
+        <img [src]="img.file | filePreview" class="w-32 h-32 object-cover rounded border mb-2" />
+
+        <button
+          type="button"
+          class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
+          (click)="removerManifestoImagem(i)"
+          title="Remover imagem">
+          <i class="pi pi-trash"></i>
+        </button>
+
+        <label
+          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
+          title="Atualizar imagem">
+          <i class="pi pi-pencil"></i>
+          <input type="file" accept="image/*" class="hidden" (change)="atualizarManifestoImagem($event, i)" />
+        </label>
+
+        <div class="mt-2">
+          <input pInputText type="text" [(ngModel)]="botaobanner.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
+          <input pInputText type="text" [(ngModel)]="botaobanner.buttonUrl" placeholder="URL do botão" class="w-full" />
+        </div>
+      </div>
+    </div>
+  </p-card>
+</p-accordionTab>
 
 
   <p-accordionTab header="Destaques do Projeto">
@@ -45,7 +101,7 @@
       <input pInputText [(ngModel)]="bolas.titulo1" placeholder="Título Bola 1" class="w-full mb-2" />
       <input pInputText [(ngModel)]="bolas.titulo2" placeholder="Título Bola 2" class="w-full mb-2" />
       <textarea pInputTextarea [(ngModel)]="bolas.descricao" placeholder="Descrição" class="w-full mb-2"></textarea>
-      <input type="file" (change)="onFileSelect($event, bolasImagem)" />
+      <input type="file" (change)="onFileSelect($event, 'conteudoImagem')" />
     </p-card>
   </p-accordionTab>
 
@@ -56,7 +112,7 @@
         <span class="text-sm">{{ file.name }}</span>
         <button pButton icon="pi pi-trash" (click)="removerImagem(equipeCarrossel, i)" severity="danger"></button>
       </div>
-      <input type="file" (change)="onFileSelect($event, equipeCarrossel)" />
+      <input type="file" (change)="onFileSelect($event, 'equipeCarrossel')" />
     </p-card>
   </p-accordionTab>
 
@@ -66,7 +122,7 @@
       <input pInputText [(ngModel)]="conteudo.nome" placeholder="Nome Conteúdo" class="w-full mb-2" />
       <input pInputText [(ngModel)]="conteudo.titulo" placeholder="Título" class="w-full mb-2" />
       <input pInputText [(ngModel)]="conteudo.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
-      <input type="file" (change)="onFileSelect($event, conteudoImagem)" />
+      <input type="file" (change)="onFileSelect($event, 'conteudoImagem')" />
     </p-card>
   </p-accordionTab>
 
@@ -77,7 +133,7 @@
         <span class="text-sm">{{ file.name }}</span>
         <button pButton icon="pi pi-trash" (click)="removerImagem(outroCarrossel, i)" severity="danger"></button>
       </div>
-      <input type="file" (change)="onFileSelect($event, outroCarrossel)" />
+      <input type="file" (change)="onFileSelect($event, 'outroCarrossel')" />
     </p-card>
   </p-accordionTab>
 
@@ -108,12 +164,12 @@
         <span class="text-sm">{{ file.name }}</span>
         <button pButton icon="pi pi-trash" (click)="removerImagem(carrosselFinal, i)" severity="danger"></button>
       </div>
-      <input type="file" (change)="onFileSelect($event, carrosselFinal)" />
+      <input type="file" (change)="onFileSelect($event, 'carrosselFinal')" />
     </p-card>
   </p-accordionTab>
 
   <div class="col-span-full flex justify-center mt-4">
-    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvar()"></button>
+    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvartextbanner()"></button>
   </div>
 
 </p-accordion>
