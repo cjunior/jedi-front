@@ -1,0 +1,69 @@
+<div class="flex justify-between items-center mb-4">
+  <h3 class="text-lg text-zinc-700">Pré-cadastros</h3>
+  <button
+    pButton
+    type="button"
+    icon="pi pi-plus"
+    label="Novo Pré-cadastro"
+    class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+  ></button>
+</div>
+
+<div class="flex gap-4 mb-2 mt-12">
+  <p-floatlabel variant="on">
+    <input pInputText id="name" type="text" />
+    <label for="name">Busca pelo nome</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input pInputText id="email" type="email" />
+    <label for="email">Busca pelo email</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <p-inputmask id="phone" mask="(99) 9 9999 - 9999" />
+    <label for="phone">Busca pelo telefone</label>
+  </p-floatlabel>
+</div>
+<p-panel showHeader="false">
+  <p-table
+  #dt
+  [value]="customers()"
+  [paginator]="true"
+  [rows]="10"
+  [loading]="false"
+  stripedRows
+>
+
+  <!-- Cabeçalho da tabela -->
+  <ng-template pTemplate="header">
+    <tr>
+      <th>
+        Nome
+      </th>
+      <th>
+        Email
+      </th>
+      <th>
+        Telefone
+      </th>
+    </tr>
+
+  </ng-template>
+
+  <!-- Corpo da tabela -->
+  <ng-template pTemplate="body" let-customer>
+    <tr>
+      <td>{{ customer.name }}</td>
+      <td>{{ customer.email }}</td>
+      <td>{{ customer.phone }}</td>
+    </tr>
+  </ng-template>
+
+  <!-- Mensagem de vazio -->
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="3">Nenhum registro encontrado.</td>
+    </tr>
+  </ng-template>
+</p-table>
+</p-panel>
+

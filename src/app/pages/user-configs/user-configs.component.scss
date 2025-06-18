@@ -1,0 +1,25 @@
+:host {
+  display: flex;
+  height: 100vh;
+  font-family: Roboto, sans-serif;
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 40px 20px;
+    background-color: #f8f8f8;
+  }
+
+  .active {
+    background-color: #d1fae5;
+    color: #047857; 
+    font-weight: bold;
+  }
+}

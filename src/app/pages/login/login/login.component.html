@@ -1,0 +1,68 @@
+<div class="login-container">
+  <div class="image-container"></div>
+  <div class="login-card">
+    <div class="flex flex-col items-center gap-1">
+      <h1>DÊ UM PLAY NO SEU FUTURO</h1>
+      <p>Área de acesso para gestão de conteúdos</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col">
+      <!-- Email -->
+      <p-floatLabel variant="on">
+        <input
+          id="email"
+          pInputText
+          pSize="large"
+          autocomplete="off"
+          class="w-full"
+          formControlName="email"
+        />
+        <label for="email">Email</label>
+      </p-floatLabel>
+      @if(submitted() && form.controls.email.errors) {
+        <p-message
+          class="pt-1"
+          severity="error"
+          text="Email inválido"
+          variant="simple"
+          size="small"
+        ></p-message>
+      }
+
+      <!-- Senha -->
+      <p-floatLabel variant="on" class="mt-4">
+        <p-password
+          inputId="password"
+          formControlName="password"
+          inputStyleClass="w-full"
+          size="large"
+          [toggleMask]="true"
+          feedback="false"
+        />
+        <label for="password">Senha</label>
+      </p-floatLabel>
+      @if(submitted() && form.get('password')?.hasError('required')) {
+        <p-message
+          class="pt-1"
+          severity="error"
+          text="Senha obrigatória"
+          variant="simple"
+          size="small"
+        ></p-message>
+      }
+
+      <!-- Botão -->
+      <button
+        pButton
+        type="submit"
+        label="Entrar"
+        class="bg-emerald-800! hover:bg-emerald-900! border-emerald-700! mt-4"
+        [loading]="isLoading()"
+      ></button>
+    </form>
+
+    <a href="#" class="forgot-password">Esqueceu <strong>sua senha?</strong></a>
+  </div>
+</div>
+
+<p-toast />

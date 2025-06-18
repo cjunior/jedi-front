@@ -1,0 +1,77 @@
+:host ::ng-deep .p-card {
+    border-radius: 1rem;
+  }
+
+  ::ng-deep .p-accordionheader:has(.p-accordionheader-toggle-icon.icon-start) {
+    background: white !important;
+    border: none;
+  }
+
+  ::ng-deep .p-accordionheader:hover{
+    background-color: red !important;
+  }
+  ::ng-deep .p-card-body{
+    background-color: white !important;
+  }
+
+  ::ng-deep .p-accordionheader:hover {
+    background-color:#009966 !important; 
+    color: white !important;
+  }
+  
+  ::ng-deep .p-card-title{
+    color: black !important;
+  }
+
+  ::ng-deep .p-accordioncontent-content{
+    background: white;
+    border: 1px solid black !important;
+  }
+
+  ::ng-deep .p-inputtext{
+    background: transparent !important;
+color: black !important;
+
+  }
+
+  ::ng-deep .p-inputtext::placeholder{
+    color: rgb(0, 0, 0) !important;
+  }
+  ::ng-deep .accordion-gap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* Define o espaço entre os p-accordionTab */
+  }
+
+  ::ng-deep .p-accordionpanel:not(.p-disabled).p-accordionpanel-active > .p-accordionheader{
+    background: #009966 !important;
+  }
+
+  input{
+    color: rgb(0, 0, 0) !important;
+}
+
+::ng-deep .p-accordioncontent-content{
+  border: 1px solid #009966 !important;
+  background-color: white !important
+}
+
+::ng-deep .p-dialog-content{
+background: white;
+}
+  
+::ng-deep .p-dialog-header{
+  background: white;
+}
+
+::ng-deep .p-dialog-title{
+  color: black;
+}
+
+::ng-deep .p-dialog{
+  border: 1px solid black;
+}
+
+.imgr {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25); /* Sombra suave */
+}
