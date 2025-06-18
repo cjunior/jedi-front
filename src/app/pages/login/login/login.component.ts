@@ -58,6 +58,14 @@ export class LoginComponent {
           this.authService.login(response.token)
           this.router.navigate(['/configuracoes']);
           this.isLoading.set(false);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao fazer login',
+            detail: error.error.message ?? 'Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.'
+          });
         }
       })
     }
