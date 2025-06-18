@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -15,14 +15,15 @@ import { editService } from './service/edit.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     InputTextModule,
     ButtonModule,
     CardModule,
     FileUploadModule,
     DialogModule,
     AccordionModule,
-    FilePreviewPipe
+    FilePreviewPipe,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
@@ -166,34 +167,26 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   salvar() {
-    const dados = [
-      {
-        
-        logo: this.logoImagem ? this.logoImagem.name || this.logoImagem.toString() : '',
-        menu: this.menu,
-        manifestoImagem: this.manifestoImagem ? this.manifestoImagem.toString() : null,
-        chamada: this.chamada,
-        bolas: this.bolas,
-        bolasImagem: this.bolasImagem ? this.bolasImagem.toString() : null,
-        equipeCarrossel: this.equipeCarrossel.map(file => file.name || file.toString()),
-        conteudo: this.conteudo,
-        conteudoImagem: this.conteudoImagem ? this.conteudoImagem.toString() : null,
-        outroCarrossel: this.outroCarrossel.map(file => file.name || file.toString()),
-        acordions: this.acordions,
-        footer: this.footer,
-        carrosselFinal: this.carrosselFinal.map(file => file.name || file.toString())
-      }
-    ];
-  
-    console.log('Dados enviados:', JSON.stringify(dados, null, 2));
-  
-    this.serviceapi.putdados(dados).subscribe({
-      next: (response) => {
-        console.log('✅ Dados atualizados com sucesso:', response);
-      },
-      error: (err) => {
-        console.error('❌ Erro ao atualizar dados:', err);
-      }
-    });
+    const formData = new FormData();
+
+  if (this.logoImagem) {
+    formData.append('headerFile', this.logoImagem);
   }
+
+
+  formData.append('headerText1', this.menu.headerText1 || '');
+  formData.append('headerText2', this.menu.headerText2 || '');
+  formData.append('headerText3', this.menu.headerText3 || '');
+  formData.append('headerText4', this.menu.headerText4 || '');
+  formData.append('headerButtonText', this.menu.headerButtonText || '');
+
+  this.serviceapi.putdados(formData).subscribe({
+    next: (res) => {
+      console.log('Enviado com sucesso', res);
+    },
+    error: (err) => {
+      console.error('Erro ao enviar', err);
+    }
+  });
+}
 }

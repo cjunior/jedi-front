@@ -8,17 +8,15 @@ import { Observable } from 'rxjs';
 })
 export class editService {
     private readonly http = inject(HttpClient);
-    private readonly apiUrl = 'http://localhost:3000';
+    private readonly apiUrl = environment.apiUrl;
 
 
     getdados(): Observable<any> {
-        return this.http.get(`${this.apiUrl}/clientes/1`);
+        return this.http.get(`${this.apiUrl}loadlandpage/get`);
       }
       
-      putdados(dados: any): Observable<any> {
-        return this.http.put(`${this.apiUrl}/clientes/1`, dados, {
-          headers: { 'Content-Type': 'application/json' }
-        });
+      putdados(formData: FormData): Observable<any> {
+        return this.http.put(`${this.apiUrl}loadlandpage/update-all`, formData);
       }
  
 }
