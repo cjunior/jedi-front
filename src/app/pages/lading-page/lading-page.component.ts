@@ -54,6 +54,11 @@ export class LadingPageComponent {
   showErrors = signal(false)
   isLoading = signal(false);
 
+  teamResponseDto = {
+  equipttext: 'Equipe'
+  }
+  
+
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
     email: ['', [Validators.email, Validators.required]],
@@ -74,6 +79,9 @@ export class LadingPageComponent {
         this.bannerResponseDto = {
           title: dados.bannerResponseDto.title,
           description: dados.bannerResponseDto.description
+        }
+        this.teamResponseDto = {
+          equipttext: dados.teamResponseDto.title,
         }
         this.presentationSectionResponseDto = {
           title: dados.presentationSectionResponseDto.title,

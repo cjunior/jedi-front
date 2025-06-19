@@ -9,7 +9,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { FilePreviewPipe } from './utils/pipe';
 import { editService } from './service/edit.service';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 function fileToBase64(file: File): Promise<string> {
@@ -36,7 +36,7 @@ function fileToBase64(file: File): Promise<string> {
     ReactiveFormsModule,
     ConfirmDialogModule,
   ],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
 })
@@ -45,7 +45,8 @@ export class AdminDashboardComponent implements OnInit {
   previewImage = '';
   private readonly serviceapi = inject(editService);
   private readonly confirmationService = inject(ConfirmationService);
-
+  private readonly messageService = inject(MessageService);
+isLoading = false;
   logo = '';
   logoPreview: string | null = null;
 
@@ -429,6 +430,8 @@ export class AdminDashboardComponent implements OnInit {
         headerButtonText: '',
       };
     }
+    this.estadoInicial = this.getEstadoParaComparacao();
+    
   }
 
   openPreview(imgPath: string) {
@@ -499,7 +502,50 @@ export class AdminDashboardComponent implements OnInit {
     lista.splice(index, 1);
   }
 
+  estadoInicial: any = {};
+  
+getEstadoParaComparacao() {
+  return JSON.stringify({
+    footer: { ...this.footer },
+    teamTitle: this.teamTitle,
+    botaobanner: { ...this.botaobanner },
+    textoManifesto: { ...this.textoManifesto },
+    manifestoImagens: this.manifestoImagens.map(img => ({
+      buttonText: img.buttonText,
+      buttonUrl: img.buttonUrl,
+      id: img.id,
+      // NÃO inclua img.file se for File!
+      file: typeof img.file === 'string' ? img.file : null
+    })),
+    equipeCarrossel: this.equipeCarrossel.map(m => ({
+      id: m.id,
+      file: typeof m.file === 'string' ? m.file : null
+    })),
+    conteudo: { ...this.conteudo },
+    outroCarrossel: this.outroCarrossel.map(o => ({
+      id: o.id,
+      imgText: o.imgText,
+      file: typeof o.file === 'string' ? o.file : null
+    })),
+    faqTitulo: this.faqTitulo,
+    faqSubtitulo: this.faqSubtitulo,
+    faqItens: this.faqItens.map(f => ({ ...f })),
+    menu: { ...this.menu },
+    logoPreviewUrl: this.logoPreviewUrl,
+  });
+}
   salvar() {
+   const estadoAtual = this.getEstadoParaComparacao();
+if (estadoAtual === this.estadoInicial) {
+  this.isLoading = false;
+  this.messageService.add({
+    severity: 'info',
+    summary: 'Nada alterado',
+    detail: 'Nenhuma alteração detectada.'
+  });
+  return;
+}
+
     const formDataPut = new FormData();
     if (this.logoImagem) {
       formDataPut.append('headerFile', this.logoImagem);
@@ -620,9 +666,18 @@ export class AdminDashboardComponent implements OnInit {
     this.serviceapi.putdadosall(formDataPut).subscribe({
       next: (res) => {
         console.log('Atualização enviada com sucesso', res);
+         this.isLoading = false;
+         this.estadoInicial = this.getEstadoParaComparacao();
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Sucesso',
+      detail: 'Alterações salvas com sucesso.'
+    });
       },
       error: (err) => {
         console.error('Erro ao atualizar', err);
+         this.isLoading = false;
+           
       },
     });
 
@@ -644,9 +699,11 @@ export class AdminDashboardComponent implements OnInit {
       this.serviceapi.postBanner(formDataPost).subscribe({
         next: (res) => {
           console.log('Novos banners enviados com sucesso', res);
+           this.isLoading = false;
         },
         error: (err) => {
           console.error('Erro ao cadastrar novos banners', err);
+           this.isLoading = false;
         },
       });
     }
@@ -668,9 +725,11 @@ export class AdminDashboardComponent implements OnInit {
       this.serviceapi.postTeam(formDataPostEquipe).subscribe({
         next: (res) => {
           console.log('Novos membros da equipe enviados com sucesso', res);
+           this.isLoading = false;
         },
         error: (err) => {
           console.error('Erro ao cadastrar novos membros da equipe', err);
+           this.isLoading = false;
         },
       });
     }
@@ -694,13 +753,16 @@ export class AdminDashboardComponent implements OnInit {
           console.log(
             'Novos itens do carrossel diverso enviados com sucesso',
             res
+            
           );
+           this.isLoading = false;
         },
         error: (err) => {
           console.error(
             'Erro ao cadastrar novos itens do carrossel diverso',
             err
           );
+           this.isLoading = false;
         },
       });
     }
