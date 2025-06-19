@@ -183,11 +183,20 @@
             </div>
         </div>
 
-        <div class="card">
-          <div class="content">
-            <h1>PERCURSO BÁSICO</h1>
-          </div>
-        </div>
+     <div
+  class="card"
+  [ngStyle]="{
+    'background-image': 'url(' + contentResponseDto.mainImg + ')',
+    'width': '788px',
+    'height': '403px',
+    'background-repeat': 'no-repeat',
+    'margin-bottom': '40px'
+  }"
+>
+  <div class="content">
+    <h1>PERCURSO BÁSICO</h1>
+  </div>
+</div>
 
     </div>
 

@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import { firstValueFrom } from 'rxjs';
 import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lading-page',
@@ -36,7 +37,8 @@ import { CarouselModule } from 'primeng/carousel';
     FormsModule,
     ReactiveFormsModule,
     Toast,
-    CarouselModule
+    CarouselModule,
+    CommonModule
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
