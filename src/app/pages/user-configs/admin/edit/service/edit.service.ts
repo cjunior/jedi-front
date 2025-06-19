@@ -19,6 +19,10 @@ export class editService {
         return this.http.put(`${this.apiUrl}header/update`, formData);
       }
 
+       putdadosall(formData: FormData): Observable<any> {
+        return this.http.put(`${this.apiUrl}loadlandpage/update-all`, formData);
+      }
+
 
       //parte das imagens manifesto
 

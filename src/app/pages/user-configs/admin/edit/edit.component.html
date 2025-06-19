@@ -52,19 +52,18 @@
 
 <!-- ...existing code... -->
 <p-accordionTab header="Imagem Manifesto">
+  <p-confirmDialog></p-confirmDialog>
   <p-card header="Imagens do Manifesto">
     <p-fileUpload
+      mode="basic"
       name="manifesto"
       [customUpload]="true"
       [multiple]="true"
       accept="image/*"
       maxFileSize="1000000"
-      mode="advanced"
-      (onSelect)="onManifestoSelect($event)"
-      chooseLabel="Escolha as fotos">
-      <ng-template #empty>
-        <div>Arraste as imagens aqui ou clique para selecionar.</div>
-      </ng-template>
+      chooseIcon="pi pi-upload"
+      chooseLabel="Escolha as fotos"
+      (onSelect)="onManifestoSelect($event)">
     </p-fileUpload>
 
     <div class="flex flex-wrap gap-4 mt-4">
@@ -74,7 +73,7 @@
         <button
           type="button"
           class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
-          (click)="removerManifestoImagem(i)"
+          (click)="confirmDelete(img, i)"
           title="Remover imagem">
           <i class="pi pi-trash"></i>
         </button>
@@ -87,20 +86,28 @@
         </label>
 
         <div class="mt-2">
-          <input pInputText type="text" [(ngModel)]="botaobanner.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
-          <input pInputText type="text" [(ngModel)]="botaobanner.buttonUrl" placeholder="URL do botão" class="w-full" />
+          <input pInputText type="text" [(ngModel)]="img.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
+          <input pInputText type="text" [(ngModel)]="img.buttonUrl" placeholder="URL do botão" class="w-full" />
         </div>
       </div>
     </div>
   </p-card>
 </p-accordionTab>
 
+   <p-accordionTab header="Textos do Manifesto">
+    <p-card>
+      <input pInputText [(ngModel)]="textoManifesto.presentationSectionTitle" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstDescription" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondDescription" placeholder="Subtítulo" class="w-full" />
+    </p-card>
+  </p-accordionTab>
+
 
   <p-accordionTab header="Destaques do Projeto">
     <p-card>
-      <input pInputText [(ngModel)]="bolas.titulo1" placeholder="Título Bola 1" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="bolas.titulo2" placeholder="Título Bola 2" class="w-full mb-2" />
-      <textarea pInputTextarea [(ngModel)]="bolas.descricao" placeholder="Descrição" class="w-full mb-2"></textarea>
+      <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstStatistic" placeholder="Título Bola 1" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondStatistic" placeholder="Título Bola 2" class="w-full mb-2" />
+      <textarea pInputTextarea [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2"></textarea>
       <input type="file" (change)="onFileSelect($event, 'conteudoImagem')" />
     </p-card>
   </p-accordionTab>
@@ -169,7 +176,7 @@
   </p-accordionTab>
 
   <div class="col-span-full flex justify-center mt-4">
-    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvartextbanner()"></button>
+    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvar()"></button>
   </div>
 
 </p-accordion>

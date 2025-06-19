@@ -9,7 +9,17 @@ import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { FilePreviewPipe } from './utils/pipe';
 import { editService } from './service/edit.service';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
@@ -23,8 +33,9 @@ import { editService } from './service/edit.service';
     AccordionModule,
     FilePreviewPipe,
     FormsModule,
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule,
+    ConfirmDialogModule
+  ],providers: [ConfirmationService],
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss']
 })
@@ -32,6 +43,7 @@ export class AdminDashboardComponent implements OnInit {
   previewVisible = false;
   previewImage = '';
   private readonly serviceapi = inject(editService);
+  private readonly confirmationService = inject(ConfirmationService);
 
   logo = '';
   menu = {
@@ -44,10 +56,11 @@ export class AdminDashboardComponent implements OnInit {
 
   };
 
-manifestoImagens: { file: File, buttonText: string, buttonUrl: string }[] = [];
+manifestoImagens: { id?: number; file: File | string; buttonText: string; buttonUrl: string }[] = [];
 botaobanner = {
   buttonText: '',
-  buttonUrl: ''
+  buttonUrl: '',
+ 
 };
 
   logoImagem: File | null = null;
@@ -59,6 +72,18 @@ botaobanner = {
     titulo: '',
     subtitulo: ''
   };
+
+  textoManifesto = {
+    presentationSectionTitle: '',
+    presentationSectionFirstDescription: '',
+    presentationSectionSecondDescription: '',
+
+    presentationSectionFirstStatistic:'',
+    presentationSectionSecondStatistic:'',
+    presentationSectionFile: '',
+    presentationSectionImgDescription: '',
+
+  }
 
   bolas = {
     titulo1: '',
@@ -114,6 +139,30 @@ botaobanner = {
   }
 
 
+confirmDelete(img: any, index: number) {
+  this.confirmationService.confirm({
+    message: 'Tem certeza que deseja excluir esta imagem?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      if (img.id) {
+       this.serviceapi.deleteimage(img.id).subscribe({
+  next: () => {
+    console.log('Removendo do array:', index);
+    this.manifestoImagens.splice(index, 1);
+  },
+  error: (err) => {
+    console.error('Erro ao excluir imagem', err);
+     this.manifestoImagens.splice(index, 1); //remover futuramente
+  }
+});
+      } else {
+        this.manifestoImagens.splice(index, 1); // REMOVE DA LISTA EM TEMPO REAL
+      }
+    }
+  });
+}
+
 onManifestoSelect(event: any) {
   if (event.files && event.files.length > 0) {
     for (const file of event.files) {
@@ -146,23 +195,23 @@ onLogoSelect(event: any) {
   }
 }
 
-  carregarDados(dados: any) {
-    this.logo = dados.logo || '';
-    this.menu = dados.menu || {headerFile: '', headerText1: '', headerText2: '', headerText3: '', headerText4: '', headerButtonText: '' };
-    this.manifestoImagem = dados.manifestoImagem || null;
-    this.chamada = dados.chamada || { titulo: '', subtitulo: '' };
-    this.bolas = dados.bolas || { titulo1: '', titulo2: '', descricao: '' };
-    this.bolasImagem = dados.bolasImagem || null;
-    this.equipeCarrossel = dados.equipeCarrossel || [];
-    this.conteudo = dados.conteudo || { nome: '', titulo: '', subtitulo: '' };
-    this.conteudoImagem = dados.conteudoImagem || null;
-    this.outroCarrossel = dados.outroCarrossel || [];
-    this.acordions = dados.acordions || [];
-    this.footer = dados.footer || { titulo: '', subtitulo: '', descricao: '' };
-    this.carrosselFinal = dados.carrosselFinal || [];
-    this.logoImagem = null; 
+carregarDados(dados: any) {
+  // ...outros campos...
 
+  if (dados.bannerResponseDto && dados.bannerResponseDto.items) {
+    console.log('Itens recebidos do banner:', dados.bannerResponseDto.items); 
+    this.manifestoImagens = dados.bannerResponseDto.items.map((item: any) => ({
+      file: item.imgUrl,
+      buttonText: item.buttonText || '',
+      buttonUrl: item.buttonUrl || '',
+      id: item.id // Adicionando o ID para exclusão
+    }));
+  } else {
+    this.manifestoImagens = [];
   }
+
+  // ...outros campos...
+}
 
   openPreview() {
     this.previewImage = '/header.png';
@@ -206,63 +255,86 @@ onFileSelect(event: any, destino: string) {
   removerImagem(lista: File[], index: number) {
     lista.splice(index, 1);
   }
+
 salvar() {
-  const formData = new FormData();
-
+  // Atualização dos banners existentes (PUT)
+  const formDataPut = new FormData();
   if (this.logoImagem) {
-    formData.append('file', this.logoImagem);
+    formDataPut.append('headerFile', this.logoImagem);
+  }
+  formDataPut.append('headerText1', this.menu.headerFile || '');
+  formDataPut.append('headerText2', this.menu.headerText2 || '');
+  formDataPut.append('headerText3', this.menu.headerText3 || '');
+  formDataPut.append('headerText4', this.menu.headerText4 || '');
+  formDataPut.append('headerButtonText', this.menu.headerButtonText || '');
+  formDataPut.append('bannerTitle', this.botaobanner.buttonText || '');
+  formDataPut.append('bannerDescription', this.botaobanner.buttonUrl || '');
+
+  formDataPut.append('presentationSectionTitle', this.textoManifesto.presentationSectionTitle || '');
+  formDataPut.append('presentationSectionFirstDescription', this.textoManifesto.presentationSectionFirstDescription || '');
+  formDataPut.append('presentationSectionSecondDescription', this.textoManifesto.presentationSectionSecondDescription || '');
+  formDataPut.append('presentationSectionFirstStatistic', this.textoManifesto.presentationSectionFirstStatistic || '');
+  formDataPut.append('presentationSectionSecondStatistic', this.textoManifesto.presentationSectionSecondStatistic || '');
+  formDataPut.append('presentationSectionImgDescription', this.textoManifesto.presentationSectionImgDescription || '');
+
+  // Se for arquivo, envie como File
+  if (this.conteudoImagem) {
+    formDataPut.append('presentationSectionFile', this.conteudoImagem);
   }
 
-  formData.append('text1', this.menu.headerFile || '');
-  formData.append('text2', this.menu.headerText2 || '');
-  formData.append('text3', this.menu.headerText3 || '');
-  formData.append('text4', this.menu.headerText4 || '');
-  formData.append('buttonText', this.menu.headerButtonText || '');
+  // Só banners existentes (com id)
+  this.manifestoImagens
+    .filter(img => img.id !== undefined)
+    .forEach((img, i) => {
+      formDataPut.append(`bannerItems[${i}].id`, img.id!.toString());
+      if (img.file instanceof File) {
+        formDataPut.append(`bannerItems[${i}].file`, img.file);
+      }
+      formDataPut.append(`bannerItems[${i}].buttonText`, img.buttonText || '');
+      formDataPut.append(`bannerItems[${i}].buttonUrl`, img.buttonUrl || '');
+    });
 
-  // Visualizar o conteúdo do FormData
-  for (const pair of formData.entries()) {
-    console.log(pair[0], pair[1]);
+  // Visualizar o conteúdo do FormData PUT
+  for (const pair of formDataPut.entries()) {
+    console.log('PUT', pair[0], pair[1]);
   }
 
-  this.serviceapi.putdados(formData).subscribe({
+  this.serviceapi.putdadosall(formDataPut).subscribe({
     next: (res) => {
-      console.log('Enviado com sucesso', res);
+      console.log('Atualização enviada com sucesso', res);
     },
     error: (err) => {
-      console.error('Erro ao enviar', err);
+      console.error('Erro ao atualizar', err);
     }
   });
 
+  // Cadastro de novos banners (POST)
+  const novosBanners = this.manifestoImagens.filter(img => !img.id);
+  if (novosBanners.length > 0) {
+    const formDataPost = new FormData();
+    novosBanners.forEach((img) => {
+      if (img.file instanceof File) {
+        formDataPost.append('file', img.file);
+      }
+      formDataPost.append('buttonText', img.buttonText || '');
+      formDataPost.append('buttonUrl', img.buttonUrl || '');
+    });
 
-  //salvar banner
+    // Visualizar o conteúdo do FormData POST
+    for (const pair of formDataPost.entries()) {
+      console.log('POST', pair[0], pair[1]);
+    }
+
+    this.serviceapi.postBanner(formDataPost).subscribe({
+      next: (res) => {
+        console.log('Novos banners enviados com sucesso', res);
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar novos banners', err);
+      }
+    });
+  }
 }
 
-salvarBanner() {
- const formData = new FormData();
 
-this.manifestoImagens.forEach((img, i) => {
-  formData.append('file', img.file); 
-  formData.append('buttonText', img.buttonText);
-  formData.append('buttonUrl', img.buttonUrl);
-});
-  this.serviceapi.postBanner(formData).subscribe({
-    next: (res) => console.log('Enviado com sucesso', res),
-    error: (err) => console.error('Erro ao enviar', err)
-  });
-}
-
-salvartextbanner() {
-  console.log('Enviando:', {
-    title: this.botaobanner.buttonText,
-    description: this.botaobanner.buttonUrl
-  });
-
-  this.serviceapi.puttextmanifest(
-    this.botaobanner.buttonText,
-    this.botaobanner.buttonUrl
-  ).subscribe({
-    next: res => console.log('Atualizado com sucesso', res),
-    error: err => console.error('Erro ao atualizar', err)
-  });
-}
 }
