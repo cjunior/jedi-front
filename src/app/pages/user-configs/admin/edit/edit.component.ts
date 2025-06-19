@@ -96,13 +96,14 @@ botaobanner = {
 teamTitle = '';
 
   conteudo = {
-    nome: '',
-    titulo: '',
-    subtitulo: ''
+    contentTitle: '',
+    contentSubTitle: '',
+    contentDescription: '',
+    contentMainImage: ''
   };
   conteudoImagem: File | null = null;
 
-  outroCarrossel: File[] = [];
+outroCarrossel: { id?: number; file: string | File; imgText?: string }[] = [];
 
   acordions: { titulo: string; subtitulo: string; texto: string }[] = [];
 
@@ -138,6 +139,44 @@ teamTitle = '';
       }
     });
   }
+
+  onOutroCarrosselFileUpload(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      this.outroCarrossel.push({ file });
+    }
+  }
+}
+
+atualizarOutroCarrosselImagem(event: any, index: number) {
+  const file = event.target.files[0];
+  if (file) {
+    this.outroCarrossel[index].file = file;
+  }
+}
+
+// Remover com confirmação
+confirmDeleteOutroCarrossel(item: any, index: number) {
+  this.confirmationService.confirm({
+    message: 'Tem certeza que deseja excluir esta imagem?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      if (item.id) {
+        this.serviceapi.Deletecontet(item.id).subscribe({
+          next: () => this.outroCarrossel.splice(index, 1),
+          error: (err) => {
+            console.error('Erro ao excluir imagem', err);
+            // Se quiser remover mesmo com erro, descomente:
+             this.outroCarrossel.splice(index, 1);
+          }
+        });
+      } else {
+        this.outroCarrossel.splice(index, 1);
+      }
+    }
+  });
+}
 
   onEquipeFileSelect(event: any) {
   if (event.target.files && event.target.files[0]) {
@@ -246,27 +285,54 @@ carregarDados(dados: any) {
   // ...outros campos...
 
   if (dados.bannerResponseDto && dados.bannerResponseDto.items) {
-    console.log('Itens recebidos do banner:', dados.bannerResponseDto.items); 
     this.manifestoImagens = dados.bannerResponseDto.items.map((item: any) => ({
       file: item.imgUrl,
       buttonText: item.buttonText || '',
       buttonUrl: item.buttonUrl || '',
-      id: item.id // Adicionando o ID para exclusão
+      id: item.id
     }));
   } else {
     this.manifestoImagens = [];
   }
 
   if (dados.teamResponseDto && dados.teamResponseDto.items) {
-  this.equipeCarrossel = dados.teamResponseDto.items.map((item: any) => ({
-    id: item.id,
-    file: item.imgUrl // string (URL)
-  }));
-  this.teamTitle = dados.teamResponseDto.title || '';
-} else {
-  this.equipeCarrossel = [];
-  this.teamTitle = '';
-}
+    this.equipeCarrossel = dados.teamResponseDto.items.map((item: any) => ({
+      id: item.id,
+      file: item.imgUrl
+    }));
+    this.teamTitle = dados.teamResponseDto.title || '';
+  } else {
+    this.equipeCarrossel = [];
+    this.teamTitle = '';
+  }
+
+  if (dados.contentResponseDto) {
+    this.conteudo = {
+      contentTitle: dados.contentResponseDto.title || '',
+      contentSubTitle: dados.contentResponseDto.subTitle || '',
+      contentDescription: dados.contentResponseDto.description || '',
+      contentMainImage: dados.contentResponseDto.mainImg || ''
+    };
+
+    // Carregar o carrossel diverso
+    if (dados.contentResponseDto.items) {
+      this.outroCarrossel = dados.contentResponseDto.items.map((item: any) => ({
+        id: item.id,
+        file: item.imgUrl,
+        imgText: item.imgText || ''
+      }));
+    } else {
+      this.outroCarrossel = [];
+    }
+  } else {
+    this.conteudo = {
+      contentTitle: '',
+      contentSubTitle: '',
+      contentDescription: '',
+      contentMainImage: ''
+    };
+    this.outroCarrossel = [];
+  }
 
   // ...outros campos...
 }
@@ -287,6 +353,18 @@ carregarDados(dados: any) {
   removerAccordion(index: number) {
     this.acordions.splice(index, 1);
   }
+  
+conteudoImagemPreview: string | null = null;
+onConteudoFileSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    this.conteudoImagem = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.conteudoImagemPreview = e.target.result;
+    };
+    reader.readAsDataURL(this.conteudoImagem as Blob);
+  }
+}
 
 
   enviarEquipe() {
@@ -330,7 +408,6 @@ onFileSelect(event: any, destino: string) {
   }
 
 salvar() {
-  // --- Atualização dos banners existentes (PUT) ---
   const formDataPut = new FormData();
   if (this.logoImagem) {
     formDataPut.append('headerFile', this.logoImagem);
@@ -352,6 +429,13 @@ salvar() {
 
   if (this.conteudoImagem) {
     formDataPut.append('presentationSectionFile', this.conteudoImagem);
+  }
+
+  formDataPut.append('contentTitle', this.conteudo.contentTitle || '');
+  formDataPut.append('contentSubTitle', this.conteudo.contentSubTitle || '');
+  formDataPut.append('contentDescription', this.conteudo.contentDescription || '');
+  if (this.conteudoImagem) {
+    formDataPut.append('contentMainImage', this.conteudoImagem);
   }
 
   // --- Banners existentes (com id) ---
@@ -377,6 +461,18 @@ salvar() {
       }
     });
   }
+
+  // --- Carrossel Diverso existente (com id) ---
+const diversoExistente = this.outroCarrossel.filter(item => item.id !== undefined);
+if (diversoExistente.length > 0) {
+  diversoExistente.forEach((item, i) => {
+    formDataPut.append(`contentCarousel[${i}].id`, item.id!.toString());
+    if (item.file instanceof File) {
+      formDataPut.append(`contentCarousel[${i}].file`, item.file);
+    }
+    formDataPut.append(`contentCarousel[${i}].imgText`, item.imgText || '');
+  });
+}
 
   // Visualizar o conteúdo do FormData PUT
   for (const pair of formDataPut.entries()) {
@@ -442,6 +538,33 @@ salvar() {
       }
     });
   }
+
+  // --- Cadastro de novos itens do Carrossel Diverso (POST) ---
+ const novosDiversos = this.outroCarrossel.filter(item => !item.id);
+if (novosDiversos.length > 0) {
+  const formDataPostDiverso = new FormData();
+
+  // Adiciona todos os arquivos
+  novosDiversos.forEach((item) => {
+    if (item.file instanceof File) {
+      formDataPostDiverso.append('files', item.file);
+    }
+  });
+
+  // Adiciona todos os textos (mesmo que vazio)
+  novosDiversos.forEach((item) => {
+    formDataPostDiverso.append('imgTexts', item.imgText || '');
+  });
+
+  this.serviceapi.postcontent(formDataPostDiverso).subscribe({
+    next: (res) => {
+      console.log('Novos itens do carrossel diverso enviados com sucesso', res);
+    },
+    error: (err) => {
+      console.error('Erro ao cadastrar novos itens do carrossel diverso', err);
+    }
+  });
+}
 }
 
 

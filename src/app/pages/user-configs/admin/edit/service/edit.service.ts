@@ -56,8 +56,16 @@ export class editService {
   return this.http.delete(`${this.apiUrl}team/member/${id}`, );
 }
 
+//content parte
+
+
+   postcontent(formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}content/slides/add`, formData, { responseType: 'text' });
+}
       
 
-
+   Deletecontet(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}content/slide/${id}`, );
+}
  
 }

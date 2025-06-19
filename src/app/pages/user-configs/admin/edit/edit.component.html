@@ -152,26 +152,68 @@
   </p-card>
 </p-accordionTab>
 
+<p-accordionTab header="Conteúdo com Imagem">
+  <p-card>
+    <input pInputText [(ngModel)]="conteudo.contentTitle" placeholder="Nome Conteúdo" class="w-full mb-2" />
+    <input pInputText [(ngModel)]="conteudo.contentSubTitle" placeholder="Título" class="w-full mb-2" />
+    <input pInputText [(ngModel)]="conteudo.contentDescription" placeholder="Subtítulo" class="w-full mb-2" />
 
-  <p-accordionTab header="Conteúdo com Imagem">
-    <p-card>
-      <input pInputText [(ngModel)]="conteudo.nome" placeholder="Nome Conteúdo" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="conteudo.titulo" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="conteudo.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
-      <input type="file" (change)="onFileSelect($event, 'conteudoImagem')" />
-    </p-card>
-  </p-accordionTab>
+    <!-- Preview da imagem -->
+    <img
+      *ngIf="conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage"
+      [src]="conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage"
+      class="w-32 h-32 object-cover rounded mb-2"
+    />
 
-  <p-accordionTab header="Carrossel Diverso">
-    <p-card>
-      <div *ngFor="let file of outroCarrossel; let i = index" class="flex items-center gap-4 mb-2">
-        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
-        <span class="text-sm">{{ file.name }}</span>
-        <button pButton icon="pi pi-trash" (click)="removerImagem(outroCarrossel, i)" severity="danger"></button>
+    <!-- Uploader PrimeNG -->
+    <p-fileUpload
+      mode="basic"
+      name="conteudo"
+      [customUpload]="true"
+      [multiple]="false"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Escolha a imagem"
+      (onSelect)="onConteudoFileSelect($event)">
+    </p-fileUpload>
+  </p-card>
+</p-accordionTab>
+
+<p-accordionTab header="Carrossel Diverso">
+  <p-card>
+    <div class="flex flex-wrap gap-4 mb-4">
+      <div *ngFor="let item of outroCarrossel; let i = index" class="relative group w-40">
+        <img [src]="item.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
+        <button
+          type="button"
+          class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
+          (click)="confirmDeleteOutroCarrossel(item, i)"
+          title="Remover imagem">
+          <i class="pi pi-trash"></i>
+        </button>
+        <label
+          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
+          title="Atualizar imagem">
+          <i class="pi pi-pencil"></i>
+          <input type="file" accept="image/*" class="hidden" (change)="atualizarOutroCarrosselImagem($event, i)" />
+        </label>
       </div>
-      <input type="file" (change)="onFileSelect($event, 'outroCarrossel')" />
-    </p-card>
-  </p-accordionTab>
+    </div>
+
+    <p-fileUpload
+      mode="basic"
+      name="outroCarrossel"
+      [customUpload]="true"
+      [multiple]="true"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Adicionar fotos"
+      (onSelect)="onOutroCarrosselFileUpload($event)">
+    </p-fileUpload>
+  </p-card>
+</p-accordionTab>
 
   <p-accordionTab header="Acordions Dinâmicos">
     <div *ngFor="let item of acordions; let i = index" class="mb-4">
