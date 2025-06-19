@@ -62,6 +62,7 @@
         [(ngModel)]="menu.headerFile"
         placeholder="O Projeto"
         class="w-full mb-2"
+         maxlength="10"
       />
       <input
         pInputText
@@ -69,6 +70,7 @@
         [(ngModel)]="menu.headerText2"
         placeholder="Conteúdo"
         class="w-full mb-2"
+        maxlength="10"
       />
       <input
         pInputText
@@ -76,6 +78,7 @@
         [(ngModel)]="menu.headerText3"
         placeholder="Ajuda"
         class="w-full mb-2"
+        maxlength="10"
       />
       <input
         pInputText
@@ -83,6 +86,7 @@
         [(ngModel)]="menu.headerText4"
         placeholder="#RedeJED"
         class="w-full"
+        maxlength="10"
       />
     </p-card>
     <p-card header="Botão">
@@ -92,6 +96,8 @@
         [(ngModel)]="menu.headerButtonText"
         placeholder="Nome do Botão"
         class="w-full"
+         maxlength="10"
+        
       />
     </p-card>
   </p-accordionTab>
@@ -129,12 +135,14 @@
         [(ngModel)]="botaobanner.buttonText"
         placeholder="Título"
         class="w-full mb-2"
+         maxlength="30"
       />
       <input
         pInputText
         [(ngModel)]="botaobanner.buttonUrl"
         placeholder="Subtítulo"
         class="w-full"
+         maxlength="100"
       />
     </p-card>
   </p-accordionTab>
@@ -221,6 +229,7 @@
               [(ngModel)]="img.buttonText"
               placeholder="Nome do botão"
               class="w-full mb-2"
+               maxlength="25"
             />
             <input
               pInputText
@@ -228,6 +237,7 @@
               [(ngModel)]="img.buttonUrl"
               placeholder="URL do botão"
               class="w-full"
+               maxlength="200"
             />
           </div>
         </div>
@@ -268,18 +278,21 @@
         [(ngModel)]="textoManifesto.presentationSectionTitle"
         placeholder="Título"
         class="w-full mb-2"
+          maxlength="14"
       />
       <input
         pInputText
         [(ngModel)]="textoManifesto.presentationSectionFirstDescription"
         placeholder="Título"
         class="w-full mb-2"
+          maxlength="140"
       />
       <input
         pInputText
         [(ngModel)]="textoManifesto.presentationSectionSecondDescription"
         placeholder="Subtítulo"
         class="w-full"
+          maxlength="120"
       />
     </p-card>
   </p-accordionTab>
@@ -317,18 +330,21 @@
         [(ngModel)]="textoManifesto.presentationSectionFirstStatistic"
         placeholder="Título Bola 1"
         class="w-full mb-2"
+          maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="textoManifesto.presentationSectionSecondStatistic"
         placeholder="Título Bola 2"
         class="w-full mb-2"
+          maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="textoManifesto.presentationSectionImgDescription"
         placeholder="Descrição"
         class="w-full mb-2"
+          maxlength="90"
       />
 
       <img
@@ -393,6 +409,7 @@
         [(ngModel)]="teamTitle"
         placeholder="Título do Carrossel"
         class="w-full mb-4"
+         maxlength="20"
       />
 
       <div class="flex flex-wrap gap-4 mb-4">
@@ -476,18 +493,21 @@
         [(ngModel)]="conteudo.contentTitle"
         placeholder="Nome Conteúdo"
         class="w-full mb-2"
+         maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="conteudo.contentSubTitle"
         placeholder="Título"
         class="w-full mb-2"
+         maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="conteudo.contentDescription"
         placeholder="Subtítulo"
         class="w-full mb-2"
+         maxlength="90"
       />
 
       <img
@@ -624,12 +644,15 @@
         [(ngModel)]="faqTitulo"
         placeholder="Título"
         class="w-full mb-2"
+          maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="faqSubtitulo"
         placeholder="Subtítulo"
         class="w-full mb-4"
+         maxlength="26"
+        
       />
 
       <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
@@ -639,12 +662,14 @@
           [(ngModel)]="faq.question"
           placeholder="Pergunta"
           class="w-full mb-2"
+          maxlength="70"
         />
         <input
           pInputText
           [(ngModel)]="faq.answer"
           placeholder="Resposta"
           class="w-full"
+           maxlength="200"
         />
       </div>
     </p-card>
@@ -683,18 +708,21 @@
         [(ngModel)]="footer.titulo"
         placeholder="Título"
         class="w-full mb-2"
+         maxlength="20"
       />
       <input
         pInputText
         [(ngModel)]="footer.subtitulo"
         placeholder="Subtítulo"
         class="w-full mb-2"
+         maxlength="110"
       />
       <input
         pInputText
         [(ngModel)]="footer.descricao"
         placeholder="Descrição"
         class="w-full"
+        maxlength="60"
       />
     </p-card>
   </p-accordionTab>
@@ -755,6 +783,7 @@
       icon="pi pi-save"
       class="p-button-success"
       (click)="salvar()"
+       [loading]="isLoading"
     ></button>
   </div>
 </p-accordion>
