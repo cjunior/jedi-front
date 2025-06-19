@@ -112,16 +112,45 @@
     </p-card>
   </p-accordionTab>
 
-  <p-accordionTab header="Carrossel Equipe">
-    <p-card>
-      <div *ngFor="let file of equipeCarrossel; let i = index" class="flex items-center gap-4 mb-2">
-        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
-        <span class="text-sm">{{ file.name }}</span>
-        <button pButton icon="pi pi-trash" (click)="removerImagem(equipeCarrossel, i)" severity="danger"></button>
+<p-accordionTab header="Carrossel Equipe">
+  <p-card>
+    <input pInputText [(ngModel)]="teamTitle" placeholder="Título do Carrossel" class="w-full mb-4" />
+
+    <div class="flex flex-wrap gap-4 mb-4">
+      <div *ngFor="let membro of equipeCarrossel; let i = index" class="relative group w-40">
+        <img [src]="membro.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
+       <button
+  type="button"
+  class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
+  (click)="confirmDeleteEquipe(membro, i)"
+  title="Remover membro">
+  <i class="pi pi-trash"></i>
+</button>
+        <label
+          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
+          title="Atualizar imagem">
+          <i class="pi pi-pencil"></i>
+          <input type="file" accept="image/*" class="hidden" (change)="atualizarEquipeImagem($event, i)" />
+        </label>
       </div>
-      <input type="file" (change)="onFileSelect($event, 'equipeCarrossel')" />
-    </p-card>
-  </p-accordionTab>
+    </div>
+
+    <!-- Uploader PrimeNG para múltiplas imagens -->
+    <p-fileUpload
+      mode="basic"
+      name="equipe"
+      [customUpload]="true"
+      [multiple]="true"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Adicionar fotos"
+      (onSelect)="onEquipeFileUpload($event)">
+    </p-fileUpload>
+
+    <button pButton type="button" label="Salvar Equipe" icon="pi pi-save" (click)="enviarEquipe()" class="mt-4"></button>
+  </p-card>
+</p-accordionTab>
 
 
   <p-accordionTab header="Conteúdo com Imagem">

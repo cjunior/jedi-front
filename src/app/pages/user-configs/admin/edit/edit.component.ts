@@ -92,7 +92,8 @@ botaobanner = {
   };
   bolasImagem: File | null = null;
 
-  equipeCarrossel: File[] = [];
+ equipeCarrossel: { id?: number; file: File | string }[] = [];
+teamTitle = '';
 
   conteudo = {
     nome: '',
@@ -137,6 +138,52 @@ botaobanner = {
       }
     });
   }
+
+  onEquipeFileSelect(event: any) {
+  if (event.target.files && event.target.files[0]) {
+    this.equipeCarrossel.push({ file: event.target.files[0] });
+  }
+}
+
+onEquipeFileUpload(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      this.equipeCarrossel.push({ file });
+    }
+  }
+}
+
+atualizarEquipeImagem(event: any, index: number) {
+  const file = event.target.files[0];
+  if (file) {
+    this.equipeCarrossel[index].file = file;
+  }
+}
+
+confirmDeleteEquipe(membro: any, index: number) {
+  this.confirmationService.confirm({
+    message: 'Tem certeza que deseja excluir este membro da equipe?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      if (membro.id) {
+        this.serviceapi.DeleteTeam(membro.id).subscribe({
+          next: () => {
+            console.log('Removendo do array:', index);
+            this.equipeCarrossel.splice(index, 1);
+          },
+          error: (err) => {
+            console.error('Erro ao excluir membro', err);
+           
+             this.equipeCarrossel.splice(index, 1);
+          }
+        });
+      } else {
+        this.equipeCarrossel.splice(index, 1);
+      }
+    }
+  });
+}
 
 
 confirmDelete(img: any, index: number) {
@@ -210,6 +257,17 @@ carregarDados(dados: any) {
     this.manifestoImagens = [];
   }
 
+  if (dados.teamResponseDto && dados.teamResponseDto.items) {
+  this.equipeCarrossel = dados.teamResponseDto.items.map((item: any) => ({
+    id: item.id,
+    file: item.imgUrl // string (URL)
+  }));
+  this.teamTitle = dados.teamResponseDto.title || '';
+} else {
+  this.equipeCarrossel = [];
+  this.teamTitle = '';
+}
+
   // ...outros campos...
 }
 
@@ -229,6 +287,21 @@ carregarDados(dados: any) {
   removerAccordion(index: number) {
     this.acordions.splice(index, 1);
   }
+
+
+  enviarEquipe() {
+  const formData = new FormData();
+  formData.append('teamTitle', this.teamTitle || '');
+  this.equipeCarrossel.forEach((membro) => {
+    if (membro.file instanceof File) {
+      formData.append('file', membro.file);
+    }
+  });
+  this.serviceapi.postTeam(formData).subscribe({
+    next: (res) => console.log('Equipe enviada', res),
+    error: (err) => console.error('Erro ao enviar equipe', err)
+  });
+}
 
 onFileSelect(event: any, destino: string) {
   const file = event.target.files[0];
@@ -257,7 +330,7 @@ onFileSelect(event: any, destino: string) {
   }
 
 salvar() {
-  // Atualização dos banners existentes (PUT)
+  // --- Atualização dos banners existentes (PUT) ---
   const formDataPut = new FormData();
   if (this.logoImagem) {
     formDataPut.append('headerFile', this.logoImagem);
@@ -277,12 +350,11 @@ salvar() {
   formDataPut.append('presentationSectionSecondStatistic', this.textoManifesto.presentationSectionSecondStatistic || '');
   formDataPut.append('presentationSectionImgDescription', this.textoManifesto.presentationSectionImgDescription || '');
 
-  // Se for arquivo, envie como File
   if (this.conteudoImagem) {
     formDataPut.append('presentationSectionFile', this.conteudoImagem);
   }
 
-  // Só banners existentes (com id)
+  // --- Banners existentes (com id) ---
   this.manifestoImagens
     .filter(img => img.id !== undefined)
     .forEach((img, i) => {
@@ -293,6 +365,18 @@ salvar() {
       formDataPut.append(`bannerItems[${i}].buttonText`, img.buttonText || '');
       formDataPut.append(`bannerItems[${i}].buttonUrl`, img.buttonUrl || '');
     });
+
+  // --- Equipe existente (com id) ---
+  const equipeExistente = this.equipeCarrossel.filter(membro => membro.id !== undefined);
+  if (equipeExistente.length > 0) {
+    formDataPut.append('teamTitle', this.teamTitle || '');
+    equipeExistente.forEach((membro, i) => {
+      formDataPut.append(`teamItems[${i}].id`, membro.id!.toString());
+      if (membro.file instanceof File) {
+        formDataPut.append(`teamItems[${i}].file`, membro.file);
+      }
+    });
+  }
 
   // Visualizar o conteúdo do FormData PUT
   for (const pair of formDataPut.entries()) {
@@ -308,7 +392,7 @@ salvar() {
     }
   });
 
-  // Cadastro de novos banners (POST)
+  // --- Cadastro de novos banners (POST) ---
   const novosBanners = this.manifestoImagens.filter(img => !img.id);
   if (novosBanners.length > 0) {
     const formDataPost = new FormData();
@@ -320,9 +404,8 @@ salvar() {
       formDataPost.append('buttonUrl', img.buttonUrl || '');
     });
 
-    // Visualizar o conteúdo do FormData POST
     for (const pair of formDataPost.entries()) {
-      console.log('POST', pair[0], pair[1]);
+      console.log('POST BANNER', pair[0], pair[1]);
     }
 
     this.serviceapi.postBanner(formDataPost).subscribe({
@@ -331,6 +414,31 @@ salvar() {
       },
       error: (err) => {
         console.error('Erro ao cadastrar novos banners', err);
+      }
+    });
+  }
+
+  // --- Cadastro de novos membros da equipe (POST) ---
+  const novosMembros = this.equipeCarrossel.filter(membro => !membro.id);
+  if (novosMembros.length > 0) {
+    const formDataPostEquipe = new FormData();
+    formDataPostEquipe.append('teamTitle', this.teamTitle || '');
+    novosMembros.forEach((membro) => {
+      if (membro.file instanceof File) {
+        formDataPostEquipe.append('file', membro.file);
+      }
+    });
+
+    for (const pair of formDataPostEquipe.entries()) {
+      console.log('POST EQUIPE', pair[0], pair[1]);
+    }
+
+    this.serviceapi.postTeam(formDataPostEquipe).subscribe({
+      next: (res) => {
+        console.log('Novos membros da equipe enviados com sucesso', res);
+      },
+      error: (err) => {
+        console.error('Erro ao cadastrar novos membros da equipe', err);
       }
     });
   }

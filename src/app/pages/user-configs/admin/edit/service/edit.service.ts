@@ -46,6 +46,16 @@ export class editService {
   return this.http.put(`${this.apiUrl}banner/update`, body);
 }
 
+// team equipe
+   postTeam(formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}team/members/add`, formData, { responseType: 'text' });
+}
+
+
+   DeleteTeam(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}team/member/${id}`, );
+}
+
       
 
 
