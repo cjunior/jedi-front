@@ -64,53 +64,61 @@ export class LadingPageComponent {
     email: ['', [Validators.email, Validators.required]],
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
   });
-  ngOnInit() {
-    this.landingPageService.getdados().subscribe({
-      next: (dados) => {
-        console.log('Dados recebidos:', dados);
-        this.headerResponseDto = {
-          urllogo: dados.headerResponseDto.logoUrl,
-          projeto: dados.headerResponseDto.text1,
-          conteudo: dados.headerResponseDto.text2,
-          ajuda: dados.headerResponseDto.text3,
-          red: dados.headerResponseDto.text4,
-          buttontext: dados.headerResponseDto.buttonText
-        }
-        this.bannerResponseDto = {
-          title: dados.bannerResponseDto.title,
-          description: dados.bannerResponseDto.description
-        }
-        this.teamResponseDto = {
-          equipttext: dados.teamResponseDto.title,
-        }
-        this.presentationSectionResponseDto = {
-          title: dados.presentationSectionResponseDto.title,
-          firstDescription: dados.presentationSectionResponseDto.firstDescription,
-          secondDescription: dados.presentationSectionResponseDto.secondDescription,
-          firstStatistic: dados.presentationSectionResponseDto.firstStatistic,
-          secondStatistic:dados.presentationSectionResponseDto.secondStatistic,
-          imgUrl: dados.presentationSectionResponseDto.imgUrl,
-          imgDescription: dados.presentationSectionResponseDto.imgDescription
-        }
-        this.faqSectionResponseDto = {
-          title: dados.faqSectionResponseDto.title,
-          subtitle: dados.faqSectionResponseDto.subtitle
-        }
-        this.contentResponseDto = {
-           title:dados.contentResponseDto.title,
-        subTitle:dados.contentResponseDto.subTitle,
-        description: dados.contentResponseDto.description,
+ngOnInit() {
+  this.landingPageService.getdados().subscribe({
+    next: (dados) => {
+      console.log('Dados recebidos:', dados);
+
+      this.headerResponseDto = {
+        urllogo: dados.headerResponseDto.logoUrl,
+        projeto: (dados.headerResponseDto.text1 || '').replace(/\s+/g, ' ').trim(),
+        conteudo: (dados.headerResponseDto.text2 || '').replace(/\s+/g, ' ').trim(),
+        ajuda: (dados.headerResponseDto.text3 || '').replace(/\s+/g, ' ').trim(),
+        red: (dados.headerResponseDto.text4 || '').replace(/\s+/g, ' ').trim(),
+        buttontext: (dados.headerResponseDto.buttonText || '').replace(/\s+/g, ' ').trim()
+      };
+
+      this.bannerResponseDto = {
+        title: (dados.bannerResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+        description: (dados.bannerResponseDto.description || '').replace(/\s+/g, ' ').trim()
+      };
+
+      this.teamResponseDto = {
+        equipttext: (dados.teamResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+      };
+
+      this.presentationSectionResponseDto = {
+        title: (dados.presentationSectionResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+        firstDescription: (dados.presentationSectionResponseDto.firstDescription || '').replace(/\s+/g, ' ').trim(),
+        secondDescription: (dados.presentationSectionResponseDto.secondDescription || '').replace(/\s+/g, ' ').trim(),
+        firstStatistic: (dados.presentationSectionResponseDto.firstStatistic || '').replace(/\s+/g, ' ').trim(),
+        secondStatistic: (dados.presentationSectionResponseDto.secondStatistic || '').replace(/\s+/g, ' ').trim(),
+        imgUrl: dados.presentationSectionResponseDto.imgUrl,
+        imgDescription: (dados.presentationSectionResponseDto.imgDescription || '').replace(/\s+/g, ' ').trim()
+      };
+
+      this.faqSectionResponseDto = {
+        title: (dados.faqSectionResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+        subtitle: (dados.faqSectionResponseDto.subtitle || '').replace(/\s+/g, ' ').trim()
+      };
+
+      this.contentResponseDto = {
+        title: (dados.contentResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+        subTitle: (dados.contentResponseDto.subTitle || '').replace(/\s+/g, ' ').trim(),
+        description: (dados.contentResponseDto.description || '').replace(/\s+/g, ' ').trim(),
         mainImg: dados.contentResponseDto.mainImg
-        }
-        this.contactUsResponseDto = {
-          title: dados.contactUsResponseDto.title,
-          subTitle: dados.contactUsResponseDto.subTitle,
-          description: dados.contactUsResponseDto.description
-        }
-        this.carouselImages = dados.bannerResponseDto.items.map((item: any) => item.imgUrl);
-      }
-    })
-  }
+      };
+
+      this.contactUsResponseDto = {
+        title: (dados.contactUsResponseDto.title || '').replace(/\s+/g, ' ').trim(),
+        subTitle: (dados.contactUsResponseDto.subTitle || '').replace(/\s+/g, ' ').trim(),
+        description: (dados.contactUsResponseDto.description || '').replace(/\s+/g, ' ').trim()
+      };
+
+      this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => item.imgUrl);
+    }
+  });
+}
 
   headerResponseDto =
       {
@@ -157,11 +165,7 @@ export class LadingPageComponent {
 
       }
 
-      carouselImages = [
-        './fotoH.jpg',
-        './fotoH2.jpg',
-        './fotoH3.jpg'
-      ];
+    carouselImages: { imgUrl: string }[] = [];
 
 
     cards = [

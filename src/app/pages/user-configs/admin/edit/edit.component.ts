@@ -750,11 +750,7 @@ if (estadoAtual === this.estadoInicial) {
 
       this.serviceapi.postcontent(formDataPostDiverso).subscribe({
         next: (res) => {
-          console.log(
-            'Novos itens do carrossel diverso enviados com sucesso',
-            res
-            
-          );
+       console.log("testandopagina",res);
            this.isLoading = false;
         },
         error: (err) => {
