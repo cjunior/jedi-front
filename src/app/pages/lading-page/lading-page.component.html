@@ -176,18 +176,27 @@
     <img id="contentC" src="./onda2.svg" alt="">
     <div class="container-four">
         <div class="text">
-            <h1>CONTEÚDOS</h1>
+            <h1>{{contentResponseDto.title}}</h1>
             <div class="text-content">
-                <h2>Lorem ipsum </h2>
-                <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.</span>
+                <h2>{{contentResponseDto.subTitle}} </h2>
+                <span>{{contentResponseDto.description}}</span>
             </div>
         </div>
 
-        <div class="card">
-          <div class="content">
-            <h1>PERCURSO BÁSICO</h1>
-          </div>
-        </div>
+     <div
+  class="card"
+  [ngStyle]="{
+    'background-image': 'url(' + contentResponseDto.mainImg + ')',
+    'width': '788px',
+    'height': '403px',
+    'background-repeat': 'no-repeat',
+    'margin-bottom': '40px'
+  }"
+>
+  <div class="content">
+    <h1>PERCURSO BÁSICO</h1>
+  </div>
+</div>
 
     </div>
 
@@ -206,10 +215,10 @@
     <div class="container-seven">
         <div class="container-text">
             <div class="text">
-                <h1>Fale conosco</h1>
-                <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat lobortis dui vitae laoreet. </h2>
+                <h1>{{contactUsResponseDto.title}}</h1>
+                <h2>{{contactUsResponseDto.subTitle}} </h2>
             </div>
-            <h2>Preencha o formulário ao lado para entrar em contato.</h2>
+            <h2>{{contactUsResponseDto.description}}</h2>
         </div>
         <app-form/>
 
