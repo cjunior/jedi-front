@@ -1,5 +1,5 @@
 export const environment = {
     env: 'dev01',
     production: false,
-    apiUrl: 'http://localhost:3000/',
+    apiUrl: 'http://31.97.169.128/',
   };
