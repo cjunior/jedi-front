@@ -1,283 +1,760 @@
 <div class="text mb-4">
   <h2 class="text-lg">Edição da landing page</h2>
-  <p class="text-sm text-gray-600">Clique onde voce quer alterar o texto para poder editar</p>
+  <p class="text-sm text-gray-600">
+    Clique onde voce quer alterar o texto para poder editar
+  </p>
 </div>
 <p-accordion [multiple]="true" class="p-8 bg-gray-100 accordion-gap">
-
- <p-accordionTab header="Logo e Navegação">
-  <div class="col-span-full flex mt-4">
-    <button pButton type="button" label="Imagem de onde está alterando" icon="pi pi-eye" class="p-button-success" (click)="openPreview()"></button>
-  </div>
-
-  <p-dialog [(visible)]="previewVisible" [header]="'Preview da Imagem'" [closable]="true" [modal]="true" [dismissableMask]="true" [style]="{ width: '50vw' }">
-    <div class="flex justify-center items-center">
-      <img [src]="previewImage" alt="Preview" class="max-w-full max-h-full rounded imgr" />
+  <p-accordionTab header="Logo e Navegação">
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/header.png')"
+      ></button>
     </div>
-  </p-dialog>
 
- <p-card header="Logotipo">
-  <!-- Preview da logo -->
-  <img
-    *ngIf="logoImagem ? logoPreview : logoPreviewUrl"
-    [src]="logoImagem ? logoPreview : logoPreviewUrl"
-    class="w-32 h-32 object-cover rounded mb-2"
-  />
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
 
-  <p-fileUpload
-    mode="basic"
-    name="logo"
-    [customUpload]="true"
-    [multiple]="false"
-    accept="image/*"
-    maxFileSize="1000000"
-    chooseIcon="pi pi-upload"
-    chooseLabel="Escolha uma foto"
-    (onSelect)="onLogoSelect($event)">
-  </p-fileUpload>
-</p-card>
+    <p-card header="Logotipo">
+      <img
+        *ngIf="logoImagem ? logoPreview : logoPreviewUrl"
+        [src]="logoImagem ? logoPreview : logoPreviewUrl"
+        class="w-32 h-32 object-cover rounded mb-2"
+      />
 
-  <p-card header="Menu">
-    <input pInputText type="text" [(ngModel)]="menu.headerFile" placeholder="O Projeto" class="w-full mb-2" />
-    <input pInputText type="text" [(ngModel)]="menu.headerText2" placeholder="Conteúdo" class="w-full mb-2" />
-    <input pInputText type="text" [(ngModel)]="menu.headerText3" placeholder="Ajuda" class="w-full mb-2" />
-    <input pInputText type="text" [(ngModel)]="menu.headerText4" placeholder="#RedeJED" class="w-full" />
-  </p-card>
-  <p-card header="Botão">
-    <input pInputText type="text" [(ngModel)]="menu.headerButtonText" placeholder="Nome do Botão" class="w-full" />
-  </p-card>
-</p-accordionTab>
+      <p-fileUpload
+        mode="basic"
+        name="logo"
+        [customUpload]="true"
+        [multiple]="false"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Escolha uma foto"
+        (onSelect)="onLogoSelect($event)"
+      >
+      </p-fileUpload>
+    </p-card>
 
-   <p-accordionTab header="Chamada Principal">
-    <p-card>
-      <input pInputText [(ngModel)]="botaobanner.buttonText" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="botaobanner.buttonUrl" placeholder="Subtítulo" class="w-full" />
+    <p-card header="Menu">
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="menu.headerFile"
+        placeholder="O Projeto"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="menu.headerText2"
+        placeholder="Conteúdo"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="menu.headerText3"
+        placeholder="Ajuda"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="menu.headerText4"
+        placeholder="#RedeJED"
+        class="w-full"
+      />
+    </p-card>
+    <p-card header="Botão">
+      <input
+        pInputText
+        type="text"
+        [(ngModel)]="menu.headerButtonText"
+        placeholder="Nome do Botão"
+        class="w-full"
+      />
     </p-card>
   </p-accordionTab>
 
-<!-- ...existing code... -->
-<p-accordionTab header="Imagem Manifesto">
-  <p-confirmDialog></p-confirmDialog>
-  <p-card header="Imagens do Manifesto">
-    <p-fileUpload
-      mode="basic"
-      name="manifesto"
-      [customUpload]="true"
-      [multiple]="true"
-      accept="image/*"
-      maxFileSize="1000000"
-      chooseIcon="pi pi-upload"
-      chooseLabel="Escolha as fotos"
-      (onSelect)="onManifestoSelect($event)">
-    </p-fileUpload>
-
-   <div class="flex flex-wrap gap-4 mt-4">
- <div *ngFor="let img of manifestoImagens; let i = index" class="relative group w-80">
-  <img [src]="img.file | filePreview" class="w-32 h-32 object-cover rounded border mb-2" />
-
-  <!-- Ícones lado a lado -->
-  <div class="absolute top-2 right-2 flex gap-2 opacity-80 group-hover:opacity-100 transition">
-    <i
-      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer"
-      (click)="confirmDelete(img, i)"
-      title="Remover imagem">
-    </i>
-    <label
-      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center"
-      title="Atualizar imagem">
-      <i class="pi pi-pencil"></i>
-      <input type="file" accept="image/*" class="hidden" (change)="atualizarManifestoImagem($event, i)" />
-    </label>
-  </div>
-
-  <div class="mt-2">
-    <input pInputText type="text" [(ngModel)]="img.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
-    <input pInputText type="text" [(ngModel)]="img.buttonUrl" placeholder="URL do botão" class="w-full" />
-  </div>
-</div>
-</div>
-  </p-card>
-</p-accordionTab>
-
-   <p-accordionTab header="Textos do Manifesto">
+  <p-accordionTab header="Chamada Principal">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt2.PNG')"
+      ></button>
+    </div>
     <p-card>
-      <input pInputText [(ngModel)]="textoManifesto.presentationSectionTitle" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstDescription" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondDescription" placeholder="Subtítulo" class="w-full" />
+      <input
+        pInputText
+        [(ngModel)]="botaobanner.buttonText"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="botaobanner.buttonUrl"
+        placeholder="Subtítulo"
+        class="w-full"
+      />
     </p-card>
   </p-accordionTab>
 
-
- <p-accordionTab header="Destaques do Projeto">
-  <p-card>
-    <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstStatistic" placeholder="Título Bola 1" class="w-full mb-2" />
-    <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondStatistic" placeholder="Título Bola 2" class="w-full mb-2" />
-    <input pInputText [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2">
-
-    <!-- Preview da imagem -->
-    <img
-      *ngIf="presentationSectionFile ? presentationSectionFilePreview : textoManifesto.presentationSectionFile"
-      [src]="presentationSectionFile ? presentationSectionFilePreview : textoManifesto.presentationSectionFile"
-      class="w-32 h-32 object-cover rounded mb-2"
-    />
-
-    <p-fileUpload
-      mode="basic"
-      name="manifesto"
-      [customUpload]="true"
-      [multiple]="false"
-      accept="image/*"
-      maxFileSize="1000000"
-      chooseIcon="pi pi-upload"
-      chooseLabel="Escolha a foto"
-      (onSelect)="onPresentationSectionFileSelect($event)">
-    </p-fileUpload>
-  </p-card>
-</p-accordionTab>
-
-<p-accordionTab header="Carrossel Equipe">
-  <p-card>
-    <input pInputText [(ngModel)]="teamTitle" placeholder="Título do Carrossel" class="w-full mb-4" />
-
-   <div class="flex flex-wrap gap-4 mb-4">
-<div *ngFor="let membro of equipeCarrossel; let i = index" class="relative group w-24 car">
-  <img [src]="membro.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
-
-  <!-- Ícones lado a lado, abaixo da imagem -->
-  <div class="flex gap-2 mb-2 justify-center">
-    <i
-      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
-      (click)="confirmDeleteEquipe(membro, i)"
-      title="Remover membro">
-    </i>
-    <label
-      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
-      title="Atualizar imagem">
-      <i class="pi pi-pencil"></i>
-      <input type="file" accept="image/*" class="hidden" (change)="atualizarEquipeImagem($event, i)" />
-    </label>
-  </div>
-</div>
-</div>
-
-    <!-- Uploader PrimeNG para múltiplas imagens -->
-    <p-fileUpload
-      mode="basic"
-      name="equipe"
-      [customUpload]="true"
-      [multiple]="true"
-      accept="image/*"
-      maxFileSize="1000000"
-      chooseIcon="pi pi-upload"
-      chooseLabel="Adicionar fotos"
-      (onSelect)="onEquipeFileUpload($event)">
-    </p-fileUpload>
-
-    <button pButton type="button" label="Salvar Equipe" icon="pi pi-save" (click)="enviarEquipe()" class="mt-4"></button>
-  </p-card>
-</p-accordionTab>
-
-<p-accordionTab header="Conteúdo com Imagem">
-  <p-card>
-    <input pInputText [(ngModel)]="conteudo.contentTitle" placeholder="Nome Conteúdo" class="w-full mb-2" />
-    <input pInputText [(ngModel)]="conteudo.contentSubTitle" placeholder="Título" class="w-full mb-2" />
-    <input pInputText [(ngModel)]="conteudo.contentDescription" placeholder="Subtítulo" class="w-full mb-2" />
-
-    <!-- Preview da imagem -->
-    <img
-      *ngIf="conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage"
-      [src]="conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage"
-      class="w-32 h-32 object-cover rounded mb-2"
-    />
-
-    <!-- Uploader PrimeNG -->
-    <p-fileUpload
-      mode="basic"
-      name="conteudo"
-      [customUpload]="true"
-      [multiple]="false"
-      accept="image/*"
-      maxFileSize="1000000"
-      chooseIcon="pi pi-upload"
-      chooseLabel="Escolha a imagem"
-      (onSelect)="onConteudoFileSelect($event)">
-    </p-fileUpload>
-  </p-card>
-</p-accordionTab>
-
-<p-accordionTab header="Carrossel Diverso">
-  <p-card>
-    <div class="flex flex-wrap gap-4 mb-4">
-     <div *ngFor="let item of outroCarrossel; let i = index" class="relative group w-24 car">
-  <img [src]="item.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
-
-  <!-- Ícones lado a lado, abaixo da imagem -->
-  <div class="flex gap-2 mb-2 justify-center">
-    <i
-      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
-      (click)="confirmDeleteOutroCarrossel(item, i)"
-      title="Remover imagem">
-    </i>
-    <label
-      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
-      title="Atualizar imagem">
-      <i class="pi pi-pencil"></i>
-      <input type="file" accept="image/*" class="hidden" (change)="atualizarOutroCarrosselImagem($event, i)" />
-    </label>
-  </div>
-</div>
+  <p-accordionTab header="Imagem Manifesto">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt3.PNG')"
+      ></button>
     </div>
+    <p-confirmDialog></p-confirmDialog>
+    <p-card header="Imagens do Manifesto">
+      <p-fileUpload
+        mode="basic"
+        name="manifesto"
+        [customUpload]="true"
+        [multiple]="true"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Escolha as fotos"
+        (onSelect)="onManifestoSelect($event)"
+      >
+      </p-fileUpload>
 
-    <p-fileUpload
-      mode="basic"
-      name="outroCarrossel"
-      [customUpload]="true"
-      [multiple]="true"
-      accept="image/*"
-      maxFileSize="1000000"
-      chooseIcon="pi pi-upload"
-      chooseLabel="Adicionar fotos"
-      (onSelect)="onOutroCarrosselFileUpload($event)">
-    </p-fileUpload>
-  </p-card>
-</p-accordionTab>
+      <div class="flex flex-wrap gap-4 mt-4">
+        <div
+          *ngFor="let img of manifestoImagens; let i = index"
+          class="relative group w-80"
+        >
+          <img
+            [src]="img.file | filePreview"
+            class="w-32 h-32 object-cover rounded border mb-2"
+          />
 
-<p-accordionTab header="Carrossel Diverso">
-  <p-card>
-    <!-- Inputs para título e subtítulo -->
-    <input pInputText [(ngModel)]="faqTitulo" placeholder="Título" class="w-full mb-2" />
-    <input pInputText [(ngModel)]="faqSubtitulo" placeholder="Subtítulo" class="w-full mb-4" />
+          <div
+            class="absolute top-2 right-2 flex gap-2 opacity-80 group-hover:opacity-100 transition"
+          >
+            <i
+              class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer"
+              (click)="confirmDelete(img, i)"
+              title="Remover imagem"
+            >
+            </i>
+            <label
+              class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center"
+              title="Atualizar imagem"
+            >
+              <i class="pi pi-pencil"></i>
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="atualizarManifestoImagem($event, i)"
+              />
+            </label>
+          </div>
 
-    <!-- Accordions editáveis -->
-  <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
-  <div class="font-bold mb-1">Accordion {{ i + 1 }}</div>
-  <input pInputText [(ngModel)]="faq.question" placeholder="Pergunta" class="w-full mb-2" />
-  <input pInputText [(ngModel)]="faq.answer" placeholder="Resposta" class="w-full" />
-</div>
+          <div class="mt-2">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="img.buttonText"
+              placeholder="Nome do botão"
+              class="w-full mb-2"
+            />
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="img.buttonUrl"
+              placeholder="URL do botão"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </p-accordionTab>
 
-  </p-card>
-</p-accordionTab>
+  <p-accordionTab header="Textos do Manifesto">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt4.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionTitle"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionFirstDescription"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionSecondDescription"
+        placeholder="Subtítulo"
+        class="w-full"
+      />
+    </p-card>
+  </p-accordionTab>
+
+  <p-accordionTab header="Destaques do Projeto">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt5.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionFirstStatistic"
+        placeholder="Título Bola 1"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionSecondStatistic"
+        placeholder="Título Bola 2"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="textoManifesto.presentationSectionImgDescription"
+        placeholder="Descrição"
+        class="w-full mb-2"
+      />
+
+      <img
+        *ngIf="
+          presentationSectionFile
+            ? presentationSectionFilePreview
+            : textoManifesto.presentationSectionFile
+        "
+        [src]="
+          presentationSectionFile
+            ? presentationSectionFilePreview
+            : textoManifesto.presentationSectionFile
+        "
+        class="w-32 h-32 object-cover rounded mb-2"
+      />
+
+      <p-fileUpload
+        mode="basic"
+        name="manifesto"
+        [customUpload]="true"
+        [multiple]="false"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Escolha a foto"
+        (onSelect)="onPresentationSectionFileSelect($event)"
+      >
+      </p-fileUpload>
+    </p-card>
+  </p-accordionTab>
+
+  <p-accordionTab header="Carrossel Equipe">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt6.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <input
+        pInputText
+        [(ngModel)]="teamTitle"
+        placeholder="Título do Carrossel"
+        class="w-full mb-4"
+      />
+
+      <div class="flex flex-wrap gap-4 mb-4">
+        <div
+          *ngFor="let membro of equipeCarrossel; let i = index"
+          class="relative group w-24 car"
+        >
+          <img
+            [src]="membro.file | filePreview"
+            class="w-24 h-24 object-cover rounded border mb-2"
+          />
+
+          <div class="flex gap-2 mb-2 justify-center">
+            <i
+              class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+              (click)="confirmDeleteEquipe(membro, i)"
+              title="Remover membro"
+            >
+            </i>
+            <label
+              class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+              title="Atualizar imagem"
+            >
+              <i class="pi pi-pencil"></i>
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="atualizarEquipeImagem($event, i)"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <p-fileUpload
+        mode="basic"
+        name="equipe"
+        [customUpload]="true"
+        [multiple]="true"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Adicionar fotos"
+        (onSelect)="onEquipeFileUpload($event)"
+      >
+      </p-fileUpload>
+    </p-card>
+  </p-accordionTab>
+
+  <p-accordionTab header="Conteúdo com Imagem">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt7.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <input
+        pInputText
+        [(ngModel)]="conteudo.contentTitle"
+        placeholder="Nome Conteúdo"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="conteudo.contentSubTitle"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="conteudo.contentDescription"
+        placeholder="Subtítulo"
+        class="w-full mb-2"
+      />
+
+      <img
+        *ngIf="
+          conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage
+        "
+        [src]="
+          conteudoImagem ? conteudoImagemPreview : conteudo.contentMainImage
+        "
+        class="w-32 h-32 object-cover rounded mb-2"
+      />
+
+      <p-fileUpload
+        mode="basic"
+        name="conteudo"
+        [customUpload]="true"
+        [multiple]="false"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Escolha a imagem"
+        (onSelect)="onConteudoFileSelect($event)"
+      >
+      </p-fileUpload>
+    </p-card>
+  </p-accordionTab>
+
+  <p-accordionTab header="Carrossel Diverso">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt8.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <div class="flex flex-wrap gap-4 mb-4">
+        <div
+          *ngFor="let item of outroCarrossel; let i = index"
+          class="relative group w-24 car"
+        >
+          <img
+            [src]="item.file | filePreview"
+            class="w-24 h-24 object-cover rounded border mb-2"
+          />
+
+          <div class="flex gap-2 mb-2 justify-center">
+            <i
+              class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+              (click)="confirmDeleteOutroCarrossel(item, i)"
+              title="Remover imagem"
+            >
+            </i>
+            <label
+              class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+              title="Atualizar imagem"
+            >
+              <i class="pi pi-pencil"></i>
+              <input
+                type="file"
+                accept="image/*"
+                class="hidden"
+                (change)="atualizarOutroCarrosselImagem($event, i)"
+              />
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <p-fileUpload
+        mode="basic"
+        name="outroCarrossel"
+        [customUpload]="true"
+        [multiple]="true"
+        accept="image/*"
+        maxFileSize="1000000"
+        chooseIcon="pi pi-upload"
+        chooseLabel="Adicionar fotos"
+        (onSelect)="onOutroCarrosselFileUpload($event)"
+      >
+      </p-fileUpload>
+    </p-card>
+  </p-accordionTab>
+
+  <p-accordionTab header="Carrossel Diverso">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt9.PNG')"
+      ></button>
+    </div>
+    <p-card>
+      <input
+        pInputText
+        [(ngModel)]="faqTitulo"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="faqSubtitulo"
+        placeholder="Subtítulo"
+        class="w-full mb-4"
+      />
+
+      <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
+        <div class="font-bold mb-1">Accordion {{ i + 1 }}</div>
+        <input
+          pInputText
+          [(ngModel)]="faq.question"
+          placeholder="Pergunta"
+          class="w-full mb-2"
+        />
+        <input
+          pInputText
+          [(ngModel)]="faq.answer"
+          placeholder="Resposta"
+          class="w-full"
+        />
+      </div>
+    </p-card>
+  </p-accordionTab>
 
   <p-accordionTab header="Rodapé">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt10.PNG')"
+      ></button>
+    </div>
     <p-card>
-      <input pInputText [(ngModel)]="footer.titulo" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="footer.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="footer.descricao" placeholder="Descrição" class="w-full">
+      <input
+        pInputText
+        [(ngModel)]="footer.titulo"
+        placeholder="Título"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="footer.subtitulo"
+        placeholder="Subtítulo"
+        class="w-full mb-2"
+      />
+      <input
+        pInputText
+        [(ngModel)]="footer.descricao"
+        placeholder="Descrição"
+        class="w-full"
+      />
     </p-card>
   </p-accordionTab>
 
   <p-accordionTab header="Carrossel Final de Imagens">
+    <p-dialog
+      [(visible)]="previewVisible"
+      [header]="'Preview da Imagem'"
+      [closable]="true"
+      [modal]="true"
+      [dismissableMask]="true"
+      [style]="{ width: '50vw' }"
+    >
+      <div class="flex justify-center items-center">
+        <img
+          [src]="previewImage"
+          alt="Preview"
+          class="max-w-full max-h-full rounded imgr"
+        />
+      </div>
+    </p-dialog>
+    <div class="col-span-full flex mt-4">
+      <button
+        pButton
+        type="button"
+        label="Imagem de onde está alterando"
+        icon="pi pi-eye"
+        class="p-button-success"
+        (click)="openPreview('/pt2.PNG')"
+      ></button>
+    </div>
     <p-card>
-      <div *ngFor="let file of carrosselFinal; let i = index" class="flex items-center gap-4 mb-2">
-        <img [src]="file | filePreview" class="w-16 h-16 object-cover rounded" />
+      <div
+        *ngFor="let file of carrosselFinal; let i = index"
+        class="flex items-center gap-4 mb-2"
+      >
+        <img
+          [src]="file | filePreview"
+          class="w-16 h-16 object-cover rounded"
+        />
         <span class="text-sm">{{ file.name }}</span>
-        <button pButton icon="pi pi-trash" (click)="removerImagem(carrosselFinal, i)" severity="danger"></button>
+        <button
+          pButton
+          icon="pi pi-trash"
+          (click)="removerImagem(carrosselFinal, i)"
+          severity="danger"
+        ></button>
       </div>
       <input type="file" (change)="onFileSelect($event, 'carrosselFinal')" />
     </p-card>
   </p-accordionTab>
 
   <div class="col-span-full flex justify-center mt-4">
-    <button pButton type="button" label="Salvar" icon="pi pi-save" class="p-button-success" (click)="salvar()"></button>
+    <button
+      pButton
+      type="button"
+      label="Salvar"
+      icon="pi pi-save"
+      class="p-button-success"
+      (click)="salvar()"
+    ></button>
   </div>
-
 </p-accordion>
