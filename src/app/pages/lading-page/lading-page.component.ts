@@ -20,6 +20,15 @@ import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 
+interface BlogCard {
+  titulo: string;
+  autor: string;
+  data: string;
+  tempoLeitura: string;
+  imagem: string;
+  descricaoImagem: string;
+}
+
 @Component({
   selector: 'app-lading-page',
   imports: [
@@ -57,6 +66,10 @@ export class LadingPageComponent {
   teamResponseDto = {
   equipttext: 'Equipe'
   }
+blogDestaque: BlogCard | null = null;
+  redeJediSectionDto = {
+    titulo: 'REDE JEDI',
+  }
   
 
   form = this.formBuilder.group({
@@ -68,7 +81,11 @@ ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
       console.log('Dados recebidos:', dados);
+       const blogItems = dados.blogSectionResponseDto?.items || [];
 
+      this.redeJediSectionDto = {
+        titulo: (dados.redeJediSectionDto.titulo || '').replace(/\s+/g, ' ').trim(),
+      };
       this.headerResponseDto = {
         urllogo: dados.headerResponseDto.logoUrl,
         projeto: (dados.headerResponseDto.text1 || '').replace(/\s+/g, ' ').trim(),
@@ -106,7 +123,9 @@ ngOnInit() {
         title: (dados.contentResponseDto.title || '').replace(/\s+/g, ' ').trim(),
         subTitle: (dados.contentResponseDto.subTitle || '').replace(/\s+/g, ' ').trim(),
         description: (dados.contentResponseDto.description || '').replace(/\s+/g, ' ').trim(),
-        mainImg: dados.contentResponseDto.mainImg
+        mainImg: dados.contentResponseDto.mainImg,
+        mainImgDescription: (dados.contentResponseDto.mainImgText || '').replace(/\s+/g, ' ').trim()
+
       };
 
       this.contactUsResponseDto = {
@@ -114,6 +133,25 @@ ngOnInit() {
         subTitle: (dados.contactUsResponseDto.subTitle || '').replace(/\s+/g, ' ').trim(),
         description: (dados.contactUsResponseDto.description || '').replace(/\s+/g, ' ').trim()
       };
+
+        this.blogDestaque = blogItems.length > 0 ? {
+        titulo: (blogItems[0].title || '').replace(/\s+/g, ' ').trim(),
+        autor: (blogItems[0].author || '').replace(/\s+/g, ' ').trim(),
+        data: (blogItems[0].date || '').replace(/\s+/g, ' ').trim(),
+        tempoLeitura: (blogItems[0].readingTime || '').replace(/\s+/g, ' ').trim(),
+        imagem: blogItems[0].imageUrl,
+        descricaoImagem: (blogItems[0].imageDescription || '').replace(/\s+/g, ' ').trim()
+      } : null;
+
+      // Restante dos cards
+      this.cards = blogItems.slice(1).map((item: any) => ({
+        titulo: (item.title || '').replace(/\s+/g, ' ').trim(),
+        autor: (item.author || '').replace(/\s+/g, ' ').trim(),
+        data: (item.date || '').replace(/\s+/g, ' ').trim(),
+        tempoLeitura: (item.readingTime || '').replace(/\s+/g, ' ').trim(),
+        imagem: item.imageUrl,
+        descricaoImagem: (item.imageDescription || '').replace(/\s+/g, ' ').trim()
+      }));
 
       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => item.imgUrl);
     }
@@ -155,7 +193,8 @@ ngOnInit() {
         title: "CONTEÚDOS",
         subTitle:"Lorem ipsum",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ac ullamcorper metus.",
-        mainImg: "./fotoH.jpg"
+        mainImg: "./fotoH.jpg",
+        mainImgDescription: "PERCURSO BÁSICO"
       }
       
       contactUsResponseDto = {

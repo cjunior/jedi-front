@@ -116,6 +116,7 @@ isLoading = false;
     contentSubTitle: '',
     contentDescription: '',
     contentMainImage: '',
+    mainImgText: '',
   };
   conteudoImagem: File | null = null;
 
@@ -373,6 +374,7 @@ isLoading = false;
         contentSubTitle: dados.contentResponseDto.subTitle || '',
         contentDescription: dados.contentResponseDto.description || '',
         contentMainImage: dados.contentResponseDto.mainImg || '',
+        mainImgText: dados.contentResponseDto.mainImgText || '',
       };
 
       // Carregar o carrossel diverso
@@ -393,6 +395,7 @@ isLoading = false;
         contentSubTitle: '',
         contentDescription: '',
         contentMainImage: '',
+        mainImgText: '',
       };
       this.outroCarrossel = [];
     }
@@ -557,6 +560,7 @@ if (estadoAtual === this.estadoInicial) {
     formDataPut.append('headerButtonText', this.menu.headerButtonText || '');
     formDataPut.append('bannerTitle', this.botaobanner.buttonText || '');
     formDataPut.append('bannerDescription', this.botaobanner.buttonUrl || '');
+    formDataPut.append('contentMainImageText', this.conteudo.mainImgText || '');
 
     formDataPut.append(
       'presentationSectionTitle',
