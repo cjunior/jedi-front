@@ -70,31 +70,31 @@
       (onSelect)="onManifestoSelect($event)">
     </p-fileUpload>
 
-    <div class="flex flex-wrap gap-4 mt-4">
-      <div *ngFor="let img of manifestoImagens; let i = index" class="relative group w-80">
-        <img [src]="img.file | filePreview" class="w-32 h-32 object-cover rounded border mb-2" />
+   <div class="flex flex-wrap gap-4 mt-4">
+ <div *ngFor="let img of manifestoImagens; let i = index" class="relative group w-80">
+  <img [src]="img.file | filePreview" class="w-32 h-32 object-cover rounded border mb-2" />
 
-        <button
-          type="button"
-          class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
-          (click)="confirmDelete(img, i)"
-          title="Remover imagem">
-          <i class="pi pi-trash"></i>
-        </button>
+  <!-- Ícones lado a lado -->
+  <div class="absolute top-2 right-2 flex gap-2 opacity-80 group-hover:opacity-100 transition">
+    <i
+      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer"
+      (click)="confirmDelete(img, i)"
+      title="Remover imagem">
+    </i>
+    <label
+      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center"
+      title="Atualizar imagem">
+      <i class="pi pi-pencil"></i>
+      <input type="file" accept="image/*" class="hidden" (change)="atualizarManifestoImagem($event, i)" />
+    </label>
+  </div>
 
-        <label
-          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
-          title="Atualizar imagem">
-          <i class="pi pi-pencil"></i>
-          <input type="file" accept="image/*" class="hidden" (change)="atualizarManifestoImagem($event, i)" />
-        </label>
-
-        <div class="mt-2">
-          <input pInputText type="text" [(ngModel)]="img.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
-          <input pInputText type="text" [(ngModel)]="img.buttonUrl" placeholder="URL do botão" class="w-full" />
-        </div>
-      </div>
-    </div>
+  <div class="mt-2">
+    <input pInputText type="text" [(ngModel)]="img.buttonText" placeholder="Nome do botão" class="w-full mb-2" />
+    <input pInputText type="text" [(ngModel)]="img.buttonUrl" placeholder="URL do botão" class="w-full" />
+  </div>
+</div>
+</div>
   </p-card>
 </p-accordionTab>
 
@@ -111,7 +111,7 @@
   <p-card>
     <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstStatistic" placeholder="Título Bola 1" class="w-full mb-2" />
     <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondStatistic" placeholder="Título Bola 2" class="w-full mb-2" />
-    <textarea pInputTextarea [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2"></textarea>
+    <input pInputText [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2">
 
     <!-- Preview da imagem -->
     <img
@@ -138,24 +138,26 @@
   <p-card>
     <input pInputText [(ngModel)]="teamTitle" placeholder="Título do Carrossel" class="w-full mb-4" />
 
-    <div class="flex flex-wrap gap-4 mb-4">
-      <div *ngFor="let membro of equipeCarrossel; let i = index" class="relative group w-40">
-        <img [src]="membro.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
-       <button
-  type="button"
-  class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
-  (click)="confirmDeleteEquipe(membro, i)"
-  title="Remover membro">
-  <i class="pi pi-trash"></i>
-</button>
-        <label
-          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
-          title="Atualizar imagem">
-          <i class="pi pi-pencil"></i>
-          <input type="file" accept="image/*" class="hidden" (change)="atualizarEquipeImagem($event, i)" />
-        </label>
-      </div>
-    </div>
+   <div class="flex flex-wrap gap-4 mb-4">
+<div *ngFor="let membro of equipeCarrossel; let i = index" class="relative group w-24 car">
+  <img [src]="membro.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
+
+  <!-- Ícones lado a lado, abaixo da imagem -->
+  <div class="flex gap-2 mb-2 justify-center">
+    <i
+      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+      (click)="confirmDeleteEquipe(membro, i)"
+      title="Remover membro">
+    </i>
+    <label
+      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+      title="Atualizar imagem">
+      <i class="pi pi-pencil"></i>
+      <input type="file" accept="image/*" class="hidden" (change)="atualizarEquipeImagem($event, i)" />
+    </label>
+  </div>
+</div>
+</div>
 
     <!-- Uploader PrimeNG para múltiplas imagens -->
     <p-fileUpload
@@ -205,22 +207,24 @@
 <p-accordionTab header="Carrossel Diverso">
   <p-card>
     <div class="flex flex-wrap gap-4 mb-4">
-      <div *ngFor="let item of outroCarrossel; let i = index" class="relative group w-40">
-        <img [src]="item.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
-        <button
-          type="button"
-          class="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg opacity-80 group-hover:opacity-100 transition"
-          (click)="confirmDeleteOutroCarrossel(item, i)"
-          title="Remover imagem">
-          <i class="pi pi-trash"></i>
-        </button>
-        <label
-          class="absolute bottom-2 left-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 group-hover:opacity-100 transition flex items-center"
-          title="Atualizar imagem">
-          <i class="pi pi-pencil"></i>
-          <input type="file" accept="image/*" class="hidden" (change)="atualizarOutroCarrosselImagem($event, i)" />
-        </label>
-      </div>
+     <div *ngFor="let item of outroCarrossel; let i = index" class="relative group w-24 car">
+  <img [src]="item.file | filePreview" class="w-24 h-24 object-cover rounded border mb-2" />
+
+  <!-- Ícones lado a lado, abaixo da imagem -->
+  <div class="flex gap-2 mb-2 justify-center">
+    <i
+      class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+      (click)="confirmDeleteOutroCarrossel(item, i)"
+      title="Remover imagem">
+    </i>
+    <label
+      class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+      title="Atualizar imagem">
+      <i class="pi pi-pencil"></i>
+      <input type="file" accept="image/*" class="hidden" (change)="atualizarOutroCarrosselImagem($event, i)" />
+    </label>
+  </div>
+</div>
     </div>
 
     <p-fileUpload
@@ -244,10 +248,11 @@
     <input pInputText [(ngModel)]="faqSubtitulo" placeholder="Subtítulo" class="w-full mb-4" />
 
     <!-- Accordions editáveis -->
-    <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
-      <input pInputText [(ngModel)]="faq.question" placeholder="Pergunta" class="w-full mb-2" />
-      <textarea pInputTextarea [(ngModel)]="faq.answer" placeholder="Resposta" rows="2" class="w-full"></textarea>
-    </div>
+  <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
+  <div class="font-bold mb-1">Accordion {{ i + 1 }}</div>
+  <input pInputText [(ngModel)]="faq.question" placeholder="Pergunta" class="w-full mb-2" />
+  <input pInputText [(ngModel)]="faq.answer" placeholder="Resposta" class="w-full" />
+</div>
 
   </p-card>
 </p-accordionTab>
@@ -256,7 +261,7 @@
     <p-card>
       <input pInputText [(ngModel)]="footer.titulo" placeholder="Título" class="w-full mb-2" />
       <input pInputText [(ngModel)]="footer.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
-      <textarea pInputTextarea [(ngModel)]="footer.descricao" placeholder="Descrição" class="w-full"></textarea>
+      <input pInputText [(ngModel)]="footer.descricao" placeholder="Descrição" class="w-full">
     </p-card>
   </p-accordionTab>
 
