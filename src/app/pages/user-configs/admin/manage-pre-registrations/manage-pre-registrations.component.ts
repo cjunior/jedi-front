@@ -1,15 +1,16 @@
-import { Component, signal, type OnInit } from '@angular/core';
+import { Component, inject, signal, type OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { Toolbar } from 'primeng/toolbar';
-import { IconField, IconFieldModule } from 'primeng/iconfield';
-import { MenuItem } from 'primeng/api';
-import { InputIcon, InputIconModule } from 'primeng/inputicon';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PanelModule } from 'primeng/panel';
-import { TableModule } from 'primeng/table';
+import { TableModule, type TableLazyLoadEvent } from 'primeng/table';
 import { InputMask } from 'primeng/inputmask';
 import { PopoverModule } from 'primeng/popover';
+import { PreRegistrationService } from '../../../../core/services/pre-registration.service';
+import { Tag } from 'primeng/tag';
+import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-manage-pre-registration',
@@ -21,82 +22,39 @@ import { PopoverModule } from 'primeng/popover';
     TableModule,
     IconFieldModule,
     InputIconModule,
-    InputMask,
-    PopoverModule
+    // InputMask,
+    PopoverModule,
+    Tag,
+    TruncatePipe
   ],
   templateUrl: './manage-pre-registrations.component.html',
   styleUrl: './manage-pre-registrations.component.scss'
 })
-export class ManagePreRegistrationsComponent implements OnInit{
-  protected items = signal<MenuItem[]>([]);
+export class ManagePreRegistrationsComponent implements OnInit {
+  private readonly preRegistrationService = inject(PreRegistrationService);
+
+  protected loading = signal<boolean>(true);
+  protected page = signal<number>(0);
+  protected size = signal<number>(5);
   protected customers = signal<any[]>([]);
-  loading = signal<boolean>(true);
+  protected totalRecords = signal<number>(0);
 
   ngOnInit(): void {
-    this.items.set([
-      {
-        label: 'Editar',
-        icon: 'pi pi-refresh',
+    this.loadPage({ first: 0, rows: this.size() });
+  }
+
+  loadPage(event: TableLazyLoadEvent) {
+    this.loading.set(true);
+    const currentPage = (event.first ?? 0) / (event.rows ?? 10);
+    const pageSize = event.rows ?? 10;
+
+    this.preRegistrationService.getRegistrations(currentPage, pageSize).subscribe({
+      next: (res: any) => {
+        this.customers.set(res?.content ?? []);
+        this.totalRecords.set(res?.totalElements ?? 0);
+        this.loading.set(false);
       },
-      {
-        label: 'Apagar',
-        icon: 'pi pi-times',
-      },
-    ]);
-    setTimeout(() => {
-      this.customers.set([
-        {
-          name: 'João da Silva',
-          email: 'joaosilva@gmail.com',
-          phone: '11999999999',
-        },
-        {
-          name: 'Maria Oliveira',
-          email: 'mariaoliveira@gmail.com',
-          phone: '11999999998',
-        },
-        {
-          name: 'Carlos Souza',
-          email: 'carlossouza@gmail.com',
-          phone: '11999999997',
-        },
-        {
-          name: 'Ana Costa',
-          email: 'anaconsta@gmail.com',
-          phone: '11999999996',
-        },
-        {
-          name: 'Pedro Santos',
-          email: 'pedrosantos@gmail.com',
-          phone: '11999999995',
-        },
-        {
-          name: 'Lucia Pereira',
-          email: 'luciapereira@gmail.com',
-          phone: '11999999994',
-        },
-        {
-          name: 'Roberto Lima',
-          email: 'robertolima@gmail.com',
-          phone: '11999999993',
-        },
-        {
-          name: 'Fernanda Almeida',
-          email: 'fernandaalmeida@gmail.com',
-          phone: '11999999992',
-        },
-        {
-          name: 'Ricardo Martins',
-          email: 'ricardomartins@gmail.com',
-          phone: '11999999991',
-        },
-        {
-          name: 'Tatiane Rocha',
-          email: 'tatianerocha@gmail.com',
-          phone: '11999999990',
-        },
-      ])
-    }, 1000)
-    this.loading.set(false);
+      error: () => this.loading.set(false)
+    });
   }
 }

@@ -11,7 +11,11 @@ export interface ICompleteRegistrationPayload {
   rg: string;
   document: File; // ou Blob, mas normalmente será File
   proofOfAdress: File;
-  }
+}
+
+export interface ICompleteRegister extends IPreRegistration, ICompleteRegistrationPayload {
+
+}
 
 export interface IPreRegistrationResponse {
   expiration: string;
