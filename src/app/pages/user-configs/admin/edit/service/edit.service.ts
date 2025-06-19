@@ -20,7 +20,7 @@ export class editService {
       }
 
        putdadosall(formData: FormData): Observable<any> {
-        return this.http.put(`${this.apiUrl}loadlandpage/update-all`, formData);
+        return this.http.put(`${this.apiUrl}loadlandpage/update-all`, formData,  { responseType: 'text' });
       }
 
 
