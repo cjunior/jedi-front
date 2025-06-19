@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
+import { landingPageService } from '../../services/lading-page.service';
 
 @Component({
   selector: 'app-carousel-square',
@@ -9,19 +10,23 @@ import { CarouselModule } from 'primeng/carousel';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselSquareComponent {
-  items = [
-    '/diva2.svg',
-    '/fotoca.png',
-    '/diva2.svg',
-    '/fotoca.png',
-    '/diva2.svg',
-    '/fotoca.png',
-    '/diva2.svg',
-    '/fotoca.png',
-    '/diva2.svg',
-    '/fotoca.png'
-  ];
+export class CarouselSquareComponent implements OnInit {
+  private readonly landingPageService = inject(landingPageService);
+  items: { image: string; alt: string; text: string }[] = [];
+
+  ngOnInit() {
+    this.landingPageService.getdados().subscribe({
+      next: (dados) => {
+        this.items = (dados.contentResponseDto.items || []).map((item: any) => {
+          return {
+            image: item.imgUrl,
+            alt: item.imgText || 'Imagem do item',
+            text: item.imgText || ''
+          };
+        });
+      }
+    });
+  }
 
   responsiveOptions = [
     {
