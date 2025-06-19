@@ -12,6 +12,15 @@ export class PreRegistrationService {
   private readonly apiUrl = environment.apiUrl;
   private readonly http = inject(HttpClient)
 
+  getRegistrations(page = 0, size = 10): Observable<IPreRegistration[]> {
+    return this.http.get<IPreRegistration[]>(`${this.apiUrl}management/pre-inscricoes`, {
+      params: {
+        page: page.toString(),
+        size: size.toString()
+      }
+    });
+  }
+
   makePreRegistration(payload: IPreRegistration): Observable<IPreRegistrationResponse> {
     return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload);
   }
