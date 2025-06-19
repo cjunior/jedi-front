@@ -46,15 +46,17 @@ export class AdminDashboardComponent implements OnInit {
   private readonly confirmationService = inject(ConfirmationService);
 
   logo = '';
-  menu = {
-    headerFile: '',
-    headerText1: '',
-    headerText2: '',
-    headerText3: '',
-    headerText4: '',
-    headerButtonText: '',
+ logoPreview: string | null = null;
 
-  };
+  logoPreviewUrl: string = '';
+logoImagem: File | null = null;
+menu = {
+  headerFile: '',
+  headerText2: '',
+  headerText3: '',
+  headerText4: '',
+  headerButtonText: ''
+};
 
 manifestoImagens: { id?: number; file: File | string; buttonText: string; buttonUrl: string }[] = [];
 botaobanner = {
@@ -63,8 +65,11 @@ botaobanner = {
  
 };
 
-  logoImagem: File | null = null;
+ 
 
+faqTitulo: string = '';
+faqSubtitulo: string = '';
+faqItens: { id: number, question: string, answer: string, position: number }[] = [];
 
   manifestoImagem: File | null = null;
 
@@ -72,6 +77,10 @@ botaobanner = {
     titulo: '',
     subtitulo: ''
   };
+
+  presentationSectionFile: File | null = null;
+presentationSectionFilePreview: string | null = null;
+
 
   textoManifesto = {
     presentationSectionTitle: '',
@@ -154,6 +163,8 @@ atualizarOutroCarrosselImagem(event: any, index: number) {
     this.outroCarrossel[index].file = file;
   }
 }
+
+
 
 // Remover com confirmação
 confirmDeleteOutroCarrossel(item: any, index: number) {
@@ -278,11 +289,52 @@ atualizarManifestoImagem(event: any, index: number) {
 onLogoSelect(event: any) {
   if (event.files && event.files.length > 0) {
     this.logoImagem = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.logoPreview = e.target.result;
+    };
+    reader.readAsDataURL(this.logoImagem as Blob);
+  }
+}
+
+onPresentationSectionFileSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    this.presentationSectionFile = event.files[0];
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.presentationSectionFilePreview = e.target.result;
+    };
+    reader.readAsDataURL(this.presentationSectionFile as Blob);
   }
 }
 
 carregarDados(dados: any) {
+
+
   // ...outros campos...
+if(dados.contactUsResponseDto) {
+  this.footer.titulo = dados.contactUsResponseDto.title || '';
+  this.footer.subtitulo = dados.contactUsResponseDto.subTitle || '';
+  this.footer.descricao = dados.contactUsResponseDto.description || '';
+}
+  if(dados.teamResponseDto){
+    this.teamTitle = dados.teamResponseDto.title || '';
+  }
+  if(dados.bannerResponseDto){
+    this.botaobanner.buttonText = dados.bannerResponseDto.title || '';
+    this.botaobanner.buttonUrl = dados.bannerResponseDto.description || '';
+  }
+  if (dados.presentationSectionResponseDto) {
+  this.textoManifesto.presentationSectionTitle = dados.presentationSectionResponseDto.title || '';
+  this.textoManifesto.presentationSectionFirstDescription = dados.presentationSectionResponseDto.firstDescription || '';
+  this.textoManifesto.presentationSectionSecondDescription = dados.presentationSectionResponseDto.secondDescription || '';
+  this.textoManifesto.presentationSectionFirstStatistic = dados.presentationSectionResponseDto.firstStatistic || '';
+  this.textoManifesto.presentationSectionSecondStatistic = dados.presentationSectionResponseDto.secondStatistic || '';
+  this.textoManifesto.presentationSectionFile = dados.presentationSectionResponseDto.imgUrl || '';
+  this.textoManifesto.presentationSectionImgDescription = dados.presentationSectionResponseDto.imgDescription || '';
+  this.presentationSectionFile = null;
+  this.presentationSectionFilePreview = null;
+}
 
   if (dados.bannerResponseDto && dados.bannerResponseDto.items) {
     this.manifestoImagens = dados.bannerResponseDto.items.map((item: any) => ({
@@ -332,6 +384,41 @@ carregarDados(dados: any) {
       contentMainImage: ''
     };
     this.outroCarrossel = [];
+  }
+
+  if (dados.faqSectionResponseDto) {
+  this.faqTitulo = dados.faqSectionResponseDto.title || '';
+  this.faqSubtitulo = dados.faqSectionResponseDto.subtitle || '';
+  this.faqItens = dados.faqSectionResponseDto.items || [];
+} else {
+  this.faqTitulo = '';
+  this.faqSubtitulo = '';
+  this.faqItens = [];
+}
+
+ if (dados.headerResponseDto) {
+    // Logo
+    this.logoPreviewUrl = dados.headerResponseDto.logoUrl || '';
+    this.logoImagem = null; // Limpa o File, pois está vindo do backend
+
+    // Menu
+    this.menu = {
+      headerFile: dados.headerResponseDto.text1 || '',
+      headerText2: dados.headerResponseDto.text2 || '',
+      headerText3: dados.headerResponseDto.text3 || '',
+      headerText4: dados.headerResponseDto.text4 || '',
+      headerButtonText: dados.headerResponseDto.buttonText || ''
+    };
+  } else {
+    this.logoPreviewUrl = '';
+    this.logoImagem = null;
+    this.menu = {
+      headerFile: '',
+      headerText2: '',
+      headerText3: '',
+      headerText4: '',
+      headerButtonText: ''
+    };
   }
 
   // ...outros campos...
@@ -427,6 +514,10 @@ salvar() {
   formDataPut.append('presentationSectionSecondStatistic', this.textoManifesto.presentationSectionSecondStatistic || '');
   formDataPut.append('presentationSectionImgDescription', this.textoManifesto.presentationSectionImgDescription || '');
 
+  formDataPut.append('contactTitle', this.footer.titulo || '');
+formDataPut.append('contactSubTitle', this.footer.subtitulo || '');
+formDataPut.append('contactDescription', this.footer.descricao || '');
+
   if (this.conteudoImagem) {
     formDataPut.append('presentationSectionFile', this.conteudoImagem);
   }
@@ -437,6 +528,18 @@ salvar() {
   if (this.conteudoImagem) {
     formDataPut.append('contentMainImage', this.conteudoImagem);
   }
+
+  // --- FAQ (accordions) ---
+if (this.faqItens && this.faqItens.length > 0) {
+  this.faqItens.forEach((faq, i) => {
+    formDataPut.append(`faqItems[${i}].id`, faq.id ? faq.id.toString() : '0');
+    formDataPut.append(`faqItems[${i}].question`, faq.question || '');
+    formDataPut.append(`faqItems[${i}].answer`, faq.answer || '');
+  });
+}
+formDataPut.append('faqTitle', this.faqTitulo || '');
+formDataPut.append('faqSubtitle', this.faqSubtitulo || '');
+
 
   // --- Banners existentes (com id) ---
   this.manifestoImagens

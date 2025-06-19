@@ -4,49 +4,53 @@
 </div>
 <p-accordion [multiple]="true" class="p-8 bg-gray-100 accordion-gap">
 
-  <p-accordionTab header="Logo e Navegação">
-    <div class="col-span-full flex mt-4">
-      <button pButton type="button" label="Imagem de onde está alterando" icon="pi pi-eye" class="p-button-success" (click)="openPreview()"></button>
+ <p-accordionTab header="Logo e Navegação">
+  <div class="col-span-full flex mt-4">
+    <button pButton type="button" label="Imagem de onde está alterando" icon="pi pi-eye" class="p-button-success" (click)="openPreview()"></button>
+  </div>
+
+  <p-dialog [(visible)]="previewVisible" [header]="'Preview da Imagem'" [closable]="true" [modal]="true" [dismissableMask]="true" [style]="{ width: '50vw' }">
+    <div class="flex justify-center items-center">
+      <img [src]="previewImage" alt="Preview" class="max-w-full max-h-full rounded imgr" />
     </div>
-    
-    <p-dialog [(visible)]="previewVisible" [header]="'Preview da Imagem'" [closable]="true" [modal]="true" [dismissableMask]="true" [style]="{ width: '50vw' }">
-      <div class="flex justify-center items-center">
-        <img [src]="previewImage" alt="Preview" class="max-w-full max-h-full rounded imgr" />
-      </div>
-    </p-dialog>
-    
-    <p-card header="Logotipo">
-<p-fileUpload
-  name="logo"
-  [customUpload]="true"
-  accept="image/*"
-  maxFileSize="1000000"
-  mode="advanced"
-  [showUploadButton]="false"
-  [showCancelButton]="false"
-  (onSelect)="onLogoSelect($event)"
-  chooseLabel="Escolha uma foto">
-  <ng-template #empty>
-    <div>Arraste a imagem aqui ou clique para selecionar.</div>
-  </ng-template>
-</p-fileUpload>
+  </p-dialog>
+
+ <p-card header="Logotipo">
+  <!-- Preview da logo -->
+  <img
+    *ngIf="logoImagem ? logoPreview : logoPreviewUrl"
+    [src]="logoImagem ? logoPreview : logoPreviewUrl"
+    class="w-32 h-32 object-cover rounded mb-2"
+  />
+
+  <p-fileUpload
+    mode="basic"
+    name="logo"
+    [customUpload]="true"
+    [multiple]="false"
+    accept="image/*"
+    maxFileSize="1000000"
+    chooseIcon="pi pi-upload"
+    chooseLabel="Escolha uma foto"
+    (onSelect)="onLogoSelect($event)">
+  </p-fileUpload>
 </p-card>
-    
-    <p-card header="Menu">
-      <input pInputText type="text" [(ngModel)]="menu.headerFile" placeholder="O Projeto" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.headerText2" placeholder="Conteúdo" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.headerText3" placeholder="Ajuda" class="w-full mb-2" />
-      <input pInputText type="text" [(ngModel)]="menu.headerText4" placeholder="#RedeJED" class="w-full" />
-    </p-card>
-    <p-card header="Botão">
-      <input pInputText type="titulo do botão" [(ngModel)]="menu.headerButtonText" placeholder="Nome do Botão" class="w-full" />
-    </p-card>
-  </p-accordionTab>
+
+  <p-card header="Menu">
+    <input pInputText type="text" [(ngModel)]="menu.headerFile" placeholder="O Projeto" class="w-full mb-2" />
+    <input pInputText type="text" [(ngModel)]="menu.headerText2" placeholder="Conteúdo" class="w-full mb-2" />
+    <input pInputText type="text" [(ngModel)]="menu.headerText3" placeholder="Ajuda" class="w-full mb-2" />
+    <input pInputText type="text" [(ngModel)]="menu.headerText4" placeholder="#RedeJED" class="w-full" />
+  </p-card>
+  <p-card header="Botão">
+    <input pInputText type="text" [(ngModel)]="menu.headerButtonText" placeholder="Nome do Botão" class="w-full" />
+  </p-card>
+</p-accordionTab>
 
    <p-accordionTab header="Chamada Principal">
     <p-card>
-      <input pInputText [(ngModel)]="chamada.titulo" placeholder="Título" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="chamada.subtitulo" placeholder="Subtítulo" class="w-full" />
+      <input pInputText [(ngModel)]="botaobanner.buttonText" placeholder="Título" class="w-full mb-2" />
+      <input pInputText [(ngModel)]="botaobanner.buttonUrl" placeholder="Subtítulo" class="w-full" />
     </p-card>
   </p-accordionTab>
 
@@ -103,14 +107,32 @@
   </p-accordionTab>
 
 
-  <p-accordionTab header="Destaques do Projeto">
-    <p-card>
-      <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstStatistic" placeholder="Título Bola 1" class="w-full mb-2" />
-      <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondStatistic" placeholder="Título Bola 2" class="w-full mb-2" />
-      <textarea pInputTextarea [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2"></textarea>
-      <input type="file" (change)="onFileSelect($event, 'conteudoImagem')" />
-    </p-card>
-  </p-accordionTab>
+ <p-accordionTab header="Destaques do Projeto">
+  <p-card>
+    <input pInputText [(ngModel)]="textoManifesto.presentationSectionFirstStatistic" placeholder="Título Bola 1" class="w-full mb-2" />
+    <input pInputText [(ngModel)]="textoManifesto.presentationSectionSecondStatistic" placeholder="Título Bola 2" class="w-full mb-2" />
+    <textarea pInputTextarea [(ngModel)]="textoManifesto.presentationSectionImgDescription" placeholder="Descrição" class="w-full mb-2"></textarea>
+
+    <!-- Preview da imagem -->
+    <img
+      *ngIf="presentationSectionFile ? presentationSectionFilePreview : textoManifesto.presentationSectionFile"
+      [src]="presentationSectionFile ? presentationSectionFilePreview : textoManifesto.presentationSectionFile"
+      class="w-32 h-32 object-cover rounded mb-2"
+    />
+
+    <p-fileUpload
+      mode="basic"
+      name="manifesto"
+      [customUpload]="true"
+      [multiple]="false"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Escolha a foto"
+      (onSelect)="onPresentationSectionFileSelect($event)">
+    </p-fileUpload>
+  </p-card>
+</p-accordionTab>
 
 <p-accordionTab header="Carrossel Equipe">
   <p-card>
@@ -215,17 +237,20 @@
   </p-card>
 </p-accordionTab>
 
-  <p-accordionTab header="Acordions Dinâmicos">
-    <div *ngFor="let item of acordions; let i = index" class="mb-4">
-      <p-card>
-        <input pInputText [(ngModel)]="item.titulo" placeholder="Título" class="w-full mb-2" />
-        <input pInputText [(ngModel)]="item.subtitulo" placeholder="Subtítulo" class="w-full mb-2" />
-        <textarea pInputTextarea [(ngModel)]="item.texto" placeholder="Texto" class="w-full"></textarea>
-        <button pButton icon="pi pi-trash" label="Remover" (click)="removerAccordion(i)" class="mt-2 p-button-danger"></button>
-      </p-card>
+<p-accordionTab header="Carrossel Diverso">
+  <p-card>
+    <!-- Inputs para título e subtítulo -->
+    <input pInputText [(ngModel)]="faqTitulo" placeholder="Título" class="w-full mb-2" />
+    <input pInputText [(ngModel)]="faqSubtitulo" placeholder="Subtítulo" class="w-full mb-4" />
+
+    <!-- Accordions editáveis -->
+    <div *ngFor="let faq of faqItens; let i = index" class="mb-4">
+      <input pInputText [(ngModel)]="faq.question" placeholder="Pergunta" class="w-full mb-2" />
+      <textarea pInputTextarea [(ngModel)]="faq.answer" placeholder="Resposta" rows="2" class="w-full"></textarea>
     </div>
-    <button pButton icon="pi pi-plus" label="Adicionar Acordion" (click)="adicionarAccordion()" class="p-button-success"></button>
-  </p-accordionTab>
+
+  </p-card>
+</p-accordionTab>
 
   <p-accordionTab header="Rodapé">
     <p-card>
