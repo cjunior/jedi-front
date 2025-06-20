@@ -73,6 +73,9 @@ blogDestaque: BlogCard | null = null;
   }
 
   
+openBannerUrl(url: string) {
+  window.open(url, '_blank');
+}
 
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
@@ -155,7 +158,7 @@ ngOnInit() {
         descricaoImagem: (item.imageDescription || '').replace(/\s+/g, ' ').trim()
       }));
 
-      this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => item.imgUrl);
+     this.carouselImages = dados.bannerResponseDto.items || [];
     }
   });
 }

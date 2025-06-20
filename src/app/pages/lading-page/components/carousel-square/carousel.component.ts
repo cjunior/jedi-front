@@ -17,7 +17,6 @@ export class CarouselSquareComponent implements OnInit {
 ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
-      // Se quiser pegar as imagens do redeJediSectionDto:
       this.items = (dados.contentResponseDto.items || []).map((img: any) => ({
         image: img.imgUrl,
         alt: img.publicId || 'Imagem do item',
@@ -26,21 +25,6 @@ ngOnInit() {
     }
   });
 }
-
-// ngOnInit() {
-//   this.landingPageService.getdados().subscribe({
-//     next: (dados) => {
-//       // Se quiser pegar as imagens do redeJediSectionDto:
-//       this.items = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
-//         image: img.url,
-//         alt: img.publicId || 'Imagem do item',
-//         text: img.publicId || ''
-//       }));
-//     }
-//   });
-// }
-
-
 
   responsiveOptions = [
     {

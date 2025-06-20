@@ -130,24 +130,31 @@
             <h1 class="sub">{{bannerResponseDto.description}}</h1>
         </div>
 
-        <div class="photo">
-          <p-carousel
-            [value]="carouselImages"
-            [numVisible]="1"
-            [numScroll]="1"
-            [circular]="true"
-            [autoplayInterval]="3000"
-            [showNavigators]="false"
-          >
-            <ng-template pTemplate="item" let-image>
-              <img [src]="image" class="foto" alt="" style="object-fit: cover;" />
-            </ng-template>
-          </p-carousel>
-
-              <img src="./ondas.svg" alt="" class="w-full">
-
-
-        </div>
+     <div class="photo">
+  <p-carousel
+    [value]="carouselImages"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="3000"
+    [showNavigators]="false"
+  >
+    <ng-template pTemplate="item" let-image>
+      <div class="relative flex flex-col items-center">
+        <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover;" />
+     <button
+  *ngIf="image.buttonText && image.buttonUrl"
+  class="mt-4 px-4 py-2 rounded bg-blue-600 text-white font-semibold hover:bg-blue-700 transition cursor-pointer"
+  (click)="openBannerUrl(image.buttonUrl)"
+  type="button"
+>
+  {{ image.buttonText }}
+</button>
+      </div>
+    </ng-template>
+  </p-carousel>
+  <img src="./ondas.svg" alt="" class="w-full">
+</div>
     
 
         <div  class="project">
