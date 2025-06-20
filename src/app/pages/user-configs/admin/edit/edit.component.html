@@ -925,14 +925,15 @@
 </p-accordionTab>
 
   <div class="col-span-full flex justify-center mt-4">
-    <button
-      pButton
-      type="button"
-      label="Salvar"
-      icon="pi pi-save"
-      class="p-button-success"
-      (click)="salvar()"
-       [loading]="isLoading"
-    ></button>
+<button
+  pButton
+  type="button"
+  label="Salvar"
+  icon="pi pi-save"
+  class="p-button-success"
+  (click)="salvar()"
+  [loading]="isLoading"
+  [disabled]="isLoading"
+></button>
   </div>
 </p-accordion>

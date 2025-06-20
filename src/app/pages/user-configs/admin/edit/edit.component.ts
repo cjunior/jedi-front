@@ -656,16 +656,25 @@ getEstadoParaComparacao() {
   });
 }
   salvar() {
-   const estadoAtual = this.getEstadoParaComparacao();
-if (estadoAtual === this.estadoInicial) {
-  this.isLoading = false;
-  this.messageService.add({
-    severity: 'info',
-    summary: 'Nada alterado',
-    detail: 'Nenhuma alteração detectada.'
-  });
-  return;
-}
+      if (this.isLoading) return; // Evita múltiplos cliques rápidos
+
+ 
+
+  this.isLoading = true;
+
+  setTimeout(() => {
+    this.isLoading = false;
+  }, 1500);
+
+  const estadoAtual = this.getEstadoParaComparacao();
+  if (estadoAtual === this.estadoInicial) {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Nada alterado',
+      detail: 'Nenhuma alteração detectada.'
+    });
+    return;
+  }
 
     const formDataPut = new FormData();
     if (this.logoImagem) {
@@ -816,7 +825,6 @@ redeExistentes.forEach((img, i) => {
     this.serviceapi.putdadosall(formDataPut).subscribe({
       next: (res) => {
         console.log('Atualização enviada com sucesso', res);
-         this.isLoading = false;
          this.estadoInicial = this.getEstadoParaComparacao();
     this.messageService.add({
       severity: 'success',
@@ -826,8 +834,7 @@ redeExistentes.forEach((img, i) => {
       },
       error: (err) => {
         console.error('Erro ao atualizar', err);
-         this.isLoading = false;
-           
+         
       },
     });
 
@@ -849,11 +856,9 @@ redeExistentes.forEach((img, i) => {
       this.serviceapi.postBanner(formDataPost).subscribe({
         next: (res) => {
           console.log('Novos banners enviados com sucesso', res);
-           this.isLoading = false;
         },
         error: (err) => {
           console.error('Erro ao cadastrar novos banners', err);
-           this.isLoading = false;
         },
       });
     }
@@ -875,11 +880,11 @@ redeExistentes.forEach((img, i) => {
       this.serviceapi.postTeam(formDataPostEquipe).subscribe({
         next: (res) => {
           console.log('Novos membros da equipe enviados com sucesso', res);
-           this.isLoading = false;
+           
         },
         error: (err) => {
           console.error('Erro ao cadastrar novos membros da equipe', err);
-           this.isLoading = false;
+      
         },
       });
     }
@@ -897,11 +902,11 @@ if (novosRede.length > 0) {
   this.serviceapi.postjedi(formDataPostRede).subscribe({
     next: (res) => {
       console.log('Novas imagens do carrossel final enviadas com sucesso', res);
-      this.isLoading = false;
+    
     },
     error: (err) => {
       console.error('Erro ao cadastrar novas imagens do carrossel final', err);
-      this.isLoading = false;
+     
     },
   });
 }
@@ -923,14 +928,14 @@ if (novosRede.length > 0) {
       this.serviceapi.postcontent(formDataPostDiverso).subscribe({
         next: (res) => {
        console.log("testandopagina",res);
-           this.isLoading = false;
+         
         },
         error: (err) => {
           console.error(
             'Erro ao cadastrar novos itens do carrossel diverso',
             err
           );
-           this.isLoading = false;
+          
         },
       });
     }
