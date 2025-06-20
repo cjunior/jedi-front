@@ -1,55 +1,102 @@
-<div class="card-form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="card-form">
   <div class="input-group">
-    <app-input
-      [config]="{
-        label: 'Nome:',
-        placeholder: 'Digite seu nome',
-        id: 'nome',
-        name: 'nome'
-      }"
-    ></app-input>
-    <app-input
-      [config]="{
-        label: 'E-mail:',
-        placeholder: 'Digite seu E-mail',
-        id: 'email',
-        name: 'email',
-        type: 'email'
-      }"
-    ></app-input>
+    <div>
+      <app-input
+        [config]="{ label: 'Nome:', placeholder: 'Digite seu nome', id: 'nome', name: 'name' }"
+        formControlName="name"
+      ></app-input>
+      <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-red-500 text-xs">
+        <span *ngIf="form.get('name')?.errors?.['required']">Nome é obrigatório.</span>
+      </div>
+    </div>
+    <div>
+      <app-input
+        [config]="{ label: 'E-mail:', placeholder: 'Digite seu E-mail', id: 'email', name: 'email', type: 'email' }"
+        formControlName="email"
+      ></app-input>
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-red-500 text-xs">
+        <span *ngIf="form.get('email')?.errors?.['required']">E-mail é obrigatório.</span>
+        <span *ngIf="form.get('email')?.errors?.['email']">E-mail inválido.</span>
+      </div>
+    </div>
   </div>
   <div class="input-group">
+    <div>
+      <app-input
+        [config]="{ label: 'Cidade:', placeholder: 'Digite a sua cidade', id: 'city', name: 'city' }"
+        formControlName="city"
+      ></app-input>
+      <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="text-red-500 text-xs">
+        <span *ngIf="form.get('city')?.errors?.['required']">Cidade é obrigatória.</span>
+      </div>
+    </div>
+    <div>
+      <app-input
+        [config]="{ label: 'Assunto:', placeholder: 'Digite o assunto', id: 'subject', name: 'subject' }"
+        formControlName="subject"
+      ></app-input>
+      <div *ngIf="form.get('subject')?.touched && form.get('subject')?.invalid" class="text-red-500 text-xs">
+        <span *ngIf="form.get('subject')?.errors?.['required']">Assunto é obrigatório.</span>
+      </div>
+    </div>
+  </div>
+  <div>
     <app-input
-      [config]="{
-        label: 'Polo:',
-        placeholder: 'Digite o nome do Polo',
-        id: 'polo',
-        name: 'polo'
-      }"
+      [config]="{ label: 'Mensagem :', placeholder: 'Digite a Mensagem', id: 'message', name: 'message' }"
+      formControlName="message"
     ></app-input>
-    <app-input
-      [config]="{
-        label: 'Turma:',
-        placeholder: 'Digite a sua turma',
-        id: 'turma',
-        name: 'turma'
-      }"
-    ></app-input>
+    <div *ngIf="form.get('message')?.touched && form.get('message')?.invalid" class="text-red-500 text-xs">
+      <span *ngIf="form.get('message')?.errors?.['required']">Mensagem é obrigatória.</span>
+    </div>
   </div>
 
-  <app-input
-    [config]="{
-      label: 'Assunto:',
-      placeholder: 'Digite o assunto',
-      id: 'assunto',
-      name: 'assunto'
-    }"
-  ></app-input>
-
-  <div class="check">
-    <input type="checkbox" id="meu-checkbox" />
-    <label for="meu-checkbox">Li e aceito a política de privacidade</label>
+<div class="check">
+  <input type="checkbox" id="meu-checkbox" formControlName="privacy" />
+  <label for="meu-checkbox">
+    Li e aceito a 
+    <span
+      (click)="displayPrivacy=true"
+      style="color: #007ad9; text-decoration: underline; cursor: pointer;"
+      tabindex="0"
+      role="button"
+      (keydown.enter)="displayPrivacy=true"
+      (keydown.space)="displayPrivacy=true"
+    >
+      política de privacidade
+    </span>
+  </label>
+  <div *ngIf="form.get('privacy')?.touched && form.get('privacy')?.invalid" class="text-red-500 text-xs">
+    Você deve aceitar a política de privacidade.
   </div>
-
-  <button>Enviar</button>
 </div>
+
+<p-dialog 
+  header="Política de Privacidade" 
+  [(visible)]="displayPrivacy" 
+  [modal]="true" 
+  [style]="{width: '400px'}"
+  [closable]="false"
+>
+  <p style="white-space: pre-line;">{{ privacyText }}</p>
+<ng-template pTemplate="footer">
+  <button 
+    type="button"
+    class="px-5 py-2 rounded-lg shadow-sm bg-red-500 text-white font-semibold hover:bg-red-600 focus:ring-2 focus:ring-red-300 transition cursor-pointer border-0"
+    (click)="declinePrivacy()"
+  >
+    Recusar
+  </button>
+  <button 
+    type="button"
+    class="px-5 py-2 rounded-lg shadow-sm bg-green-500 text-white font-semibold hover:bg-green-600 focus:ring-2 focus:ring-green-300 transition cursor-pointer border-0 ml-2"
+    (click)="acceptPrivacy()"
+  >
+    Aceitar
+  </button>
+</ng-template>
+</p-dialog>
+
+  <button class="btn" pButton type="submit" label="Enviar">Enviar</button>
+</form>
+
+<p-messages [(value)]="messages"></p-messages>

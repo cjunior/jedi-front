@@ -1,10 +1,12 @@
 <div class="container">
-    <label [for]="config.id">{{ config.label }}</label>
-    <input
-      [id]="config.id"
-      [type]="config.type"
-      [placeholder]="config.placeholder"
-      [name]="config.name"
-    />
-  </div>
-  
+  <label [for]="config.id">{{ config.label }}</label>
+  <input
+    [id]="config.id"
+    [type]="config.type"
+    [placeholder]="config.placeholder"
+    [name]="config.name"
+    [value]="value"
+    (input)="handleInput($event)"
+    (blur)="onTouched()"
+  />
+</div>
