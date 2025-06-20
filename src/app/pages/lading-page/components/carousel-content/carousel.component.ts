@@ -12,6 +12,7 @@ import { landingPageService } from '../../services/lading-page.service';
 })
 export class CarouselContentComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
+
 items: { image: string; alt: string; text: string }[] = [];
 
 ngOnInit() {
@@ -27,6 +28,23 @@ ngOnInit() {
   });
 }
 
+
+
+  ngOnInit(): void {
+    this.landingPageService.getdados().subscribe({
+      next: (response) => {
+          
+        this.items = response.redeJediSectionDto.imagens.map((slide: any) => ({
+          image: slide.url,
+        
+        
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching carousel data:', error);
+      }
+    })
+  }
 
   responsiveOptions = [
     {

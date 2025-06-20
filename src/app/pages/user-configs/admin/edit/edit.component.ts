@@ -731,11 +731,13 @@ if (this.blogItens && this.blogItens.length > 0) {
     formDataPut.append(`blogItems[${i}].date`, post.data || '');
     formDataPut.append(`blogItems[${i}].readingTime`, post.tempoLeitura || '');
     formDataPut.append(`blogItems[${i}].imageDescription`, post.descricaoImagem || '');
+
     // Só envie o arquivo se for File
     if (post.imagem instanceof File) {
       formDataPut.append(`blogItems[${i}].file`, post.imagem);
     }
     // Se for string (URL), NÃO envie o campo .file!
+
   });
 }
 formDataPut.append('blogTitle', this.blogTitulo || '');
