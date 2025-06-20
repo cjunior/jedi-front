@@ -67,5 +67,11 @@ export class editService {
    Deletecontet(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}content/slide/${id}`, );
 }
- 
+
+//redejed
+
+
+    Deletejedi(id: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}rede-jedi/${id}`, );
+}
 }
