@@ -3,10 +3,10 @@
 
   <div class="menu" *ngIf="isMenuOpen">
     <ul>
-      <li><a href="#project" (click)="toggleMenu()">O Projeto</a></li>
-      <li><a href="#contentC" (click)="toggleMenu()">Conteúdo</a></li>
-      <li><a href="#help" (click)="toggleMenu()">Ajuda</a></li>
-      <li><a href="#red" (click)="toggleMenu()">#RedeJED</a></li>
+          <li><a href="#project" (click)="toggleMenu()">{{ header.text1 || 'O Projeto' }}</a></li>
+      <li><a href="#contentC" (click)="toggleMenu()">{{ header.text2 || 'Conteúdo' }}</a></li>
+      <li><a href="#help" (click)="toggleMenu()">{{ header.text3 || 'Ajuda' }}</a></li>
+      <li><a href="#red" (click)="toggleMenu()">{{ header.text4 || '#RedeJED' }}</a></li>
     </ul>
   </div>
 </div>
