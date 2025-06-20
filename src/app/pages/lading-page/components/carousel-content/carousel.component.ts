@@ -12,18 +12,23 @@ import { landingPageService } from '../../services/lading-page.service';
 })
 export class CarouselContentComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
-  items = [
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/fotoca.png', alt: 'Fotoca' },
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/fotoca.png', alt: 'Fotoca' },
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/fotoca.png', alt: 'Fotoca' },
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/fotoca.png', alt: 'Fotoca' },
-    { image: '/diva2.svg', alt: 'Diva 2' },
-    { image: '/fotoca.png', alt: 'Fotoca' }
-  ];
+
+items: { image: string; alt: string; text: string }[] = [];
+
+ngOnInit() {
+  this.landingPageService.getdados().subscribe({
+    next: (dados) => {
+      // Se quiser pegar as imagens do redeJediSectionDto:
+      this.items = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
+        image: img.url,
+        alt: img.publicId || 'Imagem do item',
+        text: img.publicId || ''
+      }));
+    }
+  });
+}
+
+
 
   ngOnInit(): void {
     this.landingPageService.getdados().subscribe({
