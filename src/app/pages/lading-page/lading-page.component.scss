@@ -145,11 +145,10 @@ padding: 10px;
         font-weight: 800;
         font-size: 28px;
         line-height: 45px;
-        letter-spacing: 1.25px;
         vertical-align: middle;
         color: #535353;
 
-          word-break: break-word;   // Quebra palavras grandes
+          word-break: break-word;   
   overflow-wrap: break-word;
   white-space: normal;  
       }
@@ -337,7 +336,6 @@ padding: 10px;
           font-weight: 500;
           font-size: 26px;
           line-height: 36px;
-          letter-spacing: 1.25px;
           text-align: justify;
           vertical-align: middle;
           text-transform: uppercase;
@@ -1024,6 +1022,12 @@ height: 165.60000610351562px;
 .teste{
   width: 100%;
     height: 100%;
+}
+
+.accordion-inner{
+ word-break: break-word;
+ overflow-wrap: anywhere;
+  white-space: normal;
 }
 
 
