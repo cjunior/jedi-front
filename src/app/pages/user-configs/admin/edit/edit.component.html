@@ -735,53 +735,199 @@
     </p-card>
   </p-accordionTab>
 
-  <p-accordionTab header="Carrossel Final de Imagens">
-    <p-dialog
-      [(visible)]="previewVisible"
-      [header]="'Preview da Imagem'"
-      [closable]="true"
-      [modal]="true"
-      [dismissableMask]="true"
-      [style]="{ width: '50vw' }"
-    >
-      <div class="flex justify-center items-center">
-        <img
-          [src]="previewImage"
-          alt="Preview"
-          class="max-w-full max-h-full rounded imgr"
-        />
-      </div>
-    </p-dialog>
-    <div class="col-span-full flex mt-4">
-      <button
-        pButton
-        type="button"
-        label="Imagem de onde está alterando"
-        icon="pi pi-eye"
-        class="p-button-success"
-        (click)="openPreview('/pt2.PNG')"
-      ></button>
+ <p-accordionTab header="Carrossel Final de Imagens">
+  <p-dialog
+    [(visible)]="previewVisible"
+    [header]="'Preview da Imagem'"
+    [closable]="true"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '50vw' }"
+  >
+    <div class="flex justify-center items-center">
+      <img
+        [src]="previewImage"
+        alt="Preview"
+        class="max-w-full max-h-full rounded imgr"
+      />
     </div>
-    <p-card>
+  </p-dialog>
+  <div class="col-span-full flex mt-4">
+    <button
+      pButton
+      type="button"
+      label="Imagem de onde está alterando"
+      icon="pi pi-eye"
+      class="p-button-success"
+      (click)="openPreview('/pt2.PNG')"
+    ></button>
+  </div>
+  <p-card>
+    <input
+      pInputText
+      [(ngModel)]="carrosselFinalTitulo"
+      placeholder="Título do Carrossel Final"
+      class="w-full mb-4"
+      maxlength="30"
+    />
+
+    <div class="flex flex-wrap gap-4 mb-4">
       <div
-        *ngFor="let file of carrosselFinal; let i = index"
-        class="flex items-center gap-4 mb-2"
+        *ngFor="let img of carrosselFinal; let i = index"
+        class="relative group w-24"
       >
         <img
-          [src]="file | filePreview"
-          class="w-16 h-16 object-cover rounded"
+          [src]="img.file | filePreview"
+          class="w-24 h-24 object-cover rounded border mb-2"
         />
-        <span class="text-sm">{{ file.name }}</span>
-        <button
-          pButton
-          icon="pi pi-trash"
-          (click)="removerImagem(carrosselFinal, i)"
-          severity="danger"
-        ></button>
+
+        <div class="flex gap-2 mb-2 justify-center">
+          <i
+            class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+            (click)="confirmDeleteCarrosselFinal(img, i)"
+            title="Remover imagem"
+          ></i>
+          <label
+            class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+            title="Atualizar imagem"
+          >
+            <i class="pi pi-pencil"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden"
+              (change)="atualizarCarrosselFinalImagem($event, i)"
+            />
+          </label>
+        </div>
       </div>
-      <input type="file" (change)="onFileSelect($event, 'carrosselFinal')" />
-    </p-card>
-  </p-accordionTab>
+    </div>
+
+    <p-fileUpload
+      mode="basic"
+      name="carrosselFinal"
+      [customUpload]="true"
+      [multiple]="true"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Adicionar fotos"
+      (onSelect)="onCarrosselFinalFileUpload($event)"
+    >
+    </p-fileUpload>
+  </p-card>
+</p-accordionTab>
+
+<p-accordionTab header="blog">
+  <p-dialog
+    [(visible)]="previewVisible"
+    [header]="'Preview da Imagem'"
+    [closable]="true"
+    [modal]="true"
+    [dismissableMask]="true"
+    [style]="{ width: '50vw' }"
+  >
+    <div class="flex justify-center items-center">
+      <img
+        [src]="previewImage"
+        alt="Preview"
+        class="max-w-full max-h-full rounded imgr"
+      />
+    </div>
+  </p-dialog>
+
+  <p-card>
+    <input
+      pInputText
+      [(ngModel)]="blogTitulo"
+      placeholder="Título da seção do blog"
+      class="w-full mb-4"
+      maxlength="40"
+    />
+
+    <div class="flex flex-wrap gap-4 mb-4">
+      <div
+        *ngFor="let post of blogItens; let i = index"
+        class="relative group w-64"
+      >
+      <img
+  [src]="post.imagemPreview || post.imagem"
+  [alt]="post.descricaoImagem"
+  class="w-full h-32 object-cover rounded border mb-2"
+/>
+
+        <div class="flex gap-2 mb-2 justify-center">
+          <i
+            class="pi pi-trash bg-red-600 hover:bg-red-700 text-white rounded-full p-2 shadow-lg cursor-pointer opacity-80 hover:opacity-100 transition"
+            (click)="removerBlogPost(i)"
+            title="Remover post"
+          ></i>
+          <label
+            class="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-2 shadow-lg cursor-pointer flex items-center opacity-80 hover:opacity-100 transition"
+            title="Atualizar imagem"
+          >
+            <i class="pi pi-pencil"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden"
+              (change)="atualizarBlogImagem($event, i)"
+            />
+          </label>
+        </div>
+
+        <input
+          pInputText
+          [(ngModel)]="post.titulo"
+          placeholder="Título do post"
+          class="w-full mb-2"
+          maxlength="70"
+        />
+        <input
+          pInputText
+          [(ngModel)]="post.autor"
+          placeholder="Autor"
+          class="w-full mb-2"
+          maxlength="30"
+        />
+        <input
+          pInputText
+          [(ngModel)]="post.data"
+          placeholder="Data"
+          class="w-full mb-2"
+          maxlength="20"
+        />
+        <input
+          pInputText
+          [(ngModel)]="post.tempoLeitura"
+          placeholder="Tempo de leitura"
+          class="w-full mb-2"
+          maxlength="20"
+        />
+        <input
+          pInputText
+          [(ngModel)]="post.descricaoImagem"
+          placeholder="Descrição da imagem"
+          class="w-full"
+          maxlength="50"
+        />
+      </div>
+    </div>
+
+    <p-fileUpload
+      mode="basic"
+      name="blog"
+      [customUpload]="true"
+      [multiple]="true"
+      accept="image/*"
+      maxFileSize="1000000"
+      chooseIcon="pi pi-upload"
+      chooseLabel="Adicionar posts"
+      (onSelect)="onBlogFileUpload($event)"
+    >
+    </p-fileUpload>
+  </p-card>
+</p-accordionTab>
 
   <div class="col-span-full flex justify-center mt-4">
     <button
