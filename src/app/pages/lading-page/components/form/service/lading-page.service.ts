@@ -12,7 +12,11 @@ export class formPageService {
 
 
 postcontact(payload: any): Observable<any> {
-  return this.http.post(`${this.apiUrl}contact/email`, payload);
+  const formData = new FormData();
+  Object.keys(payload).forEach(key => {
+    formData.append(key, payload[key]);
+  });
+  return this.http.post(`${this.apiUrl}contact/email`, formData,  { responseType: 'text' });
 }
  
 }

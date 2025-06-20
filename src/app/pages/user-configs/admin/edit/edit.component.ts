@@ -154,7 +154,6 @@ blogItens: any[] = [];
   ngOnInit() {
     this.serviceapi.getdados().subscribe({
       next: (dados) => {
-        console.log('Dados recebidos:', dados);
         this.carregarDados(dados);
       },
       error: (err) => {
@@ -194,7 +193,6 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
       if (img.id) {
         this.serviceapi.Deletejedi(img.id).subscribe({
           next: () => {
-            console.log('Removendo do array:', index);
             this.carrosselFinal.splice(index, 1);
           },
           error: (err) => {
@@ -293,7 +291,6 @@ onEquipeFileUpload(event: any) {
         if (membro.id) {
           this.serviceapi.DeleteTeam(membro.id).subscribe({
             next: () => {
-              console.log('Removendo do array:', index);
               this.equipeCarrossel.splice(index, 1);
             },
             error: (err) => {
@@ -318,7 +315,6 @@ onEquipeFileUpload(event: any) {
         if (img.id) {
           this.serviceapi.deleteimage(img.id).subscribe({
             next: () => {
-              console.log('Removendo do array:', index);
               this.manifestoImagens.splice(index, 1);
             },
             error: (err) => {
@@ -353,7 +349,7 @@ onManifestoSelect(event: any) {
   }
 }
   onUpload(event: any) {
-    console.log('Upload concluído:', event);
+   
   }
 
   removerManifestoImagem(index: number) {
@@ -638,7 +634,7 @@ onConteudoFileSelect(event: any) {
       }
     });
     this.serviceapi.postTeam(formData).subscribe({
-      next: (res) => console.log('Equipe enviada', res),
+      next: (res) => console.log(),
       error: (err) => console.error('Erro ao enviar equipe', err),
     });
   }
@@ -906,14 +902,14 @@ redeExistentes.forEach((img, i) => {
       });
     }
 
-    // Visualizar o conteúdo do FormData PUT
-    for (const pair of formDataPut.entries()) {
-      console.log('PUT', pair[0], pair[1]);
-    }
+    // // Visualizar o conteúdo do FormData PUT
+    // for (const pair of formDataPut.entries()) {
+    //   console.log('PUT', pair[0], pair[1]);
+    // }
 
     this.serviceapi.putdadosall(formDataPut).subscribe({
       next: (res) => {
-        console.log('Atualização enviada com sucesso', res);
+      
          this.estadoInicial = this.getEstadoParaComparacao();
     this.messageService.add({
       severity: 'success',
@@ -938,13 +934,12 @@ redeExistentes.forEach((img, i) => {
         formDataPost.append('buttonUrl', img.buttonUrl || '');
       });
 
-      for (const pair of formDataPost.entries()) {
-        console.log('POST BANNER', pair[0], pair[1]);
-      }
+      // for (const pair of formDataPost.entries()) {
+      //   console.log('POST BANNER', pair[0], pair[1]);
+      // }
 
       this.serviceapi.postBanner(formDataPost).subscribe({
         next: (res) => {
-          console.log('Novos banners enviados com sucesso', res);
         },
         error: (err) => {
           console.error('Erro ao cadastrar novos banners', err);
@@ -962,13 +957,12 @@ redeExistentes.forEach((img, i) => {
         }
       });
 
-      for (const pair of formDataPostEquipe.entries()) {
-        console.log('POST EQUIPE', pair[0], pair[1]);
-      }
+      // for (const pair of formDataPostEquipe.entries()) {
+      //   console.log('POST EQUIPE', pair[0], pair[1]);
+      // }
 
       this.serviceapi.postTeam(formDataPostEquipe).subscribe({
         next: (res) => {
-          console.log('Novos membros da equipe enviados com sucesso', res);
            
         },
         error: (err) => {
@@ -990,7 +984,6 @@ if (novosRede.length > 0) {
 
   this.serviceapi.postjedi(formDataPostRede).subscribe({
     next: (res) => {
-      console.log('Novas imagens do carrossel final enviadas com sucesso', res);
     
     },
     error: (err) => {
@@ -1016,7 +1009,6 @@ if (novosRede.length > 0) {
 
       this.serviceapi.postcontent(formDataPostDiverso).subscribe({
         next: (res) => {
-       console.log("testandopagina",res);
          
         },
         error: (err) => {

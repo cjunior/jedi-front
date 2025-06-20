@@ -97,7 +97,6 @@ export class CompleteRegisterComponent implements OnInit{
       this.showErrors.set(false);
       this.isLoading.set(true);
       const rawValues = this.form.getRawValue();
-      console.log('Dados do formulário:', rawValues);
 
       const formData = new FormData();
 
@@ -122,7 +121,6 @@ export class CompleteRegisterComponent implements OnInit{
       this.preRegistrationService.completeRegistration(formData, token).subscribe({
         next: (response) => {
           this.isLoading.set(false);
-          console.log('Cadastro completo com sucesso:', response);
           this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro completo com sucesso!' });
           this.form.reset();
           this.nomeArquivoRG.set(null);

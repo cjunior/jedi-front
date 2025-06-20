@@ -102,7 +102,6 @@ export class ManagePreRegistrationsComponent implements OnInit {
   }
 
   onSomenteCompletosChange(value: boolean) {
-    console.log('onSomenteCompletosChange', value);
     this.somenteCompletos = value;
     this.somenteCompletos$.next(value);
   }

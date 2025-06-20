@@ -82,8 +82,6 @@ blogDestaque: BlogCard | null = null;
 ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
-      console.log('Dados recebidos:', dados);
-
        const blogItems = dados.blogSectionResponseDto?.items || [];
 
       this.redeJediSectionDto = {

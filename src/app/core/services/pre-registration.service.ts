@@ -17,7 +17,6 @@ export class PreRegistrationService {
     size = 10,
     filters: { nome?: string; email?: string; somenteCompletos?: boolean } = {}
   ): Observable<any> {
-    console.log('Fetching registrations with filters:', filters);
     const params: any = {
       page: page.toString(),
       size: size.toString(),
