@@ -71,32 +71,6 @@
     </div>
   </div>
 
-  <p-dialog 
-    header="Política de Privacidade" 
-    [(visible)]="displayPrivacy" 
-    [modal]="true" 
-    [style]="{width: '400px'}"
-    [closable]="false"
-  >
-    <p style="white-space: pre-line;">{{ privacyText }}</p>
-    <ng-template pTemplate="footer">
-      <button 
-        type="button"
-        class="px-5 py-2 rounded-lg shadow-sm bg-red-500 text-white font-semibold hover:bg-red-600 focus:ring-2 focus:ring-red-300 transition cursor-pointer border-0"
-        (click)="declinePrivacy()"
-      >
-        Recusar
-      </button>
-      <button 
-        type="button"
-        class="px-5 py-2 rounded-lg shadow-sm bg-green-500 text-white font-semibold hover:bg-green-600 focus:ring-2 focus:ring-green-300 transition cursor-pointer border-0 ml-2"
-        (click)="acceptPrivacy()"
-      >
-        Aceitar
-      </button>
-    </ng-template>
-  </p-dialog>
-
 <button
   pButton
   type="submit"
