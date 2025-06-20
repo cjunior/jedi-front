@@ -727,6 +727,7 @@ getEstadoParaComparacao() {
       data: post.data,
       tempoLeitura: post.tempoLeitura,
       descricaoImagem: post.descricaoImagem,
+
       file: typeof post.imagem === 'string'
         ? post.imagem
         : post.imagem
@@ -743,6 +744,7 @@ getEstadoParaComparacao() {
 }
  salvar() {
       if (this.isLoading) return; 
+
 
  
 
