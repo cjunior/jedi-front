@@ -16,110 +16,6 @@
             <li><a href="#red">{{ headerResponseDto.red }}</a></li>
     </ul>
     <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">{{headerResponseDto.buttontext}}</button>
-    <p-dialog
-      styleClass="!bg-orange-50"
-      [modal]="true"
-      [(visible)]="visible"
-      [style]="{ width: '30rem' }"
-      [showHeader]="false"
-      [contentStyle]=" { 'padding': '0' }"
-    >
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="bg-emerald-800 p-2 overflow-hidden rounded-t-xl">
-          <img src="/onda2.svg" alt="" class="!w-full !h-15" />
-        </div>
-        <div class="px-4">
-          <div class="flex flex-col justify-center items-center gap-2 pt-6 pb-4">
-            <h1 class="text-3xl uppercase text-green-700">Pré-Inscrição</h1>
-            <span class="text-green-700 text-lg">Preencha seus dados e dê um play no seu futuro!</span>
-          </div>
-          <div class="flex flex-col gap-1 mb-4">
-            <label for="name" class="font-semibold text-gray-700">Nome Completo</label>
-            <input
-              pInputText
-              id="name"
-              placeholder="Seu nome"
-              formControlName="name"
-              class="flex-auto !border-gray-300 h-10"
-              autocomplete="off"
-            />
-            @if(showErrors() && form.get('name')?.hasError('required')) {
-              <p-message
-                severity="error"
-                text="O nome completo é obrigatório."
-                variant="simple"
-              ></p-message>
-            }
-            @if(showErrors() && form.get('name')?.hasError('minlength')){
-              <p-message
-                severity="error"
-                text="O nome deve ter pelo menos 6 caracteres."
-                variant="simple"
-              ></p-message>
-            }
-          </div>
-          <div class="flex flex-col gap-1 mb-4">
-            <label for="email" class="font-semibold text-gray-700">Email</label>
-            <input
-              pInputText
-              id="email"
-              placeholder="email@exemplo.com"
-              formControlName="email"
-              class="flex-auto !border-gray-300 h-10"
-              autocomplete="off"
-            />
-            @if(showErrors() && form.get('email')?.hasError('required')){
-              <p-message
-                severity="error"
-                text="O email é obrigatório."
-                variant="simple"
-              ></p-message>
-            }
-            @if(showErrors() && form.get('email')?.hasError('email')) {
-              <p-message
-                severity="error"
-                text="Insira um email válido."
-                variant="simple"
-              ></p-message>
-            }
-          </div>
-          <div class="flex flex-col gap-1 mb-8">
-            <label for="phone" class="font-semibold text-gray-700">Telefone</label>
-            <p-inputmask
-              formControlName="phone"
-              styleClass="!w-full !border-gray-300 h-10"
-              mask="(99) 9 9999 - 9999"
-              placeholder="(99) 9 9999 9999"
-              [unmask]="true"
-            ></p-inputmask>
-            @if(showErrors() && form.get('phone')?.hasError('required')){
-              <p-message
-                severity="error"
-                text="O telefone é obrigatório."
-                variant="simple"
-              ></p-message>
-            }
-          </div>
-          <div class="flex justify-end pb-4 gap-2">
-            <button
-              pButton
-              class="w-30 !py-3 !rounded-xl !border-gray-300 !text-gray-700 !bg-gray-50 hover:bg-gray-100! !transition"
-              (click)="visible = false"
-            >
-              Cancelar
-            </button>
-            <button
-              pButton
-              type="submit"
-              class="!bg-emerald-800 hover:bg-emerald-900! border-emerald-700 w-30 !py-3 !rounded-xl"
-              [loading]="isLoading()"
-            >
-              Enviar
-            </button>
-          </div>
-        </div>
-      </form>
-    </p-dialog>
     </nav>
 
     <div class="container-one">
@@ -197,7 +93,7 @@
     'background-repeat': 'no-repeat',
     'margin-bottom': '40px',
     'background-size': 'cover'
-    
+
   }"
 >
   <div class="content">
@@ -276,3 +172,108 @@
 </div>
 
 <p-toast />
+
+<p-dialog
+styleClass="!bg-orange-50"
+[modal]="true"
+[(visible)]="visible"
+[style]="{ width: '30rem' }"
+[showHeader]="false"
+[contentStyle]=" { 'padding': '0' }"
+>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="bg-emerald-800 p-2 overflow-hidden rounded-t-xl">
+    <img src="/onda2.svg" alt="" class="!w-full !h-15" />
+  </div>
+  <div class="px-4">
+    <div class="flex flex-col justify-center items-center gap-2 pt-6 pb-4">
+      <h1 class="text-3xl uppercase text-green-700">Pré-Inscrição</h1>
+      <span class="text-green-700 text-lg">Preencha seus dados e dê um play no seu futuro!</span>
+    </div>
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="name" class="font-semibold text-gray-700">Nome Completo</label>
+      <input
+        pInputText
+        id="name"
+        placeholder="Seu nome"
+        formControlName="name"
+        class="flex-auto !border-gray-300 h-10"
+        autocomplete="off"
+      />
+      @if(showErrors() && form.get('name')?.hasError('required')) {
+        <p-message
+          severity="error"
+          text="O nome completo é obrigatório."
+          variant="simple"
+        ></p-message>
+      }
+      @if(showErrors() && form.get('name')?.hasError('minlength')){
+        <p-message
+          severity="error"
+          text="O nome deve ter pelo menos 6 caracteres."
+          variant="simple"
+        ></p-message>
+      }
+    </div>
+    <div class="flex flex-col gap-1 mb-4">
+      <label for="email" class="font-semibold text-gray-700">Email</label>
+      <input
+        pInputText
+        id="email"
+        placeholder="email@exemplo.com"
+        formControlName="email"
+        class="flex-auto !border-gray-300 h-10"
+        autocomplete="off"
+      />
+      @if(showErrors() && form.get('email')?.hasError('required')){
+        <p-message
+          severity="error"
+          text="O email é obrigatório."
+          variant="simple"
+        ></p-message>
+      }
+      @if(showErrors() && form.get('email')?.hasError('email')) {
+        <p-message
+          severity="error"
+          text="Insira um email válido."
+          variant="simple"
+        ></p-message>
+      }
+    </div>
+    <div class="flex flex-col gap-1 mb-8">
+      <label for="phone" class="font-semibold text-gray-700">Telefone</label>
+      <p-inputmask
+        formControlName="phone"
+        styleClass="!w-full !border-gray-300 h-10"
+        mask="(99) 9 9999 - 9999"
+        placeholder="(99) 9 9999 9999"
+        [unmask]="true"
+      ></p-inputmask>
+      @if(showErrors() && form.get('phone')?.hasError('required')){
+        <p-message
+          severity="error"
+          text="O telefone é obrigatório."
+          variant="simple"
+        ></p-message>
+      }
+    </div>
+    <div class="flex justify-end pb-4 gap-2">
+      <button
+        pButton
+        class="w-30 !py-3 !rounded-xl !border-gray-300 !text-gray-700 !bg-gray-50 hover:bg-gray-100! !transition"
+        (click)="visible = false"
+      >
+        Cancelar
+      </button>
+      <button
+        pButton
+        type="submit"
+        class="!bg-emerald-800 hover:bg-emerald-900! border-emerald-700 w-30 !py-3 !rounded-xl"
+        [loading]="isLoading()"
+      >
+        Enviar
+      </button>
+    </div>
+  </div>
+</form>
+</p-dialog>

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { userConfigsRoutes } from './pages/user-configs/user-configs.routes';
 import { authGuard } from './core/guards/auth.guard';
 import { preRegistrationGuard } from './core/guards/pre-registration.guard';
+import { loginGuard } from './core/guards/login.guard';
 
 export const routes: Routes = [
     {
@@ -11,7 +12,7 @@ export const routes: Routes = [
     {
         path: 'login',
         loadComponent: () => import('./pages/login/login/login.component').then(m => m.LoginComponent),
-        canActivate: [() => import('./core/guards/login.guard').then(m => m.loginGuard)]
+        canActivate: [loginGuard]
     },
     {
       path: 'pre-inscricao/continuar/:token',
