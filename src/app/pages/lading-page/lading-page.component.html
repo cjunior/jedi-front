@@ -143,7 +143,7 @@
               <img [src]="image" class="foto" alt="" style="object-fit: cover;" />
             </ng-template>
           </p-carousel>
-              <img src="./ondas.svg" alt="">
+              <img src="./ondas.svg" alt="" class="w-full">
         </div>
     
 
@@ -196,7 +196,7 @@
   }"
 >
   <div class="content">
-    <h1>PERCURSO BÁSICO</h1>
+    <h1>{{contentResponseDto.mainImgDescription}}</h1>
   </div>
 </div>
 
@@ -227,47 +227,44 @@
     </div>
 
     <div id="red" class="container-eight">
-        <h1>Rede#JED</h1>
+        <h1>{{redeJediSectionDto.titulo}}</h1>
         <app-carousel-content/>
     </div>
     <div class="container-nine">
-
-        <div class="content">
-            <div class="photo">
-                <img src="./fotoend.svg" alt="">
-            </div>
-            <div class="pencil">
-                <div class="edit">
-                    <img src="./edit.svg" alt="">
-                    <span>Escrita por Maria</span>
-                </div>
-                <div class="date">
-                    08 Abril, 2025 / 02min de leitura
-                </div>
-
-            </div>
-            <h1>Insira o título da postagem do blog nesse trecho</h1>
-        </div>
-        <div class="cards">
-           @for (card of cards; track $index) {
-            <div class="minor-card" >
-                <div class="photo">
-                  <img [src]="card.imagem" alt="">
-                </div>
-                <div class="content-minor-card">
-                  <h4>{{ card.titulo }}</h4>
-                  <span>Escrito por {{ card.autor }}</span>
-                  <div class="date">
-                    <span>{{ card.data }}</span>
-                    <span>{{ card.tempoLeitura }}</span>
-                  </div>
-                </div>
-              </div>
-           }
-
-
-        </div>
+  <div class="content" *ngIf="blogDestaque">
+    <div class="photo cardmain">
+      <img [src]="blogDestaque.imagem" [alt]=""  class="carr">
     </div>
+    <div class="pencil">
+      <div class="edit">
+        <img src="./edit.svg" alt="" >
+        <span>Escrita por {{ blogDestaque.autor }}</span>
+      </div>
+      <div class="date">
+        {{ blogDestaque.data }} / {{ blogDestaque.tempoLeitura }}
+      </div>
+    </div>
+    <h1>{{ blogDestaque.titulo }}</h1>
+  </div>
+
+  <div class="cards">
+    @for (card of cards; track $index) {
+      <div class="minor-card">
+        <div class="photo">
+          <img [src]="card.imagem" [alt]=""  class="w-full h-full teste">
+        </div>
+        <div class="content-minor-card">
+          <h4>{{ card.titulo }}</h4>
+          <span>Escrito por {{ card.autor }}</span>
+          <div class="date">
+            <span>{{ card.data }}</span>
+            <span>{{ card.tempoLeitura }}</span>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
 </div>
 
 <p-toast />

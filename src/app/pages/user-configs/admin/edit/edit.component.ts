@@ -50,6 +50,9 @@ isLoading = false;
   logo = '';
   logoPreview: string | null = null;
 
+  carrosselFinal: any[] = [];
+carrosselFinalTitulo: string = '';
+
   logoPreviewUrl: string = '';
   logoImagem: File | null = null;
   menu = {
@@ -116,6 +119,7 @@ isLoading = false;
     contentSubTitle: '',
     contentDescription: '',
     contentMainImage: '',
+    mainImgText: '',
   };
   conteudoImagem: File | null = null;
 
@@ -129,7 +133,8 @@ isLoading = false;
     descricao: '',
   };
 
-  carrosselFinal: File[] = [];
+blogTitulo: string = '';
+blogItens: any[] = [];
 
   accordionItems = [
     { key: 'logoNav', label: 'Logo e Navegação' },
@@ -155,6 +160,45 @@ isLoading = false;
       },
     });
   }
+
+  onCarrosselFinalFileUpload(event: any) {
+  const files = event.files || [];
+  for (const file of files) {
+    this.carrosselFinal.push({ file });
+  }
+}
+
+atualizarCarrosselFinalImagem(event: any, index: number) {
+  const file = event.target.files[0];
+  if (file) {
+    this.carrosselFinal[index].file = file;
+  }
+}
+
+confirmDeleteCarrosselFinal(img: any, index: number) {
+  this.confirmationService.confirm({
+    message: 'Tem certeza que deseja excluir esta imagem do carrossel final?',
+    header: 'Confirmação',
+    icon: 'pi pi-exclamation-triangle',
+    accept: () => {
+      if (img.id) {
+        this.serviceapi.Deletejedi(img.id).subscribe({
+          next: () => {
+            console.log('Removendo do array:', index);
+            this.carrosselFinal.splice(index, 1);
+          },
+          error: (err) => {
+            console.error('Erro ao excluir imagem', err);
+            // Opcional: remover do array mesmo se der erro
+            this.carrosselFinal.splice(index, 1);
+          },
+        });
+      } else {
+        this.carrosselFinal.splice(index, 1);
+      }
+    },
+  });
+}
 
   onOutroCarrosselFileUpload(event: any) {
     if (event.files && event.files.length > 0) {
@@ -373,6 +417,7 @@ isLoading = false;
         contentSubTitle: dados.contentResponseDto.subTitle || '',
         contentDescription: dados.contentResponseDto.description || '',
         contentMainImage: dados.contentResponseDto.mainImg || '',
+        mainImgText: dados.contentResponseDto.mainImgText || '',
       };
 
       // Carregar o carrossel diverso
@@ -393,6 +438,7 @@ isLoading = false;
         contentSubTitle: '',
         contentDescription: '',
         contentMainImage: '',
+        mainImgText: '',
       };
       this.outroCarrossel = [];
     }
@@ -430,9 +476,66 @@ isLoading = false;
         headerButtonText: '',
       };
     }
+
+     if (dados.redeJediSectionDto) {
+    this.carrosselFinalTitulo = dados.redeJediSectionDto.titulo || '';
+    this.carrosselFinal = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
+      file: img.url,
+      id: img.id,
+      publicId: img.publicId
+    }));
+  } else {
+    this.carrosselFinalTitulo = '';
+    this.carrosselFinal = [];
+  }
+
+  if (dados.blogSectionResponseDto) {
+  this.blogTitulo = dados.blogSectionResponseDto.title || '';
+  this.blogItens = (dados.blogSectionResponseDto.items || []).map((item: any) => ({
+    id: item.id,
+    titulo: item.title || '',
+    autor: item.author || '',
+    data: item.date || '',
+    tempoLeitura: item.readingTime || '',
+    imagem: item.imageUrl,
+    descricaoImagem: item.imageDescription || ''
+  }));
+} else {
+  this.blogTitulo = '';
+  this.blogItens = [];
+}
+
     this.estadoInicial = this.getEstadoParaComparacao();
     
   }
+
+  removerBlogPost(index: number) {
+  this.blogItens.splice(index, 1);
+}
+
+atualizarBlogImagem(event: any, index: number) {
+  const file = event.target.files[0];
+  if (file) {
+    this.blogItens[index].imagem = file;
+    // Gera o preview temporário
+    this.blogItens[index].imagemPreview = URL.createObjectURL(file);
+  }
+}
+
+onBlogFileUpload(event: any) {
+  const files = event.files || [];
+  for (const file of files) {
+    this.blogItens.push({
+      id: null,
+      titulo: '',
+      autor: '',
+      data: '',
+      tempoLeitura: '',
+      imagem: file,
+      descricaoImagem: ''
+    });
+  }
+}
 
   openPreview(imgPath: string) {
     this.previewImage = imgPath;
@@ -514,7 +617,6 @@ getEstadoParaComparacao() {
       buttonText: img.buttonText,
       buttonUrl: img.buttonUrl,
       id: img.id,
-      // NÃO inclua img.file se for File!
       file: typeof img.file === 'string' ? img.file : null
     })),
     equipeCarrossel: this.equipeCarrossel.map(m => ({
@@ -532,6 +634,23 @@ getEstadoParaComparacao() {
     faqItens: this.faqItens.map(f => ({ ...f })),
     menu: { ...this.menu },
     logoPreviewUrl: this.logoPreviewUrl,
+    carrosselFinalTitulo: this.carrosselFinalTitulo,
+    carrosselFinal: this.carrosselFinal.map(img => ({
+      id: img.id,
+      file: typeof img.file === 'string' ? img.file : null,
+      publicId: img.publicId
+    })),
+    // Adicione o blog:
+    blogTitulo: this.blogTitulo,
+    blogItens: this.blogItens.map(post => ({
+      id: post.id,
+      titulo: post.titulo,
+      autor: post.autor,
+      data: post.data,
+      tempoLeitura: post.tempoLeitura,
+      descricaoImagem: post.descricaoImagem,
+      file: typeof post.imagem === 'string' ? post.imagem : null
+    }))
   });
 }
   salvar() {
@@ -557,6 +676,7 @@ if (estadoAtual === this.estadoInicial) {
     formDataPut.append('headerButtonText', this.menu.headerButtonText || '');
     formDataPut.append('bannerTitle', this.botaobanner.buttonText || '');
     formDataPut.append('bannerDescription', this.botaobanner.buttonUrl || '');
+    formDataPut.append('contentMainImageText', this.conteudo.mainImgText || '');
 
     formDataPut.append(
       'presentationSectionTitle',
@@ -600,6 +720,23 @@ if (estadoAtual === this.estadoInicial) {
     if (this.conteudoImagem) {
       formDataPut.append('contentMainImage', this.conteudoImagem);
     }
+
+if (this.blogItens && this.blogItens.length > 0) {
+  this.blogItens.forEach((post, i) => {
+    formDataPut.append(`blogItems[${i}].id`, post.id ? post.id.toString() : '0');
+    formDataPut.append(`blogItems[${i}].title`, post.titulo || '');
+    formDataPut.append(`blogItems[${i}].author`, post.autor || '');
+    formDataPut.append(`blogItems[${i}].date`, post.data || '');
+    formDataPut.append(`blogItems[${i}].readingTime`, post.tempoLeitura || '');
+    formDataPut.append(`blogItems[${i}].imageDescription`, post.descricaoImagem || '');
+    if (post.imagem instanceof File) {
+      formDataPut.append(`blogItems[${i}].file`, post.imagem);
+    } else {
+      formDataPut.append(`blogItems[${i}].file`, post.imagem || '');
+    }
+  });
+}
+formDataPut.append('blogTitle', this.blogTitulo || '');
 
     // --- FAQ (accordions) ---
     if (this.faqItens && this.faqItens.length > 0) {

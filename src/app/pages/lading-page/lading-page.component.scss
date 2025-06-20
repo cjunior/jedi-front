@@ -542,9 +542,9 @@ padding: 10px;
       border-bottom: 2px solid #dfe6ef;
 
       .photo {
-        width: 100%;
+        
         max-width: 600px; /* ajuste conforme seu layout */
-        height: 300px; /* ajuste conforme seu layout */
+      
         margin: 0 auto;
         position: relative;
 
@@ -994,3 +994,12 @@ span, h1, h2, h3, h4 {
   white-space: normal;
 }
 
+.cardmain{
+  max-width: 846.3343505859375px !important;
+max-height: 464.6153869628906px !important;
+}
+
+.car{
+      width: 100%;
+    height: 100%;
+}
