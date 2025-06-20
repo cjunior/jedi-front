@@ -1,12 +1,18 @@
-::ng-deep p-fileupload {
-  .p-fileupload {
-    justify-content: start;
+::ng-deep {
+  p-datepicker .p-datepicker {
+    width: 100% ;
   }
-  p-button button {
-    background-color: oklch(43.2% 0.095 166.913) !important;
-    border-color: oklch(52.7% 0.154 150.069) !important;
-    &:hover {
-      background-color: oklch(37.8% 0.077 168.94) !important;
+
+  p-fileupload {
+    .p-fileupload {
+      justify-content: start;
+    }
+    p-button button {
+      background-color: oklch(43.2% 0.095 166.913) !important;
+      border-color: oklch(52.7% 0.154 150.069) !important;
+      &:hover {
+        background-color: oklch(37.8% 0.077 168.94) !important;
+      }
     }
   }
 }
