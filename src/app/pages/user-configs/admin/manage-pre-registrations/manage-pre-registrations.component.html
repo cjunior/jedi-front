@@ -9,38 +9,64 @@
   ></button>
 </div>
 
-<div class="flex gap-4 mb-2 mt-12">
+<div class="flex gap-4 mb-2 mt-12 items-end">
   <p-floatlabel variant="on">
-    <input pInputText id="name" type="text" />
+    <input
+      pInputText
+      id="name"
+      type="text"
+      [ngModel]="nome"
+      (ngModelChange)="onNomeChange($event)"
+    />
     <label for="name">Busca pelo nome</label>
   </p-floatlabel>
   <p-floatlabel variant="on">
-    <input pInputText id="email" type="email" />
+    <input
+      pInputText
+      id="email"
+      type="email"
+      [ngModel]="email"
+      (ngModelChange)="onEmailChange($event)"
+    />
     <label for="email">Busca pelo email</label>
   </p-floatlabel>
-  <!-- <p-floatlabel variant="on">
-    <p-inputmask id="phone" mask="(99) 9 9999 - 9999" />
-    <label for="phone">Busca pelo telefone</label>
-  </p-floatlabel> -->
+  <!-- <div class="flex items-center gap-2">
+    <input type="checkbox" id="somenteCompletos" [ngModel]="somenteCompletos" (ngModelChange)="onSomenteCompletosChange($event)" />
+    <label for="somenteCompletos" class="text-sm text-zinc-600">Somente completos</label>
+  </div> -->
+  <!-- <div class="flex items-center gap-2">
+    <label for="somenteCompletos" class="text-sm text-zinc-600">Somente cadastros completos</label>
+    <p-toggleswitch
+      [ngModel]="somenteCompletos"
+      (ngModelChange)="onSomenteCompletosChange($event)"
+    />
+  </div> -->
+  <p-floatlabel class="w-full md:w-56" variant="on">
+    <p-select
+      inputId="somente-completos"
+      [options]="selectFilterOptions"
+      optionLabel="label"
+      optionValue="value"
+      styleClass="w-full"
+      size="small"
+      [(ngModel)]="somenteCompletos"
+      (ngModelChange)="onSomenteCompletosChange($event)"
+    />
+    <label for="somente-completos">Status</label>
+  </p-floatlabel>
 </div>
 <p-panel showHeader="false">
   <p-table
     #dt
-    [value]="customers() || []"
+    [value]="customers || []"
     [paginator]="true"
-    [rows]="size()"
+    [rows]="size"
     [lazy]="true"
-    [totalRecords]="totalRecords()"
+    [totalRecords]="totalRecords"
     (onLazyLoad)="loadPage($event)"
-    [loading]="loading()"
+    [loading]="loading"
     stripedRows
   >
-    <!-- <ng-template #caption>
-      <div class="text-end pb-4">
-          <p-button icon="pi pi-download" label="Gerar Relatório" (click)="dt.exportCSV()" />
-      </div>
-    </ng-template> -->
-    <!-- Cabeçalho da tabela -->
     <ng-template pTemplate="header">
       <tr>
         <th>
