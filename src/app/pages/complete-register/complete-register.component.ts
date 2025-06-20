@@ -1,5 +1,4 @@
 import { Component, inject, signal, type OnInit } from '@angular/core';
-import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from 'primeng/dropdown';

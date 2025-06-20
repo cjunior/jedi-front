@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PreRegistrationService } from '../../../../core/services/pre-registration.service';
-import { debounceTime, distinctUntilChanged, combineLatest, startWith, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, combineLatest, switchMap, tap } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,7 +13,6 @@ import { PopoverModule } from 'primeng/popover';
 import { Tag } from 'primeng/tag';
 import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
 import { FormsModule } from '@angular/forms';
-import { Select } from 'primeng/select';
 import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
 
 @Component({
@@ -31,7 +30,6 @@ import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
     Tag,
     TruncatePipe,
     FormsModule,
-    Select,
     FloatLabel,
     cellphonePipe
   ],
