@@ -1,5 +1,5 @@
 <aside
-class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-none transform lg:translate-x-0 transition-transform duration-200 ease-in-out w-64 lg:w-3xs p-6 pt-0 px-3"
+class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-none transform lg:translate-x-0 transition-transform duration-200 ease-in-out w-64 lg:w-3xs md:p-6 md:pt-0 md:px-3 sm:p-4"
 [class.-translate-x-full]="!sidebarOpen"
 >
 <div class="p-6 border-b border-gray-200">
@@ -48,12 +48,12 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
 }
 
 
-<div class="dashboard flex flex-col gap-8">
+<div class="dashboard flex flex-col gap-8 overflow-x-scroll">
   <header class="flex justify-between">
     <div class="flex items-center gap-4">
       <!-- Botão Hamburger -->
       <button
-        class="lg:hidden text-emerald-700 focus:outline-none"
+        class="lg:hidden bg-emerald-800 hover:bg-emerald-900 border-emerald-700 text-white p-2 rounded-md"
         (click)="sidebarOpen = !sidebarOpen"
       >
         <i class="pi pi-bars text-2xl"></i>

@@ -6,6 +6,8 @@ import { MessagesModule } from 'primeng/messages';
 import { CommonModule } from '@angular/common';
 import { formPageService } from './service/lading-page.service';
 import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 export interface Message {
   severity?: string;
@@ -24,7 +26,7 @@ export interface Message {
 @Component({
   selector: 'app-form',
   standalone: true,
-  imports: [InputComponent, MessagesModule, ReactiveFormsModule, CommonModule, DialogModule],
+  imports: [InputComponent, MessagesModule, ReactiveFormsModule, CommonModule, DialogModule, ToastModule, ButtonModule],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss',
   providers: [MessageService]
@@ -33,10 +35,12 @@ export class FormComponent {
   form: FormGroup;
   public messages: Message[] = [];
   public payloadSent: any = null;
+  public loading = false; // loading para o botão
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly formService: formPageService
+    private readonly formService: formPageService,
+    private readonly messageService: MessageService // injete o MessageService
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -59,7 +63,6 @@ export class FormComponent {
     this.displayPrivacy = false;
   }
 
-
   privacyText: string = `
     Ao utilizar este site, você concorda com a coleta e uso de informações conforme descrito em nossa Política de Privacidade. 
     Seus dados serão utilizados apenas para fins de contato e não serão compartilhados com terceiros sem sua autorização.
@@ -74,29 +77,45 @@ export class FormComponent {
         summary: 'Erro',
         detail: 'Preencha todos os campos obrigatórios corretamente.'
       }];
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Preencha todos os campos obrigatórios corretamente.'
+      });
       return;
     }
 
+    this.loading = true;
+
     const { privacy, ...payload } = this.form.value;
     this.payloadSent = payload;
-console.log('Payload enviado:', this.payloadSent);
     this.formService.postcontact(payload).subscribe({
       next: (e) => {
-        console.log('Resposta do servidor:', e);
+        this.loading = false;
         this.messages = [{
           severity: 'success',
           summary: 'Enviado',
           detail: 'Mensagem enviada com sucesso!'
         }];
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Enviado',
+          detail: 'Mensagem enviada com sucesso!'
+        });
         this.form.reset();
       },
       error: (e) => {
-        console.log('Resposta do servidor:', e);
+        this.loading = false;
         this.messages = [{
           severity: 'error',
           summary: 'Erro',
           detail: 'Erro ao enviar mensagem.'
         }];
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Erro',
+          detail: 'Erro ao enviar mensagem.'
+        });
       }
     });
   }

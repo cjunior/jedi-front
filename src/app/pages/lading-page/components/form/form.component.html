@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="card-form">
   <div class="input-group">
     <div>
@@ -50,53 +51,58 @@
     </div>
   </div>
 
-<div class="check">
-  <input type="checkbox" id="meu-checkbox" formControlName="privacy" />
-  <label for="meu-checkbox">
-    Li e aceito a 
-    <span
-      (click)="displayPrivacy=true"
-      style="color: #007ad9; text-decoration: underline; cursor: pointer;"
-      tabindex="0"
-      role="button"
-      (keydown.enter)="displayPrivacy=true"
-      (keydown.space)="displayPrivacy=true"
-    >
-      política de privacidade
-    </span>
-  </label>
-  <div *ngIf="form.get('privacy')?.touched && form.get('privacy')?.invalid" class="text-red-500 text-xs">
-    Você deve aceitar a política de privacidade.
+  <div class="check">
+    <input type="checkbox" id="meu-checkbox" formControlName="privacy" />
+    <label for="meu-checkbox">
+      Li e aceito a 
+      <span
+        (click)="displayPrivacy=true"
+        style="color: #007ad9; text-decoration: underline; cursor: pointer;"
+        tabindex="0"
+        role="button"
+        (keydown.enter)="displayPrivacy=true"
+        (keydown.space)="displayPrivacy=true"
+      >
+        política de privacidade
+      </span>
+    </label>
+    <div *ngIf="form.get('privacy')?.touched && form.get('privacy')?.invalid" class="text-red-500 text-xs">
+      Você deve aceitar a política de privacidade.
+    </div>
   </div>
-</div>
 
-<p-dialog 
-  header="Política de Privacidade" 
-  [(visible)]="displayPrivacy" 
-  [modal]="true" 
-  [style]="{width: '400px'}"
-  [closable]="false"
->
-  <p style="white-space: pre-line;">{{ privacyText }}</p>
-<ng-template pTemplate="footer">
-  <button 
-    type="button"
-    class="px-5 py-2 rounded-lg shadow-sm bg-red-500 text-white font-semibold hover:bg-red-600 focus:ring-2 focus:ring-red-300 transition cursor-pointer border-0"
-    (click)="declinePrivacy()"
+  <p-dialog 
+    header="Política de Privacidade" 
+    [(visible)]="displayPrivacy" 
+    [modal]="true" 
+    [style]="{width: '400px'}"
+    [closable]="false"
   >
-    Recusar
-  </button>
-  <button 
-    type="button"
-    class="px-5 py-2 rounded-lg shadow-sm bg-green-500 text-white font-semibold hover:bg-green-600 focus:ring-2 focus:ring-green-300 transition cursor-pointer border-0 ml-2"
-    (click)="acceptPrivacy()"
-  >
-    Aceitar
-  </button>
-</ng-template>
-</p-dialog>
+    <p style="white-space: pre-line;">{{ privacyText }}</p>
+    <ng-template pTemplate="footer">
+      <button 
+        type="button"
+        class="px-5 py-2 rounded-lg shadow-sm bg-red-500 text-white font-semibold hover:bg-red-600 focus:ring-2 focus:ring-red-300 transition cursor-pointer border-0"
+        (click)="declinePrivacy()"
+      >
+        Recusar
+      </button>
+      <button 
+        type="button"
+        class="px-5 py-2 rounded-lg shadow-sm bg-green-500 text-white font-semibold hover:bg-green-600 focus:ring-2 focus:ring-green-300 transition cursor-pointer border-0 ml-2"
+        (click)="acceptPrivacy()"
+      >
+        Aceitar
+      </button>
+    </ng-template>
+  </p-dialog>
 
-  <button class="btn" pButton type="submit" label="Enviar">Enviar</button>
+<button
+  pButton
+  type="submit"
+  [label]="loading ? 'Enviando...' : 'Enviar'"
+  [loading]="loading"
+  [disabled]="loading"
+  class="btn"
+></button>
 </form>
-
-<p-messages [(value)]="messages"></p-messages>
