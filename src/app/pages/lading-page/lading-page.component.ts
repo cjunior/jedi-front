@@ -153,11 +153,17 @@ ngOnInit() {
         descricaoImagem: (item.imageDescription || '').replace(/\s+/g, ' ').trim()
       }));
 
-       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
-        imgUrl: item.imgUrl
-      }));
+      this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
+  imgUrl: item.imgUrl,
+  buttonText: item.buttonText,   // Adicione essas propriedades
+  buttonUrl: item.buttonUrl
+}));
     }
   });
+}
+
+openCarouselLink(url: string) {
+  window.open(url, '_blank');
 }
 
   headerResponseDto =
