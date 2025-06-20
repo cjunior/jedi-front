@@ -153,7 +153,9 @@ ngOnInit() {
         descricaoImagem: (item.imageDescription || '').replace(/\s+/g, ' ').trim()
       }));
 
-      this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => item.imgUrl);
+       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
+        imgUrl: item.imgUrl
+      }));
     }
   });
 }
