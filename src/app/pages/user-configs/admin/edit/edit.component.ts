@@ -732,7 +732,13 @@ getEstadoParaComparacao() {
         : post.imagem
           ? (post.imagem.name || 'file')
           : null
-    }))
+    })),
+    // ADICIONE ESTA LINHA:
+    presentationSectionFile: typeof this.presentationSectionFile === 'string'
+      ? this.presentationSectionFile
+      : this.presentationSectionFile
+        ? (this.presentationSectionFile.name || 'file')
+        : null
   });
 }
  salvar() {
