@@ -72,7 +72,7 @@ blogDestaque: BlogCard | null = null;
     titulo: 'REDE JEDI',
   }
 
-  
+
 
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
@@ -198,7 +198,7 @@ ngOnInit() {
         mainImg: "./fotoH.jpg",
         mainImgDescription: "PERCURSO BÁSICO"
       }
-      
+
       contactUsResponseDto = {
         title: "Fale Conosco",
         subTitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis consequat lobortis dui vitae laoreet.",
@@ -272,7 +272,11 @@ ngOnInit() {
         error: (error) => {
           this.isLoading.set(false);
           console.error('Error during pre-registration:', error);
-          alert('An error occurred during pre-registration. Please try again later.');
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: `${error?.error?.errors?.cellphone || ``} ${error?.error?.message || ``}` || 'Ocorreu um erro durante o pré-cadastro.'
+          });
         }
       });
     } else {

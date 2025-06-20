@@ -1,12 +1,12 @@
 <div class="flex justify-between items-center mb-4">
   <h3 class="text-lg text-zinc-700">Pré-cadastros</h3>
-  <button
+  <!-- <button
     pButton
     type="button"
     icon="pi pi-download"
     label="Gerar relatório"
     class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
-  ></button>
+  ></button> -->
 </div>
 
 <div class="flex gap-4 mb-2 mt-12 items-end">
@@ -41,7 +41,7 @@
       (ngModelChange)="onSomenteCompletosChange($event)"
     />
   </div> -->
-  <p-floatlabel class="w-full md:w-56" variant="on">
+  <!-- <p-floatlabel class="w-full md:w-56" variant="on">
     <p-select
       inputId="somente-completos"
       [options]="selectFilterOptions"
@@ -53,7 +53,7 @@
       (ngModelChange)="onSomenteCompletosChange($event)"
     />
     <label for="somente-completos">Status</label>
-  </p-floatlabel>
+  </p-floatlabel> -->
 </div>
 <p-panel showHeader="false">
   <p-table
@@ -90,7 +90,7 @@
       <tr>
         <td [title]="customer.completeName">{{ customer.completeName | truncate:35 }}</td>
         <td [title]="customer.email">{{ customer.email | truncate:35 }}</td>
-        <td>{{ customer.cellPhone }}</td>
+        <td>{{ customer.cellPhone | cellphone }}</td>
         <td>
           @if (customer.cpf) {
             <p-tag severity="success" value="Completo"></p-tag>

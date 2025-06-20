@@ -14,6 +14,7 @@ import { Tag } from 'primeng/tag';
 import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
+import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
 
 @Component({
   selector: 'app-manage-pre-registration',
@@ -31,7 +32,8 @@ import { Select } from 'primeng/select';
     TruncatePipe,
     FormsModule,
     Select,
-    FloatLabel
+    FloatLabel,
+    cellphonePipe
   ],
   templateUrl: './manage-pre-registrations.component.html',
   styleUrl: './manage-pre-registrations.component.scss'
