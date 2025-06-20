@@ -356,6 +356,7 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
   }
 
   carregarDados(dados: any) {
+    
     if (dados.contactUsResponseDto) {
       this.footer.titulo = dados.contactUsResponseDto.title || '';
       this.footer.subtitulo = dados.contactUsResponseDto.subTitle || '';
@@ -730,11 +731,11 @@ if (this.blogItens && this.blogItens.length > 0) {
     formDataPut.append(`blogItems[${i}].date`, post.data || '');
     formDataPut.append(`blogItems[${i}].readingTime`, post.tempoLeitura || '');
     formDataPut.append(`blogItems[${i}].imageDescription`, post.descricaoImagem || '');
+    // Só envie o arquivo se for File
     if (post.imagem instanceof File) {
       formDataPut.append(`blogItems[${i}].file`, post.imagem);
-    } else {
-      formDataPut.append(`blogItems[${i}].file`, post.imagem || '');
     }
+    // Se for string (URL), NÃO envie o campo .file!
   });
 }
 formDataPut.append('blogTitle', this.blogTitulo || '');
@@ -781,6 +782,15 @@ formDataPut.append('blogTitle', this.blogTitulo || '');
         }
       });
     }
+
+    formDataPut.append('redeTitle', this.carrosselFinalTitulo || '');
+const redeExistentes = this.carrosselFinal.filter(img => img.id !== undefined);
+redeExistentes.forEach((img, i) => {
+  formDataPut.append(`redeFiles[${i}].id`, img.id!.toString());
+  if (img.file instanceof File) {
+    formDataPut.append(`redeFiles[${i}].file`, img.file);
+  }
+});
 
     // --- Carrossel Diverso existente (com id) ---
     const diversoExistente = this.outroCarrossel.filter(
@@ -871,6 +881,28 @@ formDataPut.append('blogTitle', this.blogTitulo || '');
         },
       });
     }
+
+    const novosRede = this.carrosselFinal.filter(img => !img.id);
+if (novosRede.length > 0) {
+  const formDataPostRede = new FormData();
+  formDataPostRede.append('titulo', this.carrosselFinalTitulo || '');
+  novosRede.forEach((img) => {
+    if (img.file instanceof File) {
+      formDataPostRede.append('arquivos', img.file);
+    }
+  });
+
+  this.serviceapi.postjedi(formDataPostRede).subscribe({
+    next: (res) => {
+      console.log('Novas imagens do carrossel final enviadas com sucesso', res);
+      this.isLoading = false;
+    },
+    error: (err) => {
+      console.error('Erro ao cadastrar novas imagens do carrossel final', err);
+      this.isLoading = false;
+    },
+  });
+}
 
     const novosDiversos = this.outroCarrossel.filter((item) => !item.id);
     if (novosDiversos.length > 0) {

@@ -74,4 +74,9 @@ export class editService {
     Deletejedi(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}rede-jedi/${id}`, );
 }
+
+
+   postjedi(formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrl}rede-jedi/multiplas`, formData, { responseType: 'text' });
+}
 }
