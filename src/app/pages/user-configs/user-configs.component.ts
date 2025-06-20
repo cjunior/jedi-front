@@ -14,6 +14,8 @@ import { AuthService } from '../../core/services/auth.service';
 export class UserConfigsComponent {
   private readonly authService = inject(AuthService);
 
+  sidebarOpen = false;
+
   logout() {
     this.authService.logout();
   }
