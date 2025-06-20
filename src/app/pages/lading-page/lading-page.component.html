@@ -195,7 +195,9 @@
     'width': '788px',
     'height': '403px',
     'background-repeat': 'no-repeat',
-    'margin-bottom': '40px'
+    'margin-bottom': '40px',
+    'background-size': 'cover'
+    
   }"
 >
   <div class="content">
@@ -235,9 +237,11 @@
     </div>
     <div class="container-nine">
   <div class="content" *ngIf="blogDestaque">
-    <div class="photo cardmain">
-      <img [src]="blogDestaque.imagem" [alt]=""  class="carr">
-    </div>
+
+ <div class="photo cardmain ">
+  <img [src]="blogDestaque.imagem" [alt]="" class="teste" />
+</div>
+
     <div class="pencil">
       <div class="edit">
         <img src="./edit.svg" alt="" >
@@ -253,8 +257,9 @@
   <div class="cards">
     @for (card of cards; track $index) {
       <div class="minor-card">
-        <div class="photo">
-          <img [src]="card.imagem" [alt]=""  class="w-full h-full teste">
+        <div class="photo cars">
+          <img [src]="card.imagem" [alt]=""  class="teste2">
+
         </div>
         <div class="content-minor-card">
           <h4>{{ card.titulo }}</h4>
