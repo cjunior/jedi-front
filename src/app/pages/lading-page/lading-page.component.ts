@@ -155,9 +155,10 @@ ngOnInit() {
 
       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
   imgUrl: item.imgUrl,
-  buttonText: item.buttonText,   // Adicione essas propriedades
+  buttonText: item.buttonText,   
   buttonUrl: item.buttonUrl
 }));
+
     }
   });
 }
