@@ -11,6 +11,7 @@ import { FilePreviewPipe } from './utils/pipe';
 import { editService } from './service/edit.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -35,6 +36,7 @@ function fileToBase64(file: File): Promise<string> {
     FormsModule,
     ReactiveFormsModule,
     ConfirmDialogModule,
+    ToastModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './edit.component.html',
@@ -161,9 +163,17 @@ blogItens: any[] = [];
     });
   }
 
-  onCarrosselFinalFileUpload(event: any) {
+onCarrosselFinalFileUpload(event: any) {
   const files = event.files || [];
   for (const file of files) {
+    if (!file.type.startsWith('image/')) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo inválido',
+        detail: 'Por favor, selecione apenas imagens.'
+      });
+      continue; // pula arquivos inválidos
+    }
     this.carrosselFinal.push({ file });
   }
 }
@@ -200,13 +210,21 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
   });
 }
 
-  onOutroCarrosselFileUpload(event: any) {
-    if (event.files && event.files.length > 0) {
-      for (const file of event.files) {
-        this.outroCarrossel.push({ file });
+onOutroCarrosselFileUpload(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      if (!file.type.startsWith('image/')) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Arquivo inválido',
+          detail: 'Por favor, selecione apenas imagens.'
+        });
+        continue; // pula arquivos inválidos
       }
+      this.outroCarrossel.push({ file });
     }
   }
+}
 
   atualizarOutroCarrosselImagem(event: any, index: number) {
     const file = event.target.files[0];
@@ -243,13 +261,21 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
     }
   }
 
-  onEquipeFileUpload(event: any) {
-    if (event.files && event.files.length > 0) {
-      for (const file of event.files) {
-        this.equipeCarrossel.push({ file });
+onEquipeFileUpload(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      if (!file.type.startsWith('image/')) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Arquivo inválido',
+          detail: 'Por favor, selecione apenas imagens.'
+        });
+        continue; // pula arquivos inválidos
       }
+      this.equipeCarrossel.push({ file });
     }
   }
+}
 
   atualizarEquipeImagem(event: any, index: number) {
     const file = event.target.files[0];
@@ -307,17 +333,25 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
     });
   }
 
-  onManifestoSelect(event: any) {
-    if (event.files && event.files.length > 0) {
-      for (const file of event.files) {
-        this.manifestoImagens.push({
-          file,
-          buttonText: '',
-          buttonUrl: '',
+onManifestoSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    for (const file of event.files) {
+      if (!file.type.startsWith('image/')) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Arquivo inválido',
+          detail: 'Por favor, selecione apenas imagens.'
         });
+        continue; // pula arquivos inválidos
       }
+      this.manifestoImagens.push({
+        file,
+        buttonText: '',
+        buttonUrl: '',
+      });
     }
   }
+}
   onUpload(event: any) {
     console.log('Upload concluído:', event);
   }
@@ -333,27 +367,45 @@ confirmDeleteCarrosselFinal(img: any, index: number) {
     }
   }
 
-  onLogoSelect(event: any) {
-    if (event.files && event.files.length > 0) {
-      this.logoImagem = event.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.logoPreview = e.target.result;
-      };
-      reader.readAsDataURL(this.logoImagem as Blob);
+onLogoSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    const file = event.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo inválido',
+        detail: 'Por favor, selecione apenas imagens.'
+      });
+      return;
     }
+    this.logoImagem = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.logoPreview = e.target.result;
+    };
+    reader.readAsDataURL(this.logoImagem as Blob);
   }
+}
 
-  onPresentationSectionFileSelect(event: any) {
-    if (event.files && event.files.length > 0) {
-      this.presentationSectionFile = event.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.presentationSectionFilePreview = e.target.result;
-      };
-      reader.readAsDataURL(this.presentationSectionFile as Blob);
+onPresentationSectionFileSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    const file = event.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo inválido',
+        detail: 'Por favor, selecione apenas imagens.'
+      });
+      return;
     }
+    this.presentationSectionFile = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.presentationSectionFilePreview = e.target.result;
+    };
+    reader.readAsDataURL(this.presentationSectionFile as Blob);
   }
+}
 
   carregarDados(dados: any) {
     
@@ -557,16 +609,25 @@ onBlogFileUpload(event: any) {
   }
 
   conteudoImagemPreview: string | null = null;
-  onConteudoFileSelect(event: any) {
-    if (event.files && event.files.length > 0) {
-      this.conteudoImagem = event.files[0];
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.conteudoImagemPreview = e.target.result;
-      };
-      reader.readAsDataURL(this.conteudoImagem as Blob);
+onConteudoFileSelect(event: any) {
+  if (event.files && event.files.length > 0) {
+    const file = event.files[0];
+    if (!file.type.startsWith('image/')) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo inválido',
+        detail: 'Por favor, selecione apenas imagens.'
+      });
+      return;
     }
+    this.conteudoImagem = file;
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.conteudoImagemPreview = e.target.result;
+    };
+    reader.readAsDataURL(this.conteudoImagem as Blob);
   }
+}
 
   enviarEquipe() {
     const formData = new FormData();
@@ -619,17 +680,29 @@ getEstadoParaComparacao() {
       buttonText: img.buttonText,
       buttonUrl: img.buttonUrl,
       id: img.id,
-      file: typeof img.file === 'string' ? img.file : null
+      file: typeof img.file === 'string'
+        ? img.file
+        : img.file
+          ? (img.file.name || 'file')
+          : null
     })),
     equipeCarrossel: this.equipeCarrossel.map(m => ({
       id: m.id,
-      file: typeof m.file === 'string' ? m.file : null
+      file: typeof m.file === 'string'
+        ? m.file
+        : m.file
+          ? (m.file.name || 'file')
+          : null
     })),
     conteudo: { ...this.conteudo },
     outroCarrossel: this.outroCarrossel.map(o => ({
       id: o.id,
       imgText: o.imgText,
-      file: typeof o.file === 'string' ? o.file : null
+      file: typeof o.file === 'string'
+        ? o.file
+        : o.file
+          ? (o.file.name || 'file')
+          : null
     })),
     faqTitulo: this.faqTitulo,
     faqSubtitulo: this.faqSubtitulo,
@@ -639,10 +712,13 @@ getEstadoParaComparacao() {
     carrosselFinalTitulo: this.carrosselFinalTitulo,
     carrosselFinal: this.carrosselFinal.map(img => ({
       id: img.id,
-      file: typeof img.file === 'string' ? img.file : null,
+      file: typeof img.file === 'string'
+        ? img.file
+        : img.file
+          ? (img.file.name || 'file')
+          : null,
       publicId: img.publicId
     })),
-    // Adicione o blog:
     blogTitulo: this.blogTitulo,
     blogItens: this.blogItens.map(post => ({
       id: post.id,
@@ -651,12 +727,16 @@ getEstadoParaComparacao() {
       data: post.data,
       tempoLeitura: post.tempoLeitura,
       descricaoImagem: post.descricaoImagem,
-      file: typeof post.imagem === 'string' ? post.imagem : null
+      file: typeof post.imagem === 'string'
+        ? post.imagem
+        : post.imagem
+          ? (post.imagem.name || 'file')
+          : null
     }))
   });
 }
-  salvar() {
-      if (this.isLoading) return; // Evita múltiplos cliques rápidos
+ salvar() {
+      if (this.isLoading) return; 
 
  
 
@@ -718,9 +798,10 @@ getEstadoParaComparacao() {
     formDataPut.append('contactSubTitle', this.footer.subtitulo || '');
     formDataPut.append('contactDescription', this.footer.descricao || '');
 
-    if (this.conteudoImagem) {
-      formDataPut.append('presentationSectionFile', this.conteudoImagem);
-    }
+if (this.presentationSectionFile) {
+  formDataPut.append('presentationSectionFile', this.presentationSectionFile);
+}
+
 
     formDataPut.append('contentTitle', this.conteudo.contentTitle || '');
     formDataPut.append('contentSubTitle', this.conteudo.contentSubTitle || '');
