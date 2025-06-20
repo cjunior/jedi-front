@@ -99,6 +99,21 @@
       </ng-template>
     </p-table>
   </div>
+    <!-- Corpo da tabela -->
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td [title]="customer.completeName">{{ customer.completeName | truncate:35 }}</td>
+        <td [title]="customer.email">{{ customer.email | truncate:35 }}</td>
+        <td>{{ customer.cellPhone | cellphone }}</td>
+        <td>
+          @if (customer.cpf) {
+            <p-tag severity="success" value="Completo"></p-tag>
+          } @else {
+            <p-tag severity="info" value="Incompleto"></p-tag>
+          }
+        </td>
+      </tr>
+    </ng-template>
 
 </p-panel>
 
