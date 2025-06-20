@@ -4,7 +4,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PanelModule } from 'primeng/panel';
 import { DropdownModule } from 'primeng/dropdown';
 import { ButtonModule } from 'primeng/button';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators, type ValidatorFn, type AbstractControl, type ValidationErrors } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { FluidModule } from 'primeng/fluid';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -13,6 +13,10 @@ import { PreRegistrationService } from '../../core/services/pre-registration.ser
 import { ActivatedRoute, Router } from '@angular/router';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
+import { cpfValidator } from '../../core/validators/cpf.validator';
+import { birthDateInFutureValidator } from '../../core/validators/futureDate.validator';
+import { rgValidator } from '../../core/validators/rg.validator';
 
 @Component({
   selector: 'app-complete-register',
@@ -27,7 +31,8 @@ import { MessageService } from 'primeng/api';
     FluidModule,
     InputMaskModule,
     FileUploadModule,
-    Toast
+    Toast,
+    MessageModule
   ],
   templateUrl: './complete-register.component.html',
   styleUrl: './complete-register.component.scss',
@@ -43,6 +48,7 @@ export class CompleteRegisterComponent implements OnInit{
   nomeArquivoRG = signal<string | null>(null);
   nomeArquivoComprovante = signal<string | null>(null);
   isLoading = signal<boolean>(false);
+  protected showErrors = signal<boolean>(false);
 
   protected estados = signal([
     { label: 'Bahia', value: 'BA' },
@@ -54,13 +60,13 @@ export class CompleteRegisterComponent implements OnInit{
   ]);
 
   form = this.formBuilder.group({
-    completeName: ['', Validators.required],
+    completeName: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
     cellphone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) \d{5}-\d{4}$/)]],
     municipality: [null, Validators.required],
-    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
-    birthDate: [null, Validators.required],
-    rg: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(12)]],
+    cpf: ['', [Validators.required, cpfValidator]],
+    birthDate: [null, [Validators.required, birthDateInFutureValidator]],
+    rg: ['', [Validators.required, rgValidator]],
     document: [null, Validators.required],
     proofOfAdress: [null, Validators.required],
   });
@@ -87,14 +93,15 @@ export class CompleteRegisterComponent implements OnInit{
   }
 
   cadastrar() {
+    this.showErrors.set(true);
     if (this.form.valid) {
+      this.showErrors.set(false);
       this.isLoading.set(true);
       const rawValues = this.form.getRawValue();
       console.log('Dados do formulário:', rawValues);
 
       const formData = new FormData();
 
-      // Converte a data para yyyy-MM-dd (formato aceito pela API)
       const birthDate = rawValues.birthDate && (rawValues.birthDate as any) instanceof Date
         ? (rawValues.birthDate as Date).toISOString().split('T')[0]
         : String(rawValues.birthDate || '');
@@ -137,19 +144,62 @@ export class CompleteRegisterComponent implements OnInit{
     }
   }
 
+  private readonly TAMANHO_MAXIMO_MB = 1;
+
   onRGUpload(event: any) {
     const file = event.files?.[0];
-    if (file) {
-      this.form.patchValue({ document: file });
-      this.nomeArquivoRG.set(file.name);
+    if (!file) return;
+
+    if (file.size > this.TAMANHO_MAXIMO_MB * 1024 * 1024) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo muito grande',
+        detail: `A foto do RG deve ter no máximo ${this.TAMANHO_MAXIMO_MB} MB.`,
+      });
+      this.form.patchValue({ document: null });
+      this.nomeArquivoRG.set(null);
+      return;
     }
+
+    this.form.patchValue({ document: file });
+    this.nomeArquivoRG.set(file.name);
   }
 
   onComprovanteUpload(event: any) {
     const file = event.files?.[0];
-    if (file) {
-      this.form.patchValue({ proofOfAdress: file });
-      this.nomeArquivoComprovante.set(file.name);
+    if (!file) return;
+
+    if (file.size > this.TAMANHO_MAXIMO_MB * 1024 * 1024) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Arquivo muito grande',
+        detail: `O comprovante deve ter no máximo ${this.TAMANHO_MAXIMO_MB} MB.`,
+      });
+      this.form.patchValue({ proofOfAdress: null });
+      this.nomeArquivoComprovante.set(null);
+      return;
+    }
+
+    this.form.patchValue({ proofOfAdress: file });
+    this.nomeArquivoComprovante.set(file.name);
+  }
+
+  onFileError(event: any, tipo: 'document' | 'proofOfAdress') {
+    const message = 'O arquivo excede o tamanho máximo permitido (1 MB).';
+
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Arquivo muito grande',
+      detail: message,
+    });
+
+    // Limpa o campo se necessário
+    if (tipo === 'document') {
+      this.form.patchValue({ document: null });
+      this.nomeArquivoRG.set(null);
+    } else if (tipo === 'proofOfAdress') {
+      this.form.patchValue({ proofOfAdress: null });
+      this.nomeArquivoComprovante.set(null);
     }
   }
 }

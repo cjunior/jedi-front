@@ -7,7 +7,7 @@
     <!-- Logo e descrição -->
     <div class="flex flex-col items-center gap-2">
       <img src="logo.svg" alt="Logo JED" class="w-50 mb-1">
-      <h1 class="text-3xl font-bold uppercase text-green-900 mb-6">Completar cadastro</h1>
+      <h1 class="text-3xl text-center font-bold uppercase text-green-900 mb-6">Completar cadastro</h1>
     </div>
     <!-- Formulário -->
     <div>
@@ -35,27 +35,49 @@
           ></p-inputmask>
         </div>
 
-        <div class="flex items-center">
+        <div class="flex gap-5">
           <div class="w-1/2">
-            <label for="birth-date" class="text-green-900 block mb-1"> Data de nascimento</label>
+            <label for="birth-date" class="text-green-900 block mb-1 w-fit"> Data de nascimento</label>
             <p-datepicker
               formControlName="birthDate"
               [iconDisplay]="'input'"
               [showIcon]="true"
               inputId="birth-date"
-              class="!w-full"
+              class="!block !w-full"
               placeholder="Selecione"
             />
+            @if(showErrors() && form.get('birthDate')?.hasError('required')) {
+              <p-message
+                severity="error"
+                text="Data de nascimento é obrigatória."
+                variant="simple"
+              ></p-message>
+            }
+            @if(showErrors() && form.get('birthDate')?.hasError('dataFutura')) {
+              <p-message
+                severity="error"
+                text="Data de nascimento não pode ser no futuro."
+                variant="simple"
+              ></p-message>
+            }
           </div>
 
           <div class="w-1/2">
-            <label class="text-green-900 block mb-1">Estado</label>
-            <p-dropdown
+            <label class="text-green-900 block mb-1">Município</label>
+            <input
+              pInputText
               formControlName="municipality"
-              [options]="estados()"
-              placeholder="Selecione..."
-              class="!w-full !h-10"
-            ></p-dropdown>
+              class="w-full"
+              placeholder="Digite o município"
+              class="!w-full"
+            />
+            @if(showErrors() && form.get('municipality')?.hasError('required')) {
+              <p-message
+                severity="error"
+                text="Município é obrigatório."
+                variant="simple"
+              ></p-message>
+            }
           </div>
         </div>
         <div>
@@ -67,6 +89,20 @@
             styleClass="w-full"
             unmask="true"
           ></p-inputmask>
+          @if(showErrors() && form.get('cpf')?.hasError('required')) {
+            <p-message
+              severity="error"
+              text="O CPF é obrigatório."
+              variant="simple"
+            ></p-message>
+          }
+          @if(showErrors() && form.get('cpf')?.hasError('cpfInvalido')) {
+            <p-message
+              severity="error"
+              text="CPF inválido. Verifique os números digitados."
+              variant="simple"
+            ></p-message>
+          }
         </div>
 
         <div>
@@ -78,6 +114,20 @@
             styleClass="w-full"
             unmask="true"
           ></p-inputmask>
+          @if(showErrors() && form.get('rg')?.hasError('required')) {
+            <p-message
+              severity="error"
+              text="O RG é obrigatório."
+              variant="simple"
+            ></p-message>
+          }
+          @if(showErrors() && form.get('rg')?.hasError('rgInvalido')) {
+            <p-message
+              severity="error"
+              text="RG inválido. Verifique os números digitados."
+              variant="simple"
+            ></p-message>
+          }
         </div>
 
         <!-- Upload do RG -->
@@ -89,19 +139,24 @@
             chooseIcon="pi pi-upload"
             chooseLabel="Selecionar arquivo"
             accept="image/*"
-            maxFileSize="2000000"
-            (onSelect)="onRGUpload($event)"
             auto="true"
             customUpload="true"
+            (onSelect)="onRGUpload($event)"
           ></p-fileupload>
           @if(nomeArquivoRG()) {
             <div class="my-1 text-sm text-green-800">
               Arquivo selecionado: <strong>{{ nomeArquivoRG() }}</strong>
             </div>
           }
+          @if(showErrors() && form.get('document')?.hasError('required')) {
+            <p-message
+              severity="error"
+              text="A foto do RG é obrigatória."
+              variant="simple"
+            ></p-message>
+          }
         </div>
 
-        <!-- Upload do comprovante -->
         <div>
           <label class="text-green-900 block mb-1">Comprovante de residência</label>
           <p-fileupload
@@ -110,15 +165,21 @@
             chooseIcon="pi pi-upload"
             chooseLabel="Selecionar arquivo"
             accept="image/*"
-            maxFileSize="2000000"
-            (onSelect)="onComprovanteUpload($event)"
             auto="true"
             customUpload="true"
+            (onSelect)="onComprovanteUpload($event)"
           ></p-fileupload>
           @if(nomeArquivoComprovante()) {
             <div class="my-1 text-sm text-green-800">
               Arquivo selecionado: <strong>{{ nomeArquivoComprovante() }}</strong>
             </div>
+          }
+          @if(showErrors() && form.get('proofOfAdress')?.hasError('required')) {
+            <p-message
+              severity="error"
+              text="O comprovante de residência é obrigatório."
+              variant="simple"
+            ></p-message>
           }
         </div>
 
