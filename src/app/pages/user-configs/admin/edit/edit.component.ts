@@ -534,6 +534,7 @@ onBlogFileUpload(event: any) {
       imagem: file,
       descricaoImagem: ''
     });
+
   }
 }
 

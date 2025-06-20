@@ -66,10 +66,12 @@ export class LadingPageComponent {
   teamResponseDto = {
   equipttext: 'Equipe'
   }
+
 blogDestaque: BlogCard | null = null;
   redeJediSectionDto = {
     titulo: 'REDE JEDI',
   }
+
   
 
   form = this.formBuilder.group({
@@ -81,6 +83,7 @@ ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
       console.log('Dados recebidos:', dados);
+
        const blogItems = dados.blogSectionResponseDto?.items || [];
 
       this.redeJediSectionDto = {
@@ -125,7 +128,6 @@ ngOnInit() {
         description: (dados.contentResponseDto.description || '').replace(/\s+/g, ' ').trim(),
         mainImg: dados.contentResponseDto.mainImg,
         mainImgDescription: (dados.contentResponseDto.mainImgText || '').replace(/\s+/g, ' ').trim()
-
       };
 
       this.contactUsResponseDto = {
