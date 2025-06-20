@@ -82,6 +82,7 @@ blogDestaque: BlogCard | null = null;
 ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
+      console.log('Dados recebidos:', dados);
        const blogItems = dados.blogSectionResponseDto?.items || [];
 
       this.redeJediSectionDto = {
@@ -153,7 +154,9 @@ ngOnInit() {
         descricaoImagem: (item.imageDescription || '').replace(/\s+/g, ' ').trim()
       }));
 
-      this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => item.imgUrl);
+       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
+        imgUrl: item.imgUrl
+      }));
     }
   });
 }
