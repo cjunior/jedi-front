@@ -26,25 +26,46 @@
             <h1 class="sub">{{bannerResponseDto.description}}</h1>
         </div>
 
-        <div class="photo">
-          <p-carousel
-            [value]="carouselImages"
-            [numVisible]="1"
-            [numScroll]="1"
-            [circular]="true"
-            [autoplayInterval]="3000"
-            [showNavigators]="false"
-          >
-            <ng-template pTemplate="item" let-image>
-              <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover;" />
-            </ng-template>
-          </p-carousel>
-
-              <img src="./ondas.svg" alt="" class="w-full">
-
-
-        </div>
-
+      <div class="photo">
+  <p-carousel
+    [value]="carouselImages"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [autoplayInterval]="3000"
+    [showNavigators]="false"
+  >
+    <ng-template pTemplate="item" let-image>
+      <div class="carousel-item-content" style="position: relative; text-align: center;">
+        <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover; width: 100%;" />
+ <button
+  *ngIf="image.buttonText && image.buttonUrl"
+  pButton
+  type="button"
+  class="carousel-btn teste"
+  style="
+    position: absolute;
+    bottom: 38px;
+    right: 85px;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 40px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    font-size: 1rem;
+    z-index: 2;
+  "
+  (click)="openCarouselLink(image.buttonUrl)"
+>
+  {{ image.buttonText }}
+</button>
+      </div>
+    </ng-template>
+  </p-carousel>
+  <img src="./ondas.svg" alt="" class="w-full">
+</div>
 
         <div  class="project">
             <h1 class="pr">{{presentationSectionResponseDto.title}}</h1>
