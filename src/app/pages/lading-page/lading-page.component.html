@@ -1,4 +1,10 @@
-<div class="container">
+<div *ngIf="isInitialLoading" class="custom-loading">
+  <div class="loading-content">
+    <img src="/logo.svg" alt="Logo" class="loading-logo" />
+    <div class="loading-text">Carregando...</div>
+  </div>
+</div>
+<div  class="container" *ngIf="!isInitialLoading">
     <div class="top">
         <app-dropdown/>
       <div class="itens">
