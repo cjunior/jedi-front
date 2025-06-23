@@ -746,7 +746,7 @@
     ::ng-deep .p-carousel-indicator-list{
       flex-wrap: nowrap !important;
     }
-    .btns {
+    .btns2 {
       position: absolute !important;
       bottom: 16px !important;
       right: -68px !important;
@@ -1085,4 +1085,9 @@ h4 {
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
+}
+
+.bts3{
+  width: 100%;
+  height: 100%;
 }
