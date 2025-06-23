@@ -15,10 +15,11 @@ import { Message } from 'primeng/message';
 import { PreRegistrationService } from '../../core/services/pre-registration.service';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { firstValueFrom } from 'rxjs';
+import { delay, firstValueFrom } from 'rxjs';
 import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 interface BlogCard {
   titulo: string;
@@ -47,7 +48,8 @@ interface BlogCard {
     ReactiveFormsModule,
     Toast,
     CarouselModule,
-    CommonModule
+    CommonModule,
+    ProgressSpinnerModule
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
@@ -62,7 +64,7 @@ export class LadingPageComponent {
   menuAberto = false;
   showErrors = signal(false)
   isLoading = signal(false);
-
+ isInitialLoading = true;
   teamResponseDto = {
   equipttext: 'Equipe'
   }
@@ -82,6 +84,7 @@ blogDestaque: BlogCard | null = null;
 ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
+       this.isInitialLoading = false;
        const blogItems = dados.blogSectionResponseDto?.items || [];
 
       this.redeJediSectionDto = {
@@ -159,6 +162,14 @@ ngOnInit() {
   buttonUrl: item.buttonUrl
 }));
 
+    },
+    error: (error) => {
+      this.isInitialLoading = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Ocorreu um erro ao carregar os dados.'
+      });
     }
   });
 }
