@@ -38,6 +38,7 @@
     <ng-template pTemplate="item" let-image>
       <div class="carousel-item-content" style="position: relative; text-align: center;">
         <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover; width: 100%;" />
+
  <button 
   *ngIf="image.buttonText && image.buttonUrl"
   pButton
