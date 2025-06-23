@@ -38,11 +38,11 @@
     <ng-template pTemplate="item" let-image>
       <div class="carousel-item-content" style="position: relative; text-align: center;">
         <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover; width: 100%;" />
- <button
+ <button 
   *ngIf="image.buttonText && image.buttonUrl"
   pButton
   type="button"
-  class="carousel-btn teste"
+  class="carousel-btn btns"
   style="
     position: absolute;
     bottom: 38px;
@@ -156,7 +156,7 @@
   <div class="content" *ngIf="blogDestaque">
 
  <div class="photo cardmain ">
-  <img [src]="blogDestaque.imagem" [alt]="" class="teste" />
+  <img [src]="blogDestaque.imagem" [alt]="" class="" />
 </div>
 
     <div class="pencil">
@@ -175,7 +175,7 @@
     @for (card of cards; track $index) {
       <div class="minor-card">
         <div class="photo cars">
-          <img [src]="card.imagem" [alt]=""  class="teste2">
+          <img [src]="card.imagem" [alt]=""  class="imgs">
 
         </div>
         <div class="content-minor-card">
