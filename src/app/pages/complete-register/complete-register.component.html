@@ -44,7 +44,8 @@
               [showIcon]="true"
               inputId="birth-date"
               class="!block !w-full"
-              placeholder="Selecione"
+              placeholder="dd/mm/aaaa"
+              (onInput)="teste($event)"
             />
             @if(showErrors() && form.get('birthDate')?.hasError('required')) {
               <p-message
@@ -63,7 +64,7 @@
           </div>
 
           <div class="w-1/2">
-            <label class="text-green-900 block mb-1">Município</label>
+            <label class="text-green-900 block mb-1">Município de moradia</label>
             <input
               pInputText
               formControlName="municipality"
@@ -121,16 +122,8 @@
               variant="simple"
             ></p-message>
           }
-          @if(showErrors() && form.get('rg')?.hasError('rgInvalido')) {
-            <p-message
-              severity="error"
-              text="RG inválido. Verifique os números digitados."
-              variant="simple"
-            ></p-message>
-          }
         </div>
 
-        <!-- Upload do RG -->
         <div>
           <label class="text-green-900 block mb-1">Foto do RG</label>
           <p-fileupload
@@ -138,7 +131,6 @@
             name="rg"
             chooseIcon="pi pi-upload"
             chooseLabel="Selecionar arquivo"
-            accept="image/*"
             auto="true"
             customUpload="true"
             (onSelect)="onRGUpload($event)"
@@ -164,7 +156,6 @@
             name="comprovante"
             chooseIcon="pi pi-upload"
             chooseLabel="Selecionar arquivo"
-            accept="image/*"
             auto="true"
             customUpload="true"
             (onSelect)="onComprovanteUpload($event)"

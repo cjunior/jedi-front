@@ -8,12 +8,14 @@ import Aura from '@primeng/themes/aura';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import ptBr from "@angular/common/locales/pt"
+import { provideNgxMask } from "ngx-mask"
 
 registerLocaleData(ptBr)
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideNgxMask(),
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     importProvidersFrom(HttpClientModule),
     provideAnimations(),
