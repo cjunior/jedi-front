@@ -27,6 +27,14 @@ export class AcordionComponent implements OnInit {
     {
       title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
       content: 'Conteúdo do quarto item.'
+    },
+    {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      content: 'Conteúdo do quarto item.'
+    },
+    {
+      title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+      content: 'Conteúdo do quarto item.'
     }
   ];
 
@@ -38,10 +46,24 @@ export class AcordionComponent implements OnInit {
   ngOnInit() {
     this.landingpageservice.getdados().subscribe({
       next: (dados) => {
-        this.faqSectionResponseDto = dados.faqSectionResponseDto.items.map((item: any) => ({
+        const apiItems = dados.faqSectionResponseDto.items.map((item: any) => ({
           title: item.question,
           content: item.answer
         }));
+  
+        // Itens mocados
+        const mockItems = [
+          {
+            title: 'Em quais municípios do Pará o curso será realizado? ',
+            content: 'O curso está disponível nos seguintes municípios: Belém, Ananindeua, Castanhal, Santa Izabel do Pará, Marituba, Benevides, Vigia, Portel, Breves, Abaetetuba, Mojú, Cametá, Barcarena, Tailândia, Igarapé-Miri, Acará, Tomé-Açú, Baião, Bragança, Capanema, Viseu, Capitão-Poço, Curuçá, Salinópolis, São Miguel do Guamá, Paragominas, Rondon do Pará, Ulianópolis, Dom Eliseu, Marabá, Itupiranga, Parauapebas, Canaã dos Carajás, Xinguara, Tucumã, São Felix do Xingu, Conceição do Araguaia, Redenção, Tucuruí, Jacundá, Breu Branco, Novo Repartimento, Pacajá, Uruará, Altamira, Itaituba, Santarém, Alenquer, Oriximiná, Monte Alegre, Óbidos, Juruti e Terra Santa.'
+          },
+          {
+            title: 'Posso participar do curso mesmo que não more em uma cidade polo?',
+            content: 'Não. É necessário comprovar residência no município onde o curso será realizado.'
+          }
+        ];
+  
+        this.faqSectionResponseDto = [...apiItems, ...mockItems];
       },
       error: (error) => {
         console.error('Erro ao obter dados:', error);
