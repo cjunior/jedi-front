@@ -14,6 +14,8 @@ import { Tag } from 'primeng/tag';
 import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
 import { FormsModule } from '@angular/forms';
 import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
+import { ViewRegisterModalComponent } from './components/view-register-modal/view-register-modal.component';
+import type { ICompleteRegister } from '../../../../core/interfaces/pre-registration.interface';
 
 @Component({
   selector: 'app-manage-pre-registration',
@@ -31,7 +33,8 @@ import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
     TruncatePipe,
     FormsModule,
     FloatLabel,
-    cellphonePipe
+    cellphonePipe,
+    ViewRegisterModalComponent
   ],
   templateUrl: './manage-pre-registrations.component.html',
   styleUrl: './manage-pre-registrations.component.scss'
@@ -39,6 +42,8 @@ import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
 export class ManagePreRegistrationsComponent implements OnInit {
   private readonly preRegistrationService = inject(PreRegistrationService);
 
+  protected selectedUser: ICompleteRegister | null = null;
+  protected isVisible = false;
   protected customers: any[] = [];
   protected totalRecords = 0;
   protected loading = true;
@@ -104,5 +109,10 @@ export class ManagePreRegistrationsComponent implements OnInit {
   onSomenteCompletosChange(value: boolean) {
     this.somenteCompletos = value;
     this.somenteCompletos$.next(value);
+  }
+
+  verMais(user: ICompleteRegister) {
+    this.selectedUser = user;
+    this.isVisible = true;
   }
 }

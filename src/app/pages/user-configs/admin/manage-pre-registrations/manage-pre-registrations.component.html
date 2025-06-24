@@ -76,6 +76,7 @@
         <th class="min-w-48">Email</th>
         <th class="min-w-48">Telefone</th>
         <th class="min-w-48">Status</th>
+        <th class="min-w-48">Ações</th>
       </tr>
     </ng-template>
 
@@ -91,6 +92,9 @@
             <p-tag severity="info" value="Incompleto"></p-tag>
           }
         </td>
+        <td>
+          <button pButton icon="pi pi-eye" (click)="verMais(customer)" class="p-button-text"></button>
+        </td>
       </tr>
     </ng-template>
 
@@ -102,4 +106,5 @@
   </p-table>
 
 </p-panel>
+<app-view-register-modal [isVisible]="isVisible" [userRegister]="selectedUser" />
 
