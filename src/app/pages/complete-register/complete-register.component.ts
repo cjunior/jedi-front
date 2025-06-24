@@ -33,8 +33,6 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     FileUploadModule,
     Toast,
     MessageModule,
-    NgxMaskDirective,
-    NgxMaskPipe
   ],
   templateUrl: './complete-register.component.html',
   styleUrl: './complete-register.component.scss',
