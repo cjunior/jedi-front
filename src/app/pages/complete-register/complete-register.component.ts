@@ -15,7 +15,6 @@ import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { cpfValidator } from '../../core/validators/cpf.validator';
 import { birthDateInFutureValidator } from '../../core/validators/futureDate.validator';
-import { rgValidator } from '../../core/validators/rg.validator';
 
 @Component({
   selector: 'app-complete-register',
@@ -31,7 +30,7 @@ import { rgValidator } from '../../core/validators/rg.validator';
     InputMaskModule,
     FileUploadModule,
     Toast,
-    MessageModule
+    MessageModule,
   ],
   templateUrl: './complete-register.component.html',
   styleUrl: './complete-register.component.scss',
@@ -65,7 +64,7 @@ export class CompleteRegisterComponent implements OnInit{
     municipality: [null, Validators.required],
     cpf: ['', [Validators.required, cpfValidator]],
     birthDate: [null, [Validators.required, birthDateInFutureValidator]],
-    rg: ['', [Validators.required, rgValidator]],
+    rg: ['', [Validators.required]],
     document: [null, Validators.required],
     proofOfAdress: [null, Validators.required],
   });
@@ -198,5 +197,23 @@ export class CompleteRegisterComponent implements OnInit{
       this.form.patchValue({ proofOfAdress: null });
       this.nomeArquivoComprovante.set(null);
     }
+  }
+
+  teste(event:any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/\D/g, ''); // remove tudo que não for número
+
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '/' + value.slice(2);
+    }
+    if (value.length > 5) {
+      value = value.slice(0, 5) + '/' + value.slice(5);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10); // limita a 10 caracteres (dd/mm/aaaa)
+    }
+
+    input.value = value;
+
   }
 }
