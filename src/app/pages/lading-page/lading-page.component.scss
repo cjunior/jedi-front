@@ -1091,3 +1091,19 @@ h4 {
   height: 100%;
 
 }
+
+.project{
+  h1{
+    color: #EEDA66;
+  }
+
+  .text-project{
+    color: #EEDA66;
+    font-weight: 600;
+    p{
+      strong{
+        font-weight: 900;
+      }
+    }
+  }
+}
