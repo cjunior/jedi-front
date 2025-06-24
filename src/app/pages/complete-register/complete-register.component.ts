@@ -15,8 +15,6 @@ import { MessageService } from 'primeng/api';
 import { MessageModule } from 'primeng/message';
 import { cpfValidator } from '../../core/validators/cpf.validator';
 import { birthDateInFutureValidator } from '../../core/validators/futureDate.validator';
-import { rgValidator } from '../../core/validators/rg.validator';
-import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 
 @Component({
   selector: 'app-complete-register',
@@ -33,8 +31,6 @@ import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
     FileUploadModule,
     Toast,
     MessageModule,
-    NgxMaskDirective,
-    NgxMaskPipe
   ],
   templateUrl: './complete-register.component.html',
   styleUrl: './complete-register.component.scss',
