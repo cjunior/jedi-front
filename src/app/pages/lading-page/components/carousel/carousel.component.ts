@@ -15,19 +15,24 @@ import { landingPageService } from '../../services/lading-page.service';
 export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
-  items: { image: string; alt: string }[] = [];
+  items: { image: string; alt: string }[] = [
+    { image: '/equipe1.jpeg', alt: 'Equipe 1' },
+    { image: '/equipe2.jpeg', alt: 'Equipe 2' },
+    { image: '/equipe3.jpeg', alt: 'Equipe 3' },
+   
+  ];
 
   ngOnInit() {
-    this.landingPageService.getdados().subscribe({
-      next: (dados) => {
-        this.items = dados.teamResponseDto.items.map((item: any) => {
-          return {
-            image: item.imgUrl,
-            alt: item.name || 'Foto da equipe'
-          };
-        });
-      }
-    });
+    // this.landingPageService.getdados().subscribe({
+    //   next: (dados) => {
+    //     this.items = dados.teamResponseDto.items.map((item: any) => {
+    //       return {
+    //         image: item.imgUrl,
+    //         alt: item.name || 'Foto da equipe'
+    //       };
+    //     });
+    //   }
+    // });
   }
 
   products = [
