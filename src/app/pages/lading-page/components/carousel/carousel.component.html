@@ -1,12 +1,14 @@
-<p-carousel 
-  [value]="items" 
-  [numVisible]="3" 
-  [numScroll]="1"
-  [responsiveOptions]="responsiveOptions"
-  [showIndicators]="false">
-  <ng-template let-item pTemplate="item">
-    <div class="circle-container">
-      <img [src]="item.image" [alt]="item.alt" class="circle-image" />
-    </div>
-  </ng-template>
-</p-carousel>
+<div class="card">
+  <p-carousel 
+    [value]="items" 
+    [numVisible]="3" 
+    [numScroll]="1" 
+    [responsiveOptions]="responsiveOptions"
+    [showIndicators]="false">
+    <ng-template let-item pTemplate="item">
+      <div class="circle-container">
+        <img [src]="item.image" [alt]="item.alt" class="circle-image" />
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

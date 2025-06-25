@@ -27,7 +27,19 @@ export class CarouselSquareComponent implements OnInit {
     {
       image: './conteudo.png',
       alt: 'Banner 1',
-      text: 'Ferramentas de Apoio ao seu Negócio'
+      text: 'Apoio Digital ao Negócio'
+    },
+
+    {
+      image: './conteudo.png',
+      alt: 'Banner 1',
+      text: 'Apoio Digital ao Negócio'
+    },
+
+    {
+      image: './conteudo.png',
+      alt: 'Banner 1',
+      text: 'Apoio Digital ao Negócio'
     },
    
    
