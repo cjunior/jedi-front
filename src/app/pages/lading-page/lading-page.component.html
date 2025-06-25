@@ -16,20 +16,20 @@
     <nav>
         <img [src]="headerResponseDto.urllogo" alt="">
         <ul>
-            <li><a href="#project">{{ headerResponseDto.projeto }}</a></li>
-            <li><a href="#contentC">{{ headerResponseDto.conteudo }}</a></li>
-            <li><a href="#help">{{ headerResponseDto.ajuda }}</a></li>
-            <li><a href="#red">{{ headerResponseDto.red }}</a></li>
+            <li><a href="#project">Projeto</a></li>
+            <li><a href="#contentC">Conteúdo</a></li>
+            <li><a href="#help">Ajuda</a></li>
+            <li><a href="#red">#RedeJED</a></li>
     </ul>
-    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">{{headerResponseDto.buttontext}}</button>
+    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">Resgistre-se</button>
     </nav>
 
     <div class="container-one">
         <div class="containertext">
             <div class="text">
-                <H1>{{bannerResponseDto.title}}</H1>
+                <H1>Dê um play no seu futuro</H1>
             </div>
-            <h1 class="sub">{{bannerResponseDto.description}}</h1>
+            <h1 class="sub">Sua oportunidade de conhecer ferramentas digitais para criar, desenvolver e gerenciar seu negócio de forma rápida, prática e gratuita.</h1>
         </div>
 
       <div class="photo">
@@ -75,7 +75,7 @@
 </div>
 
         <div  class="project">
-            <h1 class="pr">{{presentationSectionResponseDto.title}}</h1>
+            <h1 class="pr">O PROJETO</h1>
             <div class="text-project">
               <p>
                 O <strong>Jovens Empreendedores Digitais</strong> é um curso 100% gratuito que estimula o empreendedorismo com foco na geração de renda e no fortalecimento da economia solidária.
@@ -96,18 +96,18 @@
     </div>
     <div class="container-two">
         <div class="square-content">
-            <div class="circle"><h1>{{presentationSectionResponseDto.firstStatistic}}</h1></div>
-            <span>{{presentationSectionResponseDto.imgDescription}}</span>
+            <div class="circle"><h1># de estudantes</h1></div>
+            <span>Oferecemos um curso acessível para quem deseja explorar o mundo dos negócios digitais com autonomia.</span>
         </div>
         <img [src]="presentationSectionResponseDto.imgUrl" alt="">
         <div class="square-content-two">
             <div class="circle">
-                <h1>{{presentationSectionResponseDto.secondStatistic}}</h1>
+                <h1># de alcance</h1>
             </div>
         </div>
     </div>
     <div class="container-three">
-        <h1 class="mb-4">{{teamResponseDto.equipttext}}</h1>
+        <h1 class="mb-4">Equipe</h1>
        <app-carousel/>
 
 
@@ -115,16 +115,16 @@
     <img id="contentC" src="./onda2.svg" alt="">
     <div class="container-four">
         <div class="text">
-            <h1>{{contentResponseDto.title}}</h1>
+            <h1>CONTEÚDOS</h1>
             <div class="text-content">
-                <h2>{{contentResponseDto.subTitle}} </h2>
+                <h2>Explore os Conteúdos</h2>
                 <span>O curso foi pensado para te ajudar a transformar sua ideia em um negócio digital de forma simples, prática e conectada com a sua realidade. Em quatro módulos, você vai aprender ferramentas e estratégias para aprimorar o que já faz ou começar algo novo no mundo online. Confira os conteúdos do curso:</span>
             </div>
         </div>
 
   <div class="card">
      <div class="content">
-      <h1>{{contentResponseDto.mainImgDescription}}</h1>
+      <h1>Sua Ideia de Negócio</h1>
     </div>
     <img
       [src]="contentResponseDto.mainImg"
@@ -141,8 +141,8 @@
     </div>
     <div id="help" class="container-six">
         <div class="text5">
-            <h1>{{faqSectionResponseDto.title}}</h1>
-            <h2>{{faqSectionResponseDto.subtitle}}</h2>
+            <h1>Perguntas frequentes</h1>
+            <h2>Dúvidas comuns sobre o curso</h2>
         </div>
 
         <app-acordion/>
@@ -151,7 +151,7 @@
     <div class="container-seven">
         <div class="container-text">
             <div class="text">
-                <h1>{{contactUsResponseDto.title}}</h1>
+                <h1>Fale Conosco</h1>
                 <h2>Tem dúvidas, sugestões ou precisa de ajuda? Fale com a gente pelos canais abaixo:</h2>
             </div>
 
@@ -184,7 +184,7 @@
     </div>
 
     <div id="red" class="container-eight">
-        <h1>{{redeJediSectionDto.titulo}}</h1>
+        <h1>Rede#JED</h1>
         <app-carousel-content/>
     </div>
     <div class="container-nine">

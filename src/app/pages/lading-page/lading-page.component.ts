@@ -224,7 +224,10 @@ openCarouselLink(url: string) {
 
       }
 
-    carouselImages: { imgUrl: string }[] = [];
+      carouselImages: { imgUrl: string; buttonText?: string; buttonUrl?: string }[] = [
+        { imgUrl: './fotoH.jpg', },
+       
+      ];
 
 
     cards = [
