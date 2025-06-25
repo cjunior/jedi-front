@@ -14,7 +14,9 @@ export interface ICompleteRegistrationPayload {
 }
 
 export interface ICompleteRegister extends IPreRegistration, ICompleteRegistrationPayload {
-
+  cellPhone: string;
+  documentUrl: string;
+  proofOfAdressUrl: string;
 }
 
 export interface IPreRegistrationResponse {
