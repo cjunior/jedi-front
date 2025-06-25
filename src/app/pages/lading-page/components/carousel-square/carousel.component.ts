@@ -29,7 +29,7 @@ export class CarouselSquareComponent implements OnInit {
       alt: 'Banner 1',
       text: 'Apoio Digital ao Negócio',
     },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Apoio ' },
+   
 
     { image: './conteudo.png', alt: 'Banner 1', text: 'Empreendedorismo' },
     { image: './conteudo.png', alt: 'Banner 1', text: 'Business CANVAS ' },
