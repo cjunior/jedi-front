@@ -16,13 +16,14 @@ export class CarouselContentComponent implements OnInit {
 items: { image: string; alt: string; text: string }[] = [];
 
 ngOnInit() {
+  
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
       // Se quiser pegar as imagens do redeJediSectionDto:
       this.items = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
         image: img.url,
         alt: img.publicId || 'Imagem do item',
-        text: img.publicId || ''
+        text: img.imgText || ''
       }));
     }
   });

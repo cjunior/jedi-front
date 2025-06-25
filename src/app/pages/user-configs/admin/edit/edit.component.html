@@ -494,14 +494,14 @@
         [(ngModel)]="conteudo.contentTitle"
         placeholder="Nome Conteúdo"
         class="w-full mb-2"
-         maxlength="20"
+         maxlength="40"
       />
       <input
         pInputText
         [(ngModel)]="conteudo.contentSubTitle"
         placeholder="Título"
         class="w-full mb-2"
-         maxlength="20"
+         maxlength="40"
       />
       <input
         pInputText
@@ -810,7 +810,6 @@
       [customUpload]="true"
       [multiple]="true"
       accept="image/*"
-      maxFileSize="1000000"
       chooseIcon="pi pi-upload"
       chooseLabel="Adicionar fotos"
       (onSelect)="onCarrosselFinalFileUpload($event)"

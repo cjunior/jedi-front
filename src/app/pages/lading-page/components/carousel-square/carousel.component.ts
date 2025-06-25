@@ -17,11 +17,11 @@ export class CarouselSquareComponent implements OnInit {
 ngOnInit() {
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
-      // Se quiser pegar as imagens do redeJediSectionDto:
+      console.log('Dados recebidos:', dados);
       this.items = (dados.contentResponseDto.items || []).map((img: any) => ({
         image: img.imgUrl,
         alt: img.publicId || 'Imagem do item',
-        text: img.publicId || ''
+        text: img.imgDescription || 'teste' // Use a propriedade correta do seu backend
       }));
     }
   });
