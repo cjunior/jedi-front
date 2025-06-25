@@ -1,4 +1,5 @@
 export interface IBlog {
+  id: number;
   date: string;
   title: string;
   readindTime: string;

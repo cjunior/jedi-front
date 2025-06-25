@@ -1,0 +1,47 @@
+<div class="bg-orange-50 w-full min-h-screen">
+  <div class="max-w-[1440px]! mx-auto pt-8 px-3">
+    <div class="flex flex-col sm:flex-row items-center justify-center">
+      <div>
+        <img src="logo.svg" alt="" class="h-30">
+      </div>
+      <div>
+        <h1 class="text-3xl text-emerald-900 uppercase sm:pl-6 sm:pt-5">Blog</h1>
+      </div>
+    </div>
+    <div>
+      <div>
+        <div class="flex flex-col md:flex-row items-start md:items-end md:justify-between pt-12">
+          <a class="underline! text-emerald-500!" routerLink="/blog">Voltar</a>
+          <h1 class="text-center text-emerald-900 flex-1">{{ post?.title }}</h1>
+        </div>
+        <div class="w-full h-[1px] bg-zinc-300"></div>
+      </div>
+      <div class="flex flex-col items-center mt-6">
+        <div class="flex pb-4">
+          <p-avatar
+            label="J"
+            styleClass="mr-2"
+            size="large"
+            shape="circle"
+          />
+          <div class="">
+            <p class="text-zinc-600 font-bold">{{ post?.author }}</p>
+            <p class="text-zinc-600 text-xs">{{ post?.date}}</p>
+          </div>
+        </div>
+        <div class="w-full max-w-4xl">
+          <img [src]="post?.imageUrl" alt="" class="w-full h-100 object-cover rounded-lg">
+            <p class="text-zinc-600 mt-4 break-words">{{ post?.imageDescription }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  @if(showScrollTop) {
+    <p-button
+      icon="pi pi-arrow-up"
+      label="Voltar ao topo"
+      (click)="scrollToTop()"
+      styleClass="fixed! bottom-6! right-6! border-emerald-700! bg-emerald-800! text-white rounded-lg! shadow-lg! hover:bg-emerald-900! transition-opacity! duration-300!"
+    />
+  }
+</div>

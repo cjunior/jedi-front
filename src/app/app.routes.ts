@@ -14,6 +14,10 @@ export const routes: Routes = [
       loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
     },
     {
+      path: 'blog/:id',
+      loadComponent: () => import('./pages/unique-post-blog/unique-post-blog.component').then(m => m.UniquePostBlogComponent)
+    },
+    {
         path: 'login',
         loadComponent: () => import('./pages/login/login/login.component').then(m => m.LoginComponent),
         canActivate: [loginGuard]

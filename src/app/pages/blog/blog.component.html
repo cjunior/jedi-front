@@ -1,5 +1,5 @@
-<div class="bg-orange-50  w-full h-full">
-  <div class="max-w-[1440px]! mx-auto h-30 pt-8">
+<div class="w-full h-full">
+  <div class="max-w-[1440px]! mx-auto pt-8">
     <div class="flex items-center justify-center">
       <div>
         <img src="logo.svg" alt="" class="h-30">
@@ -15,18 +15,29 @@
       </div>
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
         @for (card of posts(); track $index) {
-          <div class="flex flex-col rounded-2xl" [style]="{ 'background-color': bgColors()[$index] }">
+          <div class="flex flex-col rounded-2xl h-100" [style]="{ 'background-color': bgColors()[$index] }">
             <div class="w-full h-60 flex items-center justify-center">
               <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg">
             </div>
-            <div class="flex flex-col text-center">
-              <h2 class="text-xl text-white font-semibold pt-2">{{ card.title }}</h2>
-              <p class="text-zinc-600 mt-2">{{ card.imageDescription }}</p>
+            <div class="h-40 flex flex-col items-center">
+              <h2 class="text-xl text-white text-center font-semibold pt-2">{{ card.title }}</h2>
+              <!-- <p class="text-zinc-600 mt-2">{{ card.imageDescription }}</p> -->
+              <button
+                pButton
+                class="w-30 mt-auto mb-4 font-bold uppercase transition-transform duration-300 ease-in-out hover:scale-102"
+                [style]="{
+                  'background-color': lightenColor(bgColors()[$index], 35),
+                  'color': bgColors()[$index],
+                  'border-color': bgColors()[$index]
+                }"
+                (click)="openPost(card.id)"
+              >
+                Leia mais
+              </button>
             </div>
           </div>
         }
       </div>
     </div>
   </div>
-
 </div>
