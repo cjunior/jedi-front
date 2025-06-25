@@ -20,6 +20,7 @@ import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { RouterLink } from '@angular/router';
 
 interface BlogCard {
   titulo: string;
@@ -49,7 +50,8 @@ interface BlogCard {
     Toast,
     CarouselModule,
     CommonModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
@@ -158,7 +160,7 @@ ngOnInit() {
 
       this.carouselImages = (dados.bannerResponseDto.items || []).map((item: any) => ({
   imgUrl: item.imgUrl,
-  buttonText: item.buttonText,   
+  buttonText: item.buttonText,
   buttonUrl: item.buttonUrl
 }));
 

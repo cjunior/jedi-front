@@ -1,0 +1,32 @@
+<div class="bg-orange-50  w-full h-full">
+  <div class="max-w-[1440px]! mx-auto h-30 pt-8">
+    <div class="flex items-center justify-center">
+      <div>
+        <img src="logo.svg" alt="" class="h-30">
+      </div>
+      <div>
+        <h1 class="text-3xl text-emerald-900 uppercase pl-6 pt-5">Blog</h1>
+      </div>
+    </div>
+    <div>
+      <div>
+        <h1 class="text-emerald-900 pt-12">Últimas postagens</h1>
+        <div class="w-full h-[1px] bg-zinc-300"></div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+        @for (card of posts(); track $index) {
+          <div class="flex flex-col rounded-2xl" [style]="{ 'background-color': bgColors()[$index] }">
+            <div class="w-full h-60 flex items-center justify-center">
+              <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg">
+            </div>
+            <div class="flex flex-col text-center">
+              <h2 class="text-xl text-white font-semibold pt-2">{{ card.title }}</h2>
+              <p class="text-zinc-600 mt-2">{{ card.imageDescription }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+
+</div>
