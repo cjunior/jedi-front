@@ -15,7 +15,7 @@ export class CarouselContentComponent implements OnInit {
 
   items: { image: string; alt: string; text: string }[] = [
     {
-      image: './fotoH.jpg',
+      image: './red.png',
       alt: 'Imagem exemplo 1',
       text: 'Texto do slide 1'
     },
