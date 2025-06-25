@@ -1,12 +1,14 @@
 <div class="flex justify-between items-center mb-4">
   <h3 class="text-lg text-zinc-700">Pré-cadastros</h3>
-  <!-- <button
+  <button
     pButton
     type="button"
     icon="pi pi-download"
     label="Gerar relatório"
     class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
-  ></button> -->
+    (click)="togglePopover($event)"
+    [loading]="loadingDownload"
+  ></button>
 </div>
 
 <div class="flex gap-4 mb-2 mt-12 items-end">
@@ -66,7 +68,7 @@
     [lazy]="true"
     [totalRecords]="totalRecords"
     (onLazyLoad)="loadPage($event)"
-    [loading]="loading"
+    [loading]="loadingTable"
     stripedRows
     scrollable="true"
   >
@@ -86,7 +88,7 @@
         <td [title]="customer.email">{{ customer.email | truncate:35 }}</td>
         <td>{{ customer.cellPhone | cellphone }}</td>
         <td>
-          @if (customer.cpf) {
+          @if (customer.status === 'COMPLETO') {
             <p-tag severity="success" value="Completo"></p-tag>
           } @else {
             <p-tag severity="info" value="Incompleto"></p-tag>
@@ -106,5 +108,24 @@
   </p-table>
 
 </p-panel>
-<app-view-register-modal [isVisible]="isVisible" [userRegister]="selectedUser" />
+<app-view-register-modal [isVisible]="isVisible" [userRegister]="selectedUser" (closed)="onModalClosed()" />
+<p-popover #op>
+  <div class="flex flex-col gap-4">
+      <div>
+          <span class="font-semibold block mb-2">Selecione o filtro</span>
+          <ul class="list-none p-0 m-0 flex flex-col">
+              <li (click)="downloadRegistrations('TODOS')" class="flex items-center gap-2 px-2 py-1 hover:bg-emerald-200 hover:text-emerald-900 cursor-pointer rounded-md">
+                  Todos
+              </li>
+              <li (click)="downloadRegistrations('COMPLETO')" class="flex items-center gap-2 px-2 py-1 hover:bg-emerald-200 hover:text-emerald-900 cursor-pointer rounded-md">
+                  Completos
+              </li>
+              <li (click)="downloadRegistrations('INCOMPLETO')" class="flex items-center gap-2 px-2 py-1 hover:bg-emerald-200 hover:text-emerald-900 cursor-pointer rounded-md">
+                  Incompletos
+              </li>
+          </ul>
+      </div>
+  </div>
+</p-popover>
+<p-toast />
 

@@ -18,7 +18,7 @@
     </div>
     <div>
       <label><strong>Telefone:</strong></label>
-      <div>{{ userRegister?.cellPhone }}</div>
+      <div>{{ userRegister?.cellPhone | cellphone }} </div>
     </div>
     @if(userRegister?.birthDate) {
       <div>
@@ -35,22 +35,22 @@
     @if(userRegister?.cpf) {
       <div >
         <label><strong>CPF:</strong></label>
-        <div>{{ userRegister?.cpf }}</div>
+        <div>{{ userRegister?.cpf | cpf }}</div>
       </div>
     }
     @if(userRegister?.rg) {
       <div>
         <label><strong>RG:</strong></label>
-        <div>{{ userRegister?.rg }}</div>
+        <div>{{ userRegister?.rg | rg }}</div>
       </div>
     }
-    <div class="flex gap-4 mt-4">
+    <div class="flex justify-end gap-4 mt-4">
       @if(userRegister?.documentUrl) {
         <div>
           <a
             [href]="userRegister?.documentUrl"
             target="_blank"
-            class="text-blue-700 underline"
+            class="text-emerald-700! underline!"
           >Ver RG</a>
         </div>
       }
@@ -59,7 +59,7 @@
           <a
             [href]="userRegister?.proofOfAdressUrl"
             target="_blank"
-            class="text-blue-700 underline"
+            class="text-emerald-700! underline!"
           >Ver Comprovante de Residência</a>
         </div>
       }
