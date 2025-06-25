@@ -17,8 +17,11 @@ export class CarouselComponent implements OnInit {
 
   items: { image: string; alt: string }[] = [
     { image: '/equipe1.jpeg', alt: 'Equipe 1' },
-    { image: '/equipe2.jpeg', alt: 'Equipe 2' },
+    { image: '/equipe2.jpg', alt: 'Equipe 2' },
     { image: '/equipe3.jpeg', alt: 'Equipe 3' },
+    { image: '/equipe4.jpg', alt: 'Equipe 1' },
+    { image: '/equipe5.jpg', alt: 'Equipe 2' },
+    { image: '/equipe6.jpg', alt: 'Equipe 3' },
    
   ];
 
@@ -46,7 +49,7 @@ export class CarouselComponent implements OnInit {
   responsiveOptions = [
     {
       breakpoint: '1024px',
-      numVisible: 5,
+      numVisible: 3,
       numScroll: 1
     },
     {
@@ -56,7 +59,7 @@ export class CarouselComponent implements OnInit {
     },
     {
       breakpoint: '560px',
-      numVisible: 1,
+      numVisible: 3,
       numScroll: 1
     }
   ];

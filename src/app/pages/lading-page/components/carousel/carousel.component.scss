@@ -15,6 +15,9 @@
   height: 100%;
   object-fit: cover;
 }
-
+::ng-deep .p-carousel .p-carousel-items-content {
+  justify-content: center !important;
+  display: flex !important;
+}
 
  
