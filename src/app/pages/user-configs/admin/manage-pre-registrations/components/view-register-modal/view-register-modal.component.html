@@ -1,0 +1,68 @@
+
+<p-dialog
+  [(visible)]="isVisible"
+  modal="true"
+  header="Detalhes do Registro"
+  [style]="{ width: '600px' }"
+  [closable]="true"
+  (onHide)="onCloseModal()"
+>
+  <div class="p-fluid space-y-3">
+    <div>
+      <label><strong>Nome:</strong></label>
+      <div>{{ userRegister?.completeName }}</div>
+    </div>
+    <div>
+      <label><strong>Email:</strong></label>
+      <div>{{ userRegister?.email }}</div>
+    </div>
+    <div>
+      <label><strong>Telefone:</strong></label>
+      <div>{{ userRegister?.cellPhone | cellphone }} </div>
+    </div>
+    @if(userRegister?.birthDate) {
+      <div>
+        <label><strong>Data de Nascimento:</strong></label>
+        <div>{{ userRegister?.birthDate | date: 'dd/MM/yyyy' }}</div>
+      </div>
+    }
+    @if(userRegister?.municipality) {
+      <div>
+        <label><strong>Município:</strong></label>
+        <div>{{ userRegister?.municipality }}</div>
+      </div>
+    }
+    @if(userRegister?.cpf) {
+      <div >
+        <label><strong>CPF:</strong></label>
+        <div>{{ userRegister?.cpf | cpf }}</div>
+      </div>
+    }
+    @if(userRegister?.rg) {
+      <div>
+        <label><strong>RG:</strong></label>
+        <div>{{ userRegister?.rg | rg }}</div>
+      </div>
+    }
+    <div class="flex justify-end gap-4 mt-4">
+      @if(userRegister?.documentUrl) {
+        <div>
+          <a
+            [href]="userRegister?.documentUrl"
+            target="_blank"
+            class="text-emerald-700! underline!"
+          >Ver RG</a>
+        </div>
+      }
+      @if(userRegister?.proofOfAdressUrl) {
+        <div>
+          <a
+            [href]="userRegister?.proofOfAdressUrl"
+            target="_blank"
+            class="text-emerald-700! underline!"
+          >Ver Comprovante de Residência</a>
+        </div>
+      }
+    </div>
+  </div>
+</p-dialog>

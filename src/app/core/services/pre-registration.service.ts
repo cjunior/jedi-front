@@ -40,4 +40,8 @@ export class PreRegistrationService {
   verifyPreRegistration(token: string): Observable<IPreRegistration> {
     return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`);
   }
+
+  downloadRegistrations(status: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}management/relatorio/pre-inscricoes/pdf`, { responseType: 'blob', params: { status } });
+  }
 }
