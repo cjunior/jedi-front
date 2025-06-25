@@ -45,7 +45,7 @@
       <div class="carousel-item-content" style="position: relative; text-align: center;">
         <img [src]="image.imgUrl" class="foto" alt="" style="object-fit: cover; width: 100%;" />
 
- <button 
+ <button
   *ngIf="image.buttonText && image.buttonUrl"
   pButton
   type="button"
@@ -159,10 +159,18 @@
                 <h1>{{contactUsResponseDto.title}}</h1>
                 <h2>Tem dúvidas, sugestões ou precisa de ajuda? Fale com a gente pelos canais abaixo:</h2>
             </div>
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <img src="assets/instagram.svg" alt="Instagram" style="width: 28px; height: 28px;" />
-              <span style="font-size: 1.1rem;">&#64;jovempreendedordigital</span>
+
+            <div style="display: flex; gap: 8px; flex-direction: column; margin-top: 10px;">
+              <div class="red" style="display: flex; align-items: center; gap: 8px;">
+                <i class="pi pi-envelope" style="font-size: 1.5rem; color: #EA4335;"></i>
+                <span style="font-size: 1.1rem;">empreendedoresdigitais&#64;ifce.edu.br</span>
+              </div>
+              <div class="red" style="display: flex; align-items: center; gap: 8px;">
+                <i class="pi pi-instagram" style="font-size: 1.5rem; color: #833AB4;"></i>
+                <span style="font-size: 1.1rem;">&#64;jovempreendedordigital</span>
+              </div>
             </div>
+
         </div>
         <app-form/>
 
