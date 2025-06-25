@@ -7,7 +7,10 @@
     [showIndicators]="false">
     <ng-template let-item pTemplate="item">
       <div class="rectangle-container">
-        <img [src]="item.image" alt="Carousel item" class="rectangle-image" />
+        <div class="content">
+          <h1>{{ item.text }}</h1>
+        </div>
+        <img [src]="item.image" [alt]="item.alt" class="rectangle-image" />
       </div>
     </ng-template>
   </p-carousel>

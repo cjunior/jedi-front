@@ -20,3 +20,46 @@
 .card{
   margin-top: 121px;
 }
+
+.rectangle-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+  height: 300px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 0;
+}
+
+.content {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #efc209;
+  border-radius: 10px 10px 0 0;
+}
+
+.rectangle-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 0 0 10px 10px;
+}
+
+h1{
+  font-family: Roboto Slab, sans-serif;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: 1.25px;
+    text-align: justify;
+    vertical-align: middle;
+    text-transform: uppercase;
+    color: #426b53;
+}
