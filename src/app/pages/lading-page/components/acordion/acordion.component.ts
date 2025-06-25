@@ -69,6 +69,7 @@ export class AcordionComponent implements OnInit {
     //         content: 'Pessoas de 16 a 29 anos que residem do Estado do Pará.'
     //       }
     //     ];
+
   
     //     this.faqSectionResponseDto = [...apiItems, ...mockItems];
     //   },
