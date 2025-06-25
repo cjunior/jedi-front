@@ -51,7 +51,6 @@ export class AcordionComponent implements OnInit {
           content: item.answer
         }));
   
-        // Itens mocados
         const mockItems = [
           {
             title: 'Em quais municípios do Pará o curso será realizado? ',
@@ -60,6 +59,10 @@ export class AcordionComponent implements OnInit {
           {
             title: 'Posso participar do curso mesmo que não more em uma cidade polo?',
             content: 'Não. É necessário comprovar residência no município onde o curso será realizado.'
+          },
+            {
+            title: 'Quem pode participar?',
+            content: 'Pessoas de 16 a 29 anos que residem do Estado do Pará.'
           }
         ];
   
