@@ -12,67 +12,25 @@ import { landingPageService } from '../../services/lading-page.service';
 })
 export class CarouselSquareComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
-  items: { image: string; alt: string; text: string }[] = [
-    {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Seu Produto na Internet'
-    },
-    {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Venda Mais na Internet'
-    },
-   
-    {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Apoio Digital ao Negócio'
-    },
 
-    {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Apoio Digital ao Negócio'
-    },
-
-    {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Apoio Digital ao Negócio'
-    },
-   
-   
+  items = [
+    { image: './conteudo.png', alt: 'Banner 1', text: 'Seu Produto na Internet' },
+    { image: './conteudo.png', alt: 'Banner 1', text: 'Venda Mais na Internet' },
+    { image: './conteudo.png', alt: 'Banner 1', text: 'Apoio Digital ao Negócio' },
+    { image: './conteudo.png', alt: 'Banner 1', text: 'Apoio Digital ao Negócio' },
+    { image: './conteudo.png', alt: 'Banner 1', text: 'Apoio ' }
   ];
 
-ngOnInit() {
-  // this.landingPageService.getdados().subscribe({
-  //   next: (dados) => {
-  //     console.log('Dados recebidos:', dados);
-  //     this.items = (dados.contentResponseDto.items || []).map((img: any) => ({
-  //       image: img.imgUrl,
-  //       alt: img.publicId || 'Imagem do item',
-  //       text: img.imgDescription || 'teste' // Use a propriedade correta do seu backend
-  //     }));
-  //   }
-  // });
+  isMobile = false;
 
-}
+  ngOnInit() {
+    this.checkMobile();
+    window.addEventListener('resize', () => this.checkMobile());
+  }
 
-// ngOnInit() {
-//   this.landingPageService.getdados().subscribe({
-//     next: (dados) => {
-//       // Se quiser pegar as imagens do redeJediSectionDto:
-//       this.items = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
-//         image: img.url,
-//         alt: img.publicId || 'Imagem do item',
-//         text: img.publicId || ''
-//       }));
-//     }
-//   });
-// }
-
-
+  checkMobile() {
+    this.isMobile = window.innerWidth <= 990;
+  }
 
   responsiveOptions = [
     {
