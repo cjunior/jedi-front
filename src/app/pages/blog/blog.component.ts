@@ -1,13 +1,14 @@
 import { Component, inject, signal, type OnInit } from '@angular/core';
 import { BlogServiceService } from './services/blog-service.service';
-import type { IBlog, IBlogResponse } from '../../core/interfaces/blog.interface';
+import type { IPost, IBlogResponse } from '../../core/interfaces/blog.interface';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterLink } from '@angular/router';
+import { TruncatePipe } from '../../core/pipes/truncate.pipe';
 
 @Component({
   selector: 'app-blog',
-  imports: [CommonModule, ButtonModule],
+  imports: [CommonModule, ButtonModule,  TruncatePipe],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss'
 })
@@ -15,8 +16,44 @@ export class BlogComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly blogService = inject(BlogServiceService)
 
-  protected posts = signal<IBlog[]>([]);
+  protected isLoading = true;
+  protected posts = signal<IPost[]>([]);
   protected bgColors = signal([
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
+    "#2e5b39",
+    "#dc7f3a",
+    "#efa95d",
+    "#1e6197",
+    "#7c8457",
     "#2e5b39",
     "#dc7f3a",
     "#efa95d",
@@ -25,13 +62,15 @@ export class BlogComponent implements OnInit {
   ])
 
   ngOnInit(): void {
-    this.blogService.getPosts().subscribe({
-      next: (posts: IBlogResponse) => {
-        console.log('Blog posts fetched successfully:', posts);
-        this.posts.set(posts.items);
+    this.blogService.getPosts()
+    this.blogService.getPosts$.subscribe({
+      next: (response: IPost[]) => {
+        this.posts.set(response);
+        this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error fetching blog posts:', error);
+        console.error('Erro ao buscar posts do blog:', error);
+        this.isLoading = false;
       }
     });
   }

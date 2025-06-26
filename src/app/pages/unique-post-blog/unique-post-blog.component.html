@@ -1,3 +1,13 @@
+@if(isInitialLoading) {
+  <div class="custom-loading">
+    <div class="loading-content">
+      <img src="/logo.svg" alt="Logo" class="loading-logo" />
+      <div class="loading-text">Carregando...</div>
+    </div>
+  </div>
+}
+
+
 <div class="bg-orange-50 w-full min-h-screen">
   <div class="max-w-[1440px]! mx-auto pt-8 px-3">
     <div class="flex flex-col sm:flex-row items-center justify-center">
@@ -19,10 +29,10 @@
       <div class="flex flex-col items-center mt-6">
         <div class="flex pb-4">
           <p-avatar
-            label="J"
             styleClass="mr-2"
             size="large"
             shape="circle"
+            [image]="post?.iconUrl"
           />
           <div class="">
             <p class="text-zinc-600 font-bold">{{ post?.author }}</p>
@@ -31,7 +41,7 @@
         </div>
         <div class="w-full max-w-4xl">
           <img [src]="post?.imageUrl" alt="" class="w-full h-100 object-cover rounded-lg">
-            <p class="text-zinc-600 mt-4 break-words">{{ post?.imageDescription }}</p>
+          <div [innerHTML]="getSafeHtml(post?.description || '')" class="prose!"></div>
         </div>
       </div>
     </div>

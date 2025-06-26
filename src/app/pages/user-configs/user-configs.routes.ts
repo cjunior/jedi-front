@@ -17,6 +17,10 @@ export const userConfigsRoutes: Routes = [
       {
         path: 'pre-cadastros',
         loadComponent: () => import('./admin/manage-pre-registrations/manage-pre-registrations.component').then(m => m.ManagePreRegistrationsComponent)
+      },
+      {
+        path: 'gerenciar-blog',
+        loadComponent: () => import('./admin/manage-blog/manage-blog.component').then(m => m.ManageBlogComponent)
       }
     ]
   }

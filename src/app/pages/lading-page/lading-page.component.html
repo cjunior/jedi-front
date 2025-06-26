@@ -210,19 +210,21 @@
 
   <div class="cards">
     @for (card of cards; track $index) {
-      <div class="minor-card">
-        <div class="photo cars">
-          <img [src]="card.imagem" [alt]=""  class="imgs">
-        </div>
-        <div class="content-minor-card">
-          <h4>{{ card.titulo }}</h4>
-          <span>Escrito por {{ card.autor }}</span>
-          <div class="date">
-            <span>{{ card.data }}</span>
-            <span>{{ card.tempoLeitura }}</span>
+      @if($index < 3) {
+        <div class="minor-card">
+          <div class="photo cars">
+            <img [src]="card.imagem" [alt]=""  class="imgs">
+          </div>
+          <div class="content-minor-card">
+            <h4>{{ card.titulo }}</h4>
+            <span>Escrito por {{ card.autor }}</span>
+            <div class="date">
+              <span>{{ card.data }}</span>
+              <span>{{ card.tempoLeitura }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      }
     }
     <div class="flex justify-end pt-2">
       <a href="" class="text-emerald-400! underline! text-end!" routerLink="blog">ver mais</a>

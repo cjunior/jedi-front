@@ -1,9 +1,10 @@
 import { Component, inject, type OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BlogServiceService } from '../blog/services/blog-service.service';
-import type { IBlog } from '../../core/interfaces/blog.interface';
+import type { IPost } from '../../core/interfaces/blog.interface';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonModule } from 'primeng/button';
+import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-unique-post-blog',
@@ -14,27 +15,34 @@ import { ButtonModule } from 'primeng/button';
 export class UniquePostBlogComponent implements OnInit{
   private readonly route = inject(ActivatedRoute);
   private readonly blogService = inject(BlogServiceService);
-  protected post: IBlog | null = null;
+  private readonly sanitizer = inject(DomSanitizer);
+
+  protected isInitialLoading = true;
+  protected post: IPost | null = null;
   protected showScrollTop = false;
 
   ngOnInit(): void {
     const postId = Number(this.route.snapshot.paramMap.get('id'));
-    this.blogService.getPosts().subscribe({
-      next: (response) => {
-        this.post = response.items.find(post => post.id === postId) || null;
-        if (!this.post) {
-          console.error('Post not found');
-        }
+    this.blogService.getUniquePost(postId).subscribe({
+      next: (response: IPost) => {
+        this.post = response;
+        this.isInitialLoading = false;
       },
       error: (error) => {
-        console.error('Error fetching blog posts:', error);
+        console.error('Erro ao buscar post único:', error);
+        this.isInitialLoading = false;
       }
-    })
+    });
     window.addEventListener('scroll', this.onScroll, true);
   }
 
   ngOnDestroy(): void {
     window.removeEventListener('scroll', this.onScroll, true);
+  }
+
+
+  getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   scrollToTop(): void {
@@ -44,7 +52,7 @@ export class UniquePostBlogComponent implements OnInit{
   private onScroll = (): void => {
     const scrollPosition = window.scrollY || document.documentElement.scrollTop;
     const viewportHeight = window.innerHeight;
-    this.showScrollTop = scrollPosition > (viewportHeight + 30);
+    this.showScrollTop = scrollPosition > (viewportHeight + 10);
   };
 
 }
