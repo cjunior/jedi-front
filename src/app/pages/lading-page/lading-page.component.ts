@@ -24,6 +24,7 @@ import { RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../core/pipes/truncate.pipe';
 
 interface BlogCard {
+  id: number;
   titulo: string;
   autor: string;
   data: string;
@@ -143,6 +144,7 @@ ngOnInit() {
       };
 
         this.blogDestaque = blogItems.length > 0 ? {
+        id: blogItems[0].id,
         titulo: (blogItems[0].title || '').replace(/\s+/g, ' ').trim(),
         autor: (blogItems[0].author || '').replace(/\s+/g, ' ').trim(),
         data: (blogItems[0].date || '').replace(/\s+/g, ' ').trim(),
@@ -153,6 +155,7 @@ ngOnInit() {
 
       // Restante dos cards
       this.cards = blogItems.slice(1).map((item: any) => ({
+        id: item.id,
         titulo: (item.title || '').replace(/\s+/g, ' ').trim(),
         autor: (item.author || '').replace(/\s+/g, ' ').trim(),
         data: (item.date || '').replace(/\s+/g, ' ').trim(),
@@ -237,6 +240,7 @@ openCarouselLink(url: string) {
 
     cards = [
       {
+        id: 0,
         imagem: './fotoend3.svg',
         titulo: 'Lorem ipsum dolor sit amet, consec...',
         autor: 'Maria',
@@ -244,6 +248,7 @@ openCarouselLink(url: string) {
         tempoLeitura: '2min de leitura'
       },
       {
+        id: 0,
         imagem: './fotoend3.svg',
         titulo: 'Lorem ipsum dolor sit amet, consec...',
         autor: 'Maria',
@@ -251,6 +256,7 @@ openCarouselLink(url: string) {
         tempoLeitura: '2min de leitura'
       },
       {
+        id: 0,
         imagem: './fotoend3.svg',
         titulo: 'Lorem ipsum dolor sit amet, consec...',
         autor: 'Maria',
@@ -268,9 +274,14 @@ openCarouselLink(url: string) {
   visible: boolean = false;
 
   showDialog() {
-      this.form.reset();
-      this.visible = true;
+    this.form.reset();
+    this.visible = true;
   }
+
+  openPost(postId: number) {
+    window.open(`/blog/${postId}`, '_blank');
+  }
+  
 
   async onSubmit() {
     this.showErrors.set(true);

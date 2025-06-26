@@ -190,8 +190,7 @@
     </div>
 <div class="container-nine">
   @if(blogDestaque) {
-    <div class="content">
-
+    <div class="content" (click)="openPost(blogDestaque.id)">
       <div class="photo cardmain ">
         <img [src]="blogDestaque.imagem" [alt]="" class="bts3" />
       </div>
@@ -209,7 +208,7 @@
   <div class="cards">
     @for (card of cards; track $index) {
       @if($index < 3) {
-        <div class="minor-card">
+        <div class="minor-card" (click)="openPost(card.id)">
           <div class="photo cars">
             <img [src]="card.imagem" [alt]=""  class="imgs">
           </div>

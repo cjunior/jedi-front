@@ -494,6 +494,7 @@
       max-width: 846px;
       width: 100%;
       height: 864px;
+      cursor: pointer;
 
       .pencil {
         display: flex;
@@ -542,6 +543,7 @@
       align-items: center;
       gap: 45px;
       border-bottom: 2px solid #dfe6ef;
+      cursor: pointer;
 
       .photo {
         width: 200px; /* ajuste conforme seu layout */
