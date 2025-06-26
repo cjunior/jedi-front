@@ -13,7 +13,10 @@ export interface IPost {
 export interface IBlogResponse {
   id: number;
   title: string;
-  items: IPost[];
+  content: IPost[];
+  totalPages: number;
+  totalElements: number;
+  size: number
 }
 
 export interface ICreatePost {

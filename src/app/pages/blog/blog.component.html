@@ -1,4 +1,4 @@
-@if(isLoading) {
+@if(isLoading()) {
   <div class="custom-loading">
     <div class="loading-content">
       <img src="/logo.svg" alt="Logo" class="loading-logo" />
@@ -9,20 +9,19 @@
 
 <div class="w-full h-full">
   <div class="max-w-[1440px]! mx-auto pt-8">
+    <!-- Header -->
     <div class="flex items-center justify-center">
-      <div>
-        <img src="logo.svg" alt="" class="h-30">
-      </div>
-      <div>
-        <h1 class="text-3xl text-emerald-900 uppercase pl-6 pt-5">Blog</h1>
-      </div>
+      <img src="logo.svg" alt="" class="h-30">
+      <h1 class="text-3xl text-emerald-900 uppercase pl-6 pt-5">Blog</h1>
     </div>
+
     <div class="px-2">
-      <div>
-        <h1 class="text-emerald-900 pt-12">Últimas postagens</h1>
-        <div class="w-full h-[1px] bg-zinc-300"></div>
-      </div>
-      <div class="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+      <!-- Título -->
+      <h1 class="text-emerald-900 pt-12">Últimas postagens</h1>
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+
+      <!-- Grid de Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
         @for (card of posts(); track $index) {
           <div class="flex flex-col rounded-2xl h-100" [style]="{ 'background-color': bgColors()[$index] }">
             <div class="w-full h-60 flex items-center justify-center">
@@ -46,6 +45,13 @@
           </div>
         }
       </div>
+
+      <!-- Spinner para carregamento adicional -->
+      @if(isLoadingMore()) {
+        <div class="flex justify-center items-center my-8">
+          <i class="pi pi-spinner pi-spin text-emerald-700 text-3xl"></i>
+        </div>
+      }
     </div>
   </div>
 </div>

@@ -10,54 +10,6 @@
   ></button>
 </div>
 
-<div class="flex gap-4 mb-2 mt-12 items-end">
-  <!-- <p-floatlabel variant="on">
-    <input
-      pInputText
-      id="name"
-      type="text"
-      [ngModel]="nome"
-      (ngModelChange)="onNomeChange($event)"
-      class="w-full!"
-    />
-    <label for="name">Busca pelo nome</label>
-  </p-floatlabel>
-  <p-floatlabel variant="on">
-    <input
-      pInputText
-      id="email"
-      type="email"
-      [ngModel]="email"
-      (ngModelChange)="onEmailChange($event)"
-      class="w-full!"
-    />
-    <label for="email">Busca pelo email</label>
-  </p-floatlabel> -->
-  <!-- <div class="flex items-center gap-2">
-    <input type="checkbox" id="somenteCompletos" [ngModel]="somenteCompletos" (ngModelChange)="onSomenteCompletosChange($event)" />
-    <label for="somenteCompletos" class="text-sm text-zinc-600">Somente completos</label>
-  </div> -->
-  <!-- <div class="flex items-center gap-2">
-    <label for="somenteCompletos" class="text-sm text-zinc-600">Somente cadastros completos</label>
-    <p-toggleswitch
-      [ngModel]="somenteCompletos"
-      (ngModelChange)="onSomenteCompletosChange($event)"
-    />
-  </div> -->
-  <!-- <p-floatlabel class="w-full md:w-56" variant="on">
-    <p-select
-      inputId="somente-completos"
-      [options]="selectFilterOptions"
-      optionLabel="label"
-      optionValue="value"
-      styleClass="w-full"
-      size="small"
-      [(ngModel)]="somenteCompletos"
-      (ngModelChange)="onSomenteCompletosChange($event)"
-    />
-    <label for="somente-completos">Status</label>
-  </p-floatlabel> -->
-</div>
 <p-panel showHeader="false">
   <p-table
     #dt
@@ -65,8 +17,10 @@
     [paginator]="true"
     [rows]="size"
     [lazy]="true"
+    [first]="first"
     [totalRecords]="totalRecords"
     [loading]="loadingTable"
+    (onLazyLoad)="loadPostsLazy($event)"
     stripedRows
     scrollable="true"
   >
@@ -79,24 +33,19 @@
       </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-customer>
+    <ng-template pTemplate="body" let-post>
       <tr>
-        <td [title]="customer.title">{{ customer.title | truncate:35 }}</td>
-        <td [title]="customer.date">{{ customer.date | truncate:35 }}</td>
-        <td [title]="customer.author">{{ customer.author | truncate:35 }}</td>
+        <td [title]="post.title">{{ post.title | truncate:35 }}</td>
+        <td [title]="post.date">{{ post.date | truncate:35 }}</td>
+        <td [title]="post.author">{{ post.author | truncate:35 }}</td>
         <td>
-          <button
-            pButton
-            icon="pi pi-pencil"
-            (click)="onEditPost(customer)"
-            class="p-button-text mr-2"
-          ></button>
-          <button pButton icon="pi pi-eye" (click)="viewPost(customer.id)" class="p-button-text"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-text mr-2" (click)="onEditPost(post)"></button>
+          <button pButton icon="pi pi-eye" class="p-button-text" (click)="viewPost(post.id)"></button>
           <button
             pButton
             icon="pi pi-trash"
-            (click)="onDeletePost($event, customer.id)"
             class="p-button-text ml-2"
+            (click)="onDeletePost($event, post.id)"
             [disabled]="loadingTable"
           ></button>
         </td>
@@ -104,20 +53,17 @@
     </ng-template>
 
     <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="4">Nenhuma publicação encontrada.</td>
-      </tr>
+      <tr><td colspan="4">Nenhuma publicação encontrada.</td></tr>
     </ng-template>
   </p-table>
-
 </p-panel>
 
-<app-adicionar-post [isVisible]="showAddPostModal" (closed)="closeAddPostModal()"/>
+<app-adicionar-post [isVisible]="showAddPostModal" (closed)="closeAddPostModal()" />
 <app-editar-post
   [isVisible]="showEditPostModal"
   [postData]="selectedPost"
   (closed)="closeEditPostModal()"
-></app-editar-post>
+/>
 
 <p-confirmdialog />
 <p-toast />

@@ -7,10 +7,21 @@
 <div  class="container" *ngIf="!isInitialLoading">
     <div class="top">
         <app-dropdown/>
-      <div class="itens">
-        <div class="square"></div>
-        <div class="square"></div>
-        <div class="square"></div>
+      <div class="itens flex flex-row items-center gap-5">
+        @if(isAuthenticated()) {
+          <p-button
+          label="Configurações"
+          icon="pi pi-cog"
+          styleClass="bg-white! text-emerald-800! border-emerald-700! hover:bg-gray-100"
+          (onClick)="redirectToConfigs()"
+          size="small"
+        />
+        }
+        <div class="flex gap-2">
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+        </div>
       </div>
     </div>
     <nav>
@@ -21,7 +32,7 @@
             <li><a href="#help">Ajuda</a></li>
             <li><a href="#red">#RedeJED</a></li>
     </ul>
-    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">Resgistre-se</button>
+    <button class="primary-btn" (click)="showDialog()"><img src="./tes.svg" alt="">Pré-Cadastro</button>
     </nav>
 
     <div class="container-one">

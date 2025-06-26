@@ -126,7 +126,6 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
           summary: 'Post Criado',
           detail: 'O post foi criado com sucesso.'
         });
-        this.blogService.getPosts();
         this.resetForm();
         this.onCloseModal();
         this.isLoading = false;

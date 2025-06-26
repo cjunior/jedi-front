@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import type { IPost, IBlogResponse } from '../../../core/interfaces/blog.interface';
 
 @Injectable({
@@ -9,23 +9,15 @@ import type { IPost, IBlogResponse } from '../../../core/interfaces/blog.interfa
 })
 export class BlogServiceService {
   private readonly apiUrl = environment.apiUrl;
-  private readonly http = inject(HttpClient)
+  private readonly http = inject(HttpClient);
 
-  private posts$ = new BehaviorSubject<IPost[]>([]);
-
-  get getPosts$(): Observable<IPost[]> {
-    return this.posts$.asObservable();
-  }
-
-  getPosts() {
-    this.http.get<IBlogResponse>(`${this.apiUrl}blog-section/get`).subscribe({
-      next: (response) => {
-        this.posts$.next(response.items);
-      },
-      error: (error) => {
-        console.error('Erro ao buscar posts do blog:', error);
+  getPosts$(page = 0, size = 10): Observable<IBlogResponse> {
+    return this.http.get<IBlogResponse>(`${this.apiUrl}blog-section/get`, {
+      params: {
+        page: page.toString(),
+        size: size.toString()
       }
-    })
+    });
   }
 
   getUniquePost(id: number): Observable<IPost> {
@@ -33,14 +25,20 @@ export class BlogServiceService {
   }
 
   createPost(payload: FormData) {
-    return this.http.post(`${this.apiUrl}blog-section/item`, payload, { responseType: 'text' });
+    return this.http.post(`${this.apiUrl}blog-section/item`, payload, {
+      responseType: 'text'
+    });
   }
 
   updatePost(id: number, payload: FormData) {
-    return this.http.put(`${this.apiUrl}blog-section/item/${id}`, payload, { responseType: 'text' });
+    return this.http.put(`${this.apiUrl}blog-section/item/${id}`, payload, {
+      responseType: 'text'
+    });
   }
 
   deletePost(id: number) {
-    return this.http.delete(`${this.apiUrl}blog-section/item/${id}`, { responseType: 'text' });
+    return this.http.delete(`${this.apiUrl}blog-section/item/${id}`, {
+      responseType: 'text'
+    });
   }
 }

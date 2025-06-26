@@ -122,7 +122,6 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
           summary: 'Post Atualizado',
           detail: 'O post foi atualizado com sucesso.'
         });
-        this.blogService.getPosts();
         this.onCloseModal();
         this.isLoading = false;
       },

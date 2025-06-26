@@ -22,6 +22,8 @@ import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../core/pipes/truncate.pipe';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 interface BlogCard {
   id: number;
@@ -65,8 +67,10 @@ export class LadingPageComponent {
   private readonly formBuilder = inject(FormBuilder)
   private readonly pregristrationService = inject(PreRegistrationService)
   private readonly messageService = inject(MessageService)
-
   private readonly landingPageService = inject(landingPageService);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
   menuAberto = false;
   showErrors = signal(false)
   isLoading = signal(false);
@@ -281,7 +285,15 @@ openCarouselLink(url: string) {
   openPost(postId: number) {
     window.open(`/blog/${postId}`, '_blank');
   }
-  
+
+  isAuthenticated(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  redirectToConfigs() {
+    this.router.navigate(['/configuracoes']);
+  }
+
 
   async onSubmit() {
     this.showErrors.set(true);
