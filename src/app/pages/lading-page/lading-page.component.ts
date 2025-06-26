@@ -21,6 +21,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { RouterLink } from '@angular/router';
+import { TruncatePipe } from '../../core/pipes/truncate.pipe';
 
 interface BlogCard {
   titulo: string;
@@ -51,6 +52,8 @@ interface BlogCard {
     CarouselModule,
     CommonModule,
     ProgressSpinnerModule,
+    RouterLink,
+    TruncatePipe,
     RouterLink
   ],
   templateUrl: './lading-page.component.html',
@@ -228,7 +231,7 @@ openCarouselLink(url: string) {
 
       carouselImages: { imgUrl: string; buttonText?: string; buttonUrl?: string }[] = [
         { imgUrl: './fotoH.jpg', },
-       
+
       ];
 
 
