@@ -66,6 +66,7 @@ export class CarouselSquareComponent implements OnInit {
       text: 'Vendas utilizando o TikTok ',
     },
     { image: './conteudo.png', alt: 'Banner 1', text: 'Técnicas de design ' },
+
   ];
 
   isMobile = false;
