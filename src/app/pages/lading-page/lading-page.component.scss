@@ -830,7 +830,7 @@
       flex-direction: column !important;
       display: flex;
 
-      padding: 0px;
+      
 
       .card {
         margin-top: 255px;
@@ -880,6 +880,22 @@
         }
       }
     }
+    .container-four{
+      padding: 0 18px !important;
+    }
+    .container-five{
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+
+    .container-six{
+      padding: 0 20px !important;
+    }
+    .content{
+      h1{
+        font-size: 20px !important;
+      }
+    }
   }
 
   @media (max-width: 768px) {
@@ -910,8 +926,8 @@
       }
 
       button.primary-btn {
-        width: 94px;
-        height: 41px;
+        width: 157px;
+        height: 44px;
 
         img {
           margin-right: 3px;
@@ -957,7 +973,7 @@
     }
 
     .container-four {
-      padding: 0 !important;
+     
       align-items: center;
 
       .card {

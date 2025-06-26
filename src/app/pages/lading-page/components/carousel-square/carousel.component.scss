@@ -55,11 +55,42 @@
 h1{
   font-family: Roboto Slab, sans-serif;
     font-weight: 900;
-    font-size: 30px;
+    font-size: 24px;
     line-height: 36px;
     letter-spacing: 1.25px;
     text-align: justify;
     vertical-align: middle;
     text-transform: uppercase;
     color: #426b53;
+}
+
+.item {
+  width: 100%;
+  height: 
+  768px; 
+  background-color: #9db2a8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+}
+
+.card{
+  margin-top: 100px;
+}
+
+
+@media (max-width: 980px) {
+  .item {
+    height: 100%;
+  }
+  h1{
+    font-size: 13px;
+  }
 }
