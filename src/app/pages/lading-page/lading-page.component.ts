@@ -53,7 +53,8 @@ interface BlogCard {
     CommonModule,
     ProgressSpinnerModule,
     RouterLink,
-    TruncatePipe
+    TruncatePipe,
+    RouterLink
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',

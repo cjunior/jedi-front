@@ -191,6 +191,7 @@
 <div class="container-nine">
   @if(blogDestaque) {
     <div class="content">
+
       <div class="photo cardmain ">
         <img [src]="blogDestaque.imagem" [alt]="" class="bts3" />
       </div>
@@ -200,11 +201,7 @@
           <img src="./edit.svg" alt="" >
           <span>Escrito por {{ blogDestaque.autor }}</span>
         </div>
-        <div class="date">
-          {{ blogDestaque.data }} / {{ blogDestaque.tempoLeitura }}
-        </div>
       </div>
-      <h1>{{ blogDestaque.titulo }}</h1>
     </div>
   }
 
