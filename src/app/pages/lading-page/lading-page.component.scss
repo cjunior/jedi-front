@@ -488,7 +488,7 @@
     display: flex;
     justify-content: center;
     margin-top: 100px;
-    gap: 120px;
+    gap: 80px;
 
     .content {
       max-width: 846px;
@@ -544,7 +544,7 @@
       border-bottom: 2px solid #dfe6ef;
 
       .photo {
-        max-width: 600px; /* ajuste conforme seu layout */
+        width: 200px; /* ajuste conforme seu layout */
 
         margin: 0 auto;
         position: relative;
@@ -830,7 +830,7 @@
       flex-direction: column !important;
       display: flex;
 
-      
+
 
       .card {
         margin-top: 255px;
@@ -878,6 +878,9 @@
         .pencil {
           margin-bottom: 20px;
         }
+      }
+      .minor-card {
+        max-width: 100%;
       }
     }
     .container-four{
@@ -973,7 +976,7 @@
     }
 
     .container-four {
-     
+
       align-items: center;
 
       .card {

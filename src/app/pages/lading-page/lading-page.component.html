@@ -188,7 +188,7 @@
         <h1>Rede#JED</h1>
         <app-carousel-content/>
     </div>
-    <div class="container-nine">
+<div class="container-nine">
   @if(blogDestaque) {
     <div class="content">
 
@@ -199,13 +199,9 @@
       <div class="pencil">
         <div class="edit">
           <img src="./edit.svg" alt="" >
-          <span>Escrita por {{ blogDestaque.autor }}</span>
-        </div>
-        <div class="date">
-          {{ blogDestaque.data }} / {{ blogDestaque.tempoLeitura }}
+          <span>Escrito por {{ blogDestaque.autor }}</span>
         </div>
       </div>
-      <h1>{{ blogDestaque.titulo }}</h1>
     </div>
   }
 
@@ -217,7 +213,7 @@
             <img [src]="card.imagem" [alt]=""  class="imgs">
           </div>
           <div class="content-minor-card">
-            <h4>{{ card.titulo }}</h4>
+            <h4>{{ card.titulo | truncate: 50 }}</h4>
             <span>Escrito por {{ card.autor }}</span>
             <div class="date">
               <span>{{ card.data }}</span>
@@ -228,7 +224,7 @@
       }
     }
     <div class="flex justify-end pt-2">
-      <a href="" class="text-emerald-400! underline! text-end!" routerLink="blog">ver mais</a>
+      <a href="" class="text-emerald-600! underline! text-end! text-xl" routerLink="blog">Ver mais</a>
     </div>
   </div>
 </div>
