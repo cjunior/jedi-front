@@ -17,11 +17,11 @@ export class CarouselComponent implements OnInit {
 
   items: { image: string; alt: string }[] = [
     { image: '/equipe1.jpeg', alt: 'Equipe 1' },
-    { image: '/equipe2.jpg', alt: 'Equipe 2' },
+    { image: '/equipe2.jpeg', alt: 'Equipe 2' },
     { image: '/equipe3.jpeg', alt: 'Equipe 3' },
     { image: '/equipe4.jpg', alt: 'Equipe 4' },
+    { image: '/equipe6.jpg', alt: 'Equipe 6' },
     { image: '/equipe5.jpg', alt: 'Equipe 5' },
-    { image: '/equipe6.jpg', alt: 'Equipe 6' }
   ];
 
   responsiveOptions = [
