@@ -132,7 +132,7 @@
       alt="Imagem do conteúdo"
       style="width: 100%; height: 353px; object-fit: cover;"
     />
-   
+
   </div>
 
     </div>
@@ -189,42 +189,47 @@
         <app-carousel-content/>
     </div>
     <div class="container-nine">
-  <div class="content" *ngIf="blogDestaque">
+  @if(blogDestaque) {
+    <div class="content">
 
- <div class="photo cardmain ">
-  <img [src]="blogDestaque.imagem" [alt]="" class="bts3" />
-
-</div>
-
-    <div class="pencil">
-      <div class="edit">
-        <img src="./edit.svg" alt="" >
-        <span>Escrita por {{ blogDestaque.autor }}</span>
+      <div class="photo cardmain ">
+        <img [src]="blogDestaque.imagem" [alt]="" class="bts3" />
       </div>
-      <div class="date">
-        {{ blogDestaque.data }} / {{ blogDestaque.tempoLeitura }}
+
+      <div class="pencil">
+        <div class="edit">
+          <img src="./edit.svg" alt="" >
+          <span>Escrita por {{ blogDestaque.autor }}</span>
+        </div>
+        <div class="date">
+          {{ blogDestaque.data }} / {{ blogDestaque.tempoLeitura }}
+        </div>
       </div>
+      <h1>{{ blogDestaque.titulo }}</h1>
     </div>
-    <h1>{{ blogDestaque.titulo }}</h1>
-  </div>
+  }
 
   <div class="cards">
     @for (card of cards; track $index) {
-      <div class="minor-card">
-        <div class="photo cars">
-          <img [src]="card.imagem" [alt]=""  class="imgs">
-
-        </div>
-        <div class="content-minor-card">
-          <h4>{{ card.titulo }}</h4>
-          <span>Escrito por {{ card.autor }}</span>
-          <div class="date">
-            <span>{{ card.data }}</span>
-            <span>{{ card.tempoLeitura }}</span>
+      @if($index < 3) {
+        <div class="minor-card">
+          <div class="photo cars">
+            <img [src]="card.imagem" [alt]=""  class="imgs">
+          </div>
+          <div class="content-minor-card">
+            <h4>{{ card.titulo }}</h4>
+            <span>Escrito por {{ card.autor }}</span>
+            <div class="date">
+              <span>{{ card.data }}</span>
+              <span>{{ card.tempoLeitura }}</span>
+            </div>
           </div>
         </div>
-      </div>
+      }
     }
+    <div class="flex justify-end pt-2">
+      <a href="" class="text-emerald-400! underline! text-end!" routerLink="blog">ver mais</a>
+    </div>
   </div>
 </div>
 </div>

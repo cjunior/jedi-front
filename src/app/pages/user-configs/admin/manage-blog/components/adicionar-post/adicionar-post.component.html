@@ -1,0 +1,126 @@
+<p-dialog
+  [(visible)]="isVisible"
+  modal="true"
+  header="Adicionar Postagem"
+  [style]="{ width: '800px' }"
+  [closable]="true"
+  (onHide)="onCloseModal()"
+>
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="p-fluid space-y-3">
+    <div class="flex flex-col">
+      <label for="title">Título <span class="text-red-500">*</span></label>
+      <input id="title" type="text" pInputText formControlName="title" />
+      @if(hasError('title', 'required') || hasError('title', 'minlength')) {
+        <p-message
+          severity="error"
+          text="O título é obrigatório e deve ter ao menos 8 caracteres."
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label>Imagem do banner <span class="text-red-500">*</span></label>
+      <p-fileUpload
+        mode="basic"
+        name="file"
+        accept="image/*"
+        auto="true"
+        chooseLabel="Escolher imagem"
+        (onSelect)="onFileSelected($event)"
+        [customUpload]="true"
+      />
+      @if (!selectedBannerFile && fileTouched) {
+        <p-message severity="error" text="A imagem é obrigatória." variant="simple" />
+      }
+      @if (selectedBannerFile) {
+        <div class="mt-2 text-sm text-green-800">
+          Imagem selecionada: <strong>{{ selectedBannerFile.name }}</strong>
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label for="imageDescription">Descrição da imagem <span class="text-red-500">*</span></label>
+      <input id="imageDescription" type="text" pInputText formControlName="imageDescription" />
+      @if (hasError('imageDescription', 'required') || hasError('imageDescription', 'minlength')) {
+        <p-message
+          severity="error"
+          text="A descrição da imagem é obrigatória e deve ter ao menos 5 caracteres."
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label for="description">Conteúdo <span class="text-red-500">*</span></label>
+      <ngx-editor-menu [editor]="editor" />
+      <ngx-editor formControlName="description" [editor]="editor" name="description" onchange="" />
+      @if (hasError('description', 'required') || hasError('description', 'minlengthHtml')) {
+        <p-message
+          severity="error"
+          text="O conteúdo é obrigatório e deve ter ao menos 10 caracteres."
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label for="author">Autor <span class="text-red-500">*</span></label>
+      <input id="author" type="text" pInputText formControlName="author" />
+      @if (hasError('author', 'required') || hasError('author', 'minlength')) {
+        <p-message
+          severity="error"
+          text="O nome do autor é obrigatório e deve ter ao menos 2 caracteres."
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label>Ícone do Autor do post <span class="text-red-500">*</span></label>
+      <p-fileUpload
+        mode="basic"
+        name="iconFile"
+        accept="image/*"
+        auto="true"
+        chooseLabel="Escolher ícone"
+        (onSelect)="onIconFileSelected($event)"
+        [customUpload]="true"
+      />
+      @if (!selectedIconFile && iconFileTouched) {
+        <p-message severity="error" text="O ícone é obrigatório." variant="simple" />
+      }
+      @if (selectedIconFile) {
+        <div class="mt-2 text-sm text-green-800">
+          Ícone selecionado: <strong>{{ selectedIconFile.name }}</strong>
+        </div>
+      }
+    </div>
+
+    <div class="flex flex-col">
+      <label for="readingTime">Tempo médio de leitura (ex: 3 min) <span class="text-red-500">*</span></label>
+      <input id="readingTime" type="text" pInputText formControlName="readingTime" />
+      @if (hasError('readingTime', 'required') || hasError('readingTime', 'pattern')) {
+        <p-message
+          severity="error"
+          text="Informe o tempo de leitura no formato correto (ex: 3 min)."
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex justify-end mt-4 gap-2">
+      <button type="button" pButton label="Cancelar" severity="secondary" (click)="onCloseModal()"></button>
+      <button
+        type="submit"
+        pButton
+        label="Salvar"
+        [disabled]="postForm.invalid || !selectedBannerFile || !selectedIconFile"
+        [loading]="isLoading"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast />

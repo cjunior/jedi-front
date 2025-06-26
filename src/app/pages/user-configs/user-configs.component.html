@@ -35,6 +35,15 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
     <i class="pi pi-file"></i>
     <span class="text-sm font-medium">Editar Página Inicial</span>
   </div>
+  <div
+    class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+    routerLink="gerenciar-blog"
+    routerLinkActive="active"
+    (click)="sidebarOpen = false"
+  >
+    <i class="pi pi-pencil"></i>
+    <span class="text-sm font-medium">Gerenciar Blog</span>
+  </div>
 </nav>
 </aside>
 
