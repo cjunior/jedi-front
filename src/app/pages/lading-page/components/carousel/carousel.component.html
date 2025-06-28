@@ -4,11 +4,18 @@
     [numVisible]="3" 
     [numScroll]="1" 
     [responsiveOptions]="responsiveOptions"
-    [showIndicators]="false">
-    <ng-template let-item pTemplate="item">
+    [showIndicators]="false"
+    (onPage)="onPageChange($event)">
+    <ng-template let-item let-i="index" pTemplate="item">
       <div class="circle-container">
         <img [src]="item.image" [alt]="item.alt" class="circle-image" />
       </div>
     </ng-template>
   </p-carousel>
+  
+  <!-- Texto do cargo da pessoa do meio -->
+  <div class="middle-person-info" *ngIf="getCurrentMiddleItem()">
+    <h3>{{ getCurrentMiddleItem().name }}</h3>
+    <p>{{ getCurrentMiddleItem().role }}</p>
+  </div>
 </div>

@@ -15,14 +15,17 @@ import { landingPageService } from '../../services/lading-page.service';
 export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
-  items: { image: string; alt: string }[] = [
-    { image: '/equipe1.jpeg', alt: 'Equipe 1' },
-    { image: '/equipe2.jpeg', alt: 'Equipe 2' },
-    { image: '/equipe3.jpeg', alt: 'Equipe 3' },
-    { image: '/equipe4.jpg', alt: 'Equipe 4' },
-    { image: '/equipe6.jpg', alt: 'Equipe 6' },
-    { image: '/equipe5.jpg', alt: 'Equipe 5' },
+  items: { image: string; alt: string; name: string; role: string }[] = [
+    { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Nome 1', role: 'Desenvolvedor Frontend' },
+    { image: '/equipe2.jpeg', alt: 'Equipe 2', name: 'Nome 2', role: 'Designer UX/UI' },
+    { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Nome 3', role: 'Gerente de Projeto' },
+    { image: '/equipe4.jpg', alt: 'Equipe 4', name: 'Nome 4', role: 'Desenvolvedor Backend' },
+    { image: '/equipe6.jpg', alt: 'Equipe 6', name: 'Nome 6', role: 'Marketing Digital' },
+    { image: '/equipe5.jpg', alt: 'Equipe 5', name: 'Nome 5', role: 'Analista de Dados' },
   ];
+
+  currentPage = 0;
+  itemsPerPage = 3;
 
   responsiveOptions = [
     {
@@ -37,5 +40,27 @@ export class CarouselComponent implements OnInit {
     }
   ];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.updateCurrentPage();
+  }
+
+  onPageChange(event: any) {
+    this.currentPage = event.page;
+  }
+
+  updateCurrentPage() {
+    // Método para atualizar a página atual quando necessário
+  }
+
+  isMiddleItem(index: number): boolean {
+    const startIndex = this.currentPage * this.itemsPerPage;
+    const middleIndex = startIndex + Math.floor(this.itemsPerPage / 2);
+    return index === middleIndex;
+  }
+
+  getCurrentMiddleItem() {
+    const startIndex = this.currentPage * this.itemsPerPage;
+    const middleIndex = startIndex + Math.floor(this.itemsPerPage / 2);
+    return this.items[middleIndex];
+  }
 }
