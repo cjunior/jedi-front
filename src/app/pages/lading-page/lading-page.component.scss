@@ -296,95 +296,95 @@
     }
   }
 
- .container-four {
-  display: flex;
-  justify-content: space-between;
-  padding: 0px 150px;
-  margin-top: 40px;
-  gap: 59px;
-
-  .text {
-    width: 100%;
-    max-width: 500px;
-    height: 168px;
+  .container-four {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
+    justify-content: space-between;
+    padding: 0px 150px;
+    margin-top: 40px;
+    gap: 59px;
 
-    h1 {
-      font-family: "Bebas Neue", sans-serif;
-      font-weight: 400;
-      font-size: 54px;
-      line-height: 100%;
-      letter-spacing: 0%;
-      vertical-align: middle;
-      color: #426b53;
-    }
-
-    .text-content {
+    .text {
+      width: 100%;
+      max-width: 500px;
+      height: 168px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-
-      h2 {
-        font-family: Roboto Slab, sans-serif;
-        font-weight: 500;
-        font-size: 26px;
-        line-height: 36px;
-        text-align: justify;
-        vertical-align: middle;
-        text-transform: uppercase;
-      }
-
-      span {
-        font-family: Roboto Slab, sans-serif;
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 36px;
-        letter-spacing: 1.25px;
-        text-align: justify;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  .card {
-    width: 788px;
-    height: 403px;
-    display: flex;
-    flex-direction: column;
-    background: none;
-    margin-bottom: 40px;
-
-    img {
-      width: 100%;
-      height: 353px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .content {
-      width: 100%;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #efc209;
+      gap: 40px;
 
       h1 {
-        font-family: Roboto Slab, sans-serif;
-        font-weight: 900;
-        font-size: 30px;
-        line-height: 36px;
-        letter-spacing: 1.25px;
-        text-align: justify;
+        font-family: "Bebas Neue", sans-serif;
+        font-weight: 400;
+        font-size: 54px;
+        line-height: 100%;
+        letter-spacing: 0%;
         vertical-align: middle;
-        text-transform: uppercase;
         color: #426b53;
+      }
+
+      .text-content {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        h2 {
+          font-family: Roboto Slab, sans-serif;
+          font-weight: 500;
+          font-size: 26px;
+          line-height: 36px;
+          text-align: justify;
+          vertical-align: middle;
+          text-transform: uppercase;
+        }
+
+        span {
+          font-family: Roboto Slab, sans-serif;
+          font-weight: 500;
+          font-size: 20px;
+          line-height: 36px;
+          letter-spacing: 1.25px;
+          text-align: justify;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .card {
+      width: 788px;
+      height: 403px;
+      display: flex;
+      flex-direction: column;
+      background: none;
+      margin-bottom: 40px;
+
+      img {
+        width: 100%;
+        height: 353px;
+        object-fit: cover;
+        display: block;
+      }
+
+      .content {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #efc209;
+
+        h1 {
+          font-family: Roboto Slab, sans-serif;
+          font-weight: 900;
+          font-size: 30px;
+          line-height: 36px;
+          letter-spacing: 1.25px;
+          text-align: justify;
+          vertical-align: middle;
+          text-transform: uppercase;
+          color: #426b53;
+        }
       }
     }
   }
-}
 
   .container-six {
     padding: 0px 150px;
@@ -695,8 +695,6 @@
       margin-bottom: 100px !important;
       padding: 0px 100px !important;
       transition: all 0.3s ease-in-out;
-
-
     }
 
     .container-six {
@@ -748,7 +746,7 @@
   }
 
   @media (max-width: 990px) {
-    ::ng-deep .p-carousel-indicator-list{
+    ::ng-deep .p-carousel-indicator-list {
       flex-wrap: nowrap !important;
     }
     .btns2 {
@@ -831,8 +829,6 @@
       flex-direction: column !important;
       display: flex;
 
-
-
       .card {
         margin-top: 255px;
         width: 100% !important;
@@ -884,19 +880,19 @@
         max-width: 100%;
       }
     }
-    .container-four{
+    .container-four {
       padding: 0 18px !important;
     }
-    .container-five{
+    .container-five {
       margin: 0px !important;
       padding: 0px !important;
     }
 
-    .container-six{
+    .container-six {
       padding: 0 20px !important;
     }
-    .content{
-      h1{
+    .content {
+      h1 {
         font-size: 20px !important;
       }
     }
@@ -977,7 +973,6 @@
     }
 
     .container-four {
-
       align-items: center;
 
       .card {
@@ -1105,34 +1100,37 @@ h4 {
 .loading-text {
   font-size: 1.3rem;
   color: #213820;
-  font-family: 'Roboto Slab', sans-serif;
+  font-family: "Roboto Slab", sans-serif;
   font-weight: 700;
   letter-spacing: 1px;
   animation: blink 1.2s infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
-.bts3{
+.bts3 {
   width: 100%;
   height: 100%;
-
-
 }
 
-.project{
-  h1{
-    color: #EEDA66;
+.project {
+  h1 {
+    color: #eeda66;
   }
 
-  .text-project{
-    color: #EEDA66;
+  .text-project {
+    color: #eeda66;
     font-weight: 600;
     font-size: 20px;
-    p{
-      strong{
+    p {
+      strong {
         font-weight: 900;
       }
     }
@@ -1188,5 +1186,3 @@ h4 {
     font-size: 16px;
   }
 }
-
-
