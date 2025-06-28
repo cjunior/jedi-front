@@ -29,6 +29,7 @@ export class CarouselComponent implements OnInit {
   currentPage = 0;
   currentNumVisible = 3;
   isAutoplayPaused = false;
+  isAutoplayPermanentlyPaused = false;
 
   responsiveOptions = [
     {
@@ -49,7 +50,23 @@ export class CarouselComponent implements OnInit {
   }
 
   onPageChange(event: any) {
-    this.currentPage = event.page;
+    console.log('Page change detected - stopping autoplay permanently');
+    
+    // Para o autoplay permanentemente quando usuário navega manualmente (setas)
+    this.pauseAutoplayPermanently();
+    
+    // Ajusta a página para pular itens invisíveis
+    let targetPage = event.page;
+    const visibleItems = this.items.filter(item => !item.isInvisible);
+    
+    // Garante que não ultrapasse o número de itens visíveis
+    if (targetPage >= visibleItems.length) {
+      targetPage = targetPage % visibleItems.length;
+    }
+    
+    this.currentPage = targetPage;
+    
+    console.log('Manual navigation to page:', targetPage, 'Autoplay permanently stopped:', this.isAutoplayPermanentlyPaused);
   }
 
   pauseAutoplay() {
@@ -57,7 +74,15 @@ export class CarouselComponent implements OnInit {
   }
 
   resumeAutoplay() {
-    this.isAutoplayPaused = false;
+    // Só retoma se não foi pausado permanentemente
+    if (!this.isAutoplayPermanentlyPaused) {
+      this.isAutoplayPaused = false;
+    }
+  }
+
+  pauseAutoplayPermanently() {
+    this.isAutoplayPermanentlyPaused = true;
+    this.isAutoplayPaused = true;
   }
 
   updateNumVisible() {

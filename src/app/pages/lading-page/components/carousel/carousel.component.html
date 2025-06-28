@@ -6,13 +6,17 @@
     [responsiveOptions]="responsiveOptions"
     [showIndicators]="false"
     [circular]="true"
-    [autoplayInterval]="isAutoplayPaused ? 0 : 3000"
+    [autoplayInterval]="(isAutoplayPaused || isAutoplayPermanentlyPaused) ? 0 : 3000"
     [page]="currentPage"
     (onPage)="onPageChange($event)"
     (mouseenter)="pauseAutoplay()"
-    (mouseleave)="resumeAutoplay()">
+    (mouseleave)="resumeAutoplay()"
+    (keydown)="pauseAutoplayPermanently()">
     <ng-template let-item let-i="index" pTemplate="item">
-      <div class="circle-container" [class.invisible-item]="item.isInvisible">
+      <div class="circle-container" 
+           [class.invisible-item]="item.isInvisible"
+           (click)="pauseAutoplayPermanently()"
+           (keydown)="pauseAutoplayPermanently()">
         <img *ngIf="!item.isInvisible" [src]="item.image" [alt]="item.alt" class="circle-image" />
         <div *ngIf="item.isInvisible" class="invisible-placeholder"></div>
       </div>
