@@ -5,16 +5,23 @@
     [numScroll]="1" 
     [responsiveOptions]="responsiveOptions"
     [showIndicators]="false"
-    (onPage)="onPageChange($event)">
+    [circular]="true"
+    [autoplayInterval]="isAutoplayPaused ? 0 : 3000"
+    [page]="currentPage"
+    (onPage)="onPageChange($event)"
+    (mouseenter)="pauseAutoplay()"
+    (mouseleave)="resumeAutoplay()">
     <ng-template let-item let-i="index" pTemplate="item">
-      <div class="circle-container">
+      <button class="circle-container" 
+              (click)="onPersonClick(item, i); pauseAutoplay()"
+              [attr.aria-label]="'Ver informações de ' + item.name">
         <img [src]="item.image" [alt]="item.alt" class="circle-image" />
-      </div>
+      </button>
     </ng-template>
   </p-carousel>
   
   <!-- Texto do cargo da pessoa do meio -->
-  <div class="middle-person-info" *ngIf="getCurrentMiddleItem()">
+  <div class="middle-person-info">
     <h3>{{ getCurrentMiddleItem().name }}</h3>
     <p>{{ getCurrentMiddleItem().role }}</p>
   </div>

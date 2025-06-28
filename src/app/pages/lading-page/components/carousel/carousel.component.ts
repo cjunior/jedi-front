@@ -16,16 +16,17 @@ export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
   items: { image: string; alt: string; name: string; role: string }[] = [
-    { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Nome 1', role: 'Desenvolvedor Frontend' },
-    { image: '/equipe2.jpeg', alt: 'Equipe 2', name: 'Nome 2', role: 'Designer UX/UI' },
-    { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Nome 3', role: 'Gerente de Projeto' },
-    { image: '/equipe4.jpg', alt: 'Equipe 4', name: 'Nome 4', role: 'Desenvolvedor Backend' },
-    { image: '/equipe6.jpg', alt: 'Equipe 6', name: 'Nome 6', role: 'Marketing Digital' },
-    { image: '/equipe5.jpg', alt: 'Equipe 5', name: 'Nome 5', role: 'Analista de Dados' },
+    { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Ana Silva', role: 'Desenvolvedor Frontend' },
+    { image: '/equipe2.jpeg', alt: 'Equipe 2', name: 'Carlos Santos', role: 'Designer UX/UI' },
+    { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Maria Oliveira', role: 'Gerente de Projeto' },
+    { image: '/equipe4.jpg', alt: 'Equipe 4', name: 'João Costa', role: 'Desenvolvedor Backend' },
+    { image: '/equipe6.jpg', alt: 'Equipe 6', name: 'Fernanda Lima', role: 'Marketing Digital' },
+    { image: '/equipe5.jpg', alt: 'Equipe 5', name: 'Roberto Alves', role: 'Analista de Dados' },
   ];
 
   currentPage = 0;
-  itemsPerPage = 3;
+  currentNumVisible = 3;
+  isAutoplayPaused = false;
 
   responsiveOptions = [
     {
@@ -41,26 +42,89 @@ export class CarouselComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.updateCurrentPage();
+    this.updateNumVisible();
+    window.addEventListener('resize', () => this.updateNumVisible());
   }
 
   onPageChange(event: any) {
     this.currentPage = event.page;
   }
 
-  updateCurrentPage() {
-    // Método para atualizar a página atual quando necessário
+  pauseAutoplay() {
+    this.isAutoplayPaused = true;
   }
 
-  isMiddleItem(index: number): boolean {
-    const startIndex = this.currentPage * this.itemsPerPage;
-    const middleIndex = startIndex + Math.floor(this.itemsPerPage / 2);
-    return index === middleIndex;
+  resumeAutoplay() {
+    this.isAutoplayPaused = false;
+  }
+
+  updateNumVisible() {
+    const width = window.innerWidth;
+    if (width <= 768) {
+      this.currentNumVisible = 1;
+    } else if (width <= 1024) {
+      this.currentNumVisible = 2;
+    } else {
+      this.currentNumVisible = 3;
+    }
   }
 
   getCurrentMiddleItem() {
-    const startIndex = this.currentPage * this.itemsPerPage;
-    const middleIndex = startIndex + Math.floor(this.itemsPerPage / 2);
-    return this.items[middleIndex];
+    const startIndex = this.currentPage * this.currentNumVisible;
+    let middleIndex;
+    
+    if (this.currentNumVisible === 1) {
+      middleIndex = startIndex; // Se só tem 1, esse é o do meio
+    } else if (this.currentNumVisible === 2) {
+      middleIndex = startIndex; // Se tem 2, pega o primeiro (ou você pode pegar o segundo com startIndex + 1)
+    } else {
+      middleIndex = startIndex + 1; // Se tem 3, pega o do meio (índice 1)
+    }
+    
+    return this.items[middleIndex] || this.items[0];
+  }
+
+  onPersonClick(item: any, relativeIndex: number) {
+    const globalIndex = this.getPersonIndex(item);
+    
+    if (this.currentNumVisible === 3) {
+      // Se clicou na primeira posição (esquerda)
+      if (relativeIndex === 0) {
+        // Queremos que esta pessoa vá para o meio (posição 1)
+        // Então precisamos encontrar a página onde globalIndex - 1 = startIndex
+        // startIndex = currentPage * 3, então: globalIndex - 1 = currentPage * 3
+        // currentPage = (globalIndex - 1) / 3
+        const targetPage = Math.max(0, Math.floor((globalIndex - 1) / 3));
+        this.currentPage = targetPage;
+        
+        // Se é a primeira pessoa (índice 0), ela nunca pode ir para o meio naturalmente
+        // Então vamos usar navegação circular: vai para a penúltima página
+        if (globalIndex === 0) {
+          const totalPages = Math.ceil(this.items.length / 3);
+          this.currentPage = Math.max(0, totalPages - 2);
+        }
+      }
+      // Se clicou na última posição (direita)
+      else if (relativeIndex === 2) {
+        // Queremos que esta pessoa vá para o meio (posição 1)
+        const targetPage = Math.floor((globalIndex - 1) / 3);
+        const maxPages = Math.ceil(this.items.length / 3) - 1;
+        
+        if (targetPage <= maxPages) {
+          this.currentPage = targetPage;
+        } else {
+          // Se não consegue ir para o meio, volta para o início
+          this.currentPage = 0;
+        }
+      }
+      // Se clicou no meio (relativeIndex === 1), não faz nada
+    } else {
+      // Para mobile (1 item) ou tablet (2 itens)
+      this.currentPage = Math.floor(globalIndex / this.currentNumVisible);
+    }
+  }
+
+  getPersonIndex(item: any): number {
+    return this.items.findIndex(person => person === item);
   }
 }
