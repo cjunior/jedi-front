@@ -57,6 +57,12 @@
   display: flex !important;
 }
 
+::ng-deep #pn_id_6 .p-carousel-item {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
 /* Responsivo para mobile */
 @media (max-width: 1024px) {
   .circle-container {

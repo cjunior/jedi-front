@@ -1,3 +1,4 @@
+
 <div *ngIf="isInitialLoading" class="custom-loading">
   <div class="loading-content">
     <img src="/logo.svg" alt="Logo" class="loading-logo" />
@@ -5,6 +6,14 @@
   </div>
 </div>
 <div  class="container" *ngIf="!isInitialLoading">
+  <button 
+  class="back-to-top-btn"
+  [class.show]="showBackToTop"
+  (click)="scrollToTop()"
+  aria-label="Voltar ao topo"
+>
+  <i class="pi pi-angle-up"></i>
+</button>
     <div class="top">
         <app-dropdown/>
       <div class="itens flex flex-row items-center gap-5">

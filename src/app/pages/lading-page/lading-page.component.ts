@@ -41,7 +41,6 @@ interface BlogCard {
     CarouselComponent,
     AcordionComponent,
     FormComponent,
-    CarouselContentComponent,
     CarouselSquareComponent,
     DropdownComponent,
     DialogModule,
@@ -78,6 +77,7 @@ export class LadingPageComponent {
   teamResponseDto = {
   equipttext: 'Equipe'
   }
+  showBackToTop = false;
 
 blogDestaque: BlogCard | null = null;
   redeJediSectionDto = {
@@ -92,6 +92,9 @@ blogDestaque: BlogCard | null = null;
     phone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11)]],
   });
 ngOnInit() {
+    window.addEventListener('scroll', () => {
+    this.showBackToTop = window.pageYOffset > 300;
+  });
   this.landingPageService.getdados().subscribe({
     next: (dados) => {
        this.isInitialLoading = false;
@@ -183,6 +186,13 @@ ngOnInit() {
         detail: 'Ocorreu um erro ao carregar os dados.'
       });
     }
+  });
+}
+
+scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
   });
 }
 
