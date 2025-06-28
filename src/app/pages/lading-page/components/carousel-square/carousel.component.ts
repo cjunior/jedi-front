@@ -15,58 +15,140 @@ export class CarouselSquareComponent implements OnInit {
 
   items = [
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Seu Produto na Internet',
+      image: './Seuprodutonainternet.jpg',
+      alt: 'Banner',
+      text: 'Seu produto na internet',
     },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Venda Mais na Internet',
+      image: './Vendamaisnainternet.jpg',
+      alt: 'Banner',
+      text: 'Venda mais na internet',
     },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
+      image: './apoio.jpg',
+      alt: 'Banner',
       text: 'Apoio Digital ao Negócio',
     },
-   
-
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Empreendedorismo' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Business CANVAS ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Personograma ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Marketing ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Vendas dropshipping ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Vendas PLR ' },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Afiliados infoprodutores ',
+      image: './Afiliadosinfoprodutores.jpg',
+      alt: 'Banner',
+      text: 'Afiliados infoprodutores',
     },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Afiliados encapsulados ',
+      image: './Afiliadosencapsulados.jpg',
+      alt: 'Banner',
+      text: 'Afiliados encapsulados',
     },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Digital influencer ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Vendas no Instagram ' },
+    { 
+      image: './BusinessCANVAS.png', 
+      alt: 'Banner', 
+      text: 'Business CANVAS' 
+    },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Cooperativismo de Plataforma ',
+      image: './cooperativismo.jpeg',
+      alt: 'Banner',
+      text: 'Cooperativismo de plataforma',
     },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Copywriting ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Ferramentas de IA ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Vendas no Facebook ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'UI/UX ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Vendas no WPP ' },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Social mídia ' },
+    { 
+      image: './Copywriting.jpg', 
+      alt: 'Banner', 
+      text: 'Copywriting' 
+    },
+    { 
+      image: './Digitalinfluencer.jpg', 
+      alt: 'Banner', 
+      text: 'Digital influencer' 
+    },
+    { 
+      image: './conteudo.png', 
+      alt: 'Banner', 
+      text: 'Técnicas de empreendedorismo' 
+    },
+    { 
+      image: './FerramentasdeIA.jpg', 
+      alt: 'Banner', 
+      text: 'Ferramentas de IA' 
+    },
+    { 
+      image: './Marketing.jpg', 
+      alt: 'Banner', 
+      text: 'Marketing' 
+    },
+    { 
+      image: './Personograma.png', 
+      alt: 'Banner', 
+      text: 'Personograma' 
+    },
+    { 
+      image: './Socialmedia.jpg', 
+      alt: 'Banner', 
+      text: 'Social media' 
+    },
+    { 
+      image: './tecnicas.jpg', 
+      alt: 'Banner', 
+      text: 'Técnicas de design' 
+    },
+    { 
+      image: './TráfegoPago.png', 
+      alt: 'Banner', 
+      text: 'Tráfego pago' 
+    },
+    { 
+      image: './ux.jpg', 
+      alt: 'Banner', 
+      text: 'UI/UX' 
+    },
+    { 
+      image: './conteudo.png', 
+      alt: 'Banner', 
+      text: 'Vendas dropshipping' 
+    },
+    { 
+      image: './vendas.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas de e-commerce' 
+    },
+    { 
+      image: './facebook.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas no Facebook' 
+    },
+    { 
+      image: './ifood.jpeg', 
+      alt: 'Banner', 
+      text: 'Vendas no iFood' 
+    },
+    { 
+      image: './instagram.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas no Instagram' 
+    },
+    { 
+      image: './mercadolivre.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas no Mercado Livre' 
+    },
     {
-      image: './conteudo.png',
-      alt: 'Banner 1',
-      text: 'Vendas utilizando o TikTok ',
+      image: './tiktok.jpg',
+      alt: 'Banner',
+      text: 'Vendas no TikTok',
     },
-    { image: './conteudo.png', alt: 'Banner 1', text: 'Técnicas de design ' },
-
+    { 
+      image: './whatsapp.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas no WhatsApp' 
+    },
+    { 
+      image: './youtube.jpg', 
+      alt: 'Banner', 
+      text: 'Vendas no YouTube' 
+    },
+    { 
+      image: './VendasPLR.jpeg', 
+      alt: 'Banner', 
+      text: 'Vendas PLR' 
+    },
   ];
 
   isMobile = false;

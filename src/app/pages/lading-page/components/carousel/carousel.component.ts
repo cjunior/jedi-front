@@ -10,32 +10,163 @@ import { landingPageService } from '../../services/lading-page.service';
   standalone: true,
   imports: [CommonModule, CarouselModule, ButtonModule, TagModule],
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss']
+  styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
-  items: { image: string; alt: string }[] = [
-    { image: '/equipe1.jpeg', alt: 'Equipe 1' },
-    { image: '/equipe2.jpeg', alt: 'Equipe 2' },
-    { image: '/equipe3.jpeg', alt: 'Equipe 3' },
-    { image: '/equipe4.jpg', alt: 'Equipe 4' },
-    { image: '/equipe6.jpg', alt: 'Equipe 6' },
-    { image: '/equipe5.jpg', alt: 'Equipe 5' },
+  items: {
+    image: string;
+    alt: string;
+    name: string;
+    role: string;
+    isInvisible?: boolean;
+  }[] = [
+    {
+      image: '',
+      alt: 'Invisible Start',
+      name: 'Invisible Start',
+      role: '',
+      isInvisible: true,
+    }, // Item invisível no início
+    {
+      image: '/equipe1.jpeg',
+      alt: 'Equipe 1',
+      name: 'Professor Igor Paim',
+      role: 'Coordenador geral',
+    },
+    {
+      image: '/equipe6.jpg',
+      alt: 'Equipe 2',
+      name: 'Professora Gilmara Oliveira',
+      role: 'Coordenadora regional',
+    },
+    {
+      image: '/equipe3.jpeg',
+      alt: 'Equipe 3',
+      name: 'Professor Gleydson Silva',
+      role: 'Coordenador refional',
+    },
+    {
+      image: '/equipe5.jpg',
+      alt: 'Equipe 4',
+      name: 'Professora Amanda Conrado',
+      role: 'Conteudista',
+    },
+    {
+      image: '/equipe4.jpg',
+      alt: 'Equipe 6',
+      name: 'Professora Albene Liz Both',
+      role: 'Conteudista',
+    },
+    {
+      image: '/equipe2.jpeg',
+      alt: 'Equipe 5',
+      name: 'Professor Weliton Araújo',
+      role: 'Conteudista',
+    },
+    {
+      image: '',
+      alt: 'Invisible End',
+      name: 'Invisible End',
+      role: '',
+      isInvisible: true,
+    }, // Item invisível no fim
   ];
+
+  currentPage = 0;
+  currentNumVisible = 3;
+  isAutoplayPaused = false;
+  isAutoplayPermanentlyPaused = false;
 
   responsiveOptions = [
     {
       breakpoint: '1024px',
       numVisible: 2,
-      numScroll: 1
+      numScroll: 1,
     },
     {
       breakpoint: '768px',
       numVisible: 1,
-      numScroll: 1
-    }
+      numScroll: 1,
+    },
   ];
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.updateNumVisible();
+    window.addEventListener('resize', () => this.updateNumVisible());
+  }
+
+  onPageChange(event: any) {
+    console.log('Page change detected - stopping autoplay permanently');
+
+    this.pauseAutoplayPermanently();
+
+    let targetPage = event.page;
+    const visibleItems = this.items.filter((item) => !item.isInvisible);
+
+    if (targetPage >= visibleItems.length) {
+      targetPage = targetPage % visibleItems.length;
+    }
+
+    this.currentPage = targetPage;
+
+    console.log(
+      'Manual navigation to page:',
+      targetPage,
+      'Autoplay permanently stopped:',
+      this.isAutoplayPermanentlyPaused
+    );
+  }
+
+  pauseAutoplay() {
+    this.isAutoplayPaused = true;
+  }
+
+  resumeAutoplay() {
+    if (!this.isAutoplayPermanentlyPaused) {
+      this.isAutoplayPaused = false;
+    }
+  }
+
+  pauseAutoplayPermanently() {
+    this.isAutoplayPermanentlyPaused = true;
+    this.isAutoplayPaused = true;
+  }
+
+  updateNumVisible() {
+    const width = window.innerWidth;
+    if (width <= 768) {
+      this.currentNumVisible = 1;
+    } else if (width <= 1024) {
+      this.currentNumVisible = 2;
+    } else {
+      this.currentNumVisible = 3;
+    }
+  }
+
+  getCurrentMiddleItem() {
+    const visibleItems = this.items.filter((item) => !item.isInvisible);
+    let itemIndex = this.currentPage;
+    if (itemIndex >= visibleItems.length) {
+      itemIndex = itemIndex % visibleItems.length;
+    }
+
+    const currentItem = visibleItems[itemIndex];
+
+    console.log(
+      'Page:',
+      this.currentPage,
+      'ItemIndex:',
+      itemIndex,
+      'Person:',
+      currentItem?.name
+    );
+    console.log(
+      'Visible items:',
+      visibleItems.map((item, index) => `${index}: ${item.name}`)
+    );
+
+    return currentItem || visibleItems[0];
+  }
 }

@@ -1,28 +1,5 @@
 .rectangle-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 500px; 
-  height: 300px; 
-  overflow: hidden;
-  background-color: #f0f0f0;
-  margin: 0 5px; 
-  border: 1px solid #ccc; 
-  border-radius: 10px;
-}
-
-.rectangle-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-}
-
-.card{
-  margin-top: 121px;
-}
-
-.rectangle-container {
-  display: flex;
   flex-direction: column;
   align-items: center;
   width: 500px;
@@ -33,6 +10,19 @@
   border: 1px solid #ccc;
   border-radius: 10px;
   padding: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.rectangle-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 0 0 10px 10px;
 }
 
 .content {
@@ -45,46 +35,43 @@
   border-radius: 10px 10px 0 0;
 }
 
-.rectangle-image {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 0 0 10px 10px;
-}
-
 h1{
   font-family: Roboto Slab, sans-serif;
-    font-weight: 900;
-    font-size: 24px;
-    line-height: 36px;
-    letter-spacing: 1.25px;
-    text-align: justify;
-    vertical-align: middle;
-    text-transform: uppercase;
-    color: #426b53;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 36px;
+  letter-spacing: 1.25px;
+  text-align: justify;
+  vertical-align: middle;
+  text-transform: uppercase;
+  color: #426b53;
 }
 
 .item {
   width: 100%;
-  height: 
-  768px; 
+  height: 768px; 
   background-color: #9db2a8;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-}
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-.item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+  }
 }
 
 .card{
   margin-top: 100px;
 }
-
 
 @media (max-width: 980px) {
   .item {
