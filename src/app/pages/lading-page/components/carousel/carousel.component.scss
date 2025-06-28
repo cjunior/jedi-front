@@ -8,19 +8,11 @@
   overflow: hidden;
   background-color: #f0f0f0;
   margin: 0 15px;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  &:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  &:focus {
-    outline: 2px solid #426b53;
-    outline-offset: 2px;
+  &.invisible-item {
+    opacity: 0;
+    visibility: hidden;
+    background-color: transparent;
   }
 }
 
@@ -50,6 +42,19 @@
     color: #666;
     margin: 0;
   }
+}
+
+.invisible-placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+.tester {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
 }
 
 ::ng-deep .p-carousel .p-carousel-items-content {

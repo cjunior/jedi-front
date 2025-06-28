@@ -15,13 +15,15 @@ import { landingPageService } from '../../services/lading-page.service';
 export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
-  items: { image: string; alt: string; name: string; role: string }[] = [
+  items: { image: string; alt: string; name: string; role: string; isInvisible?: boolean }[] = [
+    { image: '', alt: 'Invisible Start', name: 'Invisible Start', role: '', isInvisible: true }, // Item invisível no início
     { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Professor Igor Paim', role: 'Coordenador geral' }, 
     { image: '/equipe6.jpg', alt: 'Equipe 2', name: 'Professora Gilmara Oliveira', role: 'Coordenadora regional' },
     { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Professor Gleydson Silva', role: 'Coordenador refional' },
     { image: '/equipe5.jpg', alt: 'Equipe 4', name: 'Professora Amanda Conrado', role: 'Conteudista' },
     { image: '/equipe4.jpg', alt: 'Equipe 6', name: 'Professora Albene Liz Both', role: 'Conteudista' },
     { image: '/equipe2.jpeg', alt: 'Equipe 5', name: 'Professor Weliton Araújo', role: 'Conteudista' },
+    { image: '', alt: 'Invisible End', name: 'Invisible End', role: '', isInvisible: true }, // Item invisível no fim
   ];
 
   currentPage = 0;
@@ -70,61 +72,23 @@ export class CarouselComponent implements OnInit {
   }
 
   getCurrentMiddleItem() {
-    const startIndex = this.currentPage * this.currentNumVisible;
-    let middleIndex;
+    // Filtra apenas os itens visíveis
+    const visibleItems = this.items.filter(item => !item.isInvisible);
     
-    if (this.currentNumVisible === 1) {
-      middleIndex = startIndex; // Se só tem 1, esse é o do meio
-    } else if (this.currentNumVisible === 2) {
-      middleIndex = startIndex; // Se tem 2, pega o primeiro (ou você pode pegar o segundo com startIndex + 1)
-    } else {
-      middleIndex = startIndex + 1; // Se tem 3, pega o do meio (índice 1)
+    // Lógica simples: pega o item baseado na página atual
+    // Página 0 = Igor (índice 0), Página 1 = Gilmara (índice 1), etc.
+    let itemIndex = this.currentPage;
+    
+    // Se ultrapassar o array, volta ao início
+    if (itemIndex >= visibleItems.length) {
+      itemIndex = itemIndex % visibleItems.length;
     }
     
-    return this.items[middleIndex] || this.items[0];
-  }
-
-  onPersonClick(item: any, relativeIndex: number) {
-    const globalIndex = this.getPersonIndex(item);
+    const currentItem = visibleItems[itemIndex];
     
-    if (this.currentNumVisible === 3) {
-      // Se clicou na primeira posição (esquerda)
-      if (relativeIndex === 0) {
-        // Queremos que esta pessoa vá para o meio (posição 1)
-        // Então precisamos encontrar a página onde globalIndex - 1 = startIndex
-        // startIndex = currentPage * 3, então: globalIndex - 1 = currentPage * 3
-        // currentPage = (globalIndex - 1) / 3
-        const targetPage = Math.max(0, Math.floor((globalIndex - 1) / 3));
-        this.currentPage = targetPage;
-        
-        // Se é a primeira pessoa (índice 0), ela nunca pode ir para o meio naturalmente
-        // Então vamos usar navegação circular: vai para a penúltima página
-        if (globalIndex === 0) {
-          const totalPages = Math.ceil(this.items.length / 3);
-          this.currentPage = Math.max(0, totalPages - 2);
-        }
-      }
-      // Se clicou na última posição (direita)
-      else if (relativeIndex === 2) {
-        // Queremos que esta pessoa vá para o meio (posição 1)
-        const targetPage = Math.floor((globalIndex - 1) / 3);
-        const maxPages = Math.ceil(this.items.length / 3) - 1;
-        
-        if (targetPage <= maxPages) {
-          this.currentPage = targetPage;
-        } else {
-          // Se não consegue ir para o meio, volta para o início
-          this.currentPage = 0;
-        }
-      }
-      // Se clicou no meio (relativeIndex === 1), não faz nada
-    } else {
-      // Para mobile (1 item) ou tablet (2 itens)
-      this.currentPage = Math.floor(globalIndex / this.currentNumVisible);
-    }
-  }
-
-  getPersonIndex(item: any): number {
-    return this.items.findIndex(person => person === item);
+    console.log('Page:', this.currentPage, 'ItemIndex:', itemIndex, 'Person:', currentItem?.name);
+    console.log('Visible items:', visibleItems.map((item, index) => `${index}: ${item.name}`));
+    
+    return currentItem || visibleItems[0];
   }
 }

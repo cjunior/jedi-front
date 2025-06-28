@@ -12,11 +12,10 @@
     (mouseenter)="pauseAutoplay()"
     (mouseleave)="resumeAutoplay()">
     <ng-template let-item let-i="index" pTemplate="item">
-      <button class="circle-container" 
-              (click)="onPersonClick(item, i); pauseAutoplay()"
-              [attr.aria-label]="'Ver informações de ' + item.name">
-        <img [src]="item.image" [alt]="item.alt" class="circle-image" />
-      </button>
+      <div class="circle-container" [class.invisible-item]="item.isInvisible">
+        <img *ngIf="!item.isInvisible" [src]="item.image" [alt]="item.alt" class="circle-image" />
+        <div *ngIf="item.isInvisible" class="invisible-placeholder"></div>
+      </div>
     </ng-template>
   </p-carousel>
   
