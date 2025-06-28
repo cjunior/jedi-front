@@ -16,12 +16,12 @@ export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
 
   items: { image: string; alt: string; name: string; role: string }[] = [
-    { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Ana Silva', role: 'Desenvolvedor Frontend' },
-    { image: '/equipe2.jpeg', alt: 'Equipe 2', name: 'Carlos Santos', role: 'Designer UX/UI' },
-    { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Maria Oliveira', role: 'Gerente de Projeto' },
-    { image: '/equipe4.jpg', alt: 'Equipe 4', name: 'João Costa', role: 'Desenvolvedor Backend' },
-    { image: '/equipe6.jpg', alt: 'Equipe 6', name: 'Fernanda Lima', role: 'Marketing Digital' },
-    { image: '/equipe5.jpg', alt: 'Equipe 5', name: 'Roberto Alves', role: 'Analista de Dados' },
+    { image: '/equipe1.jpeg', alt: 'Equipe 1', name: 'Professor Igor Paim', role: 'Coordenador geral' }, 
+    { image: '/equipe6.jpg', alt: 'Equipe 2', name: 'Professora Gilmara Oliveira', role: 'Coordenadora regional' },
+    { image: '/equipe3.jpeg', alt: 'Equipe 3', name: 'Professor Gleydson Silva', role: 'Coordenador refional' },
+    { image: '/equipe5.jpg', alt: 'Equipe 4', name: 'Professora Amanda Conrado', role: 'Conteudista' },
+    { image: '/equipe4.jpg', alt: 'Equipe 6', name: 'Professora Albene Liz Both', role: 'Conteudista' },
+    { image: '/equipe2.jpeg', alt: 'Equipe 5', name: 'Professor Weliton Araújo', role: 'Conteudista' },
   ];
 
   currentPage = 0;
