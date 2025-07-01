@@ -6,7 +6,7 @@
         [config]="{ label: 'Nome:', placeholder: 'Digite seu nome', id: 'nome', name: 'name' }"
         formControlName="name"
       ></app-input>
-      <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-red-500 text-xs">
+      <div *ngIf="form.get('name')?.touched && form.get('name')?.invalid" class="text-red-500" style="font-size: 22px;">
         <span *ngIf="form.get('name')?.errors?.['required']">Nome é obrigatório.</span>
       </div>
     </div>
@@ -15,7 +15,7 @@
         [config]="{ label: 'E-mail:', placeholder: 'Digite seu E-mail', id: 'email', name: 'email', type: 'email' }"
         formControlName="email"
       ></app-input>
-      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-red-500 text-xs">
+      <div *ngIf="form.get('email')?.touched && form.get('email')?.invalid" class="text-red-500" style="font-size: 22px;">
         <span *ngIf="form.get('email')?.errors?.['required']">E-mail é obrigatório.</span>
         <span *ngIf="form.get('email')?.errors?.['email']">E-mail inválido.</span>
       </div>
@@ -27,7 +27,7 @@
         [config]="{ label: 'Cidade:', placeholder: 'Digite a sua cidade', id: 'city', name: 'city' }"
         formControlName="city"
       ></app-input>
-      <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="text-red-500 text-xs">
+      <div *ngIf="form.get('city')?.touched && form.get('city')?.invalid" class="text-red-500" style="font-size: 22px;">
         <span *ngIf="form.get('city')?.errors?.['required']">Cidade é obrigatória.</span>
       </div>
     </div>
@@ -36,7 +36,7 @@
         [config]="{ label: 'Assunto:', placeholder: 'Digite o assunto', id: 'subject', name: 'subject' }"
         formControlName="subject"
       ></app-input>
-      <div *ngIf="form.get('subject')?.touched && form.get('subject')?.invalid" class="text-red-500 text-xs">
+      <div *ngIf="form.get('subject')?.touched && form.get('subject')?.invalid" class="text-red-500" style="font-size: 22px;">
         <span *ngIf="form.get('subject')?.errors?.['required']">Assunto é obrigatório.</span>
       </div>
     </div>
@@ -46,7 +46,7 @@
       [config]="{ label: 'Mensagem :', placeholder: 'Digite a Mensagem', id: 'message', name: 'message' }"
       formControlName="message"
     ></app-input>
-    <div *ngIf="form.get('message')?.touched && form.get('message')?.invalid" class="text-red-500 text-xs">
+    <div *ngIf="form.get('message')?.touched && form.get('message')?.invalid" class="text-red-500" style="font-size: 22px;">
       <span *ngIf="form.get('message')?.errors?.['required']">Mensagem é obrigatória.</span>
     </div>
   </div>
@@ -57,7 +57,7 @@
       Li e aceito a 
       <span
         (click)="displayPrivacy=true"
-        style="color: #007ad9; text-decoration: underline; cursor: pointer;"
+        style="text-decoration: underline; cursor: pointer;"
         tabindex="0"
         role="button"
         (keydown.enter)="displayPrivacy=true"
@@ -66,7 +66,7 @@
         política de privacidade
       </span>
     </label>
-    <div *ngIf="form.get('privacy')?.touched && form.get('privacy')?.invalid" class="text-red-500 text-xs">
+    <div *ngIf="form.get('privacy')?.touched && form.get('privacy')?.invalid" class="text-red-500" style="font-size: 22px;">
       Você deve aceitar a política de privacidade.
     </div>
   </div>

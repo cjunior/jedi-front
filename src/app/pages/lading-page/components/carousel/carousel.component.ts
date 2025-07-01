@@ -35,30 +35,51 @@ export class CarouselComponent implements OnInit {
       name: 'Professor Igor Paim',
       role: 'Coordenador geral',
     },
-    {
-      image: '/equipe6.jpg',
-      alt: 'Equipe 2',
-      name: 'Professora Gilmara Oliveira',
-      role: 'Coordenadora regional',
-    },
-    {
+      {
       image: '/equipe3.jpeg',
       alt: 'Equipe 3',
       name: 'Professor Gleydson Silva',
       role: 'Coordenador regional',
     },
     {
-      image: '/equipe5.jpg',
-      alt: 'Equipe 4',
-      name: 'Professora Amanda Conrado',
-      role: 'Conteudista',
+      image: '/equipe6.jpg',
+      alt: 'Equipe 2',
+      name: 'Professora Gilmara Oliveira',
+      role: 'Coordenadora regional',
     },
-    {
+     {
       image: '/equipe4.jpg',
       alt: 'Equipe 6',
       name: 'Professora Albene Liz Both',
       role: 'Conteudista',
     },
+  
+    {
+      image: '/equipe5.jpg',
+      alt: 'Equipe 4',
+      name: 'Professora Amanda Conrado',
+      role: 'Conteudista',
+    },
+
+    {
+      image: '/equipe5.jpg',
+      alt: 'Equipe 4',
+      name: 'Professor Éder Oliveira',
+      role: 'Conteudista',
+    },
+      {
+      image: '/equipe5.jpg',
+      alt: 'Equipe 4',
+      name: 'Professora Rejane ',
+      role: 'Conteudista',
+    },
+      {
+      image: '/equipe5.jpg',
+      alt: 'Equipe 4',
+      name: 'Professor Sávio Soares',
+      role: 'Conteudista',
+    },
+   
     {
       image: '/equipe2.jpeg',
       alt: 'Equipe 5',
@@ -71,7 +92,7 @@ export class CarouselComponent implements OnInit {
       name: 'Invisible End',
       role: '',
       isInvisible: true,
-    }, // Item invisível no fim
+    }, 
   ];
 
   currentPage = 0;
@@ -81,12 +102,17 @@ export class CarouselComponent implements OnInit {
 
   responsiveOptions = [
     {
-      breakpoint: '1024px',
-      numVisible: 2,
+      breakpoint: '1200px',
+      numVisible: 3,
       numScroll: 1,
     },
     {
       breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: '480px',
       numVisible: 1,
       numScroll: 1,
     },

@@ -244,7 +244,7 @@
         letter-spacing: 1.25px;
         text-align: right;
         vertical-align: middle;
-        color: #446c53;
+        
       }
     }
 
@@ -348,39 +348,49 @@
       }
     }
 
-    .card {
-      width: 788px;
-      height: 403px;
-      display: flex;
-      flex-direction: column;
-      background: none;
+    .content-carousel {
+      width: 100%;
+      max-width: 788px;
+      margin: 0 auto;
       margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
-      img {
-        width: 100%;
-        height: 353px;
-        object-fit: cover;
-        display: block;
-      }
-
-      .content {
-        width: 100%;
-        height: 50px;
+      .card {
+        width: 788px;
+        height: 403px;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: #efc209;
+        flex-direction: column;
+        background: none;
+        margin: 0 auto;
 
-        h1 {
-          font-family: Roboto Slab, sans-serif;
-          font-weight: 900;
-          font-size: 30px;
-          line-height: 36px;
-          letter-spacing: 1.25px;
-          text-align: justify;
-          vertical-align: middle;
-          text-transform: uppercase;
-          color: #426b53;
+        img {
+          width: 100%;
+          height: 353px;
+          object-fit: cover;
+          display: block;
+        }
+
+        .content {
+          width: 100%;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #efc209;
+
+          h1 {
+            font-family: Roboto Slab, sans-serif;
+            font-weight: 900;
+            font-size: 30px;
+            line-height: 36px;
+            letter-spacing: 1.25px;
+            text-align: center;
+            vertical-align: middle;
+            text-transform: uppercase;
+            color: #426b53;
+          }
         }
       }
     }
@@ -614,6 +624,167 @@
     font-size: 30px;
     cursor: pointer;
     color: #000;
+  }
+
+  // Estilos para o carrossel de conteúdo
+  .content-carousel {
+    ::ng-deep .p-carousel {
+      .p-carousel-container {
+        .p-carousel-content {
+          .p-carousel-items-content {
+            .p-carousel-items-container {
+              .p-carousel-item {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                width: 100% !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    ::ng-deep .p-carousel-indicators {
+      padding: 1rem 0;
+      
+      .p-carousel-indicator button {
+        background-color: #426b53;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 4px;
+        
+        &:hover {
+          background-color: #efc209;
+        }
+      }
+      
+      .p-carousel-indicator.p-highlight button {
+        background-color: #efc209;
+      }
+    }
+    
+    ::ng-deep .p-carousel-prev,
+    ::ng-deep .p-carousel-next {
+      color: #426b53;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      
+      &:hover {
+        background-color: #efc209;
+        color: white;
+      }
+    }
+  }
+
+  // Forçar centralização completa do carrossel
+  ::ng-deep .content-carousel .p-carousel {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  ::ng-deep .content-carousel .p-carousel-container {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  ::ng-deep .content-carousel .p-carousel-content {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  ::ng-deep .content-carousel .p-carousel-items-content {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  ::ng-deep .content-carousel .p-carousel-items-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transform: none !important;
+  }
+
+  ::ng-deep .content-carousel .p-carousel-item {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  // Responsividade para o carrossel de conteúdo
+  @media (max-width: 1024px) {
+    .content-carousel {
+      max-width: 600px;
+      
+      .card {
+        width: 600px;
+        height: 320px;
+        
+        img {
+          height: 270px;
+        }
+        
+        .content {
+          height: 50px;
+          
+          h1 {
+            font-size: 24px;
+            line-height: 28px;
+          }
+        }
+      }
+    }
+    
+    .container-four {
+      justify-content: center;
+      
+      .content-carousel {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .content-carousel {
+      max-width: 95%;
+      padding: 0 10px;
+      
+      .card {
+        width: 100%;
+        max-width: 400px;
+        height: 280px;
+        
+        img {
+          height: 230px;
+        }
+        
+        .content {
+          height: 50px;
+          
+          h1 {
+            font-size: 18px;
+            line-height: 22px;
+            letter-spacing: 1px;
+          }
+        }
+      }
+    }
+    
+    .container-four {
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   @media (max-width: 1600px) and (min-width: 1282px) {

@@ -3,7 +3,6 @@ import { CarouselComponent } from './components/carousel/carousel.component';
 
 import { AcordionComponent } from './components/acordion/acordion.component';
 import { FormComponent } from './components/form/form.component';
-import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 import { CarouselSquareComponent } from './components/carousel-square/carousel.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ButtonModule } from 'primeng/button';
@@ -353,6 +352,26 @@ export class LadingPageComponent {
       autor: 'Maria',
       data: '08 de Abril',
       tempoLeitura: '2min de leitura',
+    },
+  ];
+
+  // Dados para o carrossel de conteúdo
+  contentItems = [
+    {
+      title: 'Sua Ideia de Negócio',
+      image: './Suaideiadenegócio.jpg',
+    },
+    {
+      title: 'Ferramentas de IA',
+      image: './FerramentasdeIA.jpg',
+    },
+    {
+      title: 'Marketing Digital',
+      image: './Marketing.jpg',
+    },
+    {
+      title: 'Social Media',
+      image: './Socialmedia.jpg',
     },
   ];
 
