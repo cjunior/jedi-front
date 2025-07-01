@@ -18,6 +18,10 @@ export const userConfigsRoutes: Routes = [
       {
         path: 'gerenciar-blog',
         loadComponent: () => import('./admin/manage-blog/manage-blog.component').then(m => m.ManageBlogComponent)
+      },
+      {
+        path: 'gerenciar-usuarios',
+        loadComponent: () => import('./admin/manager-register/manager-register.component').then(m => m.ManagerRegisterComponent)
       }
     ]
   }

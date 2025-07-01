@@ -1,0 +1,172 @@
+<div class="p-8 mx-auto space-y-8">
+  <div class="flex justify-between items-center mb-4">
+    <h3 class="text-lg text-zinc-700">Gerenciar Usuários</h3>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Adicionar Usuário"
+      class="!bg-emerald-800 hover:bg-emerald-900 !border-emerald-700"
+      (click)="openAddUserDialog()"
+    ></button>
+  </div>
+
+  <p-panel showHeader="false">
+    <p-table
+      #dt
+      [value]="usuarios || []"
+      [paginator]="true"
+      [rows]="5"
+      stripedRows
+      scrollable="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="min-w-48">Nome</th>
+          <th class="min-w-48">Email</th>
+          <th class="min-w-24">Foto</th>
+          <th class="min-w-32">Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-usuario let-i="rowIndex">
+        <tr>
+          <td [title]="usuario.nome">{{ usuario.nome }}</td>
+          <td [title]="usuario.email">{{ usuario.email }}</td>
+          <td>
+            <img [src]="usuario.foto" class="w-10 h-10 object-cover rounded-full" />
+          </td>
+          <td>
+            <button 
+              pButton 
+              icon="pi pi-pencil" 
+              class="p-button-text mr-2" 
+              (click)="editarUsuario(usuario, i)"
+              pTooltip="Editar usuário">
+            </button>
+            <button 
+              pButton 
+              icon="pi pi-trash" 
+              class="p-button-text" 
+              (click)="excluirUsuario($event, i)"
+              pTooltip="Excluir usuário">
+            </button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="4">Nenhum usuário encontrado.</td></tr>
+      </ng-template>
+    </p-table>
+  </p-panel>
+
+  <!-- DIALOG PARA ADICIONAR USUÁRIO -->
+  <p-dialog 
+    header="Adicionar Usuário" 
+    [(visible)]="addUserDialogVisible" 
+    [modal]="true" 
+    [style]="{width: '500px'}"
+    [closable]="true">
+    
+    <form [formGroup]="usuarioForm" class="space-y-4">
+      <!-- Foto -->
+      <div class="flex flex-col items-center space-y-3">
+        <div 
+          class="w-32 h-32 rounded-full border-2 border-dashed border-gray-300 bg-gray-100 overflow-hidden cursor-pointer hover:border-gray-400 transition-colors"
+          (click)="fileInput.click()">
+          <img *ngIf="fotoPreview" [src]="fotoPreview" class="w-full h-full object-cover" />
+          <div *ngIf="!fotoPreview" class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+            <i class="pi pi-camera text-2xl"></i>
+          </div>
+        </div>
+        
+        <input 
+          #fileInput 
+          type="file" 
+          accept="image/*" 
+          (change)="onFileSelect($event)" 
+          class="hidden" />
+        
+        <span class="text-xs text-gray-500">Clique para selecionar foto</span>
+      </div>
+
+      <!-- Campos de texto -->
+      <input type="text" formControlName="nome" pInputText placeholder="Nome" class="w-full mb-4" />
+      <input type="email" formControlName="email" pInputText placeholder="Email" class="w-full mb-4" />
+      <input type="password" formControlName="senha" pInputText placeholder="Senha" class="w-full mb-4" />
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button 
+        pButton 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        class="p-button-text" 
+        (click)="closeAddUserDialog()">
+      </button>
+      <button 
+        pButton 
+        label="Criar Usuário" 
+        icon="pi pi-check" 
+        class="!bg-emerald-800 hover:bg-emerald-900 !border-emerald-700" 
+        (click)="criarUsuario()">
+      </button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- DIALOG DE EDIÇÃO -->
+  <p-dialog 
+    header="Editar Usuário" 
+    [(visible)]="editDialogVisible" 
+    [modal]="true" 
+    [style]="{width: '450px'}"
+    [closable]="true">
+    
+    <form [formGroup]="editForm" class="space-y-4">
+      <!-- Foto editável -->
+      <div class="flex flex-col items-center space-y-3">
+        <div 
+          class="w-24 h-24 rounded-full border-2 border-dashed border-gray-300 bg-gray-100 overflow-hidden cursor-pointer hover:border-gray-400 transition-colors"
+          (click)="fileInputEdit.click()">
+          <img *ngIf="editFotoPreview" [src]="editFotoPreview" class="w-full h-full object-cover" />
+          <div *ngIf="!editFotoPreview" class="w-full h-full flex items-center justify-center text-gray-400 text-sm">
+            <i class="pi pi-camera text-xl"></i>
+          </div>
+        </div>
+        
+        <input 
+          #fileInputEdit 
+          type="file" 
+          accept="image/*" 
+          (change)="onEditFileSelect($event)" 
+          class="hidden" />
+      </div>
+
+      <input type="text" formControlName="nome" pInputText placeholder="Nome" class="w-full mb-4" />
+      <input type="email" formControlName="email" pInputText placeholder="Email" class="w-full mb-4" />
+      <input type="password" formControlName="senha" pInputText placeholder="Nova Senha" class="w-full mb-4" />
+    </form>
+
+    <ng-template pTemplate="footer">
+      <button 
+        pButton 
+        label="Cancelar" 
+        icon="pi pi-times" 
+        class="p-button-text" 
+        (click)="closeEditDialog()">
+      </button>
+      <button 
+        pButton 
+        label="Salvar" 
+        icon="pi pi-check" 
+        class="!bg-emerald-800 hover:bg-emerald-900 !border-emerald-700" 
+        (click)="salvarEdicao()">
+      </button>
+    </ng-template>
+  </p-dialog>
+
+  <!-- CONFIRMAÇÃO E TOAST -->
+  <p-confirmDialog />
+  <p-toast />
+</div>
