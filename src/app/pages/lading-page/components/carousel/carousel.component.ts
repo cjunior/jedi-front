@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -12,8 +12,22 @@ import { landingPageService } from '../../services/lading-page.service';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
   private readonly landingPageService = inject(landingPageService);
+
+  // Propriedade para armazenar o item atual
+  currentMiddleItem: {
+    image: string;
+    alt: string;
+    name: string;
+    role: string;
+    isInvisible?: boolean;
+  } = {
+    image: '/igor.jpeg',
+    alt: 'Equipe 1',
+    name: 'Professor Igor Paim',
+    role: 'Coordenador geral',
+  };
 
   items: {
     image: string;
@@ -30,7 +44,7 @@ export class CarouselComponent implements OnInit {
       isInvisible: true,
     }, // Item invisível no início
     {
-      image: '/equipe1.jpeg',
+      image: '/igor.jpeg',
       alt: 'Equipe 1',
       name: 'Professor Igor Paim',
       role: 'Coordenador geral',
@@ -62,7 +76,7 @@ export class CarouselComponent implements OnInit {
     },
 
     {
-      image: '/equipe5.jpg',
+      image: '/equipe1.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Éder Oliveira',
       role: 'Conteudista',
@@ -70,11 +84,11 @@ export class CarouselComponent implements OnInit {
       {
       image: '/eq.jpeg',
       alt: 'Equipe 4',
-      name: 'Professora Rejane ',
+      name: 'Professora Rejane Santiago',
       role: 'Conteudista',
     },
       {
-      image: '/equipe5.jpg',
+      image: '/ProfessorSávio.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Sávio Soares',
       role: 'Conteudista',
@@ -120,12 +134,15 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.updateNumVisible();
+    this.updateCurrentMiddleItem();
     window.addEventListener('resize', () => this.updateNumVisible());
   }
 
-  onPageChange(event: any) {
-    console.log('Page change detected - stopping autoplay permanently');
+  ngOnDestroy() {
+    // Cleanup se necessário
+  }
 
+  onPageChange(event: any) {
     this.pauseAutoplayPermanently();
 
     let targetPage = event.page;
@@ -136,13 +153,7 @@ export class CarouselComponent implements OnInit {
     }
 
     this.currentPage = targetPage;
-
-    console.log(
-      'Manual navigation to page:',
-      targetPage,
-      'Autoplay permanently stopped:',
-      this.isAutoplayPermanentlyPaused
-    );
+    this.updateCurrentMiddleItem();
   }
 
   pauseAutoplay() {
@@ -171,28 +182,15 @@ export class CarouselComponent implements OnInit {
     }
   }
 
-  getCurrentMiddleItem() {
+  updateCurrentMiddleItem() {
     const visibleItems = this.items.filter((item) => !item.isInvisible);
     let itemIndex = this.currentPage;
+    
     if (itemIndex >= visibleItems.length) {
       itemIndex = itemIndex % visibleItems.length;
     }
 
     const currentItem = visibleItems[itemIndex];
-
-    console.log(
-      'Page:',
-      this.currentPage,
-      'ItemIndex:',
-      itemIndex,
-      'Person:',
-      currentItem?.name
-    );
-    console.log(
-      'Visible items:',
-      visibleItems.map((item, index) => `${index}: ${item.name}`)
-    );
-
-    return currentItem || visibleItems[0];
+    this.currentMiddleItem = currentItem || visibleItems[0];
   }
 }

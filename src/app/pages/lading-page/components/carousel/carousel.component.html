@@ -7,9 +7,7 @@
     [responsiveOptions]="responsiveOptions"
     [showIndicators]="false"
     [circular]="true"
-    [autoplayInterval]="
-      isAutoplayPaused || isAutoplayPermanentlyPaused ? 0 : 3000
-    "
+    [autoplayInterval]="0"
     [page]="currentPage"
     (onPage)="onPageChange($event)"
     (mouseenter)="pauseAutoplay()"
@@ -35,7 +33,7 @@
   </p-carousel>
 
   <div class="middle-person-info">
-    <h3>{{ getCurrentMiddleItem().name }}</h3>
-    <p>{{ getCurrentMiddleItem().role }}</p>
+    <h3>{{ currentMiddleItem.name }}</h3>
+    <p>{{ currentMiddleItem.role }}</p>
   </div>
 </div>
