@@ -152,11 +152,14 @@
     .project {
       display: flex;
       justify-content: space-between;
+      flex-direction: column;
       padding: 0px 150px;
       gap: 30px;
       margin: 40px 0px;
 
       .pr {
+            display: flex
+;
         font-family: "Bebas Neue", sans-serif;
         font-weight: 400;
         font-size: 60px;
@@ -169,11 +172,12 @@
       }
 
       .text-project {
-        width: 100%;
-        max-width: 947px;
-        display: flex;
-        flex-direction: column;
-        gap: 28px;
+           width: 100%;
+   margin-bottom: 220px;
+    display: flex
+;
+    flex-direction: column;
+    gap: 28px;
 
         h1 {
           font-family: Roboto Slab, sans-serif;
@@ -219,7 +223,7 @@
         h1 {
           font-family: "Bebas Neue", sans-serif;
           font-weight: 400;
-          font-size: 40px;
+          font-size: 28px;
           line-height: 45px;
           letter-spacing: 1.25px;
           text-align: center;
@@ -239,7 +243,7 @@
         bottom: 0;
         font-family: Roboto Slab, sans-serif;
         font-weight: 500;
-        font-size: 24px;
+        font-size: 20px;
         line-height: 36px;
         letter-spacing: 1.25px;
         text-align: right;
@@ -264,7 +268,7 @@
         h1 {
           font-family: "Bebas Neue", sans-serif;
           font-weight: 400;
-          font-size: 40px;
+         font-size: 28px;
           line-height: 45px;
           letter-spacing: 1.25px;
           text-align: center;
@@ -386,7 +390,7 @@
           h1 {
             font-family: Roboto Slab, sans-serif;
             font-weight: 900;
-            font-size: 30px;
+            font-size: 20px;
             line-height: 36px;
             letter-spacing: 1.25px;
             text-align: center;
@@ -799,8 +803,7 @@
     }
     .project {
       .text-project {
-        max-width: 545px !important;
-
+       
         h1 {
           font-size: 18px !important;
           line-height: 28px !important;
@@ -833,6 +836,7 @@
   }
 
   @media (max-width: 1280px) {
+
     .container-eight {
       h1 {
         padding: 0px 80px !important;
@@ -842,7 +846,7 @@
       transition: all 0.3s ease-in-out;
       .project {
         .text-project {
-          max-width: 545px !important;
+         
 
           h1 {
             font-size: 18px !important;
@@ -870,6 +874,17 @@
       margin-bottom: 100px !important;
       padding: 0px 100px !important;
       transition: all 0.3s ease-in-out;
+
+      .content-carousel{
+        .card{
+          .content {
+            h1 {
+              font-size: 15px !important;
+             
+            }
+          }
+        }
+      }
     }
 
     .container-six {
@@ -910,7 +925,7 @@
   @media (max-width: 1096px) and (min-width: 992px) {
     .project {
       .text-project {
-        max-width: 545px !important;
+        
 
         h1 {
           font-size: 18px !important;
