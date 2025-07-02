@@ -30,6 +30,7 @@ import { TruncatePipe } from '../../core/pipes/truncate.pipe';
 import { UniquePostBlogComponent } from '../unique-post-blog/unique-post-blog.component';
 import type { IPost, IBlogResponse } from '../../core/interfaces/blog.interface';
 import { CarouselBlogComponent } from './components/carousel-blog/carousel-blog.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-blog',
@@ -43,6 +44,7 @@ import { CarouselBlogComponent } from './components/carousel-blog/carousel-blog.
     InputIcon,
     UniquePostBlogComponent,
     CarouselBlogComponent,
+    FooterComponent
   ],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss'
