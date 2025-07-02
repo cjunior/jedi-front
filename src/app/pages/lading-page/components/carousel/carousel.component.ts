@@ -127,6 +127,11 @@ export class CarouselComponent implements OnInit {
       numScroll: 1,
     },
     {
+      breakpoint: '1000px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+    {
       breakpoint: '770px',
       numVisible: 1,
       numScroll: 1,
@@ -186,7 +191,7 @@ export class CarouselComponent implements OnInit {
     const width = window.innerWidth;
     const previousNumVisible = this.currentNumVisible;
 
-    if (width <= 770) {
+    if (width <= 1000) {
       this.currentNumVisible = 1;
     } else {
       this.currentNumVisible = 3;

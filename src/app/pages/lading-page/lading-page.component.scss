@@ -827,7 +827,7 @@
     }
   }
 
-  @media (max-width: 1600px) and (min-width: 1282px) {
+  @media (max-width: 1600px) and (min-width: 1211px) {
     .container-eight {
       h1 {
         padding: 0px 80px !important;
@@ -886,7 +886,7 @@
       }
     }
     .container-two {
-      padding: 0px 74px !important;
+      
       height: 333px !important;
       transition: all 0.3s ease-in-out;
       .square-content {
@@ -1394,6 +1394,12 @@ h4 {
 
   i {
     font-size: 18px;
+  }
+}
+
+@media (min-width: 1210px) and (max-width: 1000px) {
+  .container-two{
+    padding: 0px 5px !important;
   }
 }
 
