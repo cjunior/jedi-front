@@ -68,7 +68,7 @@ export class CarouselComponent implements OnInit {
       role: 'Conteudista',
     },
       {
-      image: '/equipe5.jpg',
+      image: '/eq.jpeg',
       alt: 'Equipe 4',
       name: 'Professora Rejane ',
       role: 'Conteudista',
