@@ -27,7 +27,7 @@
         <div class="w-full h-[1px] bg-zinc-300"></div>
       </div>
       <div class="flex flex-col items-center mt-6">
-        <div class="flex pb-4">
+        <!-- <div class="flex pb-4">
           <p-avatar
             styleClass="mr-2"
             size="large"
@@ -38,7 +38,7 @@
             <p class="text-zinc-600 font-bold">{{ post?.author }}</p>
             <p class="text-zinc-600 text-xs">{{ post?.date}}</p>
           </div>
-        </div>
+        </div> -->
         <div class="w-full max-w-4xl">
           <img [src]="post?.imageUrl" alt="" class="w-full h-100 object-cover rounded-lg">
           <div [innerHTML]="getSafeHtml(post?.description || '')" class="prose!"></div>

@@ -30,3 +30,19 @@
   letter-spacing: 1px;
   animation: blink 1.2s infinite;
 }
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  height: calc(100vh - 160px);
+  animation: slideDown 0.3s ease-out;
+}
