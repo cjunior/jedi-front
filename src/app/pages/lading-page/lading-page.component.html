@@ -26,9 +26,9 @@
       />
       }
       <div class="flex gap-2">
-        <a 
-          href="https://www.instagram.com/jovensempreendedores.digitais/" 
-          target="_blank" 
+        <a
+          href="https://www.instagram.com/jovensempreendedores.digitais/"
+          target="_blank"
           rel="noopener noreferrer"
           class="instagram-link"
           aria-label="Seguir no Instagram"
@@ -100,7 +100,11 @@
   <div class="container-two">
     <div class="square-content">
       <div class="circle">
-        <h1>oportunidade para mais de 14 mil estudantes</h1>
+        <h1>
+          oportunidade para mais de
+          <div class="highlight-number">14 mil</div>
+          estudantes
+        </h1>
       </div>
       <span class="text-white"
         >Oferecemos um curso acessível para quem deseja explorar o mundo dos
@@ -144,8 +148,13 @@
         <ng-template pTemplate="item" let-item>
           <div class="card">
             <div class="content">
-              <svg class="play-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M8 5v14l11-7z" fill="#426b53"/>
+              <svg
+                class="play-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M8 5v14l11-7z" fill="#426b53" />
               </svg>
               <h1>{{ item.title }}</h1>
             </div>

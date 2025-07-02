@@ -47,7 +47,7 @@
 
         .instagram-icon {
           font-size: 20px;
-          color: #833ab4; 
+          color: #833ab4;
           transition: color 0.3s ease;
         }
 
@@ -66,7 +66,6 @@
 
     img {
       width: 303px;
-
     }
 
     ul {
@@ -185,8 +184,7 @@
       margin: 40px 0px;
 
       .pr {
-            display: flex
-;
+        display: flex;
         font-family: "Bebas Neue", sans-serif;
         font-weight: 400;
         font-size: 60px;
@@ -199,12 +197,11 @@
       }
 
       .text-project {
-           width: 100%;
-   margin-bottom: 220px;
-    display: flex
-;
-    flex-direction: column;
-    gap: 28px;
+        width: 100%;
+        margin-bottom: 220px;
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
 
         h1 {
           font-family: Roboto Slab, sans-serif;
@@ -260,6 +257,12 @@
           word-break: break-word;
           overflow-wrap: break-word;
           white-space: normal;
+
+          .highlight-number {
+            display: inline;
+            letter-spacing: 0px;
+            font-weight: 500;
+          }
         }
       }
 
@@ -275,7 +278,6 @@
         letter-spacing: 1.25px;
         text-align: right;
         vertical-align: middle;
-
       }
     }
 
@@ -295,7 +297,7 @@
         h1 {
           font-family: "Bebas Neue", sans-serif;
           font-weight: 400;
-         font-size: 28px;
+          font-size: 28px;
           line-height: 45px;
           letter-spacing: 1.25px;
           text-align: center;
@@ -837,7 +839,6 @@
     }
     .project {
       .text-project {
-       
         h1 {
           font-size: 18px !important;
           line-height: 28px !important;
@@ -870,7 +871,6 @@
   }
 
   @media (max-width: 1280px) {
-
     .container-eight {
       h1 {
         padding: 0px 80px !important;
@@ -880,8 +880,6 @@
       transition: all 0.3s ease-in-out;
       .project {
         .text-project {
-         
-
           h1 {
             font-size: 18px !important;
             line-height: 28px !important;
@@ -909,12 +907,11 @@
       padding: 0px 100px !important;
       transition: all 0.3s ease-in-out;
 
-      .content-carousel{
-        .card{
+      .content-carousel {
+        .card {
           .content {
             h1 {
               font-size: 15px !important;
-             
             }
           }
         }
@@ -959,8 +956,6 @@
   @media (max-width: 1096px) and (min-width: 992px) {
     .project {
       .text-project {
-        
-
         h1 {
           font-size: 18px !important;
           line-height: 28px !important;
@@ -1400,7 +1395,6 @@ h4 {
   }
 }
 
-// Responsivo
 @media (max-width: 768px) {
   .back-to-top-btn {
     bottom: 20px;
@@ -1410,4 +1404,3 @@ h4 {
     font-size: 16px;
   }
 }
-
