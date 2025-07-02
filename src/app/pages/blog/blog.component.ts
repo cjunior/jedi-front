@@ -184,4 +184,5 @@ export class BlogComponent {
       .toString(16)
       .slice(1)}`;
   }
+
 }

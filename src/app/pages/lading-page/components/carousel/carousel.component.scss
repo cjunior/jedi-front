@@ -27,7 +27,7 @@
   padding: 15px;
 
   h3 {
-    font-family: "Roboto Slab", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: 700;
     font-size: 24px;
     color: #426b53;
@@ -35,7 +35,7 @@
   }
 
   p {
-    font-family: "Roboto", sans-serif;
+   font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #666;
@@ -67,27 +67,21 @@
   align-items: center !important;
 }
 
-/* Responsivo para mobile */
-@media (max-width: 1024px) {
-  .circle-container {
-    width: 160px;
-    height: 160px;
-  }
-  ::ng-deep .p-carousel .p-carousel-items-content {
-    justify-content: center !important;
-  }
-  ::ng-deep #pn_id_6 .p-carousel-item {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-}
-@media (max-width: 768px) {
+
+@media (max-width: 770px) {
   .circle-container {
     width: 240px;
     height: 240px;
+    &.invisible-item {
+      display: none !important;
+    }
   }
-  ::ng-deep #pn_id_10 .p-carousel-item {
+  
+  ::ng-deep .p-carousel .p-carousel-items-content {
+    justify-content: center !important;
+  }
+  
+  ::ng-deep .p-carousel .p-carousel-item {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;

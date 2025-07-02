@@ -1,15 +1,13 @@
 <div class="card">
   <p-carousel
   class="carousel-equipe"
-    [value]="items"
+    [value]="displayItems"
     [numVisible]="3"
     [numScroll]="1"
     [responsiveOptions]="responsiveOptions"
     [showIndicators]="false"
     [circular]="true"
-    [autoplayInterval]="
-      isAutoplayPaused || isAutoplayPermanentlyPaused ? 0 : 3000
-    "
+    [autoplayInterval]="0"
     [page]="currentPage"
     (onPage)="onPageChange($event)"
     (mouseenter)="pauseAutoplay()"
@@ -19,7 +17,7 @@
     <ng-template let-item let-i="index" pTemplate="item">
       <div
         class="circle-container"
-        [class.invisible-item]="item.isInvisible"
+        [class.invisible-item]="item.isInvisible && currentNumVisible === 3"
         (click)="pauseAutoplayPermanently()"
         (keydown)="pauseAutoplayPermanently()"
       >
@@ -29,13 +27,13 @@
           [alt]="item.alt"
           class="circle-image"
         />
-        <div *ngIf="item.isInvisible" class="invisible-placeholder"></div>
+        <div *ngIf="item.isInvisible && currentNumVisible === 3" class="invisible-placeholder"></div>
       </div>
     </ng-template>
   </p-carousel>
 
   <div class="middle-person-info">
-    <h3>{{ getCurrentMiddleItem().name }}</h3>
-    <p>{{ getCurrentMiddleItem().role }}</p>
+    <h3>{{ currentMiddleItem.name }}</h3>
+    <p>{{ currentMiddleItem.role }}</p>
   </div>
 </div>

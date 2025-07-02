@@ -1,5 +1,5 @@
 import { Component, inject, type OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BlogServiceService } from '../blog/services/blog-service.service';
 import type { IPost } from '../../core/interfaces/blog.interface';
 import { AvatarModule } from 'primeng/avatar';
@@ -8,7 +8,7 @@ import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-unique-post-blog',
-  imports: [AvatarModule, RouterLink, ButtonModule],
+  imports: [AvatarModule, ButtonModule],
   templateUrl: './unique-post-blog.component.html',
   styleUrl: './unique-post-blog.component.scss'
 })

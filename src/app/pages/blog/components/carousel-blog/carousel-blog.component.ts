@@ -1,13 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Carousel, type CarouselPageEvent } from 'primeng/carousel';
+import { Carousel, CarouselPageEvent } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
-import { Tag } from 'primeng/tag';
-import type { IPost } from '../../../../core/interfaces/blog.interface';
+import { IPost } from '../../../../core/interfaces/blog.interface';
 
 @Component({
   selector: 'app-carousel-blog',
   standalone: true,
-  imports: [Carousel, ButtonModule, Tag],
+  imports: [Carousel, ButtonModule],
   templateUrl: './carousel-blog.component.html',
   styleUrl: './carousel-blog.component.scss'
 })

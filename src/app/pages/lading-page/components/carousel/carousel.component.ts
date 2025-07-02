@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CarouselModule } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
@@ -14,6 +14,26 @@ import { landingPageService } from '../../services/lading-page.service';
 })
 export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
+  currentMiddleItem: {
+    image: string;
+    alt: string;
+    name: string;
+    role: string;
+    isInvisible?: boolean;
+  } = {
+    image: '/igor.jpeg',
+    alt: 'Equipe 1',
+    name: 'Professor Igor Paim',
+    role: 'Coordenador geral',
+  };
+
+  get displayItems() {
+    if (this.currentNumVisible === 3) {
+      return this.items;
+    } else {
+      return this.items.filter(item => !item.isInvisible);
+    }
+  }
 
   items: {
     image: string;
@@ -28,9 +48,9 @@ export class CarouselComponent implements OnInit {
       name: 'Invisible Start',
       role: '',
       isInvisible: true,
-    }, // Item invisível no início
+    },
     {
-      image: '/equipe1.jpeg',
+      image: '/igor.jpeg',
       alt: 'Equipe 1',
       name: 'Professor Igor Paim',
       role: 'Coordenador geral',
@@ -53,7 +73,7 @@ export class CarouselComponent implements OnInit {
       name: 'Professora Albene Liz Both',
       role: 'Conteudista',
     },
-  
+
     {
       image: '/equipe5.jpg',
       alt: 'Equipe 4',
@@ -62,7 +82,7 @@ export class CarouselComponent implements OnInit {
     },
 
     {
-      image: '/equipe5.jpg',
+      image: '/equipe1.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Éder Oliveira',
       role: 'Conteudista',
@@ -70,16 +90,16 @@ export class CarouselComponent implements OnInit {
       {
       image: '/eq.jpeg',
       alt: 'Equipe 4',
-      name: 'Professora Rejane ',
+      name: 'Professora Rejane Santiago',
       role: 'Conteudista',
     },
       {
-      image: '/equipe5.jpg',
+      image: '/ProfessorSávio.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Sávio Soares',
       role: 'Conteudista',
     },
-   
+
     {
       image: '/equipe2.jpeg',
       alt: 'Equipe 5',
@@ -92,7 +112,7 @@ export class CarouselComponent implements OnInit {
       name: 'Invisible End',
       role: '',
       isInvisible: true,
-    }, 
+    },
   ];
 
   currentPage = 0;
@@ -107,12 +127,7 @@ export class CarouselComponent implements OnInit {
       numScroll: 1,
     },
     {
-      breakpoint: '768px',
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '480px',
+      breakpoint: '770px',
       numVisible: 1,
       numScroll: 1,
     },
@@ -120,29 +135,36 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.updateNumVisible();
-    window.addEventListener('resize', () => this.updateNumVisible());
+    this.updateCurrentMiddleItem();
+    window.addEventListener('resize', () => {
+      this.updateNumVisible();
+      this.updateCurrentMiddleItem();
+    });
   }
 
-  onPageChange(event: any) {
-    console.log('Page change detected - stopping autoplay permanently');
 
+
+  onPageChange(event: any) {
     this.pauseAutoplayPermanently();
 
-    let targetPage = event.page;
-    const visibleItems = this.items.filter((item) => !item.isInvisible);
+    this.updateNumVisible();
 
-    if (targetPage >= visibleItems.length) {
-      targetPage = targetPage % visibleItems.length;
+    let targetPage = event.page;
+
+    if (this.currentNumVisible === 3) {
+      const totalItems = this.items.length;
+      if (targetPage >= totalItems) {
+        targetPage = targetPage % totalItems;
+      }
+    } else {
+      const visibleItemsCount = this.displayItems.length;
+      if (targetPage >= visibleItemsCount) {
+        targetPage = targetPage % visibleItemsCount;
+      }
     }
 
     this.currentPage = targetPage;
-
-    console.log(
-      'Manual navigation to page:',
-      targetPage,
-      'Autoplay permanently stopped:',
-      this.isAutoplayPermanentlyPaused
-    );
+    this.updateCurrentMiddleItem();
   }
 
   pauseAutoplay() {
@@ -162,37 +184,45 @@ export class CarouselComponent implements OnInit {
 
   updateNumVisible() {
     const width = window.innerWidth;
-    if (width <= 768) {
+    const previousNumVisible = this.currentNumVisible;
+
+    if (width <= 770) {
       this.currentNumVisible = 1;
-    } else if (width <= 1024) {
-      this.currentNumVisible = 2;
     } else {
       this.currentNumVisible = 3;
     }
+
+    if (previousNumVisible !== this.currentNumVisible) {
+      this.currentPage = 0;
+    }
   }
 
-  getCurrentMiddleItem() {
-    const visibleItems = this.items.filter((item) => !item.isInvisible);
-    let itemIndex = this.currentPage;
-    if (itemIndex >= visibleItems.length) {
-      itemIndex = itemIndex % visibleItems.length;
+  updateCurrentMiddleItem() {
+    const currentDisplayItems = this.displayItems;
+
+    if (currentDisplayItems.length === 0) {
+      return;
     }
 
-    const currentItem = visibleItems[itemIndex];
+    if (this.currentPage >= currentDisplayItems.length) {
+      this.currentPage = 0;
+    }
 
-    console.log(
-      'Page:',
-      this.currentPage,
-      'ItemIndex:',
-      itemIndex,
-      'Person:',
-      currentItem?.name
-    );
-    console.log(
-      'Visible items:',
-      visibleItems.map((item, index) => `${index}: ${item.name}`)
-    );
+    if (this.currentNumVisible === 3) {
+      const allItems = this.items;
+      const startIndex = this.currentPage;
+      const middleIndex = startIndex + 1;
 
-    return currentItem || visibleItems[0];
+      if (middleIndex < allItems.length && !allItems[middleIndex].isInvisible) {
+        this.currentMiddleItem = allItems[middleIndex];
+      } else {
+        const visibleItems = allItems.filter(item => !item.isInvisible);
+        if (visibleItems.length > 0) {
+          this.currentMiddleItem = visibleItems[this.currentPage % visibleItems.length];
+        }
+      }
+    } else {
+      this.currentMiddleItem = currentDisplayItems[this.currentPage];
+    }
   }
 }
