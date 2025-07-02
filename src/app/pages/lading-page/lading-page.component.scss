@@ -390,6 +390,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+      box-sizing: border-box;
 
       .card {
         max-width: 788px !important;
@@ -400,6 +402,7 @@
         flex-direction: column;
         background: none;
         margin: 0 auto;
+        box-sizing: border-box;
 
         img {
           width: 100%;
@@ -719,30 +722,37 @@
     }
   }
 
-  // Forçar centralização completa do carrossel
+  // Forçar centralização completa do carrossel com responsividade
   ::ng-deep .content-carousel .p-carousel {
     width: 100% !important;
+    max-width: 100% !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    overflow: hidden !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-container {
     width: 100% !important;
+    max-width: 100% !important;
     display: flex !important;
     justify-content: center !important;
+    overflow: hidden !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-content {
     width: 100% !important;
+    max-width: 100% !important;
     overflow: hidden !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-items-content {
     width: 100% !important;
+    max-width: 100% !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
+    overflow: hidden !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-items-container {
@@ -750,23 +760,31 @@
     justify-content: center !important;
     align-items: center !important;
     transform: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-item {
     width: 100% !important;
+    max-width: 100% !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     flex-shrink: 0 !important;
+    overflow: hidden !important;
   }
 
   // Responsividade para o carrossel de conteúdo
   @media (max-width: 1024px) {
     .content-carousel {
-      max-width: 600px;
+      max-width: 100%;
+      width: 100%;
+      padding: 0 20px;
 
       .card {
-        width: 600px;
+        width: 100%;
+        max-width: 500px;
         height: 320px;
 
         img {
@@ -786,6 +804,7 @@
 
     .container-four {
       justify-content: center;
+      padding: 0 20px;
 
       .content-carousel {
         margin-left: auto;
@@ -797,12 +816,13 @@
 
   @media (max-width: 768px) {
     .content-carousel {
-      max-width: 95%;
-      padding: 0 10px;
+      max-width: 100%;
+      width: 100%;
+      padding: 0 15px;
 
       .card {
         width: 100%;
-        max-width: 400px;
+        max-width: 350px;
         height: 280px;
 
         img {
@@ -824,6 +844,40 @@
     .container-four {
       align-items: center;
       justify-content: center;
+      padding: 0 15px;
+    }
+  }
+
+  // Media query adicional para dispositivos muito pequenos
+  @media (max-width: 480px) {
+    .content-carousel {
+      max-width: 100%;
+      width: 100%;
+      padding: 0 10px;
+
+      .card {
+        width: 100%;
+        max-width: 280px;
+        height: 250px;
+
+        img {
+          height: 200px;
+        }
+
+        .content {
+          height: 50px;
+
+          h1 {
+            font-size: 16px;
+            line-height: 20px;
+            letter-spacing: 0.8px;
+          }
+        }
+      }
+    }
+
+    .container-four {
+      padding: 0 10px;
     }
   }
 
