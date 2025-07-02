@@ -151,15 +151,26 @@
 
       <div class="flex flex-col">
         <label for="password" class="font-semibold text-gray-700 required">Senha</label>
-        <input
-          type="password"
-          id="password"
-          formControlName="password"
-          pInputText
-          placeholder="Senha (min. 6 caracteres)"
-          class="w-full"
-          [class.ng-invalid]="isFieldInvalid(usuarioForm, 'password')"
-        />
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            pInputText
+            placeholder="Senha (min. 6 caracteres)"
+            class="w-full pr-10"
+            [class.ng-invalid]="isFieldInvalid(usuarioForm, 'password')"
+          />
+          <button
+            type="button"
+            class="password-toggle-btn absolute right-3 top-1/2 transform -translate-y-1/2"
+            (click)="togglePasswordVisibility()"
+            tabindex="-1"
+            aria-label="Mostrar/ocultar senha"
+          >
+            <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          </button>
+        </div>
         <div *ngFor="let error of getFieldErrors(usuarioForm, 'password')" class="mt-1">
           <p-message
             severity="error"
@@ -167,9 +178,37 @@
             variant="simple"
           ></p-message>
         </div>
-        <small class="text-gray-500 mt-1">
-          A senha deve conter: 1 maiúscula, 1 minúscula e 1 número (mínimo 6 caracteres)
-        </small>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="confirmPassword" class="font-semibold text-gray-700 required">Confirmar Senha</label>
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            id="confirmPassword"
+            formControlName="confirmPassword"
+            pInputText
+            placeholder="Confirme sua senha"
+            class="w-full pr-10"
+            [class.ng-invalid]="isFieldInvalid(usuarioForm, 'confirmPassword') || (usuarioForm.errors?.['passwordMismatch'] && usuarioForm.get('confirmPassword')?.dirty)"
+          />
+          <button
+            type="button"
+            class="password-toggle-btn absolute right-3 top-1/2 transform -translate-y-1/2"
+            (click)="toggleConfirmPasswordVisibility()"
+            tabindex="-1"
+            aria-label="Mostrar/ocultar confirmação de senha"
+          >
+            <i [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          </button>
+        </div>
+        <div *ngFor="let error of getFieldErrors(usuarioForm, 'confirmPassword')" class="mt-1">
+          <p-message
+            severity="error"
+            [text]="error"
+            variant="simple"
+          ></p-message>
+        </div>
       </div>
     </form>
 
@@ -276,15 +315,26 @@
 
       <div class="flex flex-col ">
         <label for="editPassword" class="font-semibold text-gray-700">Nova Senha (opcional)</label>
-        <input
-          type="password"
-          id="editPassword"
-          formControlName="password"
-          pInputText
-          placeholder="Nova senha (deixe em branco para manter a atual)"
-          class="w-full"
-          [class.ng-invalid]="isFieldInvalid(editForm, 'password')"
-        />
+        <div class="relative">
+          <input
+            [type]="showEditPassword ? 'text' : 'password'"
+            id="editPassword"
+            formControlName="password"
+            pInputText
+            placeholder="Nova senha (deixe em branco para manter a atual)"
+            class="w-full pr-10"
+            [class.ng-invalid]="isFieldInvalid(editForm, 'password')"
+          />
+          <button
+            type="button"
+            class="password-toggle-btn absolute right-3 top-1/2 transform -translate-y-1/2"
+            (click)="toggleEditPasswordVisibility()"
+            tabindex="-1"
+            aria-label="Mostrar/ocultar senha"
+          >
+            <i [class]="showEditPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+          </button>
+        </div>
         <div *ngFor="let error of getFieldErrors(editForm, 'password')" class="mt-1">
           <p-message
             severity="error"

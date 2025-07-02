@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
@@ -41,11 +40,14 @@ export class ManagerRegisterComponent {
   fotoPreview: string | ArrayBuffer | null = null;
   editFotoPreview: string | ArrayBuffer | null = null;
   isLoading = false;
-  
-  // Controle dos modais
   addUserDialogVisible = false;
   editDialogVisible = false;
   usuarioEditandoIndex = -1;
+  
+  // Controle de visibilidade das senhas
+  showPassword = false;
+  showConfirmPassword = false;
+  showEditPassword = false;
 
   private readonly manageRegisterService = inject(ManageRegisterService);
 
@@ -59,7 +61,7 @@ export class ManagerRegisterComponent {
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(100),
-        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/) // Apenas letras e espaços
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/) 
       ]],
       login: ['', [
         Validators.required, 
@@ -70,10 +72,11 @@ export class ManagerRegisterComponent {
         Validators.required,
         Validators.minLength(6),
         Validators.maxLength(50),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/) // Pelo menos 1 maiúscula, 1 minúscula e 1 número
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/) 
       ]],
+      confirmPassword: ['', [Validators.required]],
       foto: [''],
-    });
+    }, { validators: this.passwordMatchValidator });
 
     this.editForm = this.fb.group({
       nome: ['', [
@@ -95,7 +98,6 @@ export class ManagerRegisterComponent {
       foto: [''],
     });
 
-    // Dados de exemplo
     this.usuarios = [
       {
         nome: 'Aline Barbosa',
@@ -136,6 +138,7 @@ export class ManagerRegisterComponent {
     this.usuarioEditandoIndex = -1;
     this.editForm.reset();
     this.editFotoPreview = null;
+    this.showEditPassword = false;
   }
 
   onFileSelect(event: any) {
@@ -164,9 +167,14 @@ export class ManagerRegisterComponent {
       
       const formData = this.usuarioForm.value;
       const formDataToSend = new FormData();
+      
+      // Adicionar apenas os campos necessários para o backend
       formDataToSend.append('name', formData.nome);
       formDataToSend.append('login', formData.login);
       formDataToSend.append('password', formData.password);
+      
+      // Não adicionar confirmPassword ao FormData
+      
       if (formData.foto instanceof File) {
         formDataToSend.append('photo', formData.foto);
       }
@@ -177,22 +185,9 @@ export class ManagerRegisterComponent {
 
   private enviarDadosParaAPI(formDataToSend: FormData, originalFormData: any) {
    
-    for (let [key, value] of formDataToSend.entries()) {
-      if (value instanceof File) {
-        console.log(`${key}:`, {
-          name: value.name,
-          size: value.size,
-          type: value.type,
-          lastModified: value.lastModified
-        });
-      } else {
-        console.log(`${key}:`, value);
-      }
-    }
-
     this.manageRegisterService.postManagerRegister(formDataToSend).subscribe({
       next: (response) => {
-        console.log('Usuário criado com sucesso:', response);
+      
         
         this.usuarios.push({
           nome: originalFormData.nome,
@@ -200,7 +195,7 @@ export class ManagerRegisterComponent {
           senha: originalFormData.password,
           foto: originalFormData.foto instanceof File 
             ? URL.createObjectURL(originalFormData.foto)
-            : '/assets/default-avatar.png' // Foto padrão ou vazia
+            : '/assets/default-avatar.png'
         });
         
         this.closeAddUserDialog();
@@ -295,9 +290,10 @@ export class ManagerRegisterComponent {
   resetForm() {
     this.usuarioForm.reset();
     this.fotoPreview = null;
+    this.showPassword = false;
+    this.showConfirmPassword = false;
   }
 
-  // Métodos auxiliares para validações
   isFieldInvalid(form: FormGroup, fieldName: string): boolean {
     const field = form.get(fieldName);
     return !!(field && field.invalid && (field.dirty || field.touched));
@@ -308,6 +304,10 @@ export class ManagerRegisterComponent {
     const errors: string[] = [];
     
     if (!field?.errors || (!field.dirty && !field.touched)) {
+      // Verificar erro de confirmação de senha no nível do formulário
+      if (fieldName === 'confirmPassword' && form.errors?.['passwordMismatch'] && field?.dirty) {
+        errors.push('As senhas não coincidem');
+      }
       return errors;
     }
 
@@ -332,6 +332,11 @@ export class ManagerRegisterComponent {
       errors.push(this.getPatternErrorMessage(fieldName));
     }
     
+    // Verificar erro de confirmação de senha no nível do formulário
+    if (fieldName === 'confirmPassword' && form.errors?.['passwordMismatch']) {
+      errors.push('As senhas não coincidem');
+    }
+    
     return errors;
   }
 
@@ -349,8 +354,34 @@ export class ManagerRegisterComponent {
     const labels: { [key: string]: string } = {
       'nome': 'Nome',
       'login': 'Email',
-      'password': 'Senha'
+      'password': 'Senha',
+      'confirmPassword': 'Confirmar Senha'
     };
     return labels[fieldName] || fieldName;
+  }
+
+  // Validador customizado para confirmação de senha
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password');
+    const confirmPassword = form.get('confirmPassword');
+    
+    if (!password || !confirmPassword) {
+      return null;
+    }
+    
+    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+  }
+
+  // Métodos para controlar visibilidade das senhas
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility() {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
+
+  toggleEditPasswordVisibility() {
+    this.showEditPassword = !this.showEditPassword;
   }
 }

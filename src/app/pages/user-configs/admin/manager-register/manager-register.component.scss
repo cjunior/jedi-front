@@ -56,3 +56,36 @@ label {
   content: " *";
   color: #e74c3c;
 }
+
+// Estilos para ícones de visibilidade da senha
+.password-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #6b7280;
+  transition: color 0.2s ease;
+  
+  &:hover {
+    color: #374151;
+  }
+  
+  &:focus {
+    outline: none;
+    color: #374151;
+  }
+  
+  i {
+    font-size: 1rem;
+  }
+}
+
+// Melhorar o posicionamento dos inputs com ícones
+.relative input {
+  padding-right: 2.5rem; // Espaço para o ícone
+}
+
+// Garantir que o ícone não interfira na interação com o input
+.absolute.right-3 {
+  pointer-events: auto;
+}
