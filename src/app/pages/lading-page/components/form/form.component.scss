@@ -1,5 +1,5 @@
 .card-form {
-  width: 839px;
+  width: 764px;
   height: auto;
   background-color: #547955;
   display: flex;
@@ -57,18 +57,16 @@
   }
 }
 
-@media (max-width: 1680px) {
+@media(max-width: 1290px) {
   .card-form{
-    width: auto;
-    height: auto;
-   
+   width: 591px !important;
   }
-
 }
-
 @media(max-width: 1000px) {
   .card-form{
     margin-top: 50px;
+    width: auto !important;
+    height: auto !important;
   }
 
   .input-group {

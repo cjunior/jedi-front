@@ -144,22 +144,12 @@ export class CarouselSquareComponent implements OnInit {
   }
 
   checkMobile() {
-    this.isMobile = window.innerWidth <= 990;
+    this.isMobile = window.innerWidth <= 770;
   }
 
   responsiveOptions = [
     {
-      breakpoint: '1024px',
-      numVisible: 3,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '560px',
+      breakpoint: '770px',
       numVisible: 1,
       numScroll: 1,
     },
