@@ -1,5 +1,5 @@
 import { Component, inject, type OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BlogServiceService } from '../blog/services/blog-service.service';
 import type { IPost } from '../../core/interfaces/blog.interface';
 import { AvatarModule } from 'primeng/avatar';
@@ -8,7 +8,7 @@ import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-unique-post-blog',
-  imports: [AvatarModule, RouterLink, ButtonModule],
+  imports: [AvatarModule, ButtonModule],
   templateUrl: './unique-post-blog.component.html',
   styleUrl: './unique-post-blog.component.scss'
 })
@@ -22,17 +22,29 @@ export class UniquePostBlogComponent implements OnInit{
   protected showScrollTop = false;
 
   ngOnInit(): void {
-    const postId = Number(this.route.snapshot.paramMap.get('id'));
-    this.blogService.getUniquePost(postId).subscribe({
-      next: (response: IPost) => {
-        this.post = response;
+    this.route.paramMap.subscribe(params => {
+      const rawId = params.get('id');
+      const postId = rawId ? Number(rawId) : null;
+
+      if (postId === null || isNaN(postId)) {
+        console.warn('ID do post inválido:', rawId);
         this.isInitialLoading = false;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar post único:', error);
-        this.isInitialLoading = false;
+        return;
       }
+
+      this.isInitialLoading = true;
+      this.blogService.getUniquePost(postId).subscribe({
+        next: (response: IPost) => {
+          this.post = response;
+          this.isInitialLoading = false;
+        },
+        error: (error) => {
+          console.error('Erro ao buscar post único:', error);
+          this.isInitialLoading = false;
+        }
+      });
     });
+
     window.addEventListener('scroll', this.onScroll, true);
   }
 

@@ -241,63 +241,47 @@
 
   <img src="./ondas.svg" alt="" class="w-full mt-8" />
 
-  <div class="container-nine">
-    @if(blogDestaque) {
-    <div
-      class="content"
-      (click)="openPost(blogDestaque.id)"
-      (keydown.enter)="openPost(blogDestaque.id)"
-      (keydown.space)="openPost(blogDestaque.id)"
-      tabindex="0"
-      role="button"
-    >
-      <div class="photo cardmain">
-        <img [src]="blogDestaque.imagem" [alt]="" class="bts3" />
-      </div>
-
-      <div class="pencil">
-        <div class="edit">
-          <img src="./edit.svg" alt="" />
-          <span>Escrito por {{ blogDestaque.autor }}</span>
-        </div>
-      </div>
-      <h1>{{ blogDestaque.titulo }}</h1>
+  <div class="container-nine flex flex-col justify-center max-w-7xl mx-auto px-4 py-16">
+    <div>
+      <h1 class="title-container text-center font-medium">Notícias</h1>
+      <p class="text-center text-zinc-600 subtitle-container mb-4">
+        Explore ideias, conquistas e histórias que movimentam o futuro do empreendedorismo jovem no Brasil.
+      </p>
     </div>
-    }
+    <div class="w-full md:w-200 md:h-100 rounded-lg overflow-hidden shadow-md mb-3 md:mb-8 mx-auto">
+      <img
+        [src]="blogDestaque?.imagem"
+        alt="Imagem do post"
+        class="w-full h-full object-cover"
+      />
+    </div>
 
-    <div class="cards">
-      @for (card of cards; track $index) { @if($index < 3) {
-      <div
-        class="minor-card"
-        (click)="openPost(card.id)"
-        (keydown.enter)="openPost(card.id)"
-        (keydown.space)="openPost(card.id)"
-        tabindex="0"
-        role="button"
+    <div class="flex flex-col items-center text-center gap-4">
+      <div class="flex flex-wrap justify-center items-center gap-2 text-sm text-zinc-600">
+        <img src="./edit.svg" alt="ícone" class="w-4 h-4" />
+        <span>Escrito por <strong>{{ blogDestaque?.autor }}</strong></span>
+        <span class="text-xs">•</span>
+        <span>{{ blogDestaque?.data }}</span>
+        <span class="text-xs">•</span>
+        <span>{{ blogDestaque?.tempoLeitura }}</span>
+      </div>
+
+      <h1 class="text-3xl md:text-4xl font-bold text-zinc-800 leading-tight">
+        {{ blogDestaque?.titulo }}
+      </h1>
+
+      <button
+        (click)="redirectToBlog()"
+        class="border-none border border-emerald-700 cursor-pointer px-6 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold rounded-lg transition"
       >
-        <div class="photo cars">
-          <img [src]="card.imagem" [alt]="" class="imgs" />
-        </div>
-        <div class="content-minor-card">
-          <h4>{{ card.titulo | truncate : 50 }}</h4>
-          <span>Escrito por {{ card.autor }}</span>
-          <div class="date">
-            <span>{{ card.data }}</span>
-            <span>{{ card.tempoLeitura }}</span>
-          </div>
-        </div>
-      </div>
-      } }
-      <div class="flex justify-end pt-2">
-        <a
-          href=""
-          class="text-emerald-600! underline! text-end! text-xl"
-          routerLink="blog"
-          >Ver mais</a
-        >
-      </div>
+        Ver notícias
+      </button>
     </div>
   </div>
+
+
+
+
 </div>
 
 <p-toast />

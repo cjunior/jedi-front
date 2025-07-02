@@ -48,7 +48,7 @@ export class CarouselComponent implements OnInit {
       name: 'Invisible Start',
       role: '',
       isInvisible: true,
-    }, 
+    },
     {
       image: '/igor.jpeg',
       alt: 'Equipe 1',
@@ -73,7 +73,7 @@ export class CarouselComponent implements OnInit {
       name: 'Professora Albene Liz Both',
       role: 'Conteudista',
     },
-  
+
     {
       image: '/equipe5.jpg',
       alt: 'Equipe 4',
@@ -99,7 +99,7 @@ export class CarouselComponent implements OnInit {
       name: 'Professor Sávio Soares',
       role: 'Conteudista',
     },
-   
+
     {
       image: '/equipe2.jpeg',
       alt: 'Equipe 5',
@@ -112,7 +112,7 @@ export class CarouselComponent implements OnInit {
       name: 'Invisible End',
       role: '',
       isInvisible: true,
-    }, 
+    },
   ];
 
   currentPage = 0;
@@ -148,9 +148,9 @@ export class CarouselComponent implements OnInit {
     this.pauseAutoplayPermanently();
 
     this.updateNumVisible();
-    
+
     let targetPage = event.page;
-    
+
     if (this.currentNumVisible === 3) {
       const totalItems = this.items.length;
       if (targetPage >= totalItems) {
@@ -185,13 +185,13 @@ export class CarouselComponent implements OnInit {
   updateNumVisible() {
     const width = window.innerWidth;
     const previousNumVisible = this.currentNumVisible;
-    
+
     if (width <= 770) {
       this.currentNumVisible = 1;
     } else {
       this.currentNumVisible = 3;
     }
-    
+
     if (previousNumVisible !== this.currentNumVisible) {
       this.currentPage = 0;
     }
@@ -199,20 +199,20 @@ export class CarouselComponent implements OnInit {
 
   updateCurrentMiddleItem() {
     const currentDisplayItems = this.displayItems;
-    
+
     if (currentDisplayItems.length === 0) {
       return;
     }
-    
+
     if (this.currentPage >= currentDisplayItems.length) {
       this.currentPage = 0;
     }
-    
+
     if (this.currentNumVisible === 3) {
-      const allItems = this.items; 
+      const allItems = this.items;
       const startIndex = this.currentPage;
       const middleIndex = startIndex + 1;
-      
+
       if (middleIndex < allItems.length && !allItems[middleIndex].isInvisible) {
         this.currentMiddleItem = allItems[middleIndex];
       } else {
