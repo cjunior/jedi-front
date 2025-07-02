@@ -10,6 +10,7 @@ import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
+import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ManageRegisterService } from './services/manage-register.service';
 
@@ -27,7 +28,8 @@ import { ManageRegisterService } from './services/manage-register.service';
     PanelModule,
     ConfirmDialogModule,
     ToastModule,
-    MessageModule
+    MessageModule,
+    DropdownModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './manager-register.component.html',
@@ -48,6 +50,14 @@ export class ManagerRegisterComponent {
   showPassword = false;
   showConfirmPassword = false;
   showEditPassword = false;
+  showEditConfirmPassword = false;
+
+  // Opções de cargo
+  cargoOptions = [
+    { label: 'Administrador', value: 'admin' },
+    { label: 'Gerente', value: 'gerente' },
+    { label: 'Editor', value: 'blog' }
+  ];
 
   private readonly manageRegisterService = inject(ManageRegisterService);
 
@@ -68,6 +78,7 @@ export class ManagerRegisterComponent {
         Validators.email,
         Validators.maxLength(255)
       ]],
+      cargo: ['', [Validators.required]],
       password: ['', [
         Validators.required,
         Validators.minLength(6),
@@ -90,31 +101,36 @@ export class ManagerRegisterComponent {
         Validators.email,
         Validators.maxLength(255)
       ]],
+      cargo: ['', [Validators.required]],
       password: ['', [
         Validators.minLength(6),
         Validators.maxLength(50),
         Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/)
       ]],
+      confirmPassword: [''],
       foto: [''],
-    });
+    }, { validators: this.editPasswordMatchValidator });
 
     this.usuarios = [
       {
         nome: 'Aline Barbosa',
         email: 'aline.barbosa@email.com',
         senha: 'senha123',
+        cargo: 'admin',
         foto: 'https://i.pravatar.cc/150?img=1'
       },
       {
         nome: 'Carlos Menezes',
         email: 'carlos.menezes@email.com',
         senha: 'senha456',
+        cargo: 'gerente',
         foto: 'https://i.pravatar.cc/150?img=2'
       },
       {
         nome: 'Juliana Castro',
         email: 'juliana.castro@email.com',
         senha: 'senha789',
+        cargo: 'blog',
         foto: 'https://i.pravatar.cc/150?img=3'
       }
     ];
@@ -139,6 +155,7 @@ export class ManagerRegisterComponent {
     this.editForm.reset();
     this.editFotoPreview = null;
     this.showEditPassword = false;
+    this.showEditConfirmPassword = false;
   }
 
   onFileSelect(event: any) {
@@ -172,6 +189,7 @@ export class ManagerRegisterComponent {
       formDataToSend.append('name', formData.nome);
       formDataToSend.append('login', formData.login);
       formDataToSend.append('password', formData.password);
+      formDataToSend.append('role', formData.cargo);
       
       // Não adicionar confirmPassword ao FormData
       
@@ -193,6 +211,7 @@ export class ManagerRegisterComponent {
           nome: originalFormData.nome,
           email: originalFormData.login,
           senha: originalFormData.password,
+          cargo: originalFormData.cargo,
           foto: originalFormData.foto instanceof File 
             ? URL.createObjectURL(originalFormData.foto)
             : '/assets/default-avatar.png'
@@ -225,7 +244,9 @@ export class ManagerRegisterComponent {
     this.editForm.patchValue({
       nome: usuario.nome,
       login: usuario.email,
+      cargo: usuario.cargo,
       password: '',
+      confirmPassword: '',
       foto: null
     });
     this.editFotoPreview = usuario.foto;
@@ -239,6 +260,7 @@ export class ManagerRegisterComponent {
       
       usuario.nome = formData.nome;
       usuario.email = formData.login;
+      usuario.cargo = formData.cargo;
       
       if (formData.password) {
         usuario.senha = formData.password;
@@ -372,6 +394,34 @@ export class ManagerRegisterComponent {
     return password.value === confirmPassword.value ? null : { passwordMismatch: true };
   }
 
+  // Validador para formulário de edição (senha opcional)
+  editPasswordMatchValidator(form: FormGroup) {
+    const password = form.get('password');
+    const confirmPassword = form.get('confirmPassword');
+    
+    if (!password || !confirmPassword) {
+      return null;
+    }
+
+    // Se nenhuma senha foi preenchida, não há erro
+    if (!password.value && !confirmPassword.value) {
+      return null;
+    }
+    
+    // Se senha foi preenchida mas confirmação não, é erro
+    if (password.value && !confirmPassword.value) {
+      return { passwordMismatch: true };
+    }
+    
+    // Se confirmação foi preenchida mas senha não, é erro
+    if (!password.value && confirmPassword.value) {
+      return { passwordMismatch: true };
+    }
+    
+    // Se ambas foram preenchidas, devem ser iguais
+    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+  }
+
   // Métodos para controlar visibilidade das senhas
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
@@ -383,5 +433,25 @@ export class ManagerRegisterComponent {
 
   toggleEditPasswordVisibility() {
     this.showEditPassword = !this.showEditPassword;
+  }
+
+  toggleEditConfirmPasswordVisibility() {
+    this.showEditConfirmPassword = !this.showEditConfirmPassword;
+  }
+
+  // Método para obter o label do cargo
+  getCargoLabel(cargo: string): string {
+    const option = this.cargoOptions.find(opt => opt.value === cargo);
+    return option ? option.label : cargo;
+  }
+
+  // Método para obter a classe CSS do cargo
+  getCargoClass(cargo: string): string {
+    const classes = {
+      'admin': 'bg-red-100 text-red-800',
+      'gerente': 'bg-blue-100 text-blue-800',
+      'blog': 'bg-green-100 text-green-800'
+    };
+    return classes[cargo as keyof typeof classes] || 'bg-gray-100 text-gray-800';
   }
 }
