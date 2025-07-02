@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -10,7 +10,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PanelModule } from 'primeng/panel';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ManageRegisterService } from './services/manage-register.service';
 
 @Component({
   selector: 'app-manager-register',
@@ -25,7 +27,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
     TooltipModule,
     PanelModule,
     ConfirmDialogModule,
-    ToastModule
+    ToastModule,
+    MessageModule
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './manager-register.component.html',
@@ -37,29 +40,59 @@ export class ManagerRegisterComponent {
   usuarios: any[] = [];
   fotoPreview: string | ArrayBuffer | null = null;
   editFotoPreview: string | ArrayBuffer | null = null;
+  isLoading = false;
   
   // Controle dos modais
   addUserDialogVisible = false;
   editDialogVisible = false;
   usuarioEditandoIndex = -1;
 
+  private readonly manageRegisterService = inject(ManageRegisterService);
+
   constructor(
-    private fb: FormBuilder,
-    private confirmationService: ConfirmationService,
-    private messageService: MessageService
+    private readonly fb: FormBuilder,
+    private readonly confirmationService: ConfirmationService,
+    private readonly messageService: MessageService
   ) {
     this.usuarioForm = this.fb.group({
-      nome: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      senha: ['', Validators.required],
-      foto: [null],
+      nome: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(100),
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/) // Apenas letras e espaços
+      ]],
+      login: ['', [
+        Validators.required, 
+        Validators.email,
+        Validators.maxLength(255)
+      ]],
+      password: ['', [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(50),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/) // Pelo menos 1 maiúscula, 1 minúscula e 1 número
+      ]],
+      foto: [''],
     });
 
     this.editForm = this.fb.group({
-      nome: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      senha: [''],
-      foto: [null],
+      nome: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(100),
+        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/)
+      ]],
+      login: ['', [
+        Validators.required, 
+        Validators.email,
+        Validators.maxLength(255)
+      ]],
+      password: ['', [
+        Validators.minLength(6),
+        Validators.maxLength(50),
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/)
+      ]],
+      foto: [''],
     });
 
     // Dados de exemplo
@@ -85,17 +118,15 @@ export class ManagerRegisterComponent {
     ];
   }
 
-  // Métodos para o modal de adicionar usuário
+
   openAddUserDialog() {
     this.addUserDialogVisible = true;
   }
-
   closeAddUserDialog() {
     this.addUserDialogVisible = false;
     this.resetForm();
   }
 
-  // Métodos para o modal de editar usuário
   openEditDialog() {
     this.editDialogVisible = true;
   }
@@ -129,60 +160,77 @@ export class ManagerRegisterComponent {
 
   criarUsuario() {
     if (this.usuarioForm.valid) {
-      try {
-        const formData = this.usuarioForm.value;
-        const foto = formData.foto;
+      this.isLoading = true;
+      
+      const formData = this.usuarioForm.value;
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.nome);
+      formDataToSend.append('login', formData.login);
+      formDataToSend.append('password', formData.password);
+      if (formData.foto instanceof File) {
+        formDataToSend.append('photo', formData.foto);
+      }
+      
+      this.enviarDadosParaAPI(formDataToSend, formData);
+    }
+  }
 
-        if (foto) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const novoUsuario = {
-              nome: formData.nome,
-              email: formData.email,
-              senha: formData.senha,
-              foto: reader.result,
-            };
-            this.usuarios.push(novoUsuario);
-            this.closeAddUserDialog();
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Usuário criado com sucesso!'
-            });
-          };
-          reader.readAsDataURL(foto);
-        } else {
-          // Usuário sem foto
-          const novoUsuario = {
-            nome: formData.nome,
-            email: formData.email,
-            senha: formData.senha,
-            foto: 'https://i.pravatar.cc/150?img=' + Math.floor(Math.random() * 70)
-          };
-          this.usuarios.push(novoUsuario);
-          this.closeAddUserDialog();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Usuário criado com sucesso!'
-          });
-        }
-      } catch (error) {
+  private enviarDadosParaAPI(formDataToSend: FormData, originalFormData: any) {
+   
+    for (let [key, value] of formDataToSend.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}:`, {
+          name: value.name,
+          size: value.size,
+          type: value.type,
+          lastModified: value.lastModified
+        });
+      } else {
+        console.log(`${key}:`, value);
+      }
+    }
+
+    this.manageRegisterService.postManagerRegister(formDataToSend).subscribe({
+      next: (response) => {
+        console.log('Usuário criado com sucesso:', response);
+        
+        this.usuarios.push({
+          nome: originalFormData.nome,
+          email: originalFormData.login,
+          senha: originalFormData.password,
+          foto: originalFormData.foto instanceof File 
+            ? URL.createObjectURL(originalFormData.foto)
+            : '/assets/default-avatar.png' // Foto padrão ou vazia
+        });
+        
+        this.closeAddUserDialog();
+        this.isLoading = false;
+        
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Usuário criado com sucesso!'
+        });
+      },
+      error: (error) => {
+        console.error('Erro ao criar usuário:', error);
+        this.isLoading = false;
+        
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
-          detail: 'Erro ao criar usuário!'
+          detail: 'Erro ao criar usuário. Tente novamente.'
         });
       }
-    }
+    });
   }
 
   editarUsuario(usuario: any, index: number) {
     this.usuarioEditandoIndex = index;
     this.editForm.patchValue({
       nome: usuario.nome,
-      email: usuario.email,
-      senha: '',
+      login: usuario.email,
+      password: '',
       foto: null
     });
     this.editFotoPreview = usuario.foto;
@@ -191,42 +239,34 @@ export class ManagerRegisterComponent {
 
   salvarEdicao() {
     if (this.editForm.valid && this.usuarioEditandoIndex >= 0) {
-      try {
-        const formData = this.editForm.value;
-        const usuario = this.usuarios[this.usuarioEditandoIndex];
-        
-        usuario.nome = formData.nome;
-        usuario.email = formData.email;
-        
-        if (formData.senha) {
-          usuario.senha = formData.senha;
-        }
+      const formData = this.editForm.value;
+      const usuario = this.usuarios[this.usuarioEditandoIndex];
+      
+      usuario.nome = formData.nome;
+      usuario.email = formData.login;
+      
+      if (formData.password) {
+        usuario.senha = formData.password;
+      }
 
-        if (formData.foto) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            usuario.foto = reader.result;
-            this.closeEditDialog();
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Sucesso',
-              detail: 'Usuário atualizado com sucesso!'
-            });
-          };
-          reader.readAsDataURL(formData.foto);
-        } else {
+      if (formData.foto) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          usuario.foto = reader.result;
           this.closeEditDialog();
           this.messageService.add({
             severity: 'success',
             summary: 'Sucesso',
             detail: 'Usuário atualizado com sucesso!'
           });
-        }
-      } catch (error) {
+        };
+        reader.readAsDataURL(formData.foto);
+      } else {
+        this.closeEditDialog();
         this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Erro ao atualizar usuário!'
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Usuário atualizado com sucesso!'
         });
       }
     }
@@ -242,20 +282,12 @@ export class ManagerRegisterComponent {
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
       accept: () => {
-        try {
-          this.usuarios.splice(index, 1);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Usuário excluído com sucesso!'
-          });
-        } catch (error) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Erro ao excluir usuário!'
-          });
-        }
+        this.usuarios.splice(index, 1);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Sucesso',
+          detail: 'Usuário excluído com sucesso!'
+        });
       }
     });
   }
@@ -263,5 +295,62 @@ export class ManagerRegisterComponent {
   resetForm() {
     this.usuarioForm.reset();
     this.fotoPreview = null;
+  }
+
+  // Métodos auxiliares para validações
+  isFieldInvalid(form: FormGroup, fieldName: string): boolean {
+    const field = form.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
+  getFieldErrors(form: FormGroup, fieldName: string): string[] {
+    const field = form.get(fieldName);
+    const errors: string[] = [];
+    
+    if (!field?.errors || (!field.dirty && !field.touched)) {
+      return errors;
+    }
+
+    const fieldErrors = field.errors;
+    const label = this.getFieldLabel(fieldName);
+
+    if (fieldErrors['required']) {
+      errors.push(`${label} é obrigatório`);
+    }
+    if (fieldErrors['email']) {
+      errors.push('Email deve ter um formato válido');
+    }
+    if (fieldErrors['minlength']) {
+      const minLength = fieldErrors['minlength'].requiredLength;
+      errors.push(`${label} deve ter pelo menos ${minLength} caracteres`);
+    }
+    if (fieldErrors['maxlength']) {
+      const maxLength = fieldErrors['maxlength'].requiredLength;
+      errors.push(`${label} deve ter no máximo ${maxLength} caracteres`);
+    }
+    if (fieldErrors['pattern']) {
+      errors.push(this.getPatternErrorMessage(fieldName));
+    }
+    
+    return errors;
+  }
+
+  private getPatternErrorMessage(fieldName: string): string {
+    if (fieldName === 'nome') {
+      return 'Nome deve conter apenas letras e espaços';
+    }
+    if (fieldName === 'password') {
+      return 'Senha deve conter pelo menos 1 maiúscula, 1 minúscula e 1 número (mín. 6 caracteres)';
+    }
+    return 'Formato inválido';
+  }
+
+  private getFieldLabel(fieldName: string): string {
+    const labels: { [key: string]: string } = {
+      'nome': 'Nome',
+      'login': 'Email',
+      'password': 'Senha'
+    };
+    return labels[fieldName] || fieldName;
   }
 }
