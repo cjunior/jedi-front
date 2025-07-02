@@ -386,6 +386,13 @@
           align-items: center;
           justify-content: center;
           background-color: #efc209;
+          gap: 8px; /* Espaçamento entre o ícone e o texto */
+
+          .play-icon {
+            width: 40px;
+            height: 40px;
+            /* Ícone SVG verde no fundo amarelo - mesmo estilo do carousel-square */
+          }
 
           h1 {
             font-family: Roboto Slab, sans-serif;
