@@ -392,3 +392,47 @@
     </div>
   </form>
 </p-dialog>
+
+<p-dialog
+  styleClass="!bg-orange-50"
+  [modal]="true"
+  [(visible)]="confirmVisible"
+  [style]="{ width: '25rem' }"
+  [showHeader]="false"
+  [contentStyle]="{ padding: '0' }"
+  [closable]="false"
+>
+  <div class="bg-emerald-800 p-2 overflow-hidden rounded-t-xl">
+    <img src="/onda2.svg" alt="" class="!w-full !h-15" />
+  </div>
+  <div class="px-4 py-6">
+    <div class="flex flex-col justify-center items-center gap-4 text-center">
+      <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+        <i class="pi pi-exclamation-triangle text-yellow-600 text-2xl"></i>
+      </div>
+      <h2 class="text-xl font-bold text-green-700 uppercase">Atenção</h2>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <p class="text-gray-700 leading-relaxed">
+          <strong>Este pré-cadastro não garante vaga no curso</strong>, mas inclui você no nosso banco de vagas. Preencha com seus dados e acompanhe os próximos passos!
+        </p>
+      </div>
+      <div class="flex justify-center gap-3 mt-4">
+        <button
+          pButton
+          class="!py-3 !px-6 !rounded-xl !border-gray-300 !text-gray-700 !bg-gray-50 hover:bg-gray-100!"
+          (click)="confirmVisible = false"
+        >
+          Cancelar
+        </button>
+        <button
+          pButton
+          class="!bg-emerald-800 hover:bg-emerald-900! border-emerald-700 !py-3 !px-6 !rounded-xl"
+          (click)="confirmSubmit()"
+          [loading]="isLoading()"
+        >
+          Confirmar Envio
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>

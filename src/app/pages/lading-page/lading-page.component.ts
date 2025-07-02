@@ -75,6 +75,7 @@ export class LadingPageComponent {
   showErrors = signal(false);
   isLoading = signal(false);
   isInitialLoading = true;
+  confirmVisible = false;
   teamResponseDto = {
     equipttext: 'Equipe',
   };
@@ -410,44 +411,55 @@ export class LadingPageComponent {
 
   async onSubmit() {
     this.showErrors.set(true);
+    
+    if (this.form.valid) {
+      // Abrir modal de confirmação
+      this.confirmVisible = true;
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+  confirmSubmit() {
     const completeName = this.form.value.name ?? '';
     const email = this.form.value.email ?? '';
     const cellphone = this.form.value.phone ?? '';
 
-    if (this.form.valid) {
-      this.isLoading.set(true);
+    this.confirmVisible = false;
+    this.isLoading.set(true);
 
-      this.pregristrationService
-        .makePreRegistration({ completeName, email, cellphone })
-        .subscribe({
-          next: (response) => {
-            this.isLoading.set(false);
+    this.pregristrationService
+      .makePreRegistration({ completeName, email, cellphone })
+      .subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
 
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Sucesso!',
-              detail: response.message,
-            });
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso!',
+            detail: response.message,
+          });
 
-            this.showErrors.set(false);
-            this.visible = false;
-            this.form.reset();
-          },
-          error: (error) => {
-            this.isLoading.set(false);
-            console.error('Error during pre-registration:', error);
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Erro',
-              detail:
-                `${error?.error?.errors?.cellphone || ``} ${
-                  error?.error?.message || ``
-                }` || 'Ocorreu um erro durante o pré-cadastro.',
-            });
-          },
-        });
-    } else {
-      this.form.markAllAsTouched();
-    }
+          this.showErrors.set(false);
+          this.visible = false;
+          this.form.reset();
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          console.error('Error during pre-registration:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail:
+              `${error?.error?.errors?.cellphone || ``} ${
+                error?.error?.message || ``
+              }` || 'Ocorreu um erro durante o pré-cadastro.',
+          });
+        },
+      });
+  }
+
+  cancelSubmit() {
+    this.confirmVisible = false;
   }
 }

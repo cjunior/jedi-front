@@ -336,6 +336,8 @@
     padding: 0px 150px;
     margin-top: 40px;
     gap: 59px;
+    overflow: hidden;
+    box-sizing: border-box;
 
     .text {
       width: 100%;
@@ -815,18 +817,36 @@
   }
 
   @media (max-width: 768px) {
+    .container-four {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 15px;
+      gap: 30px;
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    
     .content-carousel {
       max-width: 100%;
       width: 100%;
-      padding: 0 15px;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      box-sizing: border-box;
 
       .card {
         width: 100%;
-        max-width: 350px;
+        max-width: 100%;
         height: 280px;
+        overflow: hidden;
+        box-sizing: border-box;
 
         img {
           height: 230px;
+          width: 100%;
+          object-fit: cover;
         }
 
         .content {
@@ -840,28 +860,40 @@
         }
       }
     }
-
-    .container-four {
-      align-items: center;
-      justify-content: center;
-      padding: 0 15px;
-    }
   }
 
   // Media query adicional para dispositivos muito pequenos
   @media (max-width: 480px) {
+    .container-four {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      gap: 20px;
+      width: 100%;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    
     .content-carousel {
       max-width: 100%;
       width: 100%;
-      padding: 0 10px;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+      box-sizing: border-box;
 
       .card {
         width: 100%;
-        max-width: 280px;
+        max-width: 100%;
         height: 250px;
+        overflow: hidden;
+        box-sizing: border-box;
 
         img {
           height: 200px;
+          width: 100%;
+          object-fit: cover;
         }
 
         .content {
@@ -874,10 +906,6 @@
           }
         }
       }
-    }
-
-    .container-four {
-      padding: 0 10px;
     }
   }
 
