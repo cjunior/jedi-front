@@ -17,44 +17,56 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
   </div>
 </div>
 <nav class="flex flex-col gap-2 p-4">
+ 
+  @if(canManagePreRegistrations()) {
   <div
     class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
     routerLink="pre-cadastros"
     routerLinkActive="active"
     (click)="sidebarOpen = false"
+    (keydown.enter)="sidebarOpen = false"
+    (keydown.space)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
   >
-    <i class="pi pi-user"></i>
+    <i class="pi pi-users"></i>
     <span class="text-sm font-medium">Pré-cadastros</span>
   </div>
-  <!-- <div
-  class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
-  routerLink="gerenciar-usuarios"
-  routerLinkActive="active"
-  (click)="sidebarOpen = false"
->
-  <i class="pi pi-user"></i>
-  <span class="text-sm font-medium">Cadastro de usuarios</span>
-</div> -->
-  <!--
-    <div
-      class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
-      routerLink="edit-landing-page2"
-      routerLinkActive="active"
-      (click)="sidebarOpen = false"
-    >
-      <i class="pi pi-file"></i>
-      <span class="text-sm font-medium">Editar Página Inicial</span>
-    </div>
-  -->
+  }
+
+
+  @if(canManageBlog()) {
   <div
     class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
     routerLink="gerenciar-blog"
     routerLinkActive="active"
     (click)="sidebarOpen = false"
+    (keydown.enter)="sidebarOpen = false"
+    (keydown.space)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
   >
     <i class="pi pi-pencil"></i>
     <span class="text-sm font-medium">Gerenciar Blog</span>
   </div>
+  }
+
+  
+  @if(canManageUsers()) {
+  <!-- <div
+    class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+    routerLink="gerenciar-usuarios"
+    routerLinkActive="active"
+    (click)="sidebarOpen = false"
+    (keydown.enter)="sidebarOpen = false"
+    (keydown.space)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
+  >
+    <i class="pi pi-user-plus"></i>
+    <span class="text-sm font-medium">Gerenciar Usuários</span>
+  </div> -->
+  }
 </nav>
 </aside>
 
@@ -63,31 +75,84 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
   <div
     class="fixed inset-0 bg-black opacity-50 z-30 lg:hidden"
     (click)="sidebarOpen = false"
+    (keydown.escape)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
+    aria-label="Fechar menu"
   ></div>
-
 }
 
 
 <div class="dashboard flex flex-col gap-8 overflow-x-scroll">
   <header class="flex justify-between">
     <div class="flex items-center gap-4">
-      <!-- Botão Hamburger -->
+     
       <button
         class="lg:hidden bg-emerald-800 hover:bg-emerald-900 border-emerald-700 text-white p-2 rounded-md"
         (click)="sidebarOpen = !sidebarOpen"
       >
         <i class="pi pi-bars text-2xl"></i>
       </button>
-      <h2 class="text-lg font-medium">Olá, <span class="font-bold">Admin</span>!</h2>
+      <h2 class="text-lg font-medium">Olá, <span class="font-bold">{{ getUserName() }}</span>!</h2>
     </div>
     <button pButton (click)="op.toggle($event)" class="!bg-transparent !p-0 !m-0 !block !border-none">
-      <p-avatar label="J" styleClass="!bg-emerald-800 text-white!" size="large" shape="circle" />
+      @if(getUserPhoto()) {
+        <p-avatar 
+          [image]="getUserPhoto()!" 
+          styleClass="!bg-emerald-800 text-white!" 
+          size="large" 
+          shape="circle" 
+        />
+      } @else {
+        <p-avatar 
+          [label]="getUserInitials()" 
+          styleClass="!bg-emerald-800 text-white!" 
+          size="large" 
+          shape="circle" 
+        />
+      }
       <p-popover #op>
-        <div class="flex flex-col gap-4 w-40">
+        <div class="flex flex-col gap-4 w-56">
+          <!-- Informações do Usuário -->
+          <div class="border-b border-gray-200 pb-3">
+            <div class="flex items-center gap-3 mb-2">
+              @if(getUserPhoto()) {
+                <p-avatar 
+                  [image]="getUserPhoto()!" 
+                  styleClass="!bg-emerald-800 text-white!" 
+                  size="normal" 
+                  shape="circle" 
+                />
+              } @else {
+                <p-avatar 
+                  [label]="getUserInitials()" 
+                  styleClass="!bg-emerald-800 text-white!" 
+                  size="normal" 
+                  shape="circle" 
+                />
+              }
+              <div class="flex flex-col">
+                <span class="font-semibold text-sm">{{ getUserName() }}</span>
+                <span class="text-xs text-gray-500">{{ getUserDisplayName() }}</span>
+              </div>
+            </div>
+            @if(getUserEmail()) {
+              <span class="text-xs text-gray-600">{{ getUserEmail() }}</span>
+            }
+          </div>
+          
+          <!-- Ações -->
           <div>
             <span class="font-semibold block mb-2">Ações</span>
             <ul class="list-none p-0 m-0 flex flex-col">
-              <li class="flex items-center gap-2 px-2 py-3 hover:bg-emerald-50 cursor-pointer rounded-md" (click)="logout()">
+              <li 
+                class="flex items-center gap-2 px-2 py-3 hover:bg-emerald-50 cursor-pointer rounded-md" 
+                (click)="logout()"
+                (keydown.enter)="logout()"
+                (keydown.space)="logout()"
+                tabindex="0"
+                role="button"
+              >
                 <div class="flex gap-2 items-center">
                   <i class="pi pi-sign-out"></i>
                   <span class="font-medium">Sair</span>
