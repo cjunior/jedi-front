@@ -7,12 +7,49 @@
   </div>
 }
 
-<div class="w-full h-full">
+<div class="w-full min-h-full bg-gradient-to-b from-orange-50 to-lime-100">
   <div class="max-w-[1440px]! mx-auto pt-8">
-    <!-- Header -->
-    <div class="flex items-center justify-center">
-      <img src="logo.svg" alt="" class="h-30">
-      <h1 class="text-3xl text-emerald-900 uppercase pl-6 pt-5">Blog</h1>
+    <div class="flex items-center justify-between px-2">
+      <img src="logo.svg" alt="" class="h-30 cursor-pointer" (click)="redirectToInitialPage()" />
+      <ul class="hidden md:block">
+        <li class="text-emerald-900 font-bold cursor-pointer pt-4" (click)="redirectToInitialPage()">Página inicial</li>
+      </ul>
+      <div class="pt-4 hidden md:block">
+        <p-iconfield>
+          <input type="text" pInputText placeholder="Pesquisar postagem..." class="h-10 w-90 rounded-4xl! p-6! pr-0" />
+          <p-inputicon styleClass="pi pi-search pr-4!" />
+        </p-iconfield>
+      </div>
+      <div class="md:hidden relative">
+        @if(isMobileMenuOpen()) {
+          <i class="pi pi-times text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        } @else {
+          <i class="pi pi-bars text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        }
+
+        @if(isMobileMenuOpen()) {
+          <div class="fixed inset-0 z-40 bg-opacity-10!" (click)="closeMenu()"></div>
+
+          <div
+            class="fixed top-35 left-0 right-0 z-50 bg-white shadow-md mx-2 mt-2 rounded-md animate-slide-down"
+            (click)="$event.stopPropagation()"
+          >
+            <ul class="flex flex-col px-6 py-4 space-y-4">
+              <li>
+                <p-iconfield>
+                  <input type="text" pInputText placeholder="Pesquisar postagem..." class="h-10 w-full rounded-4xl! p-6! pr-0" />
+                  <p-inputicon styleClass="pi pi-search pr-4!" />
+                </p-iconfield>
+                <div class="w-full h-[1px] bg-zinc-300 my-5"></div>
+              </li>
+              <li class="text-emerald-900 sm:text-xl font-bold cursor-pointer" (click)="redirectToInitialPage(); closeMenu()">
+                Página inicial
+              </li>
+              <!-- Adicione outros itens de menu aqui se quiser -->
+            </ul>
+          </div>
+        }
+      </div>
     </div>
 
     <div class="px-2">

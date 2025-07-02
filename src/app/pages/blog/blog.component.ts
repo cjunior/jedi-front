@@ -5,10 +5,20 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Router, RouterLink } from '@angular/router';
 import { TruncatePipe } from '../../core/pipes/truncate.pipe';
+import { InputTextModule } from 'primeng/inputtext';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
 
 @Component({
   selector: 'app-blog',
-  imports: [CommonModule, ButtonModule, TruncatePipe],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    TruncatePipe,
+    InputTextModule,
+    IconField,
+    InputIcon
+  ],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -20,7 +30,7 @@ export class BlogComponent {
   protected isLoading = signal(true);
   protected isLoadingMore = signal(false);
   protected currentPage = signal(0);
-  protected totalPages = signal(1); // inicializado como 1 para garantir primeira requisição
+  protected totalPages = signal(1);
 
   protected bgColors = signal([
     "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457",
@@ -48,7 +58,7 @@ export class BlogComponent {
 
   private loadPosts(): void {
     const page = this.currentPage();
-    const size = 10;
+    const size = 8;
 
     this.isLoadingMore.set(true);
     this.blogService.getPosts$(page, size).subscribe({
@@ -96,4 +106,19 @@ export class BlogComponent {
       .toString(16)
       .slice(1)}`;
   }
+
+  redirectToInitialPage(): void {
+    this.router.navigate(['/']);
+  }
+
+  protected isMobileMenuOpen = signal(false);
+
+  toggleMenu(): void {
+    this.isMobileMenuOpen.set(!this.isMobileMenuOpen());
+  }
+
+  closeMenu(): void {
+    this.isMobileMenuOpen.set(false);
+  }
+
 }
