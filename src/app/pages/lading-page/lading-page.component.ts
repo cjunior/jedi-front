@@ -362,16 +362,16 @@ export class LadingPageComponent {
       image: './Suaideiadenegócio.jpg',
     },
     {
-      title: 'Ferramentas de IA',
-      image: './FerramentasdeIA.jpg',
+      title: 'Seu produto na internet',
+      image: './Seuprodutonainternet.jpg',
     },
     {
-      title: 'Marketing Digital',
-      image: './Marketing.jpg',
+      title: 'Venda mais na internet',
+      image: './Vendamaisnainternet.jpg',
     },
     {
-      title: 'Social Media',
-      image: './Socialmedia.jpg',
+      title: 'Ferramentas de apoio ao seu negócio',
+      image: './apoio.jpg',
     },
   ];
 

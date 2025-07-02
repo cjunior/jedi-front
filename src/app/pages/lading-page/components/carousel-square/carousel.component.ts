@@ -15,21 +15,6 @@ export class CarouselSquareComponent implements OnInit {
 
   items = [
     {
-      image: './Seuprodutonainternet.jpg',
-      alt: 'Banner',
-      text: 'Seu produto na internet',
-    },
-    {
-      image: './Vendamaisnainternet.jpg',
-      alt: 'Banner',
-      text: 'Venda mais na internet',
-    },
-    {
-      image: './apoio.jpg',
-      alt: 'Banner',
-      text: 'Apoio Digital ao Negócio',
-    },
-    {
       image: './Afiliadosinfoprodutores.jpg',
       alt: 'Banner',
       text: 'Afiliados infoprodutores',
@@ -60,7 +45,7 @@ export class CarouselSquareComponent implements OnInit {
       text: 'Digital influencer' 
     },
     { 
-      image: './conteudo.png', 
+      image: './tecmemp.jpeg', 
       alt: 'Banner', 
       text: 'Técnicas de empreendedorismo' 
     },
@@ -100,7 +85,7 @@ export class CarouselSquareComponent implements OnInit {
       text: 'UI/UX' 
     },
     { 
-      image: './conteudo.png', 
+      image: './businessman-planning-strategy.jpg', 
       alt: 'Banner', 
       text: 'Vendas dropshipping' 
     },
