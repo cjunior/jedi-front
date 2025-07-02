@@ -36,6 +36,7 @@ interface BlogCard {
   data: string;
   tempoLeitura: string;
   imagem: string;
+  descricao: string;
   descricaoImagem: string;
 }
 
@@ -87,6 +88,7 @@ export class LadingPageComponent {
   redeJediSectionDto = {
     titulo: 'REDE JEDI',
   };
+  resumoDoPost: string = '';
 
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
@@ -100,6 +102,12 @@ export class LadingPageComponent {
     window.addEventListener('scroll', () => {
       this.showBackToTop = window.pageYOffset > 300;
     });
+    if (this.blogDestaque?.descricao) {
+      const div = document.createElement('div');
+      div.innerHTML = this.blogDestaque.descricao;
+      const firstParagraph = div.querySelector('p');
+      this.resumoDoPost = firstParagraph?.outerHTML || '';
+    }
     this.landingPageService.getdados().subscribe({
       next: (dados) => {
         this.isInitialLoading = false;
@@ -224,6 +232,7 @@ export class LadingPageComponent {
                   .replace(/\s+/g, ' ')
                   .trim(),
                 imagem: blogItems[0].imageUrl,
+                descricao: (blogItems[0].description || ''),
                 descricaoImagem: (blogItems[0].imageDescription || '')
                   .replace(/\s+/g, ' ')
                   .trim(),
@@ -389,6 +398,10 @@ export class LadingPageComponent {
 
   openPost(postId: number) {
     window.open(`/blog/${postId}`, '_blank');
+  }
+
+  redirectToBlog() {
+    this.router.navigate(['/blog']);
   }
 
   isAuthenticated(): boolean {

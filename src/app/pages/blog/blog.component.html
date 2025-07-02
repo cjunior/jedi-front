@@ -8,7 +8,7 @@
 }
 
 <div class="w-full min-h-full bg-gradient-to-b from-orange-50 to-lime-100">
-  <div class="max-w-[1440px]! mx-auto pt-8">
+  <div class="max-w-[1440px]! mx-auto py-8">
     <div class="flex items-center justify-between px-2">
       <img src="logo.svg" alt="" class="h-30 cursor-pointer" (click)="redirectToInitialPage()" />
       <ul class="hidden md:block">
@@ -16,7 +16,14 @@
       </ul>
       <div class="pt-4 hidden md:block">
         <p-iconfield>
-          <input type="text" pInputText placeholder="Pesquisar postagem..." class="h-10 w-90 rounded-4xl! p-6! pr-0" />
+          <input
+            type="text"
+            pInputText
+            placeholder="Pesquisar postagem..."
+            class="h-10 w-90 rounded-4xl! p-6! pr-0"
+            [value]="searchTerm()"
+            (input)="handleSearch($event)"
+          />
           <p-inputicon styleClass="pi pi-search pr-4!" />
         </p-iconfield>
       </div>
@@ -37,7 +44,14 @@
             <ul class="flex flex-col px-6 py-4 space-y-4">
               <li>
                 <p-iconfield>
-                  <input type="text" pInputText placeholder="Pesquisar postagem..." class="h-10 w-full rounded-4xl! p-6! pr-0" />
+                  <input
+                    type="text"
+                    pInputText
+                    placeholder="Pesquisar postagem..."
+                    class="h-10 w-full rounded-4xl! p-6! pr-0"
+                    [value]="searchTerm()"
+                    (input)="handleSearch($event)"
+                  />
                   <p-inputicon styleClass="pi pi-search pr-4!" />
                 </p-iconfield>
                 <div class="w-full h-[1px] bg-zinc-300 my-5"></div>
@@ -45,7 +59,6 @@
               <li class="text-emerald-900 sm:text-xl font-bold cursor-pointer" (click)="redirectToInitialPage(); closeMenu()">
                 Página inicial
               </li>
-              <!-- Adicione outros itens de menu aqui se quiser -->
             </ul>
           </div>
         }
@@ -53,35 +66,55 @@
     </div>
 
     <div class="px-2">
-      <!-- Título -->
-      <h1 class="text-emerald-900 pt-12">Últimas postagens</h1>
       <div class="w-full h-[1px] bg-zinc-300"></div>
-
-      <!-- Grid de Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
-        @for (card of posts(); track $index) {
-          <div class="flex flex-col rounded-2xl h-100" [style]="{ 'background-color': bgColors()[$index] }">
-            <div class="w-full h-60 flex items-center justify-center">
-              <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg">
-            </div>
-            <div class="h-40 flex flex-col items-center">
-              <h2 class="text-xl text-white text-center font-semibold pt-2 px-1">{{ card.title | truncate:47 }}</h2>
-              <button
-                pButton
-                class="w-30 mt-auto mb-4 font-bold uppercase transition-transform duration-300 ease-in-out hover:scale-102"
-                [style]="{
-                  'background-color': lightenColor(bgColors()[$index], 35),
-                  'color': bgColors()[$index],
-                  'border-color': bgColors()[$index]
-                }"
-                (click)="openPost(card.id)"
-              >
-                Leia mais
-              </button>
-            </div>
-          </div>
+      <div>
+        <div class="flex flex-col items-center py-12">
+          <h1 class="text-emerald-900 text-center text-4xl">Blog dos Jovens Empreendedores Digitais</h1>
+          <p class="text-zinc-600 text-md mt-2 text-center">
+            Aqui você encontra as últimas postagens sobre empreendedorismo digital, dicas de negócios e muito mais!
+          </p>
+        </div>
+        @if(!selectedPost() && !isLoading()) {
+          <app-carousel-blog [posts]="carouselPosts()"></app-carousel-blog>
         }
       </div>
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+
+      @if(!selectedPost()) {
+        <p class="text-emerald-900 text-xl mt-6">Últimas postagens</p>
+      } @else {
+        <p class="text-emerald-900 hover:text-emerald-950 text-xl mt-6 cursor-pointer underline" (click)="clearPost()">Ver todas as postagens</p>
+      }
+
+      <!-- Grid de Cards -->
+      @if(!selectedPost()){
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6">
+          @for (card of posts(); track $index) {
+            <div class="flex flex-col rounded-2xl h-100" [style]="{ 'background-color': bgColors()[$index] }">
+              <div class="w-full h-60 flex items-center justify-center">
+                <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg">
+              </div>
+              <div class="h-40 flex flex-col items-center">
+                <h2 class="text-xl text-white text-center font-semibold pt-2 px-1">{{ card.title | truncate:47 }}</h2>
+                <button
+                  pButton
+                  class="w-30 mt-auto mb-4 font-bold uppercase transition-transform duration-300 ease-in-out hover:scale-102"
+                  [style]="{
+                    'background-color': lightenColor(bgColors()[$index], 35),
+                    'color': bgColors()[$index],
+                    'border-color': bgColors()[$index]
+                  }"
+                  (click)="openPost(card.id)"
+                >
+                  Leia mais
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <app-unique-post-blog />
+      }
 
       <!-- Spinner para carregamento adicional -->
       @if(isLoadingMore()) {

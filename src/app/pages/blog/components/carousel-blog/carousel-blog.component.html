@@ -1,0 +1,33 @@
+<div class="card">
+  <p-carousel
+    [value]="posts"
+    [numVisible]="1"
+    [numScroll]="1"
+    [circular]="true"
+    [page]="currentIndex"
+    (onPage)="aoTrocarPagina($event)"
+  >
+    <ng-template let-post #item>
+      <div class="relative w-full h-[24rem] overflow-hidden rounded-xl shadow-lg group">
+        <!-- Imagem -->
+        <img
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          [src]="post?.imageUrl"
+          [alt]="post?.imageDescription || post?.title"
+        />
+
+        <!-- Sobreposição com texto -->
+        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-6 py-4 text-white">
+          <h3 class="text-xl md:text-2xl font-semibold mb-1">{{ post?.title }}</h3>
+          <div class="flex flex-wrap items-center text-sm text-zinc-100 gap-x-4">
+            <span>{{ post?.author }}</span>
+            <span class="opacity-70">•</span>
+            <span>{{ post?.readingTime }} min de leitura</span>
+            <span class="opacity-70">•</span>
+            <span>{{ post?.date}}</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-carousel>
+</div>

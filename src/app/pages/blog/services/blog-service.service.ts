@@ -11,11 +11,12 @@ export class BlogServiceService {
   private readonly apiUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
 
-  getPosts$(page = 0, size = 10): Observable<IBlogResponse> {
+  getPosts$(page = 0, size = 10, searchTerm = ''): Observable<IBlogResponse> {
     return this.http.get<IBlogResponse>(`${this.apiUrl}blog-section/get`, {
       params: {
         page: page.toString(),
-        size: size.toString()
+        size: size.toString(),
+        searchTerm: searchTerm.toString()
       }
     });
   }

@@ -1,3 +1,7 @@
+:host {
+  font-family: 'Roboto Slab', sans-serif !important;
+}
+
 .custom-loading {
   position: fixed;
   inset: 0;
@@ -25,10 +29,16 @@
 .loading-text {
   font-size: 1.3rem;
   color: #213820;
-  font-family: 'Roboto Slab', sans-serif;
   font-weight: 700;
   letter-spacing: 1px;
   animation: blink 1.2s infinite;
+}
+
+li {
+  font-family: Roboto Slab, sans-serif;
+  color: #c76515;
+  font-weight: 900;
+  font-size: 18px;
 }
 
 @keyframes slideDown {

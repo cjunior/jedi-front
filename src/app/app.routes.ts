@@ -11,11 +11,16 @@ export const routes: Routes = [
     },
     {
       path: 'blog',
-      loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
-    },
-    {
-      path: 'blog/:id',
-      loadComponent: () => import('./pages/unique-post-blog/unique-post-blog.component').then(m => m.UniquePostBlogComponent)
+      children: [
+        {
+          path: '',
+          loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
+        },
+        {
+          path: ':id',
+          loadComponent: () => import('./pages/blog/blog.component').then(m => m.BlogComponent)
+        }
+      ]
     },
     {
         path: 'login',

@@ -22,17 +22,29 @@ export class UniquePostBlogComponent implements OnInit{
   protected showScrollTop = false;
 
   ngOnInit(): void {
-    const postId = Number(this.route.snapshot.paramMap.get('id'));
-    this.blogService.getUniquePost(postId).subscribe({
-      next: (response: IPost) => {
-        this.post = response;
+    this.route.paramMap.subscribe(params => {
+      const rawId = params.get('id');
+      const postId = rawId ? Number(rawId) : null;
+
+      if (postId === null || isNaN(postId)) {
+        console.warn('ID do post inválido:', rawId);
         this.isInitialLoading = false;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar post único:', error);
-        this.isInitialLoading = false;
+        return;
       }
+
+      this.isInitialLoading = true;
+      this.blogService.getUniquePost(postId).subscribe({
+        next: (response: IPost) => {
+          this.post = response;
+          this.isInitialLoading = false;
+        },
+        error: (error) => {
+          console.error('Erro ao buscar post único:', error);
+          this.isInitialLoading = false;
+        }
+      });
     });
+
     window.addEventListener('scroll', this.onScroll, true);
   }
 
