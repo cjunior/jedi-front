@@ -25,6 +25,7 @@ import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 interface BlogCard {
   id: number;
@@ -56,6 +57,7 @@ interface BlogCard {
     CarouselModule,
     CommonModule,
     ProgressSpinnerModule,
+    FooterComponent
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
