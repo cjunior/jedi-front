@@ -1,7 +1,7 @@
 <div class="card">
   <p-carousel
   class="carousel-equipe"
-    [value]="items"
+    [value]="displayItems"
     [numVisible]="3"
     [numScroll]="1"
     [responsiveOptions]="responsiveOptions"
@@ -17,7 +17,7 @@
     <ng-template let-item let-i="index" pTemplate="item">
       <div
         class="circle-container"
-        [class.invisible-item]="item.isInvisible"
+        [class.invisible-item]="item.isInvisible && currentNumVisible === 3"
         (click)="pauseAutoplayPermanently()"
         (keydown)="pauseAutoplayPermanently()"
       >
@@ -27,7 +27,7 @@
           [alt]="item.alt"
           class="circle-image"
         />
-        <div *ngIf="item.isInvisible" class="invisible-placeholder"></div>
+        <div *ngIf="item.isInvisible && currentNumVisible === 3" class="invisible-placeholder"></div>
       </div>
     </ng-template>
   </p-carousel>

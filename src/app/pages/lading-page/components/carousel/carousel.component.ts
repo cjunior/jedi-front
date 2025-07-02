@@ -12,10 +12,8 @@ import { landingPageService } from '../../services/lading-page.service';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselComponent implements OnInit, OnDestroy {
+export class CarouselComponent implements OnInit {
   private readonly landingPageService = inject(landingPageService);
-
-  // Propriedade para armazenar o item atual
   currentMiddleItem: {
     image: string;
     alt: string;
@@ -28,6 +26,14 @@ export class CarouselComponent implements OnInit, OnDestroy {
     name: 'Professor Igor Paim',
     role: 'Coordenador geral',
   };
+
+  get displayItems() {
+    if (this.currentNumVisible === 3) {
+      return this.items;
+    } else {
+      return this.items.filter(item => !item.isInvisible);
+    }
+  }
 
   items: {
     image: string;
@@ -42,7 +48,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       name: 'Invisible Start',
       role: '',
       isInvisible: true,
-    }, // Item invisível no início
+    }, 
     {
       image: '/igor.jpeg',
       alt: 'Equipe 1',
@@ -121,12 +127,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       numScroll: 1,
     },
     {
-      breakpoint: '768px',
-      numVisible: 2,
-      numScroll: 1,
-    },
-    {
-      breakpoint: '480px',
+      breakpoint: '770px',
       numVisible: 1,
       numScroll: 1,
     },
@@ -135,21 +136,31 @@ export class CarouselComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateNumVisible();
     this.updateCurrentMiddleItem();
-    window.addEventListener('resize', () => this.updateNumVisible());
+    window.addEventListener('resize', () => {
+      this.updateNumVisible();
+      this.updateCurrentMiddleItem();
+    });
   }
 
-  ngOnDestroy() {
-    // Cleanup se necessário
-  }
+
 
   onPageChange(event: any) {
     this.pauseAutoplayPermanently();
 
+    this.updateNumVisible();
+    
     let targetPage = event.page;
-    const visibleItems = this.items.filter((item) => !item.isInvisible);
-
-    if (targetPage >= visibleItems.length) {
-      targetPage = targetPage % visibleItems.length;
+    
+    if (this.currentNumVisible === 3) {
+      const totalItems = this.items.length;
+      if (targetPage >= totalItems) {
+        targetPage = targetPage % totalItems;
+      }
+    } else {
+      const visibleItemsCount = this.displayItems.length;
+      if (targetPage >= visibleItemsCount) {
+        targetPage = targetPage % visibleItemsCount;
+      }
     }
 
     this.currentPage = targetPage;
@@ -173,24 +184,45 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
   updateNumVisible() {
     const width = window.innerWidth;
-    if (width <= 768) {
+    const previousNumVisible = this.currentNumVisible;
+    
+    if (width <= 770) {
       this.currentNumVisible = 1;
-    } else if (width <= 1024) {
-      this.currentNumVisible = 2;
     } else {
       this.currentNumVisible = 3;
+    }
+    
+    if (previousNumVisible !== this.currentNumVisible) {
+      this.currentPage = 0;
     }
   }
 
   updateCurrentMiddleItem() {
-    const visibleItems = this.items.filter((item) => !item.isInvisible);
-    let itemIndex = this.currentPage;
+    const currentDisplayItems = this.displayItems;
     
-    if (itemIndex >= visibleItems.length) {
-      itemIndex = itemIndex % visibleItems.length;
+    if (currentDisplayItems.length === 0) {
+      return;
     }
-
-    const currentItem = visibleItems[itemIndex];
-    this.currentMiddleItem = currentItem || visibleItems[0];
+    
+    if (this.currentPage >= currentDisplayItems.length) {
+      this.currentPage = 0;
+    }
+    
+    if (this.currentNumVisible === 3) {
+      const allItems = this.items; 
+      const startIndex = this.currentPage;
+      const middleIndex = startIndex + 1;
+      
+      if (middleIndex < allItems.length && !allItems[middleIndex].isInvisible) {
+        this.currentMiddleItem = allItems[middleIndex];
+      } else {
+        const visibleItems = allItems.filter(item => !item.isInvisible);
+        if (visibleItems.length > 0) {
+          this.currentMiddleItem = visibleItems[this.currentPage % visibleItems.length];
+        }
+      }
+    } else {
+      this.currentMiddleItem = currentDisplayItems[this.currentPage];
+    }
   }
 }
