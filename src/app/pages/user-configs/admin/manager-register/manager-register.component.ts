@@ -1,5 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -29,13 +35,13 @@ import { ManageRegisterService } from './services/manage-register.service';
     ConfirmDialogModule,
     ToastModule,
     MessageModule,
-    DropdownModule
+    DropdownModule,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './manager-register.component.html',
-  styleUrl: './manager-register.component.scss'
+  styleUrl: './manager-register.component.scss',
 })
-export class ManagerRegisterComponent {
+export class ManagerRegisterComponent implements OnInit {
   usuarioForm: FormGroup;
   editForm: FormGroup;
   usuarios: any[] = [];
@@ -45,18 +51,22 @@ export class ManagerRegisterComponent {
   addUserDialogVisible = false;
   editDialogVisible = false;
   usuarioEditandoIndex = -1;
-  
-  // Controle de visibilidade das senhas
+
+  loading = false;
+  totalRecords = 0;
+  first = 0;
+  rows = 10;
+  searchTerm = '';
+
   showPassword = false;
   showConfirmPassword = false;
   showEditPassword = false;
   showEditConfirmPassword = false;
 
-  // Opções de cargo
   cargoOptions = [
-    { label: 'Administrador', value: 'admin' },
-    { label: 'Gerente', value: 'gerente' },
-    { label: 'Editor', value: 'blog' }
+    { label: 'Administrador', value: 'ADMIN' },
+    { label: 'Gerente', value: 'GERENTE' },
+    { label: 'Editor', value: 'BLOG' },
   ];
 
   private readonly manageRegisterService = inject(ManageRegisterService);
@@ -66,80 +76,134 @@ export class ManagerRegisterComponent {
     private readonly confirmationService: ConfirmationService,
     private readonly messageService: MessageService
   ) {
-    this.usuarioForm = this.fb.group({
-      nome: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100),
-        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/) 
-      ]],
-      login: ['', [
-        Validators.required, 
-        Validators.email,
-        Validators.maxLength(255)
-      ]],
-      cargo: ['', [Validators.required]],
-      password: ['', [
-        Validators.required,
-        Validators.minLength(6),
-        Validators.maxLength(50),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/) 
-      ]],
-      confirmPassword: ['', [Validators.required]],
-      foto: [''],
-    }, { validators: this.passwordMatchValidator });
-
-    this.editForm = this.fb.group({
-      nome: ['', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(100),
-        Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/)
-      ]],
-      login: ['', [
-        Validators.required, 
-        Validators.email,
-        Validators.maxLength(255)
-      ]],
-      cargo: ['', [Validators.required]],
-      password: ['', [
-        Validators.minLength(6),
-        Validators.maxLength(50),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/)
-      ]],
-      confirmPassword: [''],
-      foto: [''],
-    }, { validators: this.editPasswordMatchValidator });
-
-    this.usuarios = [
+    // ...existing code...
+    this.usuarioForm = this.fb.group(
       {
-        nome: 'Aline Barbosa',
-        email: 'aline.barbosa@email.com',
-        senha: 'senha123',
-        cargo: 'admin',
-        foto: 'https://i.pravatar.cc/150?img=1'
+        nome: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(100),
+            Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/),
+          ],
+        ],
+        login: [
+          '',
+          [Validators.required, Validators.email, Validators.maxLength(255)],
+        ],
+        cargo: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(50),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/
+            ),
+          ],
+        ],
+        confirmPassword: ['', [Validators.required]],
+        foto: [''],
       },
+      { validators: this.passwordMatchValidator }
+    );
+
+    this.editForm = this.fb.group(
       {
-        nome: 'Carlos Menezes',
-        email: 'carlos.menezes@email.com',
-        senha: 'senha456',
-        cargo: 'gerente',
-        foto: 'https://i.pravatar.cc/150?img=2'
+        nome: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(2),
+            Validators.maxLength(100),
+            Validators.pattern(/^[a-zA-ZÀ-ÿ\s]+$/),
+          ],
+        ],
+        login: [
+          '',
+          [Validators.required, Validators.email, Validators.maxLength(255)],
+        ],
+        cargo: ['', [Validators.required]],
+        password: [
+          '',
+          [
+            Validators.minLength(6),
+            Validators.maxLength(50),
+            Validators.pattern(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]*$/
+            ),
+          ],
+        ],
+        confirmPassword: [''],
+        foto: [''],
       },
-      {
-        nome: 'Juliana Castro',
-        email: 'juliana.castro@email.com',
-        senha: 'senha789',
-        cargo: 'blog',
-        foto: 'https://i.pravatar.cc/150?img=3'
-      }
-    ];
+      { validators: this.editPasswordMatchValidator }
+    );
   }
 
+  ngOnInit(): void {
+    this.loadUsuarios();
+  }
+
+  loadUsuarios(event?: any): void {
+    this.loading = true;
+
+    if (event) {
+      this.first = event.first;
+      this.rows = event.rows;
+    }
+
+    const page = Math.floor(this.first / this.rows);
+    const size = this.rows;
+
+    this.manageRegisterService
+      .getManagerRegister(page, size, this.searchTerm)
+      .subscribe({
+        next: (response: any) => {
+          if (response.content) {
+            this.usuarios = response.content;
+            this.totalRecords = response.totalElements;
+          } else if (response.data) {
+            this.usuarios = response.data.content || response.data;
+            this.totalRecords =
+              response.data.totalElements || response.data.length;
+          } else {
+            this.usuarios = response;
+            this.totalRecords = response.length;
+          }
+
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Erro ao carregar usuários:', error);
+          this.loading = false;
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao carregar lista de usuários.',
+          });
+        },
+      });
+  }
+
+  onSearch(event: any): void {
+    this.searchTerm = event.target.value;
+    this.first = 0;
+    this.loadUsuarios();
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.first = 0;
+    this.loadUsuarios();
+  }
 
   openAddUserDialog() {
     this.addUserDialogVisible = true;
   }
+
   closeAddUserDialog() {
     this.addUserDialogVisible = false;
     this.resetForm();
@@ -181,131 +245,193 @@ export class ManagerRegisterComponent {
   criarUsuario() {
     if (this.usuarioForm.valid) {
       this.isLoading = true;
-      
+
       const formData = this.usuarioForm.value;
       const formDataToSend = new FormData();
-      
-      // Adicionar apenas os campos necessários para o backend
+
       formDataToSend.append('name', formData.nome);
       formDataToSend.append('login', formData.login);
       formDataToSend.append('password', formData.password);
       formDataToSend.append('role', formData.cargo);
-      
-      // Não adicionar confirmPassword ao FormData
-      
+
       if (formData.foto instanceof File) {
         formDataToSend.append('photo', formData.foto);
       }
-      
-      this.enviarDadosParaAPI(formDataToSend, formData);
+
+      this.manageRegisterService.postManagerRegister(formDataToSend).subscribe({
+        next: (response) => {
+          this.loadUsuarios();
+          this.closeAddUserDialog();
+          this.isLoading = false;
+
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Sucesso',
+            detail: 'Usuário criado com sucesso!',
+          });
+        },
+        error: (error) => {
+          console.error('Erro ao criar usuário:', error);
+          this.isLoading = false;
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Erro ao criar usuário. Tente novamente.',
+          });
+        },
+      });
     }
   }
-
-  private enviarDadosParaAPI(formDataToSend: FormData, originalFormData: any) {
-   
-    this.manageRegisterService.postManagerRegister(formDataToSend).subscribe({
-      next: (response) => {
-      
-        
-        this.usuarios.push({
-          nome: originalFormData.nome,
-          email: originalFormData.login,
-          senha: originalFormData.password,
-          cargo: originalFormData.cargo,
-          foto: originalFormData.foto instanceof File 
-            ? URL.createObjectURL(originalFormData.foto)
-            : '/assets/default-avatar.png'
-        });
-        
-        this.closeAddUserDialog();
-        this.isLoading = false;
-        
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Usuário criado com sucesso!'
-        });
-      },
-      error: (error) => {
-        console.error('Erro ao criar usuário:', error);
-        this.isLoading = false;
-        
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Erro ao criar usuário. Tente novamente.'
-        });
-      }
-    });
-  }
-
   editarUsuario(usuario: any, index: number) {
     this.usuarioEditandoIndex = index;
     this.editForm.patchValue({
-      nome: usuario.nome,
-      login: usuario.email,
-      cargo: usuario.cargo,
+      nome: usuario.name || '',
+      login: usuario.login || usuario.email || '',
+      cargo: usuario.role || '',
       password: '',
       confirmPassword: '',
-      foto: null
+      foto: null,
     });
-    this.editFotoPreview = usuario.foto;
+
+    this.editFotoPreview = usuario.photoUrl || null;
+
     this.editDialogVisible = true;
   }
 
   salvarEdicao() {
     if (this.editForm.valid && this.usuarioEditandoIndex >= 0) {
+      this.isLoading = true;
       const formData = this.editForm.value;
       const usuario = this.usuarios[this.usuarioEditandoIndex];
-      
-      usuario.nome = formData.nome;
-      usuario.email = formData.login;
-      usuario.cargo = formData.cargo;
-      
-      if (formData.password) {
-        usuario.senha = formData.password;
+      const formDataToSend = new FormData();
+
+      formDataToSend.append('name', formData.nome);
+      formDataToSend.append('login', formData.login);
+      formDataToSend.append('role', formData.cargo);
+
+      if (formData.password && formData.password.trim() !== '') {
+        formDataToSend.append('password', formData.password);
+        formDataToSend.append('confirmPassword', formData.confirmPassword);
       }
 
-      if (formData.foto) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          usuario.foto = reader.result;
-          this.closeEditDialog();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso',
-            detail: 'Usuário atualizado com sucesso!'
-          });
-        };
-        reader.readAsDataURL(formData.foto);
-      } else {
-        this.closeEditDialog();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Usuário atualizado com sucesso!'
-        });
+      if (formData.foto instanceof File) {
+        formDataToSend.append('photo', formData.foto);
       }
+
+      const userId = usuario.id;
+
+      console.log('Dados sendo enviados para edição:');
+      console.log('User ID:', userId);
+      console.log('FormData entries:');
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
+
+      this.manageRegisterService
+        .putManagerRegister(userId, formDataToSend)
+        .subscribe({
+          next: (response) => {
+            this.loadUsuarios();
+            this.closeEditDialog();
+            this.isLoading = false;
+
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: 'Usuário atualizado com sucesso!',
+            });
+          },
+          error: (error) => {
+            console.error('Erro ao atualizar usuário:', error);
+            this.isLoading = false;
+
+            let errorMessage = 'Erro ao atualizar usuário. Tente novamente.';
+
+            if (error.error?.message) {
+              errorMessage = error.error.message;
+            } else if (error.status === 400) {
+              errorMessage =
+                'Dados inválidos. Verifique os campos preenchidos.';
+            } else if (error.status === 404) {
+              errorMessage = 'Usuário não encontrado.';
+            } else if (error.status === 409) {
+              errorMessage = 'Email já está em uso por outro usuário.';
+            }
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: errorMessage,
+            });
+          },
+        });
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos obrigatórios antes de salvar.',
+      });
     }
   }
-
   excluirUsuario(event: Event, index: number) {
+    const usuario = this.usuarios[index];
+
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Tem certeza que deseja excluir este usuário?',
+      message: `Tem certeza que deseja excluir o usuário "${usuario.name}"?`,
       header: 'Confirmar Exclusão',
       icon: 'pi pi-exclamation-triangle',
       acceptIcon: 'none',
       rejectIcon: 'none',
       rejectButtonStyleClass: 'p-button-text',
+      acceptButtonStyleClass: 'p-button-danger',
       accept: () => {
-        this.usuarios.splice(index, 1);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Sucesso',
-          detail: 'Usuário excluído com sucesso!'
+        const userId = usuario.id;
+
+        this.manageRegisterService.deleteManagerRegister(userId).subscribe({
+          next: (response) => {
+            this.loadUsuarios();
+
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Sucesso',
+              detail: `Usuário "${usuario.name}" excluído com sucesso!`,
+            });
+          },
+          error: (error) => {
+            console.error('Erro ao excluir usuário:', error);
+
+            let errorMessage = 'Erro ao excluir usuário. Tente novamente.';
+            if (error.error?.message) {
+              errorMessage = error.error.message;
+            } else if (error.status === 400) {
+              errorMessage = 'Não é possível excluir este usuário.';
+            } else if (error.status === 404) {
+              errorMessage = 'Usuário não encontrado.';
+            } else if (error.status === 403) {
+              errorMessage =
+                'Você não tem permissão para excluir este usuário.';
+            } else if (error.status === 409) {
+              errorMessage =
+                'Usuário possui dados vinculados e não pode ser excluído.';
+            }
+
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: errorMessage,
+            });
+          },
         });
-      }
+      },
+      reject: () => {
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Cancelado',
+          detail: 'Exclusão cancelada pelo usuário.',
+        });
+      },
     });
   }
 
@@ -324,10 +450,13 @@ export class ManagerRegisterComponent {
   getFieldErrors(form: FormGroup, fieldName: string): string[] {
     const field = form.get(fieldName);
     const errors: string[] = [];
-    
+
     if (!field?.errors || (!field.dirty && !field.touched)) {
-      // Verificar erro de confirmação de senha no nível do formulário
-      if (fieldName === 'confirmPassword' && form.errors?.['passwordMismatch'] && field?.dirty) {
+      if (
+        fieldName === 'confirmPassword' &&
+        form.errors?.['passwordMismatch'] &&
+        field?.dirty
+      ) {
         errors.push('As senhas não coincidem');
       }
       return errors;
@@ -353,12 +482,11 @@ export class ManagerRegisterComponent {
     if (fieldErrors['pattern']) {
       errors.push(this.getPatternErrorMessage(fieldName));
     }
-    
-    // Verificar erro de confirmação de senha no nível do formulário
+
     if (fieldName === 'confirmPassword' && form.errors?.['passwordMismatch']) {
       errors.push('As senhas não coincidem');
     }
-    
+
     return errors;
   }
 
@@ -374,55 +502,52 @@ export class ManagerRegisterComponent {
 
   private getFieldLabel(fieldName: string): string {
     const labels: { [key: string]: string } = {
-      'nome': 'Nome',
-      'login': 'Email',
-      'password': 'Senha',
-      'confirmPassword': 'Confirmar Senha'
+      nome: 'Nome',
+      login: 'Email',
+      password: 'Senha',
+      confirmPassword: 'Confirmar Senha',
     };
     return labels[fieldName] || fieldName;
   }
 
-  // Validador customizado para confirmação de senha
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (!password || !confirmPassword) {
       return null;
     }
-    
-    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+
+    return password.value === confirmPassword.value
+      ? null
+      : { passwordMismatch: true };
   }
 
-  // Validador para formulário de edição (senha opcional)
   editPasswordMatchValidator(form: FormGroup) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (!password || !confirmPassword) {
       return null;
     }
 
-    // Se nenhuma senha foi preenchida, não há erro
     if (!password.value && !confirmPassword.value) {
       return null;
     }
-    
-    // Se senha foi preenchida mas confirmação não, é erro
+
     if (password.value && !confirmPassword.value) {
       return { passwordMismatch: true };
     }
-    
-    // Se confirmação foi preenchida mas senha não, é erro
+
     if (!password.value && confirmPassword.value) {
       return { passwordMismatch: true };
     }
-    
-    // Se ambas foram preenchidas, devem ser iguais
-    return password.value === confirmPassword.value ? null : { passwordMismatch: true };
+
+    return password.value === confirmPassword.value
+      ? null
+      : { passwordMismatch: true };
   }
 
-  // Métodos para controlar visibilidade das senhas
   togglePasswordVisibility() {
     this.showPassword = !this.showPassword;
   }
@@ -439,19 +564,18 @@ export class ManagerRegisterComponent {
     this.showEditConfirmPassword = !this.showEditConfirmPassword;
   }
 
-  // Método para obter o label do cargo
   getCargoLabel(cargo: string): string {
-    const option = this.cargoOptions.find(opt => opt.value === cargo);
+    const option = this.cargoOptions.find((opt) => opt.value === cargo);
     return option ? option.label : cargo;
   }
-
-  // Método para obter a classe CSS do cargo
   getCargoClass(cargo: string): string {
     const classes = {
-      'admin': 'bg-red-100 text-red-800',
-      'gerente': 'bg-blue-100 text-blue-800',
-      'blog': 'bg-green-100 text-green-800'
+      ADMIN: 'bg-red-100 text-red-800',
+      GERENTE: 'bg-blue-100 text-blue-800',
+      BLOG: 'bg-green-100 text-green-800',
     };
-    return classes[cargo as keyof typeof classes] || 'bg-gray-100 text-gray-800';
+    return (
+      classes[cargo as keyof typeof classes] || 'bg-gray-100 text-gray-800'
+    );
   }
 }
