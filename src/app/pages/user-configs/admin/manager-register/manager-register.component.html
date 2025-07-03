@@ -17,6 +17,7 @@
       [value]="usuarios || []"
       [paginator]="true"
       [rows]="5"
+      [loading]="loading"
       stripedRows
       scrollable="true"
     >
@@ -29,22 +30,29 @@
           <th class="min-w-32">Ações</th>
         </tr>
       </ng-template>
-
+  
       <ng-template pTemplate="body" let-usuario let-i="rowIndex">
         <tr>
-          <td [title]="usuario.nome">{{ usuario.nome }}</td>
+          <td [title]="usuario.name">{{ usuario.name }}</td>
           <td [title]="usuario.email">{{ usuario.email }}</td>
-          <td [title]="getCargoLabel(usuario.cargo)">
+          <td [title]="getCargoLabel(usuario.role)">
             <span class="px-2 py-1 rounded-full text-xs font-medium"
-                  [class]="getCargoClass(usuario.cargo)">
-              {{ getCargoLabel(usuario.cargo) }}
+                  [class]="getCargoClass(usuario.role)">
+              {{ getCargoLabel(usuario.role) }}
             </span>
           </td>
           <td>
             <img
-              [src]="usuario.foto"
+              *ngIf="usuario.photoUrl; else noPhoto"
+              [src]="usuario.photoUrl"
               class="w-10 h-10 object-cover rounded-full"
+              [alt]="'Foto de ' + usuario.name"
             />
+            <ng-template #noPhoto>
+              <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                <i class="pi pi-user text-gray-400"></i>
+              </div>
+            </ng-template>
           </td>
           <td>
             <button
@@ -64,7 +72,7 @@
           </td>
         </tr>
       </ng-template>
-
+  
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="5">Nenhum usuário encontrado.</td>
