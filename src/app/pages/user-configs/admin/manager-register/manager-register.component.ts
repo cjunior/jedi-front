@@ -52,14 +52,12 @@ export class ManagerRegisterComponent implements OnInit {
   editDialogVisible = false;
   usuarioEditandoIndex = -1;
 
-  // Paginação
   loading = false;
   totalRecords = 0;
   first = 0;
   rows = 10;
   searchTerm = '';
 
-  // Controle de visibilidade das senhas
   showPassword = false;
   showConfirmPassword = false;
   showEditPassword = false;
@@ -192,7 +190,7 @@ export class ManagerRegisterComponent implements OnInit {
 
   onSearch(event: any): void {
     this.searchTerm = event.target.value;
-    this.first = 0; // Reset para primeira página
+    this.first = 0;
     this.loadUsuarios();
   }
 
@@ -201,8 +199,6 @@ export class ManagerRegisterComponent implements OnInit {
     this.first = 0;
     this.loadUsuarios();
   }
-
-  // ...existing code... (resto dos métodos permanecem iguais)
 
   openAddUserDialog() {
     this.addUserDialogVisible = true;
@@ -264,7 +260,7 @@ export class ManagerRegisterComponent implements OnInit {
 
       this.manageRegisterService.postManagerRegister(formDataToSend).subscribe({
         next: (response) => {
-          this.loadUsuarios(); // Recarrega a lista após criar
+          this.loadUsuarios();
           this.closeAddUserDialog();
           this.isLoading = false;
 
@@ -298,10 +294,8 @@ export class ManagerRegisterComponent implements OnInit {
       foto: null,
     });
 
-    // Definir preview da foto atual
     this.editFotoPreview = usuario.photoUrl || null;
 
-    // Abrir o modal
     this.editDialogVisible = true;
   }
 
@@ -312,22 +306,27 @@ export class ManagerRegisterComponent implements OnInit {
       const usuario = this.usuarios[this.usuarioEditandoIndex];
       const formDataToSend = new FormData();
 
-      // Enviar dados obrigatórios
       formDataToSend.append('name', formData.nome);
       formDataToSend.append('login', formData.login);
       formDataToSend.append('role', formData.cargo);
 
-      // Enviar senha apenas se foi preenchida
       if (formData.password && formData.password.trim() !== '') {
         formDataToSend.append('password', formData.password);
+        formDataToSend.append('confirmPassword', formData.confirmPassword);
       }
 
-      // Enviar foto apenas se uma nova foi selecionada
       if (formData.foto instanceof File) {
         formDataToSend.append('photo', formData.foto);
       }
 
       const userId = usuario.id;
+
+      console.log('Dados sendo enviados para edição:');
+      console.log('User ID:', userId);
+      console.log('FormData entries:');
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
 
       this.manageRegisterService
         .putManagerRegister(userId, formDataToSend)
@@ -349,7 +348,6 @@ export class ManagerRegisterComponent implements OnInit {
 
             let errorMessage = 'Erro ao atualizar usuário. Tente novamente.';
 
-            // Personalizar mensagem de erro baseada na resposta
             if (error.error?.message) {
               errorMessage = error.error.message;
             } else if (error.status === 400) {
@@ -376,7 +374,6 @@ export class ManagerRegisterComponent implements OnInit {
       });
     }
   }
-
   excluirUsuario(event: Event, index: number) {
     const usuario = this.usuarios[index];
 
@@ -406,8 +403,6 @@ export class ManagerRegisterComponent implements OnInit {
             console.error('Erro ao excluir usuário:', error);
 
             let errorMessage = 'Erro ao excluir usuário. Tente novamente.';
-
-            // Personalizar mensagem de erro baseada na resposta
             if (error.error?.message) {
               errorMessage = error.error.message;
             } else if (error.status === 400) {
@@ -431,7 +426,6 @@ export class ManagerRegisterComponent implements OnInit {
         });
       },
       reject: () => {
-        // Opcional: mostrar mensagem de cancelamento
         this.messageService.add({
           severity: 'info',
           summary: 'Cancelado',
@@ -447,8 +441,6 @@ export class ManagerRegisterComponent implements OnInit {
     this.showPassword = false;
     this.showConfirmPassword = false;
   }
-
-  // ...existing code... (resto dos métodos helper permanecem iguais)
 
   isFieldInvalid(form: FormGroup, fieldName: string): boolean {
     const field = form.get(fieldName);

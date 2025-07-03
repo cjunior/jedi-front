@@ -30,14 +30,16 @@
           <th class="min-w-32">Ações</th>
         </tr>
       </ng-template>
-  
+
       <ng-template pTemplate="body" let-usuario let-i="rowIndex">
         <tr>
           <td [title]="usuario.name">{{ usuario.name }}</td>
           <td [title]="usuario.email">{{ usuario.email }}</td>
           <td [title]="getCargoLabel(usuario.role)">
-            <span class="px-2 py-1 rounded-full text-xs font-medium"
-                  [class]="getCargoClass(usuario.role)">
+            <span
+              class="px-2 py-1 rounded-full text-xs font-medium"
+              [class]="getCargoClass(usuario.role)"
+            >
               {{ getCargoLabel(usuario.role) }}
             </span>
           </td>
@@ -49,7 +51,9 @@
               [alt]="'Foto de ' + usuario.name"
             />
             <ng-template #noPhoto>
-              <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+              <div
+                class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center"
+              >
                 <i class="pi pi-user text-gray-400"></i>
               </div>
             </ng-template>
@@ -72,7 +76,7 @@
           </td>
         </tr>
       </ng-template>
-  
+
       <ng-template pTemplate="emptymessage">
         <tr>
           <td colspan="5">Nenhum usuário encontrado.</td>
@@ -124,8 +128,10 @@
         <span class="text-xs text-gray-500">Clique para selecionar foto</span>
       </div>
 
-      <div class="flex flex-col ">
-        <label for="nome" class="font-semibold text-gray-700 required">Nome Completo</label>
+      <div class="flex flex-col">
+        <label for="nome" class="font-semibold text-gray-700 required"
+          >Nome Completo</label
+        >
         <input
           type="text"
           id="nome"
@@ -135,7 +141,10 @@
           class="w-full"
           [class.ng-invalid]="isFieldInvalid(usuarioForm, 'nome')"
         />
-        <div *ngFor="let error of getFieldErrors(usuarioForm, 'nome')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(usuarioForm, 'nome')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -145,7 +154,9 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="login" class="font-semibold text-gray-700 required">Email/Login</label>
+        <label for="login" class="font-semibold text-gray-700 required"
+          >Email/Login</label
+        >
         <input
           type="email"
           id="login"
@@ -155,7 +166,10 @@
           class="w-full"
           [class.ng-invalid]="isFieldInvalid(usuarioForm, 'login')"
         />
-        <div *ngFor="let error of getFieldErrors(usuarioForm, 'login')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(usuarioForm, 'login')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -165,7 +179,9 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="cargo" class="font-semibold text-gray-700 required">Cargo</label>
+        <label for="cargo" class="font-semibold text-gray-700 required"
+          >Cargo</label
+        >
         <p-dropdown
           id="cargo"
           formControlName="cargo"
@@ -176,7 +192,10 @@
           class="w-full"
           [class.ng-invalid]="isFieldInvalid(usuarioForm, 'cargo')"
         />
-        <div *ngFor="let error of getFieldErrors(usuarioForm, 'cargo')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(usuarioForm, 'cargo')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -186,7 +205,9 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="password" class="font-semibold text-gray-700 required">Senha</label>
+        <label for="password" class="font-semibold text-gray-700 required"
+          >Senha</label
+        >
         <div class="relative">
           <input
             [type]="showPassword ? 'text' : 'password'"
@@ -207,7 +228,10 @@
             <i [class]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
           </button>
         </div>
-        <div *ngFor="let error of getFieldErrors(usuarioForm, 'password')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(usuarioForm, 'password')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -217,7 +241,11 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="confirmPassword" class="font-semibold text-gray-700 required">Confirmar Senha</label>
+        <label
+          for="confirmPassword"
+          class="font-semibold text-gray-700 required"
+          >Confirmar Senha</label
+        >
         <div class="relative">
           <input
             [type]="showConfirmPassword ? 'text' : 'password'"
@@ -235,10 +263,15 @@
             tabindex="-1"
             aria-label="Mostrar/ocultar confirmação de senha"
           >
-            <i [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            <i
+              [class]="showConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"
+            ></i>
           </button>
         </div>
-        <div *ngFor="let error of getFieldErrors(usuarioForm, 'confirmPassword')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(usuarioForm, 'confirmPassword')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -310,7 +343,9 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="editNome" class="font-semibold text-gray-700 required">Nome Completo</label>
+        <label for="editNome" class="font-semibold text-gray-700 required"
+          >Nome Completo</label
+        >
         <input
           type="text"
           id="editNome"
@@ -320,27 +355,10 @@
           class="w-full"
           [class.ng-invalid]="isFieldInvalid(editForm, 'nome')"
         />
-        <div *ngFor="let error of getFieldErrors(editForm, 'nome')" class="mt-1">
-          <p-message
-            severity="error"
-            [text]="error"
-            variant="simple"
-          ></p-message>
-        </div>
-      </div>
-
-      <div class="flex flex-col ">
-        <label for="editLogin" class="font-semibold text-gray-700 required">Email/Login</label>
-        <input
-          type="email"
-          id="editLogin"
-          formControlName="login"
-          pInputText
-          placeholder="email@exemplo.com"
-          class="w-full"
-          [class.ng-invalid]="isFieldInvalid(editForm, 'login')"
-        />
-        <div *ngFor="let error of getFieldErrors(editForm, 'login')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(editForm, 'nome')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -350,7 +368,34 @@
       </div>
 
       <div class="flex flex-col">
-        <label for="editCargo" class="font-semibold text-gray-700 required">Cargo</label>
+        <label for="editLogin" class="font-semibold text-gray-700 required"
+          >Email/Login</label
+        >
+        <input
+          type="email"
+          id="editLogin"
+          formControlName="login"
+          pInputText
+          placeholder="email@exemplo.com"
+          class="w-full"
+          [class.ng-invalid]="isFieldInvalid(editForm, 'login')"
+        />
+        <div
+          *ngFor="let error of getFieldErrors(editForm, 'login')"
+          class="mt-1"
+        >
+          <p-message
+            severity="error"
+            [text]="error"
+            variant="simple"
+          ></p-message>
+        </div>
+      </div>
+
+      <div class="flex flex-col">
+        <label for="editCargo" class="font-semibold text-gray-700 required"
+          >Cargo</label
+        >
         <p-dropdown
           id="editCargo"
           formControlName="cargo"
@@ -361,7 +406,10 @@
           class="w-full"
           [class.ng-invalid]="isFieldInvalid(editForm, 'cargo')"
         />
-        <div *ngFor="let error of getFieldErrors(editForm, 'cargo')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(editForm, 'cargo')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
@@ -370,8 +418,10 @@
         </div>
       </div>
 
-      <div class="flex flex-col ">
-        <label for="editPassword" class="font-semibold text-gray-700">Nova Senha (opcional)</label>
+      <div class="flex flex-col">
+        <label for="editPassword" class="font-semibold text-gray-700"
+          >Nova Senha (opcional)</label
+        >
         <div class="relative">
           <input
             [type]="showEditPassword ? 'text' : 'password'"
@@ -392,27 +442,29 @@
             <i [class]="showEditPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
           </button>
         </div>
-        <div *ngFor="let error of getFieldErrors(editForm, 'password')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(editForm, 'password')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
             variant="simple"
           ></p-message>
         </div>
-        <small class="text-gray-500 mt-1" *ngIf="editForm.get('password')?.value">
-          A senha deve conter: 1 maiúscula, 1 minúscula e 1 número (mínimo 6 caracteres)
-        </small>
       </div>
 
-      <div class="flex flex-col" *ngIf="editForm.get('password')?.value">
-        <label for="editConfirmPassword" class="font-semibold text-gray-700 required">Confirmar Nova Senha</label>
+      <div class="flex flex-col">
+        <label for="editConfirmPassword" class="font-semibold text-gray-700"
+          >Confirmar Nova Senha</label
+        >
         <div class="relative">
           <input
             [type]="showEditConfirmPassword ? 'text' : 'password'"
             id="editConfirmPassword"
             formControlName="confirmPassword"
             pInputText
-            placeholder="Confirme sua nova senha"
+            placeholder="Confirme sua nova senha (deixe em branco para manter a atual)"
             class="w-full pr-10"
             [class.ng-invalid]="isFieldInvalid(editForm, 'confirmPassword') || (editForm.errors?.['passwordMismatch'] && editForm.get('confirmPassword')?.dirty)"
           />
@@ -423,10 +475,17 @@
             tabindex="-1"
             aria-label="Mostrar/ocultar confirmação de senha"
           >
-            <i [class]="showEditConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'"></i>
+            <i
+              [class]="
+                showEditConfirmPassword ? 'pi pi-eye-slash' : 'pi pi-eye'
+              "
+            ></i>
           </button>
         </div>
-        <div *ngFor="let error of getFieldErrors(editForm, 'confirmPassword')" class="mt-1">
+        <div
+          *ngFor="let error of getFieldErrors(editForm, 'confirmPassword')"
+          class="mt-1"
+        >
           <p-message
             severity="error"
             [text]="error"
