@@ -3,6 +3,13 @@
     display: none !important;
   }
 
+  ngx-editor {
+    .NgxEditor {
+      height: 150px;
+      overflow: scroll;
+    }
+  }
+
   p-fileupload {
     .p-fileupload {
       justify-content: start;

@@ -65,7 +65,7 @@
       }
     </div>
 
-    <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <label for="author">Autor <span class="text-red-500">*</span></label>
       <input id="author" type="text" pInputText formControlName="author" />
       @if (hasError('author', 'required') || hasError('author', 'minlength')) {
@@ -75,9 +75,9 @@
           variant="simple"
         />
       }
-    </div>
+    </div> -->
 
-    <div class="flex flex-col">
+    <!-- <div class="flex flex-col">
       <label>Ícone do Autor do post <span class="text-red-500">*</span></label>
       <p-fileUpload
         mode="basic"
@@ -96,7 +96,7 @@
           Ícone selecionado: <strong>{{ selectedIconFile.name }}</strong>
         </div>
       }
-    </div>
+    </div> -->
 
     <div class="flex flex-col">
       <label for="readingTime">Tempo médio de leitura (ex: 3 min) <span class="text-red-500">*</span></label>
@@ -116,7 +116,7 @@
         type="submit"
         pButton
         label="Salvar"
-        [disabled]="postForm.invalid || !selectedBannerFile || !selectedIconFile"
+        [disabled]="postForm.invalid || !selectedBannerFile"
         [loading]="isLoading"
       ></button>
     </div>

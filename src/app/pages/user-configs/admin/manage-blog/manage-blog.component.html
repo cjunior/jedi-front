@@ -58,11 +58,12 @@
   </p-table>
 </p-panel>
 
-<app-adicionar-post [isVisible]="showAddPostModal" (closed)="closeAddPostModal()" />
+<app-adicionar-post [isVisible]="showAddPostModal" (closed)="closeAddPostModal()"  (postCreated)="reloadPosts($event)"/>
 <app-editar-post
   [isVisible]="showEditPostModal"
   [postData]="selectedPost"
   (closed)="closeEditPostModal()"
+  (postUpdated)="reloadPosts($event)"
 />
 
 <p-confirmdialog />

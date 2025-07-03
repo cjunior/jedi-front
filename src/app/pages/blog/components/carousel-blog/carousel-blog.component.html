@@ -8,7 +8,7 @@
     (onPage)="aoTrocarPagina($event)"
   >
     <ng-template let-post #item>
-      <div class="relative w-full h-[24rem] overflow-hidden rounded-xl shadow-lg group">
+      <div class="relative w-full h-[24rem] overflow-hidden rounded-xl shadow-lg group cursor-pointer" (click)="viewPost(post.id)">
         <!-- Imagem -->
         <img
           class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

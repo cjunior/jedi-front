@@ -126,4 +126,18 @@ export class ManageBlogComponent implements OnInit {
   viewPost(postId: number): void {
     window.open(`/blog/${postId}`, '_blank');
   }
+
+  reloadPosts(event: boolean): void {
+    if (!event) return;
+
+    this.blogService.getPosts$(0, this.size).subscribe({
+      next: (response) => {
+        this.posts.set(response.content);
+        this.totalRecords = response.totalElements;
+      },
+      error: () => {
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Não foi possível recarregar os posts.' });
+      }
+    });
+  }
 }

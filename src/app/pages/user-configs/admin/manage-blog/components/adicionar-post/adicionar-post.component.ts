@@ -20,6 +20,8 @@ import { BlogServiceService } from '../../../../../blog/services/blog-service.se
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { validateDescriptionLength } from '../../../../../../core/validators/validateDescriptionLength.validator';
+import { jwtDecode } from 'jwt-decode';
+import { IToken } from '../../../../../../core/interfaces/token.interface';
 
 @Component({
   selector: 'app-adicionar-post',
@@ -43,28 +45,30 @@ import { validateDescriptionLength } from '../../../../../../core/validators/val
 export class AdicionarPostComponent implements OnInit, OnDestroy {
   private readonly blogService = inject(BlogServiceService);
   private readonly fb = inject(FormBuilder);
-  private readonly messageService = inject(MessageService)
+  private readonly messageService = inject(MessageService);
 
   @Input() isVisible = false;
   @Output() closed = new EventEmitter<void>();
+  @Output() postCreated = new EventEmitter<boolean>();
 
   postForm!: FormGroup;
   selectedBannerFile: File | null = null;
-  selectedIconFile: File | null = null;
   fileTouched = false;
-  iconFileTouched = false;
   isLoading = false;
+  tokenPayload!: IToken;
 
   validateDescriptionLength = validateDescriptionLength;
 
   editor = new Editor();
 
   ngOnInit(): void {
+    const token = sessionStorage.getItem('auth_token') || '';
+    this.tokenPayload = jwtDecode(token);
+
     this.postForm = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(8)]],
       imageDescription: ['', [Validators.required, Validators.minLength(5)]],
       description: ['', [Validators.required, this.validateDescriptionLength()]],
-      author: ['', [Validators.required, Validators.minLength(2)]],
       readingTime: ['', [Validators.required, Validators.pattern(/^[0-9]+ ?min$/)]]
     });
   }
@@ -81,33 +85,25 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
     }
   }
 
-  onIconFileSelected(event: any): void {
-    this.iconFileTouched = true;
-    const files = event.files || [];
-    if (files.length > 0) {
-      this.selectedIconFile = files[0];
-    }
-  }
-
   onSubmit(): void {
     this.fileTouched = true;
-
-    if (this.postForm.invalid || !this.selectedBannerFile || !this.selectedIconFile) {
+  
+    if (this.postForm.invalid || !this.selectedBannerFile) {
       this.postForm.markAllAsTouched();
       return;
     }
-
+  
     this.isLoading = true;
+  
     const formData = new FormData();
-
     const values = this.postForm.value;
-
+  
     formData.append('title', values.title);
     formData.append('imageDescription', values.imageDescription);
     formData.append('description', values.description);
-    formData.append('author', values.author);
     formData.append('readingTime', values.readingTime);
-
+    formData.append('author', this.tokenPayload.name || '');
+  
     const now = new Date();
     const dateString = now.toLocaleDateString('pt-BR', {
       day: 'numeric',
@@ -115,31 +111,54 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
       year: 'numeric'
     });
     formData.append('date', dateString);
-
     formData.append('file', this.selectedBannerFile);
-    formData.append('iconFile', this.selectedIconFile);
-
-    this.blogService.createPost(formData).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Post Criado',
-          detail: 'O post foi criado com sucesso.'
+  
+    const enviarPost = () => {
+      this.blogService.createPost(formData).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Post Criado',
+            detail: 'O post foi criado com sucesso.'
+          });
+          this.resetForm();
+          this.onCloseModal();
+          this.isLoading = false;
+          this.postCreated.emit(true);
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: err.error?.message || 'Ocorreu um erro ao criar o post.'
+          });
+          this.isLoading = false;
+        }
+      });
+    };
+  
+    // Se houver imagem no token, faz fetch e adiciona como File
+    if (this.tokenPayload.photo) {
+      fetch(this.tokenPayload.photo)
+        .then(response => response.blob())
+        .then(blob => {
+          // Apenas adiciona se o blob não for vazio
+          if (blob.size > 0) {
+            const file = new File([blob], 'icon.jpg', { type: blob.type });
+            formData.append('iconFile', file);
+          }
+          enviarPost();
+        })
+        .catch(() => {
+          // Erro no fetch? Não envia o campo
+          enviarPost();
         });
-        this.resetForm();
-        this.onCloseModal();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: err.error?.message || 'Ocorreu um erro ao criar o post. Por favor, tente novamente.'
-        });
-        this.isLoading = false;
-      }
-    });
+    } else {
+      // Não há imagem no token → não envia iconFile
+      enviarPost();
+    }
   }
+  
 
   onCloseModal(): void {
     this.closed.emit();
@@ -149,7 +168,6 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
   resetForm(): void {
     this.postForm.reset();
     this.selectedBannerFile = null;
-    this.selectedIconFile = null;
     this.fileTouched = false;
     this.isLoading = false;
   }

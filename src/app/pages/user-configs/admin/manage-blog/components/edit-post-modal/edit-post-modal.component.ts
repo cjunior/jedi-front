@@ -27,6 +27,8 @@ import type { IPost } from '../../../../../../core/interfaces/blog.interface';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { validateDescriptionLength } from '../../../../../../core/validators/validateDescriptionLength.validator';
+import { jwtDecode } from 'jwt-decode';
+import { IToken } from '../../../../../../core/interfaces/token.interface';
 
 @Component({
   selector: 'app-editar-post',
@@ -56,6 +58,7 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
   @Output() closed = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Output() onError = new EventEmitter<string>();
+  @Output() postUpdated = new EventEmitter<boolean>();
 
   form!: FormGroup;
   editor: Editor = new Editor();
@@ -66,15 +69,20 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
   selectedIconFile: File | null = null;
   fileTouched = false;
   isLoading = false;
+  tokenPayload!: IToken;
 
   ngOnInit(): void {
     this.form = this.fb.group({
       title: ['', [Validators.required, Validators.minLength(8)]],
       imageDescription: ['', [Validators.required, Validators.minLength(5)]],
-      author: ['', [Validators.required, Validators.minLength(2)]],
       readingTime: ['', [Validators.required, Validators.pattern(/^[0-9]+ ?min$/)]],
       description: ['', [Validators.required, this.validatorDescriptionLength()]]
     });
+
+    const token = sessionStorage.getItem('auth_token') || '';
+    if (token) {
+      this.tokenPayload = jwtDecode(token);
+    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -82,10 +90,10 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
       this.form.patchValue({
         title: this.postData.title,
         imageDescription: this.postData.imageDescription,
-        author: this.postData.author,
         readingTime: this.postData.readingTime,
         description: this.postData.description
       });
+      console.log('Post data loaded:', this.postData);
     }
   }
 
@@ -103,38 +111,58 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
 
     formData.append('title', values.title);
     formData.append('imageDescription', values.imageDescription);
-    formData.append('author', values.author);
     formData.append('readingTime', values.readingTime);
     formData.append('description', values.description);
 
+    // Envia o banner só se selecionado
     if (this.selectedBannerFile) {
       formData.append('file', this.selectedBannerFile);
     }
 
-    if (this.selectedIconFile) {
-      formData.append('iconFile', this.selectedIconFile);
-    }
+    // Adiciona author pelo token
+    formData.append('author', this.tokenPayload?.name || '');
 
-    this.blogService.updatePost(this.postData.id, formData).subscribe({
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Post Atualizado',
-          detail: 'O post foi atualizado com sucesso.'
+    // Adiciona iconFile pela imagem do token (fetch + append)
+    const enviarPost = () => {
+      this.blogService.updatePost(this.postData!.id, formData).subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Post Atualizado',
+            detail: 'O post foi atualizado com sucesso.'
+          });
+          this.onCloseModal();
+          this.postUpdated.emit(true);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: err.error?.message || 'Ocorreu um erro ao atualizar o post. Por favor, tente novamente.'
+          });
+          console.error('Erro ao atualizar post:', err);
+          this.isLoading = false;
+        }
+      });
+    };
+
+    if (this.tokenPayload?.photo) {
+      fetch(this.tokenPayload.photo)
+        .then(response => response.blob())
+        .then(blob => {
+          if (blob.size > 0) {
+            const file = new File([blob], 'icon.jpg', { type: blob.type });
+            formData.append('iconFile', file);
+          }
+          enviarPost();
+        })
+        .catch(() => {
+          enviarPost();
         });
-        this.onCloseModal();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: err.error?.message || 'Ocorreu um erro ao atualizar o post. Por favor, tente novamente.'
-        });
-        console.error('Erro ao atualizar post:', err);
-        this.isLoading = false;
-      }
-    });
+    } else {
+      enviarPost();
+    }
   }
 
   onCloseModal(): void {
