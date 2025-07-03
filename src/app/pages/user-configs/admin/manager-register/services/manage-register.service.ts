@@ -28,12 +28,12 @@ export class ManageRegisterService {
   }
 
   getManagerRegisterById(id: string) {
-    return this.http.get(`${this.apiUrl}management/register/${id}`);
+    return this.http.get(`${this.apiUrl}management/users/${id}`);
   }
   putManagerRegister(id: string, data: FormData) {
-    return this.http.put(`${this.apiUrl}management/register/${id}`, data);
+    return this.http.put(`${this.apiUrl}management/users/${id}`, data);
   }
   deleteManagerRegister(id: string) {
-    return this.http.delete(`${this.apiUrl}management/register/${id}`);
+    return this.http.delete(`${this.apiUrl}management/users/${id}`);
   }
 }

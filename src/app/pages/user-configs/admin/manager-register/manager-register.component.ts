@@ -264,18 +264,23 @@ export class ManagerRegisterComponent implements OnInit {
       });
     }
   }
-
   editarUsuario(usuario: any, index: number) {
+    console.log('Editando usuário:', usuario);
+    
     this.usuarioEditandoIndex = index;
     this.editForm.patchValue({
-      nome: usuario.name || usuario.nome,
-      login: usuario.login || usuario.email,
-      cargo: usuario.role || usuario.cargo,
+      nome: usuario.name || '',
+      login: usuario.login || usuario.email || '',
+      cargo: usuario.role || '',
       password: '',
       confirmPassword: '',
       foto: null
     });
-    this.editFotoPreview = usuario.photoUrl || usuario.foto;
+    
+    // Definir preview da foto atual
+    this.editFotoPreview = usuario.photoUrl || null;
+    
+    // Abrir o modal
     this.editDialogVisible = true;
   }
 
@@ -286,22 +291,33 @@ export class ManagerRegisterComponent implements OnInit {
       const usuario = this.usuarios[this.usuarioEditandoIndex];
       const formDataToSend = new FormData();
       
+      // Enviar dados obrigatórios
       formDataToSend.append('name', formData.nome);
       formDataToSend.append('login', formData.login);
       formDataToSend.append('role', formData.cargo);
       
-      if (formData.password) {
+      // Enviar senha apenas se foi preenchida
+      if (formData.password && formData.password.trim() !== '') {
         formDataToSend.append('password', formData.password);
       }
-
+  
+      // Enviar foto apenas se uma nova foi selecionada
       if (formData.foto instanceof File) {
         formDataToSend.append('photo', formData.foto);
       }
-
+  
       const userId = usuario.id;
+      
+      console.log('Dados sendo enviados para edição:');
+      console.log('User ID:', userId);
+      console.log('FormData entries:');
+      for (let pair of formDataToSend.entries()) {
+        console.log(pair[0] + ': ' + pair[1]);
+      }
       
       this.manageRegisterService.putManagerRegister(userId, formDataToSend).subscribe({
         next: (response) => {
+          console.log('Usuário editado com sucesso:', response);
           this.loadUsuarios(); // Recarrega a lista após editar
           this.closeEditDialog();
           this.isLoading = false;
@@ -316,12 +332,31 @@ export class ManagerRegisterComponent implements OnInit {
           console.error('Erro ao atualizar usuário:', error);
           this.isLoading = false;
           
+          let errorMessage = 'Erro ao atualizar usuário. Tente novamente.';
+          
+          // Personalizar mensagem de erro baseada na resposta
+          if (error.error?.message) {
+            errorMessage = error.error.message;
+          } else if (error.status === 400) {
+            errorMessage = 'Dados inválidos. Verifique os campos preenchidos.';
+          } else if (error.status === 404) {
+            errorMessage = 'Usuário não encontrado.';
+          } else if (error.status === 409) {
+            errorMessage = 'Email já está em uso por outro usuário.';
+          }
+          
           this.messageService.add({
             severity: 'error',
             summary: 'Erro',
-            detail: 'Erro ao atualizar usuário. Tente novamente.'
+            detail: errorMessage
           });
         }
+      });
+    } else {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Atenção',
+        detail: 'Preencha todos os campos obrigatórios antes de salvar.'
       });
     }
   }
