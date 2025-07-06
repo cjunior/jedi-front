@@ -124,50 +124,20 @@
   </div>
   <img id="contentC" src="./onda2.svg" alt="" />
   <div class="container-four">
-    <div class="text">
-      <h1>CONTEÚDO</h1>
-      <div class="text-content">
-        <span
-          >Em quatro passos, você vai aprender ferramentas e estratégias para
-          aprimorar o que já faz ou começar algo novo no mundo on-line. Passe o
-          mouse e saiba mais.</span
-        >
-      </div>
-    </div>
-
-    <div class="content-carousel">
-      <p-carousel
-        [value]="contentItems"
-        [numVisible]="1"
-        [numScroll]="1"
-        [circular]="true"
-        [autoplayInterval]="4000"
-        [showIndicators]="false"
-        [showNavigators]="true"
+  <div class="text">
+    <h1>CONTEÚDO</h1>
+    <div class="text-content">
+      <span
+        >Em quatro passos, você vai aprender ferramentas e estratégias para
+        aprimorar o que já faz ou começar algo novo no mundo on-line. Passe o
+        mouse e saiba mais.</span
       >
-        <ng-template pTemplate="item" let-item>
-          <div class="card">
-            <div class="content">
-              <svg
-                class="play-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M8 5v14l11-7z" fill="#426b53" />
-              </svg>
-              <h1>{{ item.title }}</h1>
-            </div>
-            <img
-              [src]="item.image"
-              [alt]="item.title"
-              style="width: 100%; height: 353px; object-fit: cover"
-            />
-          </div>
-        </ng-template>
-      </p-carousel>
     </div>
   </div>
+
+  <!-- Novo carrossel personalizado -->
+  <app-carousel-content [contentItems]="contentItems"></app-carousel-content>
+</div>
 
   <div class="container-five">
     <app-carousel-square />
