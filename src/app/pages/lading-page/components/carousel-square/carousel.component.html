@@ -1,40 +1,23 @@
-<div class="relative w-full max-w-6xl mx-auto flex items-center justify-center py-8">
+<div class="relative w-full mx-auto flex items-center justify-center py-8">
 
-  <!-- Gradiente lateral esquerdo fixo -->
-  <div class="absolute left-0 top-0 bottom-0 w-24 z-20 pointer-events-none bg-gradient-to-r from-white to-transparent"></div>
+  <!-- Botão seta esquerda com gradiente -->
+  <button (click)="previous()" class="absolute left-2 z-30 p-0 m-0 bg-transparent border-none cursor-pointer arrow-left">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#CCC82E" viewBox="0 0 24 24" width="100" height="180">
+      <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
+    </svg>
+  </button>
 
-  <!-- Gradiente lateral direito fixo -->
-  <div class="absolute right-0 top-0 bottom-0 w-24 z-20 pointer-events-none bg-gradient-to-l from-white to-transparent"></div>
-
-  <!-- Botão seta esquerda -->
-<button (click)="previous()" class="absolute left-4 z-30 p-0 m-0 bg-transparent border-none cursor-pointer">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="#CCC82E"
-    viewBox="0 0 24 24"
-    width="48"
-    height="48"
-  >
-    <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
-  </svg>
-</button>
-
-  <!-- Slides visíveis -->
-  <div class="flex gap-4 overflow-hidden z-10">
-    <ng-container *ngFor="let offset of [-1, 0, 1]">
-      <ng-container *ngIf="slides.length">
-        <div
-          *ngIf="slides[(currentIndex + offset + slides.length) % slides.length] as slide"
-          class="w-[280px] h-[260px] relative rounded-md shadow-md overflow-hidden teste"
-          [ngClass]="slide.gradient || ''"
-        >
+  <!-- Container dos slides com animação -->
+  <div class="carousel-container overflow-hidden z-10">
+    <div 
+      class="carousel-wrapper flex gap-4 transition-transform duration-500 ease-in-out"
+      [style.transform]="'translateX(' + translateX + 'px)'"
+    >
+      <ng-container *ngFor="let slide of slides; let i = index">
+        <div class="carousel-slide flex-shrink-0 w-[380px] h-[306px] relative rounded-md shadow-md overflow-hidden">
           <!-- Faixa superior -->
-          <div
-            class="absolute top-0 left-0 w-full bg-lime-400 text-white px-4 py-2 flex items-center gap-2 z-10"
-          >
-            <span
-              class="w-0 h-0 border-t-[6px] border-b-[6px] border-l-[10px] border-transparent border-l-white"
-            ></span>
+          <div class="absolute top-0 left-0 w-full bg-lime-400 text-white px-4 py-2 flex items-center gap-2 z-10">
+            <span class="w-0 h-0 border-t-[6px] border-b-[6px] border-l-[10px] border-transparent border-l-white"></span>
             <span class="text-sm font-bold">{{ slide.text }}</span>
           </div>
 
@@ -47,19 +30,13 @@
           />
         </div>
       </ng-container>
-    </ng-container>
+    </div>
   </div>
 
-  <!-- Botão seta direita -->
-<button (click)="next()" class="absolute right-4 z-30 p-0 m-0 bg-transparent border-none cursor-pointer">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="#CCC82E"
-    viewBox="0 0 24 24"
-    width="48"
-    height="48"
-  >
-    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
-  </svg>
-</button>
+  <!-- Botão seta direita com gradiente -->
+  <button (click)="next()" class="absolute right-2 z-30 p-0 m-0 bg-transparent border-none cursor-pointer arrow-right">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#CCC82E" viewBox="0 0 24 24" width="100" height="180">
+      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+    </svg>
+  </button>
 </div>

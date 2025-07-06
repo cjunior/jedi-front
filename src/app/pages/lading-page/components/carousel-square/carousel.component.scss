@@ -1,16 +1,76 @@
-::ng-deep .p-carousel .p-carousel-prev,
-::ng-deep .p-carousel .p-carousel-next {
-  color: #a3c300;
-  font-size: 2rem;
+.carousel-container {
+  width: 100vw;
+  max-width: calc(100vw - 128px);
+  height: 306px;
+  position: relative;
+  
+  // Gradiente lateral esquerdo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8), transparent);
+    z-index: 20;
+    pointer-events: none;
+  }
+  
+  // Gradiente lateral direito
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 120px;
+    height: 100%;
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8), transparent);
+    z-index: 20;
+    pointer-events: none;
+  }
 }
 
-::ng-deep .p-carousel .p-carousel-prev:focus,
-::ng-deep .p-carousel .p-carousel-next:focus {
-  box-shadow: none !important;
+.carousel-wrapper {
+  transition: transform 0.5s ease-in-out;
 }
 
+.carousel-slide {
+ width: 500px !important;
+  height: 306px !important;
+}
 
-.teste{
-     width: 716px !important;
-    height: 306px !important;
+:host {
+  width: 100%;
+  display: block;
+}
+
+// Setas sem gradiente circular agora
+// Setas com tamanho bem maior
+.arrow-left {
+  background: transparent;
+  border-radius: 50%;
+  width: 100px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.arrow-right {
+  background: transparent;
+  border-radius: 50%;
+  width: 100px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }

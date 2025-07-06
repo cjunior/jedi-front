@@ -10,32 +10,143 @@ import { CommonModule } from '@angular/common';
 })
 export class CarouselSquareComponent {
   currentIndex = 0;
+  translateX = 0;
+  slideWidth = 380 + 16; // largura do slide + gap (ajustado para 3 cards)
 
   slides = [
     {
-      type: 'gradient',
-      gradient: 'bg-gradient-to-r from-white to-lime-500',
-      text: 'KIT DE APRENDIZAGEM',
+      type: 'image',
+      imageUrl: './Afiliadosinfoprodutores.jpg',
+      text: 'Afiliados infoprodutores',
     },
     {
       type: 'image',
-      imageUrl: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2',
-      text: 'KIT DE APRENDIZAGEM',
+      imageUrl: './Afiliadosencapsulados.jpg',
+      text: 'Afiliados encapsulados',
+    },
+    { 
+      type: 'image',
+      imageUrl: './BusinessCANVAS.png', 
+      text: 'Business CANVAS' 
     },
     {
-      type: 'gradient',
-      gradient: 'bg-gradient-to-r from-orange-200 to-orange-500',
-      text: 'KIT DE APRENDIZAGEM',
+      type: 'image',
+      imageUrl: './cooperativismo.jpeg',
+      text: 'Cooperativismo de plataforma',
+    },
+    { 
+      type: 'image',
+      imageUrl: './Copywriting.jpg', 
+      text: 'Copywriting' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './Digitalinfluencer.jpg', 
+      text: 'Digital influencer' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './tecmemp.jpeg', 
+      text: 'Técnicas de empreendedorismo' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './FerramentasdeIA.jpg', 
+      text: 'Ferramentas de IA' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './Marketing.jpg', 
+      text: 'Marketing' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './Personograma.png', 
+      text: 'Personograma' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './Socialmedia.jpg', 
+      text: 'Social media' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './tecnicas.jpg', 
+      text: 'Técnicas de design' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './TráfegoPago.png', 
+      text: 'Tráfego pago' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './ux.jpg', 
+      text: 'UI/UX' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './businessman-planning-strategy.jpg', 
+      text: 'Vendas dropshipping' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './vendas.jpg', 
+      text: 'Vendas de e-commerce' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './facebook.jpg', 
+      text: 'Vendas no Facebook' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './ifood.jpeg', 
+      text: 'Vendas no iFood' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './instagram.jpg', 
+      text: 'Vendas no Instagram' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './mercadolivre.jpg', 
+      text: 'Vendas no Mercado Livre' 
+    },
+    {
+      type: 'image',
+      imageUrl: './tiktok.jpg',
+      text: 'Vendas no TikTok',
+    },
+    { 
+      type: 'image',
+      imageUrl: './whatsapp.jpg', 
+      text: 'Vendas no WhatsApp' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './youtube.jpg', 
+      text: 'Vendas no YouTube' 
+    },
+    { 
+      type: 'image',
+      imageUrl: './VendasPLR.jpeg', 
+      text: 'Vendas PLR' 
     },
   ];
 
-  
   previous() {
-    this.currentIndex =
-      (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    this.updateTransform();
   }
 
   next() {
     this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    this.updateTransform();
+  }
+
+  private updateTransform() {
+    this.translateX = -this.currentIndex * this.slideWidth;
   }
 }
