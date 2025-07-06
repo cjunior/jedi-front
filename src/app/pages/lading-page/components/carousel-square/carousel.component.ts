@@ -1,17 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CarouselModule } from 'primeng/carousel';
 
 @Component({
   selector: 'app-carousel-square',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CarouselModule],
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselSquareComponent {
+export class CarouselSquareComponent implements OnInit {
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 380 + 16; // largura do slide + gap (ajustado para 3 cards)
+  slideWidth = 380 + 16;
+  isMobile = false;
 
   slides = [
     {
@@ -135,6 +137,32 @@ export class CarouselSquareComponent {
       text: 'Vendas PLR' 
     },
   ];
+
+  ngOnInit() {
+    this.checkScreenSize();
+    this.updateSlideWidth();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+    this.updateSlideWidth();
+    this.updateTransform();
+  }
+
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth <= 600;
+  }
+
+  private updateSlideWidth() {
+    if (window.innerWidth <= 600) {
+      this.slideWidth = Math.min(window.innerWidth * 0.8, 300) + 16;
+    } else if (window.innerWidth <= 980) {
+      this.slideWidth = Math.min(window.innerWidth * 0.9, 350) + 16;
+    } else {
+      this.slideWidth = 500 + 16;
+    }
+  }
 
   previous() {
     this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
