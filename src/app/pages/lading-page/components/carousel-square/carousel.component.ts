@@ -14,6 +14,8 @@ export class CarouselSquareComponent implements OnInit {
   translateX = 0;
   slideWidth = 380 + 16;
   isMobile = false;
+  visibleSlides = 1;
+  maxIndex = 0;
 
   slides = [
     {
@@ -141,12 +143,17 @@ export class CarouselSquareComponent implements OnInit {
   ngOnInit() {
     this.checkScreenSize();
     this.updateSlideWidth();
+    this.calculateVisibleSlides();
+    this.calculateMaxIndex();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.checkScreenSize();
     this.updateSlideWidth();
+    this.calculateVisibleSlides();
+    this.calculateMaxIndex();
+    this.adjustCurrentIndex();
     this.updateTransform();
   }
 
@@ -164,13 +171,40 @@ export class CarouselSquareComponent implements OnInit {
     }
   }
 
+  private calculateVisibleSlides() {
+    const containerWidth = window.innerWidth > 980 ? 
+      window.innerWidth - 128 : // Desktop: considera os botões laterais
+      window.innerWidth; // Mobile: usa toda a largura
+    
+    this.visibleSlides = Math.floor(containerWidth / this.slideWidth);
+    if (this.visibleSlides === 0) this.visibleSlides = 1;
+  }
+
+  private calculateMaxIndex() {
+    this.maxIndex = Math.max(0, this.slides.length - this.visibleSlides);
+  }
+
+  private adjustCurrentIndex() {
+    if (this.currentIndex > this.maxIndex) {
+      this.currentIndex = this.maxIndex;
+    }
+  }
+
   previous() {
-    this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    if (this.currentIndex > 0) {
+      this.currentIndex--;
+    } else {
+      this.currentIndex = this.maxIndex;
+    }
     this.updateTransform();
   }
 
   next() {
-    this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    if (this.currentIndex < this.maxIndex) {
+      this.currentIndex++;
+    } else {
+      this.currentIndex = 0;
+    }
     this.updateTransform();
   }
 
