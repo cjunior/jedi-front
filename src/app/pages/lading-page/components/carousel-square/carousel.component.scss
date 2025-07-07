@@ -1,38 +1,49 @@
-.carousel-container {
+.carousel-content-container {
+  position: relative;
   width: 100vw;
   max-width: calc(100vw - 128px);
   height: 306px;
-  position: relative;
-  
-  // Gradiente lateral esquerdo
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  margin: 0 auto;
+  padding: 0 64px; // Espaço para as setas
+  margin-top: 50px;
+  margin-bottom: 50px;
+
+  // Gradiente lateral esquerdo (apenas desktop)
   &::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
-    width: 120px;
+    width: 200px; // Aumentado para esconder melhor os cards laterais
     height: 100%;
-    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8), transparent);
+    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8), transparent);
     z-index: 20;
     pointer-events: none;
   }
   
-  // Gradiente lateral direito
+  // Gradiente lateral direito (apenas desktop)
   &::after {
     content: '';
     position: absolute;
     top: 0;
     right: 0;
-    width: 120px;
+    width: 200px; // Aumentado para esconder melhor os cards laterais
     height: 100%;
-    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8), transparent);
+    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.8), transparent);
     z-index: 20;
     pointer-events: none;
   }
 
-  // Responsivo: remove gradientes em telas pequenas
-  @media (max-width: 980px) {
+  // Mobile: remove gradientes e ajusta container
+  @media (max-width: 1000px) {
+    width: 100vw;
     max-width: 100vw;
+    height: 250px;
+    padding: 0 60px; // Mais espaço para as setas
     
     &::before,
     &::after {
@@ -41,90 +52,160 @@
   }
 }
 
-.carousel-wrapper {
-  transition: transform 0.5s ease-in-out;
-}
-
-.carousel-slide {
-  width: 500px !important;
-  height: 306px !important;
-
-  // Responsivo: ajusta largura do card
-  @media (max-width: 980px) {
-    width: 90vw !important;
-    max-width: 350px !important;
-  }
-}
-
-// Setas
-.arrow-left {
-  background: transparent;
-  border-radius: 50%;
-  width: 100px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  @media (max-width: 980px) {
-    width: 60px;
-    height: 100px;
-  }
-}
-
-.arrow-right {
-  background: transparent;
-  border-radius: 50%;
-  width: 100px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  @media (max-width: 980px) {
-    width: 60px;
-    height: 100px;
-  }
-}
-
-// Estilos para o carrossel mobile (PrimeNG)
-.mobile-carousel {
+.carousel-content-wrapper {
+  position: relative;
   width: 100%;
-  max-width: 100vw;
-  
-  .mobile-slide {
-    width: 90vw;
-    max-width: 300px;
+  height: 306px;
+  overflow: hidden;
+
+  // Mobile: ajusta tamanho
+  @media (max-width: 1000px) {
+    width: calc(100vw - 120px); // Largura total menos espaço das setas
+    max-width: none;
     height: 250px;
-    margin: 0 auto;
+  }
+}
+
+.carousel-content-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  height: 100%;
+  gap: 16px; // Gap entre slides (apenas desktop)
+  align-items: center;
+
+  // Mobile: remove gap
+  @media (max-width: 1000px) {
+    gap: 0;
+  }
+}
+
+.carousel-content-slide {
+  flex-shrink: 0;
+  width: 500px; // Largura fixa para desktop
+  height: 306px; // Altura fixa para desktop
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Mobile: ocupa toda a largura disponível
+  @media (max-width: 1000px) {
+    width: calc(100vw - 120px); // Largura total menos espaço das setas
+    max-width: none;
+    height: 250px;
+  }
+}
+
+.content-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.content-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: #efc209;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  z-index: 5;
+  
+  .play-icon {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
   }
   
-  // Remove os indicadores (bolinhas) do PrimeNG
-  ::ng-deep .p-carousel-indicators {
-    display: none !important;
+  h1 {
+    color: #426b53;
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+  }
+
+  // Mobile: ajusta tamanhos
+  @media (max-width: 1000px) {
+    height: 45px;
+    gap: 10px;
+    
+    .play-icon {
+      width: 20px;
+      height: 20px;
+    }
+    
+    h1 {
+      font-size: 1rem;
+    }
+  }
+}
+
+.content-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  z-index: 30;
+  width: 100px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
   }
   
-  // Estiliza as setas do PrimeNG
-  ::ng-deep .p-carousel-prev,
-  ::ng-deep .p-carousel-next {
-    background: transparent !important;
-    color: #CCC82E !important;
-    border: none !important;
-    width: 40px !important;
-    height: 40px !important;
+  &.nav-left {
+    left: 2px;
   }
   
-  ::ng-deep .p-carousel-prev:hover,
-  ::ng-deep .p-carousel-next:hover {
-    background: rgba(255, 255, 255, 0.1) !important;
+  &.nav-right {
+    right: 2px;
+  }
+
+  svg {
+    width: 100px;
+    height: 180px;
+    pointer-events: none;
+  }
+
+  // Mobile: ajusta tamanho das setas
+  @media (max-width: 1000px) {
+    width: 60px;
+    height: 100px;
+    
+    svg {
+      width: 60px;
+      height: 100px;
+    }
+    
+    &.nav-left {
+      left: 5px;
+    }
+    
+    &.nav-right {
+      right: 5px;
+    }
   }
 }
 

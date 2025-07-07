@@ -1,18 +1,18 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarouselModule } from 'primeng/carousel';
 
 @Component({
   selector: 'app-carousel-square',
   standalone: true,
-  imports: [CommonModule, CarouselModule],
+  imports: [CommonModule],
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselSquareComponent implements OnInit {
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 380 + 16;
+  slideWidth = 516; // 500px + 16px gap
+  containerWidth = 500;
   isMobile = false;
   visibleSlides = 1;
   maxIndex = 0;
@@ -145,6 +145,7 @@ export class CarouselSquareComponent implements OnInit {
     this.updateSlideWidth();
     this.calculateVisibleSlides();
     this.calculateMaxIndex();
+    this.updateTransform();
   }
 
   @HostListener('window:resize', ['$event'])
@@ -158,26 +159,30 @@ export class CarouselSquareComponent implements OnInit {
   }
 
   private checkScreenSize() {
-    this.isMobile = window.innerWidth <= 600;
+    this.isMobile = window.innerWidth <= 1000;
   }
 
   private updateSlideWidth() {
-    if (window.innerWidth <= 600) {
-      this.slideWidth = Math.min(window.innerWidth * 0.8, 300) + 16;
-    } else if (window.innerWidth <= 980) {
-      this.slideWidth = Math.min(window.innerWidth * 0.9, 350) + 16;
+    if (this.isMobile) {
+      // Mobile: 1 slide por vez ocupando toda a largura disponível
+      this.slideWidth = window.innerWidth - 120; // Largura total menos espaço das setas
+      this.containerWidth = this.slideWidth;
     } else {
-      this.slideWidth = 500 + 16;
+      // Desktop: múltiplos slides com gap
+      this.slideWidth = 516; // 500px + 16px gap
+      this.containerWidth = window.innerWidth - 200; // Largura disponível menos espaço das setas
     }
   }
 
   private calculateVisibleSlides() {
-    const containerWidth = window.innerWidth > 980 ? 
-      window.innerWidth - 128 : // Desktop: considera os botões laterais
-      window.innerWidth; // Mobile: usa toda a largura
-    
-    this.visibleSlides = Math.floor(containerWidth / this.slideWidth);
-    if (this.visibleSlides === 0) this.visibleSlides = 1;
+    if (this.isMobile) {
+      this.visibleSlides = 1;
+    } else {
+      // Desktop: calcula quantos slides cabem na tela
+      const availableWidth = window.innerWidth - 200; // Menos espaço das setas
+      this.visibleSlides = Math.floor(availableWidth / this.slideWidth);
+      if (this.visibleSlides === 0) this.visibleSlides = 1;
+    }
   }
 
   private calculateMaxIndex() {
@@ -191,19 +196,31 @@ export class CarouselSquareComponent implements OnInit {
   }
 
   previous() {
-    if (this.currentIndex > 0) {
-      this.currentIndex--;
+    if (this.isMobile) {
+      // Mobile: navegação circular
+      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
     } else {
-      this.currentIndex = this.maxIndex;
+      // Desktop: navegação com limite
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      } else {
+        this.currentIndex = this.maxIndex;
+      }
     }
     this.updateTransform();
   }
 
   next() {
-    if (this.currentIndex < this.maxIndex) {
-      this.currentIndex++;
+    if (this.isMobile) {
+      // Mobile: navegação circular
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
     } else {
-      this.currentIndex = 0;
+      // Desktop: navegação com limite
+      if (this.currentIndex < this.maxIndex) {
+        this.currentIndex++;
+      } else {
+        this.currentIndex = 0;
+      }
     }
     this.updateTransform();
   }
