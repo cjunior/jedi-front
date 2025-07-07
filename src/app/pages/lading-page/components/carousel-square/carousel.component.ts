@@ -20,123 +20,123 @@ export class CarouselSquareComponent implements OnInit {
   slides = [
     {
       type: 'image',
-      imageUrl: './Afiliadosinfoprodutores.jpg',
+      imageUrl: './CapaPersona.jpg',
       text: 'Afiliados infoprodutores',
     },
     {
       type: 'image',
-      imageUrl: './Afiliadosencapsulados.jpg',
+      imageUrl: './CapaPersona.jpg',
       text: 'Afiliados encapsulados',
-    },
-    { 
-      type: 'image',
-      imageUrl: './BusinessCANVAS.png', 
-      text: 'Business CANVAS' 
     },
     {
       type: 'image',
-      imageUrl: './cooperativismo.jpeg',
+      imageUrl: './CapaPersona.jpg',
+      text: 'Business CANVAS'
+    },
+    {
+      type: 'image',
+      imageUrl: './CapaPersona.jpg',
       text: 'Cooperativismo de plataforma',
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './Copywriting.jpg', 
-      text: 'Copywriting' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Copywriting'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './Digitalinfluencer.jpg', 
-      text: 'Digital influencer' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Digital influencer'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './tecmemp.jpeg', 
-      text: 'Técnicas de empreendedorismo' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Técnicas de empreendedorismo'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './FerramentasdeIA.jpg', 
-      text: 'Ferramentas de IA' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Ferramentas de IA'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './Marketing.jpg', 
-      text: 'Marketing' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Marketing'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './Personograma.png', 
-      text: 'Personograma' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Personograma'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './Socialmedia.jpg', 
-      text: 'Social media' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Social media'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './tecnicas.jpg', 
-      text: 'Técnicas de design' 
+      imageUrl: './CapaPersona.jpg',
+      text: 'Técnicas de design'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './TráfegoPago.png', 
-      text: 'Tráfego pago' 
+      imageUrl: './TráfegoPago.png',
+      text: 'Tráfego pago'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './ux.jpg', 
-      text: 'UI/UX' 
+      imageUrl: './ux.jpg',
+      text: 'UI/UX'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './businessman-planning-strategy.jpg', 
-      text: 'Vendas dropshipping' 
+      imageUrl: './businessman-planning-strategy.jpg',
+      text: 'Vendas dropshipping'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './vendas.jpg', 
-      text: 'Vendas de e-commerce' 
+      imageUrl: './vendas.jpg',
+      text: 'Vendas de e-commerce'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './facebook.jpg', 
-      text: 'Vendas no Facebook' 
+      imageUrl: './facebook.jpg',
+      text: 'Vendas no Facebook'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './ifood.jpeg', 
-      text: 'Vendas no iFood' 
+      imageUrl: './ifood.jpeg',
+      text: 'Vendas no iFood'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './instagram.jpg', 
-      text: 'Vendas no Instagram' 
+      imageUrl: './instagram.jpg',
+      text: 'Vendas no Instagram'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './mercadolivre.jpg', 
-      text: 'Vendas no Mercado Livre' 
+      imageUrl: './mercadolivre.jpg',
+      text: 'Vendas no Mercado Livre'
     },
     {
       type: 'image',
       imageUrl: './tiktok.jpg',
       text: 'Vendas no TikTok',
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './whatsapp.jpg', 
-      text: 'Vendas no WhatsApp' 
+      imageUrl: './whatsapp.jpg',
+      text: 'Vendas no WhatsApp'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './youtube.jpg', 
-      text: 'Vendas no YouTube' 
+      imageUrl: './youtube.jpg',
+      text: 'Vendas no YouTube'
     },
-    { 
+    {
       type: 'image',
-      imageUrl: './VendasPLR.jpeg', 
-      text: 'Vendas PLR' 
+      imageUrl: './VendasPLR.jpeg',
+      text: 'Vendas PLR'
     },
   ];
 

@@ -13,7 +13,7 @@
   >
     <i class="pi pi-angle-up"></i>
   </button>
-  <div class="top">
+  <div class="top bg-gradient-to-b from-[#C1CFA0] to-[#FFFFFF]">
     <app-dropdown />
     <div class="itens flex flex-row items-center gap-5">
       @if(isAuthenticated()) {
@@ -25,7 +25,7 @@
         size="small"
       />
       }
-      <div class="flex gap-2">
+      <div class="flex items-center gap-2">
         <a
           href="https://www.instagram.com/jovensempreendedores.digitais/"
           target="_blank"
@@ -33,7 +33,25 @@
           class="instagram-link"
           aria-label="Seguir no Instagram"
         >
-          <i class="pi pi-instagram instagram-icon"></i>
+          <div class="icon instagram"></div>
+        </a>
+        <a
+          href="https://www.instagram.com/jovensempreendedores.digitais/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="instagram-link"
+          aria-label="Seguir no Instagram"
+        >
+          <div class="icon youtube"></div>
+        </a>
+        <a
+          href="mailto:empreendedoresdigitais@ifce.edu.br"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="instagram-link"
+          aria-label="Seguir no Instagram"
+        >
+          <div class="icon email"></div>
         </a>
       </div>
     </div>
@@ -44,6 +62,7 @@
       <li><a href="#project">Projeto</a></li>
       <li><a href="#contentC">Conteúdo</a></li>
       <li><a href="#help">Ajuda</a></li>
+      <li><a href="#notices">Notícias</a></li>
     </ul>
     <button class="primary-btn" (click)="showDialog()">
       <img src="./tes.svg" alt="" />Pré-Cadastro
@@ -53,7 +72,7 @@
   <div class="container-one">
     <div class="containertext">
       <div class="text">
-        <H1>Dê um play no seu futuro</H1>
+        <H1 class="anisette-extrabold text-3xl text-green-700">Dê um play no seu futuro</H1>
       </div>
       <h1 class="sub">
         Sua oportunidade de conhecer ferramentas digitais para criar,
@@ -128,10 +147,9 @@
     <h1>CONTEÚDO</h1>
     <div class="text-content">
       <span
-        >Em quatro passos, você vai aprender ferramentas e estratégias para
-        aprimorar o que já faz ou começar algo novo no mundo on-line. Passe o
-        mouse e saiba mais.</span
-      >
+        >Em quatro passos, você vai aprender ferramentas e estratégias para aprimorar o que já faz ou começar algo novo no mundo on-line. <br><br>
+
+Para se aprofundar ainda mais no seu tipo de negócio, você também terá acesso a 24 kits exclusivos de conteúdo extra para explorar!</span>
     </div>
   </div>
 
@@ -206,12 +224,11 @@
         </a>
       </div>
     </div>
-    <app-form />
   </div>
 
   <img src="./ondas.svg" alt="" class="w-full mt-8" />
 
-  <div class="container-nine flex flex-col justify-center max-w-7xl mx-auto px-4 py-16">
+  <div class="container-nine flex flex-col justify-center max-w-7xl mx-auto px-4 py-16" id="notices">
     <div>
       <h1 class="title-container text-center font-medium">Notícias</h1>
       <p class="text-center text-zinc-600 subtitle-container mb-4">
@@ -260,7 +277,7 @@
   styleClass="!bg-orange-50"
   [modal]="true"
   [(visible)]="visible"
-  [style]="{ width: '30rem' }"
+  [style]="{ width: '40rem' }"
   [showHeader]="false"
   [contentStyle]="{ padding: '0' }"
 >
@@ -342,6 +359,28 @@
         ></p-message>
         }
       </div>
+
+      <div class="flex flex-col gap-3 mb-8">
+        <div class="flex gap-3">
+          <p-checkbox
+          formControlName="confirmUseMyData"
+          [binary]="true"
+          inputId="confirmUseMyDada"
+        />
+        <label for="confirmUseMyDada">
+          Declaro, para todos os devidos fins, que autorizo o tratamento dos meus dados pessoais fornecidos no presente formulário, com a finalidade de viabilizar minha participação no proceso de seleção e, se aprovado(a), na matrícula do curso Empreendedores Digitais. <br><br>
+          Estou ciente de que os dados serão utilizados para fins administrativos, educacionais e de comunicação relacionados ao referido curso, respeitando as disposições da Lei Geral de Proteção de Dados Pessoais (Lei n° 13.709/2018)
+        </label>
+        </div>
+        @if(showErrors() && form.get('confirmUseMyData')?.hasError('required')) {
+          <p-message
+            severity="error"
+            text="Confirme o termo de uso para realizar o pré-cadastro."
+            variant="simple"
+          ></p-message>
+        }
+      </div>
+
       <div class="flex justify-end pb-4 gap-2">
         <button
           pButton

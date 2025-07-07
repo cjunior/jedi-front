@@ -27,6 +27,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { CarouselContentComponent } from './components/carousel-content/carousel.component';
+import { Checkbox } from 'primeng/checkbox';
 
 interface BlogCard {
   id: number;
@@ -59,7 +60,8 @@ interface BlogCard {
     CommonModule,
     ProgressSpinnerModule,
     FooterComponent,
-    CarouselContentComponent
+    CarouselContentComponent,
+    Checkbox
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
@@ -96,6 +98,7 @@ export class LadingPageComponent {
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(11)],
     ],
+    confirmUseMyData: [false, Validators.required]
   });
   ngOnInit() {
     window.addEventListener('scroll', () => {
@@ -413,7 +416,7 @@ export class LadingPageComponent {
 
   async onSubmit() {
     this.showErrors.set(true);
-    
+
     if (this.form.valid) {
       // Abrir modal de confirmação
       this.confirmVisible = true;

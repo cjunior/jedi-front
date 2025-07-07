@@ -1,4 +1,5 @@
 @use "themes/tailwind";
+@use './fonts.scss';
 @import "primeicons/primeicons.css";
 
 * {
@@ -18,7 +19,9 @@
     background-color: #fff;
     color: #000;
   }
-
+h1{
+  font-family: 'Anisette2' !important;
+}
   a {
     text-decoration: none !important;
     color: inherit  !important;

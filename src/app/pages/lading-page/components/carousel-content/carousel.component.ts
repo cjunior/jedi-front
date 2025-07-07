@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 interface ContentItem {
   title: string;
-  image: string;
+    image: string;
 }
 
 @Component({
@@ -15,11 +15,11 @@ interface ContentItem {
 })
 export class CarouselContentComponent implements OnInit {
   @Input() contentItems: ContentItem[] = [];
-  
+
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 702; // Largura aumentada
-  containerWidth = 702; // Largura do wrapper
+  slideWidth = 600; // Aumentado para maior
+  containerWidth = 600; // Largura do wrapper
   isMobile = false;
 
   ngOnInit() {
@@ -44,20 +44,17 @@ export class CarouselContentComponent implements OnInit {
       this.slideWidth = Math.min(window.innerWidth * 0.8, 320);
       this.containerWidth = this.slideWidth;
     } else if (window.innerWidth <= 1024) {
-      this.slideWidth = Math.min(window.innerWidth * 0.9, 550);
-      this.containerWidth = this.slideWidth;
+      this.slideWidth = 450;
+      this.containerWidth = 450;
     } else if (window.innerWidth <= 1200) {
-      this.slideWidth = 580;
-      this.containerWidth = 580;
+      this.slideWidth = 500;
+      this.containerWidth = 500;
     } else if (window.innerWidth <= 1400) {
-      this.slideWidth = 620;
-      this.containerWidth = 620;
-    } else if (window.innerWidth <= 1600) {
-      this.slideWidth = 660;
-      this.containerWidth = 660;
+      this.slideWidth = 550;
+      this.containerWidth = 550;
     } else {
-      this.slideWidth = 702; // Largura fixa para desktop
-      this.containerWidth = 702;
+      this.slideWidth = 600; // Aumentado significativamente
+      this.containerWidth = 600;
     }
   }
 

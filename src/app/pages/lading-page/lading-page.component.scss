@@ -29,30 +29,63 @@
         cursor: pointer;
       }
 
-      .instagram-link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 31px;
-        height: 31px;
-        background-color: #fff;
-        border-radius: 8px;
-        transition: all 0.3s ease;
+      // .instagram-link {
+      //   display: flex;
+      //   align-items: center;
+      //   justify-content: center;
+      //   width: 31px;
+      //   height: 31px;
+      //   background-color: #fff;
+      //   border-radius: 8px;
+      //   transition: all 0.3s ease;
+      //   text-decoration: none;
+
+      //   &:hover {
+      //     background-color: #f0f0f0;
+      //     transform: scale(1.05);
+      //   }
+
+      //   .instagram-icon {
+      //     font-size: 20px;
+      //     color: #833ab4;
+      //     transition: color 0.3s ease;
+      //   }
+
+      //   &:hover .instagram-icon {
+      //     color: #bc2a8d;
+      //   }
+      // }
+      .icon {
+        background-repeat: no-repeat;
+        background-color: transparent;
+        background-position: center center;
+        background-size: 25px auto;
+        cursor: pointer;
+        display: block;
+        height: 36px;
+        opacity: .4;
+        text-align: center;
         text-decoration: none;
+        width: 36px;
 
-        &:hover {
-          background-color: #f0f0f0;
-          transform: scale(1.05);
+        &.instagram, &.youtube, &.email {
+          opacity: 1
         }
 
-        .instagram-icon {
-          font-size: 20px;
-          color: #833ab4;
-          transition: color 0.3s ease;
+
+        &.instagram {
+          background-image: url(../../../../public/icons/instagram.svg);
+          opacity: 1;
         }
 
-        &:hover .instagram-icon {
-          color: #bc2a8d;
+        &.youtube {
+          background-image: url(../../../../public/icons/youtube.svg);
+          background-size: 35px;
+        }
+
+        &.email {
+          background-image: url(../../../../public/icons/email.png);
+          background-size: 38px;
         }
       }
     }
@@ -150,7 +183,7 @@
         h1 {
           font-family: "Bebas Neue", sans-serif;
           font-weight: 400;
-          font-size: 79px;
+          font-size: 69px;
           line-height: 104px;
           letter-spacing: 1.25px;
           vertical-align: middle;
@@ -172,6 +205,10 @@
         word-break: break-word;
         overflow-wrap: break-word;
         white-space: normal;
+
+        &.sub{
+          font-family: 'Roboto', sans-serif !important;
+        }
       }
     }
 
@@ -270,10 +307,10 @@
         width: 100%;
         max-width: 360px;
         position: absolute;
-        bottom: 0;
+        bottom: 2rem;
         font-family: 'Roboto', sans-serif;
-        font-weight: 500;
-        font-size: 20px;
+        font-weight: 600;
+        font-size: 24px;
         line-height: 36px;
         letter-spacing: 1.25px;
         text-align: right;
@@ -282,13 +319,13 @@
     }
 
     .square-content-two {
-      background-color: #d9d9d9;
+      background-color: #e7914b ;
       width: 450px;
 
       .circle {
         width: 100%;
         height: 100%;
-        background-color: #426b53;
+        background-color: #757BED;
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -341,8 +378,6 @@
 
     .text {
       width: 100%;
-      max-width: 500px;
-      height: 168px;
       display: flex;
       flex-direction: column;
       gap: 40px;
@@ -375,7 +410,7 @@
         span {
          font-family: 'Roboto', sans-serif;
           font-weight: 500;
-          font-size: 20px;
+          font-size: 26px;
           line-height: 36px;
           letter-spacing: 1.25px;
           text-align: justify;
@@ -827,7 +862,7 @@
       overflow: hidden;
       box-sizing: border-box;
     }
-    
+
     .content-carousel {
       max-width: 100%;
       width: 100%;
@@ -874,7 +909,7 @@
       overflow: hidden;
       box-sizing: border-box;
     }
-    
+
     .content-carousel {
       max-width: 100%;
       width: 100%;
@@ -968,7 +1003,7 @@
       }
     }
     .container-two {
-      
+
       height: 333px !important;
       transition: all 0.3s ease-in-out;
       .square-content {
@@ -1202,7 +1237,7 @@
 
     .project{
       .text-project {
-       
+
         margin: 8px !important;
       }
     }
