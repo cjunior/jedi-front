@@ -26,6 +26,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AuthService } from '../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 
 interface BlogCard {
   id: number;
@@ -57,7 +58,8 @@ interface BlogCard {
     CarouselModule,
     CommonModule,
     ProgressSpinnerModule,
-    FooterComponent
+    FooterComponent,
+    CarouselContentComponent
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',

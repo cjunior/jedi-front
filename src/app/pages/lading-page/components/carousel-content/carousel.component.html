@@ -1,14 +1,47 @@
-<div class="card">
-  <p-carousel 
-    [value]="items" 
-    [numVisible]="1" 
-    [numScroll]="1" 
-    [showIndicators]="false"
-    [responsiveOptions]="responsiveOptions">
-    <ng-template let-item pTemplate="item">
-      <div class="item">
-        <img [src]="item.image" [alt]="item.alt" />
+<div class="carousel-content-container">
+  <!-- Seta esquerda -->
+  <button (click)="previous()" class="carousel-nav-btn nav-left">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#CCC82E" viewBox="0 0 24 24" width="40" height="40">
+      <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z" />
+    </svg>
+  </button>
+
+  <!-- Container principal -->
+  <div class="carousel-content-wrapper">
+    <div 
+      class="carousel-content-track"
+      [style.transform]="'translateX(' + translateX + 'px)'"
+    >
+      <div 
+        *ngFor="let item of contentItems; let i = index" 
+        class="carousel-content-slide"
+      >
+        <div class="content-card">
+          <div class="content-header">
+            <svg
+              class="play-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M8 5v14l11-7z" fill="#426b53" />
+            </svg>
+            <h1>{{ item.title }}</h1>
+          </div>
+          <img
+            [src]="item.image"
+            [alt]="item.title"
+            class="content-image"
+          />
+        </div>
       </div>
-    </ng-template>
-  </p-carousel>
+    </div>
+  </div>
+
+  <!-- Seta direita -->
+  <button (click)="next()" class="carousel-nav-btn nav-right">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="#CCC82E" viewBox="0 0 24 24" width="40" height="40">
+      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z" />
+    </svg>
+  </button>
 </div>

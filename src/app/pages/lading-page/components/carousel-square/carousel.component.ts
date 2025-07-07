@@ -1,157 +1,231 @@
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { CarouselModule } from 'primeng/carousel';
-import { landingPageService } from '../../services/lading-page.service';
 
 @Component({
   selector: 'app-carousel-square',
   standalone: true,
-  imports: [CommonModule, CarouselModule],
+  imports: [CommonModule],
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselSquareComponent implements OnInit {
-  private readonly landingPageService = inject(landingPageService);
+  currentIndex = 0;
+  translateX = 0;
+  slideWidth = 516; // 500px + 16px gap
+  containerWidth = 500;
+  isMobile = false;
+  visibleSlides = 1;
+  maxIndex = 0;
 
-  items = [
+  slides = [
     {
-      image: './Afiliadosinfoprodutores.jpg',
-      alt: 'Banner',
+      type: 'image',
+      imageUrl: './Afiliadosinfoprodutores.jpg',
       text: 'Afiliados infoprodutores',
     },
     {
-      image: './Afiliadosencapsulados.jpg',
-      alt: 'Banner',
+      type: 'image',
+      imageUrl: './Afiliadosencapsulados.jpg',
       text: 'Afiliados encapsulados',
     },
     { 
-      image: './BusinessCANVAS.png', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './BusinessCANVAS.png', 
       text: 'Business CANVAS' 
     },
     {
-      image: './cooperativismo.jpeg',
-      alt: 'Banner',
+      type: 'image',
+      imageUrl: './cooperativismo.jpeg',
       text: 'Cooperativismo de plataforma',
     },
     { 
-      image: './Copywriting.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './Copywriting.jpg', 
       text: 'Copywriting' 
     },
     { 
-      image: './Digitalinfluencer.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './Digitalinfluencer.jpg', 
       text: 'Digital influencer' 
     },
     { 
-      image: './tecmemp.jpeg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './tecmemp.jpeg', 
       text: 'Técnicas de empreendedorismo' 
     },
     { 
-      image: './FerramentasdeIA.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './FerramentasdeIA.jpg', 
       text: 'Ferramentas de IA' 
     },
     { 
-      image: './Marketing.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './Marketing.jpg', 
       text: 'Marketing' 
     },
     { 
-      image: './Personograma.png', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './Personograma.png', 
       text: 'Personograma' 
     },
     { 
-      image: './Socialmedia.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './Socialmedia.jpg', 
       text: 'Social media' 
     },
     { 
-      image: './tecnicas.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './tecnicas.jpg', 
       text: 'Técnicas de design' 
     },
     { 
-      image: './TráfegoPago.png', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './TráfegoPago.png', 
       text: 'Tráfego pago' 
     },
     { 
-      image: './ux.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './ux.jpg', 
       text: 'UI/UX' 
     },
     { 
-      image: './businessman-planning-strategy.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './businessman-planning-strategy.jpg', 
       text: 'Vendas dropshipping' 
     },
     { 
-      image: './vendas.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './vendas.jpg', 
       text: 'Vendas de e-commerce' 
     },
     { 
-      image: './facebook.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './facebook.jpg', 
       text: 'Vendas no Facebook' 
     },
     { 
-      image: './ifood.jpeg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './ifood.jpeg', 
       text: 'Vendas no iFood' 
     },
     { 
-      image: './instagram.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './instagram.jpg', 
       text: 'Vendas no Instagram' 
     },
     { 
-      image: './mercadolivre.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './mercadolivre.jpg', 
       text: 'Vendas no Mercado Livre' 
     },
     {
-      image: './tiktok.jpg',
-      alt: 'Banner',
+      type: 'image',
+      imageUrl: './tiktok.jpg',
       text: 'Vendas no TikTok',
     },
     { 
-      image: './whatsapp.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './whatsapp.jpg', 
       text: 'Vendas no WhatsApp' 
     },
     { 
-      image: './youtube.jpg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './youtube.jpg', 
       text: 'Vendas no YouTube' 
     },
     { 
-      image: './VendasPLR.jpeg', 
-      alt: 'Banner', 
+      type: 'image',
+      imageUrl: './VendasPLR.jpeg', 
       text: 'Vendas PLR' 
     },
   ];
 
-  isMobile = false;
-
   ngOnInit() {
-    this.checkMobile();
-    window.addEventListener('resize', () => this.checkMobile());
+    this.checkScreenSize();
+    this.updateSlideWidth();
+    this.calculateVisibleSlides();
+    this.calculateMaxIndex();
+    this.updateTransform();
   }
 
-  checkMobile() {
-    this.isMobile = window.innerWidth <= 770;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+    this.updateSlideWidth();
+    this.calculateVisibleSlides();
+    this.calculateMaxIndex();
+    this.adjustCurrentIndex();
+    this.updateTransform();
   }
 
-  responsiveOptions = [
-    {
-      breakpoint: '770px',
-      numVisible: 1,
-      numScroll: 1,
-    },
-  ];
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth <= 1000;
+  }
+
+  private updateSlideWidth() {
+    if (this.isMobile) {
+      // Mobile: 1 slide por vez ocupando toda a largura disponível
+      this.slideWidth = window.innerWidth - 120; // Largura total menos espaço das setas
+      this.containerWidth = this.slideWidth;
+    } else {
+      // Desktop: múltiplos slides com gap
+      this.slideWidth = 516; // 500px + 16px gap
+      this.containerWidth = window.innerWidth - 200; // Largura disponível menos espaço das setas
+    }
+  }
+
+  private calculateVisibleSlides() {
+    if (this.isMobile) {
+      this.visibleSlides = 1;
+    } else {
+      // Desktop: calcula quantos slides cabem na tela
+      const availableWidth = window.innerWidth - 200; // Menos espaço das setas
+      this.visibleSlides = Math.floor(availableWidth / this.slideWidth);
+      if (this.visibleSlides === 0) this.visibleSlides = 1;
+    }
+  }
+
+  private calculateMaxIndex() {
+    this.maxIndex = Math.max(0, this.slides.length - this.visibleSlides);
+  }
+
+  private adjustCurrentIndex() {
+    if (this.currentIndex > this.maxIndex) {
+      this.currentIndex = this.maxIndex;
+    }
+  }
+
+  previous() {
+    if (this.isMobile) {
+      // Mobile: navegação circular
+      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    } else {
+      // Desktop: navegação com limite
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      } else {
+        this.currentIndex = this.maxIndex;
+      }
+    }
+    this.updateTransform();
+  }
+
+  next() {
+    if (this.isMobile) {
+      // Mobile: navegação circular
+      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    } else {
+      // Desktop: navegação com limite
+      if (this.currentIndex < this.maxIndex) {
+        this.currentIndex++;
+      } else {
+        this.currentIndex = 0;
+      }
+    }
+    this.updateTransform();
+  }
+
+  private updateTransform() {
+    this.translateX = -this.currentIndex * this.slideWidth;
+  }
 }

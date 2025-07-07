@@ -1,75 +1,79 @@
+import { Component, OnInit, HostListener, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { CarouselModule } from 'primeng/carousel';
-import { landingPageService } from '../../services/lading-page.service';
+
+interface ContentItem {
+  title: string;
+  image: string;
+}
 
 @Component({
   selector: 'app-carousel-content',
   standalone: true,
-  imports: [CommonModule, CarouselModule],
+  imports: [CommonModule],
   templateUrl: './carousel.component.html',
-  styleUrls: ['./carousel.component.scss']
+  styleUrls: ['./carousel.component.scss'],
 })
 export class CarouselContentComponent implements OnInit {
-  private readonly landingPageService = inject(landingPageService);
-
-  items: { image: string; alt: string; text: string }[] = [
-    {
-      image: './red.png',
-      alt: 'Imagem exemplo 1',
-      text: 'Texto do slide 1'
-    },
-   
-  ];
-
-ngOnInit() {
+  @Input() contentItems: ContentItem[] = [];
   
-  // this.landingPageService.getdados().subscribe({
-  //   next: (dados) => {
-  //     // Se quiser pegar as imagens do redeJediSectionDto:
-  //     this.items = (dados.redeJediSectionDto.imagens || []).map((img: any) => ({
-  //       image: img.url,
-  //       alt: img.publicId || 'Imagem do item',
-  //       text: img.imgText || ''
-  //     }));
-  //   }
-  // });
+  currentIndex = 0;
+  translateX = 0;
+  slideWidth = 702; // Largura aumentada
+  containerWidth = 702; // Largura do wrapper
+  isMobile = false;
 
-}
+  ngOnInit() {
+    this.checkScreenSize();
+    this.updateSlideWidth();
+    this.updateTransform();
+  }
 
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
+    this.updateSlideWidth();
+    this.updateTransform();
+  }
 
+  private checkScreenSize() {
+    this.isMobile = window.innerWidth <= 768;
+  }
 
-  // ngOnInit(): void {
-  //   this.landingPageService.getdados().subscribe({
-  //     next: (response) => {
-
-  //       this.items = response.redeJediSectionDto.imagens.map((slide: any) => ({
-  //         image: slide.url,
-
-
-  //       }));
-  //     },
-  //     error: (error) => {
-  //       console.error('Error fetching carousel data:', error);
-  //     }
-  //   })
-  // }
-
-  responsiveOptions = [
-    {
-      breakpoint: '1024px',
-      numVisible: 1,
-      numScroll: 1
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 1,
-      numScroll: 1
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1,
-      numScroll: 1
+  private updateSlideWidth() {
+    if (window.innerWidth <= 768) {
+      this.slideWidth = Math.min(window.innerWidth * 0.8, 320);
+      this.containerWidth = this.slideWidth;
+    } else if (window.innerWidth <= 1024) {
+      this.slideWidth = Math.min(window.innerWidth * 0.9, 550);
+      this.containerWidth = this.slideWidth;
+    } else if (window.innerWidth <= 1200) {
+      this.slideWidth = 580;
+      this.containerWidth = 580;
+    } else if (window.innerWidth <= 1400) {
+      this.slideWidth = 620;
+      this.containerWidth = 620;
+    } else if (window.innerWidth <= 1600) {
+      this.slideWidth = 660;
+      this.containerWidth = 660;
+    } else {
+      this.slideWidth = 702; // Largura fixa para desktop
+      this.containerWidth = 702;
     }
-  ];
+  }
+
+  previous() {
+    this.currentIndex = (this.currentIndex - 1 + this.contentItems.length) % this.contentItems.length;
+    this.updateTransform();
+  }
+
+  next() {
+    this.currentIndex = (this.currentIndex + 1) % this.contentItems.length;
+    this.updateTransform();
+  }
+
+  private updateTransform() {
+    // Centralização perfeita - mostra apenas um card por vez
+    // O translateX move o track para que o card atual fique centralizado no wrapper
+    this.translateX = -this.currentIndex * this.slideWidth;
+  }
 }
