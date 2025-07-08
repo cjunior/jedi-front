@@ -20,17 +20,17 @@ export class CarouselSquareComponent implements OnInit {
   slides = [
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/7Afiliadodeinfoprodutos.jpg',
       text: 'Afiliados infoprodutores',
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/8AfiliadosEncapsulados.jpg',
       text: 'Afiliados encapsulados',
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/2CapaModelodenegóciosCanvas.jpg',
       text: 'Business CANVAS'
     },
     {
@@ -40,17 +40,17 @@ export class CarouselSquareComponent implements OnInit {
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/19.jpeg',
       text: 'Copywriting'
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/24.jpeg',
       text: 'Digital influencer'
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/1CapaEmpreendedorismo.jpg',
       text: 'Técnicas de empreendedorismo'
     },
     {
@@ -60,7 +60,7 @@ export class CarouselSquareComponent implements OnInit {
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/4CapaMarketing.jpg',
       text: 'Marketing'
     },
     {
@@ -70,72 +70,72 @@ export class CarouselSquareComponent implements OnInit {
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/22.jpeg',
       text: 'Social media'
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/23.jpeg',
       text: 'Técnicas de design'
     },
     {
       type: 'image',
-      imageUrl: './TráfegoPago.png',
+      imageUrl: './kits/13TráfegoPago.jpg',
       text: 'Tráfego pago'
     },
     {
       type: 'image',
-      imageUrl: './ux.jpg',
+      imageUrl: './kits/18.jpeg',
       text: 'UI/UX'
     },
     {
       type: 'image',
-      imageUrl: './businessman-planning-strategy.jpg',
+      imageUrl: './kits/5CapaVendasdropshipping.jpg',
       text: 'Vendas dropshipping'
     },
     {
       type: 'image',
-      imageUrl: './vendas.jpg',
+      imageUrl: './kits/9VendasE-commerceemercadodigital.jpg',
       text: 'Vendas de e-commerce'
     },
     {
       type: 'image',
-      imageUrl: './facebook.jpg',
+      imageUrl: './kits/11VendasFacebook.jpg',
       text: 'Vendas no Facebook'
     },
     {
       type: 'image',
-      imageUrl: './ifood.jpeg',
+      imageUrl: './kits/16VendasIfod.jpg',
       text: 'Vendas no iFood'
     },
     {
       type: 'image',
-      imageUrl: './instagram.jpg',
+      imageUrl: './kits/10VendasInstagram.jpg',
       text: 'Vendas no Instagram'
     },
     {
       type: 'image',
-      imageUrl: './mercadolivre.jpg',
+      imageUrl: './kits/17VendasMercadoLivre.jpg',
       text: 'Vendas no Mercado Livre'
     },
     {
       type: 'image',
-      imageUrl: './tiktok.jpg',
+      imageUrl: './kits/14VendasTikTok.jpg',
       text: 'Vendas no TikTok',
     },
     {
       type: 'image',
-      imageUrl: './whatsapp.jpg',
+      imageUrl: './kits/12VendasWhatsApp.jpg',
       text: 'Vendas no WhatsApp'
     },
     {
       type: 'image',
-      imageUrl: './youtube.jpg',
+      imageUrl: './kits/15VendasYoutube.jpg',
       text: 'Vendas no YouTube'
     },
     {
       type: 'image',
-      imageUrl: './VendasPLR.jpeg',
+      imageUrl: './kits/6CapaVendasPLR.jpg',
       text: 'Vendas PLR'
     },
   ];
