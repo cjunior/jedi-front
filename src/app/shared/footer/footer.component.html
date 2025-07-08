@@ -2,11 +2,43 @@
   [ngClass]="{'mt-0! bg-gradient-to-b from-orange-50 to-lime-50': isBlog, 'bg-[#fdfcfc] border-[#3B674C]': !isBlog}"
 >
   <div class="max-w-7xl mx-auto px-6 md:px-10">
-    <div class="mb-6">
-      <h3 class="text-[#3B674C] font-bold text-sm tracking-wide uppercase mb-4">Realização</h3>
-      <div class="flex flex-wrap justify-center md:justify-start items-center gap-8">
-        <img src="ifce-logo.png" alt="Instituto Federal do Ceará" class="h-18 object-contain">
-        <img src="mcti-logo.svg" alt="Ministério da Ciência, Tecnologia e Inovação" class="h-18 object-contain">
+    <div class="flex flex-col gap-4 md:gap-0 md:flex-row justify-between mb-6">
+      <div>
+        <h3 class="text-[#3B674C] font-bold text-sm tracking-wide uppercase mb-4">Realização</h3>
+        <div class="flex flex-wrap justify-center md:justify-start items-center gap-8">
+          <img src="ifce-logo.png" alt="Instituto Federal do Ceará" class="h-18 object-contain">
+          <img src="mcti-logo.svg" alt="Ministério da Ciência, Tecnologia e Inovação" class="h-18 object-contain">
+        </div>
+      </div>
+      <div class="flex flex-col md:items-end">
+        <h3 class="text-[#3B674C] font-bold text-sm tracking-wide uppercase mb-4">Fale conosco</h3>
+        <div class="flex flex-col gap-2 justify-center">
+          <a
+          class="flex items-center gap-2"
+          href="mailto:empreendedoresdigitais@ifce.edu.br"
+          >
+          <i
+            class="pi pi-envelope"
+            style="font-size: 1.3rem; color: #ea4335"
+          ></i>
+          <span>empreendedoresdigitais&#64;ifce.edu.br
+          </span>
+          </a>
+          <a
+            class="flex items-center gap-2"
+            href="https://www.instagram.com/jovensempreendedores.digitais/"
+            target="_blank"
+            rel="noopener"
+          >
+            <i
+              class="pi pi-instagram"
+              style="font-size: 1.3rem; color: #833ab4"
+            ></i>
+            <span
+              >&#64;jovensempreendedores.digitais</span
+            >
+          </a>
+        </div>
       </div>
     </div>
 
