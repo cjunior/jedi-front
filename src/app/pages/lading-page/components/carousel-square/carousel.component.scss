@@ -6,9 +6,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible;
+  overflow: hidden; // Mudança: hidden para evitar espaços em branco
   margin: 0 auto;
-  padding: 0 64px; // Espaço para as setas
+  padding: 0 64px;
   margin-top: 50px;
   margin-bottom: 50px;
 
@@ -53,14 +53,12 @@
 }
 
 .carousel-content-wrapper {
-
-
+  width: 100%; // Adicionado
   height: 306px;
   overflow: hidden;
 
-  // Mobile: ajusta tamanho
   @media (max-width: 1000px) {
-    width: calc(100vw - 120px); // Largura total menos espaço das setas
+    width: calc(100vw - 120px);
     max-width: none;
     height: 250px;
   }
@@ -70,7 +68,7 @@
   display: flex;
   transition: transform 0.5s ease-in-out;
   height: 100%;
-  gap: 16px; // Gap entre slides (apenas desktop)
+  gap: 8px; // Reduzido: gap menor entre slides
   align-items: center;
 
   // Mobile: remove gap
@@ -81,15 +79,14 @@
 
 .carousel-content-slide {
   flex-shrink: 0;
-
+  width: 252px; // Ajustado: 244px (largura do card) + 8px (gap)
   height: 306px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  // Mobile: ocupa toda a largura disponível
   @media (max-width: 1000px) {
-    width: calc(100vw - 120px); // Largura total menos espaço das setas
+    width: calc(100vw - 120px);
     max-width: none;
     height: 250px;
   }
@@ -103,10 +100,16 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   background: white;
+
+  @media (max-width: 1000px) {
+    width: calc(100vw - 140px);
+    max-width: 300px;
+    height: 250px;
+  }
 }
 
 .content-header {
-
+  width: 100%; // Adicionado
   height: 50px;
   background-color: #efc209;
   display: flex;
@@ -114,6 +117,7 @@
   justify-content: center;
   gap: 12px;
   z-index: 5;
+  position: relative; // Adicionado
 
   .play-icon {
     width: 28px;
@@ -127,6 +131,7 @@
     font-weight: bold;
     text-align: center;
     margin: 0;
+    line-height: 1.2; // Adicionado
   }
 
   // Mobile: ajusta tamanhos
@@ -140,15 +145,20 @@
     }
 
     h1 {
-      font-size: 1rem;
+      font-size: 0.9rem; // Ligeiramente menor no mobile
     }
   }
 }
 
 .content-image {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 50px); // Ajustado: altura menos o header
   object-fit: cover;
+  display: block; // Adicionado
+
+  @media (max-width: 1000px) {
+    height: calc(100% - 45px); // Ajusta para altura do header mobile
+  }
 }
 
 .carousel-nav-btn {
@@ -167,17 +177,22 @@
   justify-content: center;
   padding: 0;
   margin: 0;
+  transition: background-color 0.2s ease; // Adicionado
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
   }
 
+
+
   &.nav-left {
     left: 2px;
+    justify-content: flex-start; // Adicionado
   }
 
   &.nav-right {
     right: 2px;
+    justify-content: flex-end; // Adicionado
   }
 
   svg {

@@ -168,8 +168,8 @@ export class CarouselSquareComponent implements OnInit {
       this.slideWidth = window.innerWidth - 120; // Largura total menos espaço das setas
       this.containerWidth = this.slideWidth;
     } else {
-      // Desktop: múltiplos slides com gap
-      this.slideWidth = 516; // 500px + 16px gap
+      // Desktop: largura do slide + gap menor
+      this.slideWidth = 252; // 244px (card) + 8px (gap)
       this.containerWidth = window.innerWidth - 200; // Largura disponível menos espaço das setas
     }
   }
@@ -186,6 +186,7 @@ export class CarouselSquareComponent implements OnInit {
   }
 
   private calculateMaxIndex() {
+    // Calcula o índice máximo baseado nos slides visíveis
     this.maxIndex = Math.max(0, this.slides.length - this.visibleSlides);
   }
 
@@ -193,39 +194,58 @@ export class CarouselSquareComponent implements OnInit {
     if (this.currentIndex > this.maxIndex) {
       this.currentIndex = this.maxIndex;
     }
+    if (this.currentIndex < 0) {
+      this.currentIndex = 0;
+    }
   }
 
   previous() {
-    if (this.isMobile) {
-      // Mobile: navegação circular
-      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    if (this.currentIndex > 0) {
+      // Ainda há slides anteriores
+      this.currentIndex--;
     } else {
-      // Desktop: navegação com limite
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-      } else {
-        this.currentIndex = this.maxIndex;
-      }
+      // Chegou no primeiro, volta para o último
+      this.currentIndex = this.maxIndex;
     }
     this.updateTransform();
   }
 
   next() {
-    if (this.isMobile) {
-      // Mobile: navegação circular
-      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
+    // Verifica se chegou no último conjunto de slides visíveis
+    if (this.isAtLastPosition()) {
+      // Chegou no último, volta para o primeiro
+      this.currentIndex = 0;
     } else {
-      // Desktop: navegação com limite
-      if (this.currentIndex < this.maxIndex) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0;
-      }
+      // Ainda há slides para frente
+      this.currentIndex++;
     }
     this.updateTransform();
   }
 
+  private isAtLastPosition(): boolean {
+    if (this.isMobile) {
+      // Mobile: verifica se é o último slide individual
+      return this.currentIndex >= this.slides.length - 1;
+    } else {
+      // Desktop: verifica se chegou no último conjunto de slides visíveis
+      return this.currentIndex >= this.maxIndex;
+    }
+  }
+
   private updateTransform() {
+    // Garante que o currentIndex está dentro dos limites válidos
+    this.currentIndex = Math.max(0, Math.min(this.currentIndex, this.maxIndex));
+    
+    // Calcula o translateX
     this.translateX = -this.currentIndex * this.slideWidth;
+    
+    // Debug logs
+    console.log('Current Index:', this.currentIndex);
+    console.log('Max Index:', this.maxIndex);
+    console.log('Is at last position:', this.isAtLastPosition());
+    console.log('Visible Slides:', this.visibleSlides);
+    console.log('Total Slides:', this.slides.length);
+    console.log('Translate X:', this.translateX);
+    console.log('---');
   }
 }
