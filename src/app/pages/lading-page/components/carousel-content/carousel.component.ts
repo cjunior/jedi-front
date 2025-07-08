@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 interface ContentItem {
   title: string;
-    image: string;
+  image: string;
 }
 
 @Component({
@@ -18,11 +18,36 @@ export class CarouselContentComponent implements OnInit {
 
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 600; // Aumentado para maior
-  containerWidth = 600; // Largura do wrapper
+  slideWidth = 600;
+  containerWidth = 600;
   isMobile = false;
 
+  // Array de conteúdo padrão
+  defaultContentItems: ContentItem[] = [
+    {
+      title: 'Sua Ideia de Negócio',
+      image: './step/Passo1.svg',
+    },
+    {
+      title: 'Seu produto na internet',
+      image: './step/Passo2.svg',
+    },
+    {
+      title: 'Venda mais na internet',
+      image: './step/Passo3.svg',
+    },
+    {
+      title: 'Ferramentas de apoio ao seu negócio',
+      image: './step/Passo4.svg',
+    },
+  ];
+
   ngOnInit() {
+    // Se não recebeu contentItems via @Input, usa o array padrão
+    if (this.contentItems.length === 0) {
+      this.contentItems = this.defaultContentItems;
+    }
+    
     this.checkScreenSize();
     this.updateSlideWidth();
     this.updateTransform();
@@ -36,24 +61,30 @@ export class CarouselContentComponent implements OnInit {
   }
 
   private checkScreenSize() {
-    this.isMobile = window.innerWidth <= 768;
+    this.isMobile = window.innerWidth <= 1000;
   }
 
   private updateSlideWidth() {
-    if (window.innerWidth <= 768) {
-      this.slideWidth = Math.min(window.innerWidth * 0.8, 320);
-      this.containerWidth = this.slideWidth;
-    } else if (window.innerWidth <= 1024) {
-      this.slideWidth = 450;
-      this.containerWidth = 450;
+    if (window.innerWidth <= 480) {
+      this.containerWidth = window.innerWidth - 80;
+      this.slideWidth = this.containerWidth;
+    } else if (window.innerWidth <= 768) {
+      this.containerWidth = window.innerWidth - 100;
+      this.slideWidth = this.containerWidth;
+    } else if (window.innerWidth <= 1000) {
+      this.containerWidth = window.innerWidth - 120;
+      this.slideWidth = this.containerWidth;
     } else if (window.innerWidth <= 1200) {
-      this.slideWidth = 500;
-      this.containerWidth = 500;
+      this.slideWidth = 320;
+      this.containerWidth = 320;
     } else if (window.innerWidth <= 1400) {
-      this.slideWidth = 550;
-      this.containerWidth = 550;
+      this.slideWidth = 350;
+      this.containerWidth = 350;
+    } else if (window.innerWidth <= 1600) {
+      this.slideWidth = 380;
+      this.containerWidth = 380;
     } else {
-      this.slideWidth = 600; // Aumentado significativamente
+      this.slideWidth = 600;
       this.containerWidth = 600;
     }
   }
@@ -69,8 +100,7 @@ export class CarouselContentComponent implements OnInit {
   }
 
   private updateTransform() {
-    // Centralização perfeita - mostra apenas um card por vez
-    // O translateX move o track para que o card atual fique centralizado no wrapper
+    // IMPORTANTE: Usar exatamente a mesma largura do CSS
     this.translateX = -this.currentIndex * this.slideWidth;
   }
 }

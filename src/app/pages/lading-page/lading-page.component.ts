@@ -370,19 +370,19 @@ export class LadingPageComponent {
   contentItems = [
     {
       title: 'Sua Ideia de Negócio',
-      image: './Suaideiadenegócio.jpg',
+      image: './step/Passo1.svg',
     },
     {
       title: 'Seu produto na internet',
-      image: './Seuprodutonainternet.jpg',
+      image: './step/Passo1.svg',
     },
     {
       title: 'Venda mais na internet',
-      image: './Vendamaisnainternet.jpg',
+      image: './step/Passo3.svg',
     },
     {
       title: 'Ferramentas de apoio ao seu negócio',
-      image: './apoio.jpg',
+      image: './step/Passo4.svg',
     },
   ];
 
