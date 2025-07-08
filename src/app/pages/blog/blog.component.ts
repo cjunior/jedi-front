@@ -20,7 +20,7 @@ import {
   Subject
 } from 'rxjs';
 
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { IconField } from 'primeng/iconfield';
@@ -84,7 +84,6 @@ export class BlogComponent {
 
     window.addEventListener('scroll', this.onScroll, true);
 
-    // debounce automático
     this.searchSubject
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((term) => {
@@ -144,13 +143,13 @@ export class BlogComponent {
 
   openPost(postId: number): void {
     this.selectedPost.set(postId);
-    this.router.navigate(['/blog', postId]);
+    this.router.navigate(['/noticias', postId]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   clearPost(): void {
     this.selectedPost.set(null);
-    this.router.navigate(['/blog']);
+    this.router.navigate(['/noticias']);
   }
 
   redirectToInitialPage(): void {

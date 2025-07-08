@@ -69,7 +69,7 @@
       <div class="w-full h-[1px] bg-zinc-300"></div>
       <div>
         <div class="flex flex-col items-center py-12">
-          <h1 class="text-emerald-900 text-center text-4xl">Blog dos Jovens Empreendedores Digitais</h1>
+          <h1 class="text-emerald-900 text-center text-4xl">Notícias dos Jovens Empreendedores Digitais</h1>
           <p class="text-zinc-600 text-md mt-2 text-center">
             Aqui você encontra as últimas postagens sobre empreendedorismo digital, dicas de negócios e muito mais!
           </p>
@@ -92,7 +92,7 @@
           @for (card of posts(); track $index) {
             <div class="flex flex-col rounded-2xl h-100" [style]="{ 'background-color': bgColors()[$index] }">
               <div class="w-full h-60 flex items-center justify-center">
-                <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg">
+                <img [src]="card.imageUrl" alt="" class="h-full w-full object-cover rounded-t-lg" loading="lazy">
               </div>
               <div class="h-40 flex flex-col items-center">
                 <h2 class="text-xl text-white text-center font-semibold pt-2 px-1">{{ card.title | truncate:47 }}</h2>

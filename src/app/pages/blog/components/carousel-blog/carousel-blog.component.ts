@@ -40,7 +40,7 @@ export class CarouselBlogComponent implements OnInit, OnDestroy {
   }
 
   viewPost(postId: string) {
-    this.router.navigate(['/blog', postId]);
+    this.router.navigate(['/noticias', postId]);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

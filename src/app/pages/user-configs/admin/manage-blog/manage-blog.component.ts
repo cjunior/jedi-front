@@ -124,7 +124,7 @@ export class ManageBlogComponent implements OnInit {
   }
 
   viewPost(postId: number): void {
-    window.open(`/blog/${postId}`, '_blank');
+    window.open(`/noticias/${postId}`, '_blank');
   }
 
   reloadPosts(event: boolean): void {

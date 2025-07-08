@@ -10,7 +10,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/lading-page/lading-page.component').then(m => m.LadingPageComponent)
     },
     {
-      path: 'blog',
+      path: 'noticias',
       children: [
         {
           path: '',

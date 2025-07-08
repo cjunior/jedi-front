@@ -399,11 +399,11 @@ export class LadingPageComponent {
   }
 
   openPost(postId: number) {
-    window.open(`/blog/${postId}`, '_blank');
+    window.open(`/noticias/${postId}`, '_blank');
   }
 
   redirectToBlog() {
-    this.router.navigate(['/blog']);
+    this.router.navigate(['/noticias']);
   }
 
   isAuthenticated(): boolean {
