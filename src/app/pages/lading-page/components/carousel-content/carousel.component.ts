@@ -25,19 +25,19 @@ export class CarouselContentComponent implements OnInit {
   // Array de conteúdo padrão
   defaultContentItems: ContentItem[] = [
     {
-      title: 'Sua Ideia de Negócio',
+      title: 'Passo 1 : Sua Ideia de Negócio',
       image: './step/Passo1.svg',
     },
     {
-      title: 'Seu produto na internet',
+      title: 'Passo 2 : Seu produto na internet',
       image: './step/Passo2.svg',
     },
     {
-      title: 'Venda mais na internet',
+      title: 'Passo 3 : Venda mais na internet',
       image: './step/Passo3.svg',
     },
     {
-      title: 'Ferramentas de apoio ao seu negócio',
+      title: 'Passo 4 : Ferramentas de apoio ao seu negócio',
       image: './step/Passo4.svg',
     },
   ];

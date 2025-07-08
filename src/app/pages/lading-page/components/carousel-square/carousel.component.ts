@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 export class CarouselSquareComponent implements OnInit {
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 516; // 500px + 16px gap
+  slideWidth = 252;
   containerWidth = 500;
   isMobile = false;
   visibleSlides = 1;
@@ -165,10 +165,10 @@ export class CarouselSquareComponent implements OnInit {
   private updateSlideWidth() {
     if (this.isMobile) {
       // Mobile: 1 slide por vez ocupando toda a largura disponível
-      this.slideWidth = window.innerWidth - 120; // Largura total menos espaço das setas
-      this.containerWidth = this.slideWidth;
+      this.containerWidth = window.innerWidth - 120; // Wrapper total
+      this.slideWidth = this.containerWidth; // Slide = wrapper para sincronização
     } else {
-      // Desktop: largura do slide + gap menor
+      // Desktop: largura do slide + gap
       this.slideWidth = 252; // 244px (card) + 8px (gap)
       this.containerWidth = window.innerWidth - 200; // Largura disponível menos espaço das setas
     }
@@ -179,7 +179,7 @@ export class CarouselSquareComponent implements OnInit {
       this.visibleSlides = 1;
     } else {
       // Desktop: calcula quantos slides cabem na tela
-      const availableWidth = window.innerWidth - 200; // Menos espaço das setas
+      const availableWidth = window.innerWidth - 200;
       this.visibleSlides = Math.floor(availableWidth / this.slideWidth);
       if (this.visibleSlides === 0) this.visibleSlides = 1;
     }
@@ -201,22 +201,17 @@ export class CarouselSquareComponent implements OnInit {
 
   previous() {
     if (this.currentIndex > 0) {
-      // Ainda há slides anteriores
       this.currentIndex--;
     } else {
-      // Chegou no primeiro, volta para o último
       this.currentIndex = this.maxIndex;
     }
     this.updateTransform();
   }
 
   next() {
-    // Verifica se chegou no último conjunto de slides visíveis
     if (this.isAtLastPosition()) {
-      // Chegou no último, volta para o primeiro
       this.currentIndex = 0;
     } else {
-      // Ainda há slides para frente
       this.currentIndex++;
     }
     this.updateTransform();
@@ -224,10 +219,8 @@ export class CarouselSquareComponent implements OnInit {
 
   private isAtLastPosition(): boolean {
     if (this.isMobile) {
-      // Mobile: verifica se é o último slide individual
       return this.currentIndex >= this.slides.length - 1;
     } else {
-      // Desktop: verifica se chegou no último conjunto de slides visíveis
       return this.currentIndex >= this.maxIndex;
     }
   }
@@ -236,16 +229,7 @@ export class CarouselSquareComponent implements OnInit {
     // Garante que o currentIndex está dentro dos limites válidos
     this.currentIndex = Math.max(0, Math.min(this.currentIndex, this.maxIndex));
     
-    // Calcula o translateX
+    // Calcula o translateX - simples e direto
     this.translateX = -this.currentIndex * this.slideWidth;
-    
-    // Debug logs
-    console.log('Current Index:', this.currentIndex);
-    console.log('Max Index:', this.maxIndex);
-    console.log('Is at last position:', this.isAtLastPosition());
-    console.log('Visible Slides:', this.visibleSlides);
-    console.log('Total Slides:', this.slides.length);
-    console.log('Translate X:', this.translateX);
-    console.log('---');
   }
 }
