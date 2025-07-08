@@ -9,9 +9,10 @@
   <!-- Container principal -->
   <div class="carousel-content-wrapper">
     <div 
-      class="carousel-content-track"
-      [style.transform]="'translateX(' + translateX + 'px)'"
-    >
+    class="carousel-content-track"
+    [style.transform]="'translateX(' + translateX + 'px)'"
+    [style.transition]="transitionEnabled ? 'transform 0.5s ease-in-out' : 'none'"
+  >
       <div 
         *ngFor="let slide of slides; let i = index" 
         class="carousel-content-slide"
