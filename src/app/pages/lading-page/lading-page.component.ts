@@ -80,6 +80,7 @@ export class LadingPageComponent {
   isLoading = signal(false);
   isInitialLoading = true;
   confirmVisible = false;
+  successVisible = false;
   teamResponseDto = {
     equipttext: 'Equipe',
   };
@@ -439,14 +440,16 @@ export class LadingPageComponent {
         next: (response) => {
           this.isLoading.set(false);
 
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Sucesso!',
-            detail: response.message,
-          });
+          // this.messageService.add({
+          //   severity: 'success',
+          //   summary: 'Sucesso!',
+          //   detail: response.message,
+          // });
 
           this.showErrors.set(false);
           this.visible = false;
+          this.confirmVisible = false
+          this.successVisible = true;
           this.form.reset();
         },
         error: (error) => {

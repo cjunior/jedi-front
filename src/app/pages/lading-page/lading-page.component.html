@@ -309,7 +309,7 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
         />
         <label for="confirmUseMyDada">
           Declaro, para todos os devidos fins, que autorizo o tratamento dos meus dados pessoais fornecidos no presente formulário, com a finalidade de viabilizar minha participação no proceso de seleção e, se aprovado(a), na matrícula do curso Empreendedores Digitais. <br><br>
-          Estou ciente de que os dados serão utilizados para fins administrativos, educacionais e de comunicação relacionados ao referido curso, respeitando as disposições da Lei Geral de Proteção de Dados Pessoais (Lei n° 13.709/2018)
+          Estou ciente de que os dados serão utilizados para fins administrativos, educacionais e de comunicação relacionados ao referido curso, respeitando as disposições da Lei Geral de Proteção de Dados Pessoais (Lei n° 13.709/2018).
         </label>
         </div>
         @if(showErrors() && form.get('confirmUseMyData')?.hasError('required')) {
@@ -380,6 +380,42 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
           [loading]="isLoading()"
         >
           Confirmar Envio
+        </button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  styleClass="!bg-orange-50"
+  [modal]="true"
+  [(visible)]="successVisible"
+  [style]="{ width: '25rem' }"
+  [showHeader]="false"
+  [contentStyle]="{ padding: '0' }"
+  [closable]="false"
+>
+  <div class="bg-emerald-800 p-2 overflow-hidden rounded-t-xl">
+    <img src="/onda2.svg" alt="" class="!w-full !h-15" />
+  </div>
+  <div class="px-4 py-6">
+    <div class="flex flex-col justify-center items-center gap-4 text-center">
+      <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
+        <i class="pi pi-check-circle text-emerald-700 text-2xl"></i>
+      </div>
+      <h2 class="text-xl font-bold text-green-700 uppercase">Estamos quase lá!</h2>
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <p class="text-gray-700 leading-relaxed">
+          <strong>Seu pré-cadastro foi enviado com sucesso!</strong> Em breve, você receberá um e-mail para completar seu cadastro.
+        </p>
+      </div>
+      <div class="flex justify-center gap-3 mt-4">
+        <button
+          pButton
+          class="!bg-emerald-800 hover:bg-emerald-900! border-emerald-700 !py-3 !px-6 !rounded-xl"
+          (click)="successVisible = false"
+        >
+          Ok
         </button>
       </div>
     </div>
