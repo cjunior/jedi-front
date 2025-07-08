@@ -116,7 +116,10 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
 
     // Envia o banner só se selecionado
     if (this.selectedBannerFile) {
-      formData.append('file', this.selectedBannerFile);
+      const originalFile = this.selectedBannerFile;
+      const sanitizedFileName = originalFile.name.replace(/\s+/g, '_');
+      const fileWithoutSpaces = new File([originalFile], sanitizedFileName, { type: originalFile.type });
+      formData.append('file', fileWithoutSpaces);
     }
 
     // Adiciona author pelo token

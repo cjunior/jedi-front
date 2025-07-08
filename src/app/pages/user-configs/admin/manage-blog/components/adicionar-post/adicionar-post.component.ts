@@ -87,23 +87,23 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     this.fileTouched = true;
-  
+
     if (this.postForm.invalid || !this.selectedBannerFile) {
       this.postForm.markAllAsTouched();
       return;
     }
-  
+
     this.isLoading = true;
-  
+
     const formData = new FormData();
     const values = this.postForm.value;
-  
+
     formData.append('title', values.title);
     formData.append('imageDescription', values.imageDescription);
     formData.append('description', values.description);
     formData.append('readingTime', values.readingTime);
     formData.append('author', this.tokenPayload.name || '');
-  
+
     const now = new Date();
     const dateString = now.toLocaleDateString('pt-BR', {
       day: 'numeric',
@@ -111,8 +111,12 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
       year: 'numeric'
     });
     formData.append('date', dateString);
-    formData.append('file', this.selectedBannerFile);
-  
+    const originalFile = this.selectedBannerFile!;
+    const sanitizedFileName = originalFile.name.replace(/\s+/g, '_');
+    const fileWithoutSpaces = new File([originalFile], sanitizedFileName, { type: originalFile.type });
+    formData.append('file', fileWithoutSpaces);
+
+
     const enviarPost = () => {
       this.blogService.createPost(formData).subscribe({
         next: () => {
@@ -136,7 +140,7 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
         }
       });
     };
-  
+
     // Se houver imagem no token, faz fetch e adiciona como File
     if (this.tokenPayload.photo) {
       fetch(this.tokenPayload.photo)
@@ -158,7 +162,7 @@ export class AdicionarPostComponent implements OnInit, OnDestroy {
       enviarPost();
     }
   }
-  
+
 
   onCloseModal(): void {
     this.closed.emit();
