@@ -1,13 +1,13 @@
 .carousel-content-container {
   position: relative;
-  width: 760px; // Aumentado: 600px (card) + 160px (padding das setas)
-  height: 396px; // Altura proporcional maior
+  width: 760px;
+  height: 396px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: visible; // Permite que as setas sejam visíveis
+  overflow: visible;
   margin: 0 auto;
-  padding: 0 80px; // Espaço para as setas (80px cada lado)
+  padding: 0 80px;
 
   // Breakpoint para telas grandes (1400px - 1600px)
   @media (max-width: 1600px) {
@@ -30,26 +30,31 @@
     padding: 0 60px;
   }
 
-  @media (max-width: 1024px) {
-    width: 90vw;
-    max-width: 650px;
-    height: 350px;
-    padding: 0 50px;
-    margin-top: 50px;
+  // MUDANÇA: Abaixo de 1000px ocupa toda a largura
+  @media (max-width: 1000px) {
+    width: 100vw;
+    height: 300px;
+    padding: 0 60px;
+    margin: 0 auto;
+    position: relative;
   }
 
   @media (max-width: 768px) {
-    width: 100%;
-    height: 300px;
+    padding: 0 50px;
+    height: 250px;
+  }
+
+  @media (max-width: 480px) {
     padding: 0 40px;
+    height: 220px;
   }
 }
 
 .carousel-content-wrapper {
   position: relative;
-  width: 600px; // Largura aumentada
-  height: 396px; // Altura aumentada
-  overflow: hidden; // Esconde os cards adjacentes
+  width: 600px;
+  height: 396px;
+  overflow: hidden;
 
   // Breakpoint para telas grandes (1400px - 1600px)
   @media (max-width: 1600px) {
@@ -69,16 +74,21 @@
     height: 220px;
   }
 
-  @media (max-width: 1024px) {
-    width: 90vw;
-    max-width: 550px;
-    height: 350px;
+  // MUDANÇA: Abaixo de 1000px usa toda largura disponível
+  @media (max-width: 1000px) {
+    width: calc(100vw - 120px);
+    height: 300px;
+    max-width: none;
   }
 
   @media (max-width: 768px) {
-    width: 80vw;
-    max-width: 320px;
+    width: calc(100vw - 100px);
     height: 250px;
+  }
+
+  @media (max-width: 480px) {
+    width: calc(100vw - 80px);
+    height: 220px;
   }
 }
 
@@ -88,43 +98,40 @@
   height: 100%;
   gap: 0;
   align-items: center;
-  // Remove justify-content para não interferir no posicionamento
 }
 
 .carousel-content-slide {
   flex-shrink: 0;
-  width: 600px; // Aumentado significativamente
-  height: 396px; // Aumentado proporcionalmente
+  width: var(--slide-width, 600px); // Usa a largura dinâmica do JavaScript
+  height: 396px;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  // Breakpoint para telas grandes (1400px - 1600px)
+  // Apenas altura responsiva, largura vem do JS
   @media (max-width: 1600px) {
-    width: 380px;
     height: 250px;
   }
 
-  // Breakpoint para telas médias-grandes (1200px - 1400px)
   @media (max-width: 1400px) {
-    width: 350px;
     height: 240px;
   }
 
-  // Breakpoint para telas médias (1024px - 1200px)
   @media (max-width: 1200px) {
-    width: 320px;
     height: 220px;
   }
 
-  @media (max-width: 1024px) {
-    width: 320px;
-    height: 210px;
+  @media (max-width: 1000px) {
+    height: 300px;
+    justify-content: center;
   }
 
   @media (max-width: 768px) {
-    width: 280px;
-    height: 180px;
+    height: 250px;
+  }
+
+  @media (max-width: 480px) {
+    height: 220px;
   }
 }
 
@@ -136,6 +143,23 @@
   overflow: hidden;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   background: white;
+  
+  // MUDANÇA: Mobile - limita largura máxima e centraliza
+  @media (max-width: 1000px) {
+    max-width: 500px; // Largura máxima do card
+    width: 90%; // Usa 90% do slide para dar um pouco de espaço
+    margin: 0 auto; // Centraliza horizontalmente
+  }
+
+  @media (max-width: 768px) {
+    max-width: 400px;
+    width: 95%;
+  }
+
+  @media (max-width: 480px) {
+    max-width: 300px;
+    width: 95%;
+  }
 }
 
 .content-header {
@@ -143,29 +167,29 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 45px; // Altura reduzida para o card menor
+  height: 45px;
   background-color: #efc209;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; // Gap reduzido
+  gap: 8px;
   z-index: 5;
 
   .play-icon {
-    width: 18px; // Reduzido proporcionalmente
-    height: 18px;
+    width: 26px;
+    height: 26px;
     flex-shrink: 0;
   }
 
   h1 {
     color: #426b53;
-    font-size: 0.9rem; // Fonte menor para o card menor
+    font-size: 1.2rem;
     font-weight: bold;
     text-align: center;
     margin: 0;
   }
 
-  // Breakpoint para telas grandes (1400px - 1600px)
+  // Resto dos breakpoints permanecem iguais...
   @media (max-width: 1600px) {
     height: 65px;
     gap: 14px;
@@ -180,7 +204,6 @@
     }
   }
 
-  // Breakpoint para telas médias-grandes (1200px - 1400px)
   @media (max-width: 1400px) {
     height: 60px;
     gap: 13px;
@@ -195,7 +218,6 @@
     }
   }
 
-  // Breakpoint para telas médias (1024px - 1200px)
   @media (max-width: 1200px) {
     height: 55px;
     gap: 12px;
@@ -210,13 +232,27 @@
     }
   }
 
-  @media (max-width: 1024px) {
-    height: 50px;
-    gap: 10px;
+  @media (max-width: 1000px) {
+    height: 60px;
+    gap: 14px;
 
     .play-icon {
-      width: 22px;
-      height: 22px;
+      width: 26px;
+      height: 26px;
+    }
+
+    h1 {
+      font-size: 1.2rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 55px;
+    gap: 12px;
+
+    .play-icon {
+      width: 24px;
+      height: 24px;
     }
 
     h1 {
@@ -224,9 +260,9 @@
     }
   }
 
-  @media (max-width: 768px) {
-    height: 45px;
-    gap: 8px;
+  @media (max-width: 480px) {
+    height: 50px;
+    gap: 10px;
 
     .play-icon {
       width: 20px;
@@ -249,12 +285,12 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none !important; // Remove qualquer background
-  border: none !important; // Remove qualquer borda
-  outline: none !important; // Remove outline do focus
+  background: none !important;
+  border: none !important;
+  outline: none !important;
   cursor: pointer;
   z-index: 20;
-  width: 60px; // Setas menores
+  width: 60px;
   height: 60px;
   display: flex;
   align-items: center;
@@ -262,7 +298,6 @@
   padding: 0;
   margin: 0;
 
-  // Remove qualquer efeito de hover, focus ou active
   &:hover,
   &:focus,
   &:active {
@@ -272,77 +307,16 @@
   }
 
   &.nav-left {
-    left: 10px; // Dentro do container com padding
+    left: 10px;
   }
 
   &.nav-right {
-    right: 10px; // Dentro do container com padding
+    right: 10px;
   }
 
   svg {
-    width: 40px; // Ícones menores
+    width: 40px;
     height: 40px;
-    pointer-events: none; // Evita eventos no SVG
-  }
-
-  // Breakpoint para telas grandes (1400px - 1600px)
-  @media (max-width: 1600px) {
-    width: 90px;
-    height: 90px;
-
-    svg {
-      width: 70px;
-      height: 70px;
-    }
-  }
-
-  // Breakpoint para telas médias-grandes (1200px - 1400px)
-  @media (max-width: 1400px) {
-    width: 85px;
-    height: 85px;
-
-    svg {
-      width: 65px;
-      height: 65px;
-    }
-  }
-
-  // Breakpoint para telas médias (1024px - 1200px)
-  @media (max-width: 1200px) {
-    width: 80px;
-    height: 80px;
-
-    svg {
-      width: 60px;
-      height: 60px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    width: 70px;
-    height: 70px;
-
-    svg {
-      width: 50px;
-      height: 50px;
-    }
-  }
-
-  @media (max-width: 768px) {
-    width: 60px;
-    height: 60px;
-
-    svg {
-      width: 40px;
-      height: 40px;
-    }
-
-    &.nav-left {
-      left: 5px;
-    }
-
-    &.nav-right {
-      right: 5px;
-    }
+    pointer-events: none;
   }
 }

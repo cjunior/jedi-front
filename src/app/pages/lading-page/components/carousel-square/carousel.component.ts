@@ -11,141 +11,63 @@ import { CommonModule } from '@angular/common';
 export class CarouselSquareComponent implements OnInit {
   currentIndex = 0;
   translateX = 0;
-  slideWidth = 516; // 500px + 16px gap
+  slideWidth = 252;
   containerWidth = 500;
   isMobile = false;
   visibleSlides = 1;
   maxIndex = 0;
+  transitionEnabled = true;
 
-  slides = [
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Afiliados infoprodutores',
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Afiliados encapsulados',
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Business CANVAS'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Cooperativismo de plataforma',
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Copywriting'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Digital influencer'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Técnicas de empreendedorismo'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Ferramentas de IA'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Marketing'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Personograma'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Social media'
-    },
-    {
-      type: 'image',
-      imageUrl: './CapaPersona.jpg',
-      text: 'Técnicas de design'
-    },
-    {
-      type: 'image',
-      imageUrl: './TráfegoPago.png',
-      text: 'Tráfego pago'
-    },
-    {
-      type: 'image',
-      imageUrl: './ux.jpg',
-      text: 'UI/UX'
-    },
-    {
-      type: 'image',
-      imageUrl: './businessman-planning-strategy.jpg',
-      text: 'Vendas dropshipping'
-    },
-    {
-      type: 'image',
-      imageUrl: './vendas.jpg',
-      text: 'Vendas de e-commerce'
-    },
-    {
-      type: 'image',
-      imageUrl: './facebook.jpg',
-      text: 'Vendas no Facebook'
-    },
-    {
-      type: 'image',
-      imageUrl: './ifood.jpeg',
-      text: 'Vendas no iFood'
-    },
-    {
-      type: 'image',
-      imageUrl: './instagram.jpg',
-      text: 'Vendas no Instagram'
-    },
-    {
-      type: 'image',
-      imageUrl: './mercadolivre.jpg',
-      text: 'Vendas no Mercado Livre'
-    },
-    {
-      type: 'image',
-      imageUrl: './tiktok.jpg',
-      text: 'Vendas no TikTok',
-    },
-    {
-      type: 'image',
-      imageUrl: './whatsapp.jpg',
-      text: 'Vendas no WhatsApp'
-    },
-    {
-      type: 'image',
-      imageUrl: './youtube.jpg',
-      text: 'Vendas no YouTube'
-    },
-    {
-      type: 'image',
-      imageUrl: './VendasPLR.jpeg',
-      text: 'Vendas PLR'
-    },
+  // Quantas vezes duplicar (1x antes e 1x depois = 3 blocos)
+  duplicateCount = 1;
+
+  originalSlides = [
+    { type: 'image', imageUrl: './kits/7Afiliadodeinfoprodutos.jpg', text: 'Afiliados infoprodutores' },
+    { type: 'image', imageUrl: './kits/8AfiliadosEncapsulados.jpg', text: 'Afiliados encapsulados' },
+    { type: 'image', imageUrl: './kits/2CapaModelodenegóciosCanvas.jpg', text: 'Business CANVAS' },
+    { type: 'image', imageUrl: './kits/18CooperativismodePlataforma.jpg', text: 'Cooperativismo de plataforma' },
+    { type: 'image', imageUrl: './kits/19.jpeg', text: 'Copywriting' },
+    { type: 'image', imageUrl: './kits/24.jpeg', text: 'Digital influencer' },
+    { type: 'image', imageUrl: './kits/1CapaEmpreendedorismo.jpg', text: 'Técnicas de empreendedorismo' },
+    { type: 'image', imageUrl: './kits/20.jpeg', text: 'Ferramentas de IA' },
+    { type: 'image', imageUrl: './kits/4CapaMarketing.jpg', text: 'Marketing' },
+    { type: 'image', imageUrl: './CapaPersona.jpg', text: 'Personograma' },
+    { type: 'image', imageUrl: './kits/22.jpeg', text: 'Social media' },
+    { type: 'image', imageUrl: './kits/23.jpeg', text: 'Técnicas de design' },
+    { type: 'image', imageUrl: './kits/13TráfegoPago.jpg', text: 'Tráfego pago' },
+    { type: 'image', imageUrl: './kits/18.jpeg', text: 'UI/UX' },
+    { type: 'image', imageUrl: './kits/5CapaVendasdropshipping.jpg', text: 'Vendas dropshipping' },
+    { type: 'image', imageUrl: './kits/9VendasE-commerceemercadodigital.jpg', text: 'Vendas de e-commerce' },
+    { type: 'image', imageUrl: './kits/11VendasFacebook.jpg', text: 'Vendas no Facebook' },
+    { type: 'image', imageUrl: './kits/16VendasIfod.jpg', text: 'Vendas no iFood' },
+    { type: 'image', imageUrl: './kits/10VendasInstagram.jpg', text: 'Vendas no Instagram' },
+    { type: 'image', imageUrl: './kits/17VendasMercadoLivre.jpg', text: 'Vendas no Mercado Livre' },
+    { type: 'image', imageUrl: './kits/14VendasTikTok.jpg', text: 'Vendas no TikTok' },
+    { type: 'image', imageUrl: './kits/12VendasWhatsApp.jpg', text: 'Vendas no WhatsApp' },
+    { type: 'image', imageUrl: './kits/15VendasYoutube.jpg', text: 'Vendas no YouTube' },
+    { type: 'image', imageUrl: './kits/6CapaVendasPLR.jpg', text: 'Vendas PLR' },
   ];
 
+  slides = [...this.originalSlides]; // vai ser preenchido com duplicados
+
   ngOnInit() {
+    this.setupSlides();
     this.checkScreenSize();
     this.updateSlideWidth();
     this.calculateVisibleSlides();
     this.calculateMaxIndex();
+    this.setInitialPosition();
     this.updateTransform();
+  }
+
+  setupSlides() {
+    const prefix = [...this.originalSlides];
+    const suffix = [...this.originalSlides];
+    this.slides = [...suffix, ...this.originalSlides, ...prefix];
+  }
+
+  setInitialPosition() {
+    this.currentIndex = this.originalSlides.length; // posição do primeiro slide "real"
   }
 
   @HostListener('window:resize', ['$event'])
@@ -154,78 +76,68 @@ export class CarouselSquareComponent implements OnInit {
     this.updateSlideWidth();
     this.calculateVisibleSlides();
     this.calculateMaxIndex();
-    this.adjustCurrentIndex();
     this.updateTransform();
   }
 
-  private checkScreenSize() {
+  checkScreenSize() {
     this.isMobile = window.innerWidth <= 1000;
   }
 
-  private updateSlideWidth() {
+  updateSlideWidth() {
     if (this.isMobile) {
-      // Mobile: 1 slide por vez ocupando toda a largura disponível
-      this.slideWidth = window.innerWidth - 120; // Largura total menos espaço das setas
-      this.containerWidth = this.slideWidth;
+      this.containerWidth = window.innerWidth - 120;
+      this.slideWidth = this.containerWidth;
     } else {
-      // Desktop: múltiplos slides com gap
-      this.slideWidth = 516; // 500px + 16px gap
-      this.containerWidth = window.innerWidth - 200; // Largura disponível menos espaço das setas
+      this.slideWidth = 252;
+      this.containerWidth = window.innerWidth - 200;
     }
   }
 
-  private calculateVisibleSlides() {
+  calculateVisibleSlides() {
     if (this.isMobile) {
       this.visibleSlides = 1;
     } else {
-      // Desktop: calcula quantos slides cabem na tela
-      const availableWidth = window.innerWidth - 200; // Menos espaço das setas
+      const availableWidth = window.innerWidth - 200;
       this.visibleSlides = Math.floor(availableWidth / this.slideWidth);
-      if (this.visibleSlides === 0) this.visibleSlides = 1;
+      if (this.visibleSlides < 1) this.visibleSlides = 1;
     }
   }
 
-  private calculateMaxIndex() {
-    this.maxIndex = Math.max(0, this.slides.length - this.visibleSlides);
-  }
-
-  private adjustCurrentIndex() {
-    if (this.currentIndex > this.maxIndex) {
-      this.currentIndex = this.maxIndex;
-    }
+  calculateMaxIndex() {
+    this.maxIndex = this.slides.length - this.visibleSlides;
   }
 
   previous() {
-    if (this.isMobile) {
-      // Mobile: navegação circular
-      this.currentIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
-    } else {
-      // Desktop: navegação com limite
-      if (this.currentIndex > 0) {
-        this.currentIndex--;
-      } else {
-        this.currentIndex = this.maxIndex;
-      }
-    }
+    this.transitionEnabled = true;
+    this.currentIndex--;
     this.updateTransform();
+
+    // Loop visual
+    if (this.currentIndex < this.originalSlides.length) {
+      setTimeout(() => {
+        this.transitionEnabled = false;
+        this.currentIndex = this.originalSlides.length * 2 - 1;
+        this.updateTransform();
+      }, 500);
+    }
   }
 
   next() {
-    if (this.isMobile) {
-      // Mobile: navegação circular
-      this.currentIndex = (this.currentIndex + 1) % this.slides.length;
-    } else {
-      // Desktop: navegação com limite
-      if (this.currentIndex < this.maxIndex) {
-        this.currentIndex++;
-      } else {
-        this.currentIndex = 0;
-      }
-    }
+    this.transitionEnabled = true;
+    this.currentIndex++;
     this.updateTransform();
+
+    // Loop visual
+    if (this.currentIndex >= this.originalSlides.length * 2) {
+      setTimeout(() => {
+        this.transitionEnabled = false;
+        this.currentIndex = this.originalSlides.length;
+        this.updateTransform();
+      }, 500);
+    }
   }
 
-  private updateTransform() {
+  updateTransform() {
     this.translateX = -this.currentIndex * this.slideWidth;
   }
 }
