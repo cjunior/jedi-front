@@ -35,7 +35,7 @@ export class CarouselSquareComponent implements OnInit {
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/18CooperativismodePlataforma.jpg',
       text: 'Cooperativismo de plataforma',
     },
     {
@@ -55,7 +55,7 @@ export class CarouselSquareComponent implements OnInit {
     },
     {
       type: 'image',
-      imageUrl: './CapaPersona.jpg',
+      imageUrl: './kits/20.jpeg',
       text: 'Ferramentas de IA'
     },
     {
