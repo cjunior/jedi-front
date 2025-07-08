@@ -1,7 +1,7 @@
 .carousel-content-container {
   position: relative;
   width: 100vw;
-  max-width: calc(100vw - 128px);
+  max-width: min(1920px, calc(100vw - 128px)); // Limitado a 1920px
   height: 306px;
   display: flex;
   align-items: center;
@@ -52,6 +52,7 @@
   }
 }
 
+// Resto do CSS permanece igual...
 .carousel-content-wrapper {
   width: 100%; // Adicionado
   height: 306px;
@@ -183,7 +184,16 @@
     background: rgba(255, 255, 255, 0.1);
   }
 
+  // Adicionado: remove foco visual
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
 
+  &:active {
+    outline: none;
+    box-shadow: none;
+  }
 
   &.nav-left {
     left: 2px;
