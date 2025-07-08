@@ -204,4 +204,9 @@
 }
 
 
+::ng-deep .p-carousel .p-carousel-items-content {
+  justify-content: center !important;
+  display: flex !important;
+  transition: transform 0.5s ease-in-out;
+}
 

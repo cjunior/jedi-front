@@ -12,28 +12,8 @@ import { landingPageService } from '../../services/lading-page.service';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss'],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent implements OnInit, OnDestroy {
   private readonly landingPageService = inject(landingPageService);
-  currentMiddleItem: {
-    image: string;
-    alt: string;
-    name: string;
-    role: string;
-    isInvisible?: boolean;
-  } = {
-    image: '/igor.jpeg',
-    alt: 'Equipe 1',
-    name: 'Professor Igor Paim',
-    role: 'Coordenador geral',
-  };
-
-  get displayItems() {
-    if (this.currentNumVisible === 3) {
-      return this.items;
-    } else {
-      return this.items.filter(item => !item.isInvisible);
-    }
-  }
 
   items: {
     image: string;
@@ -43,19 +23,12 @@ export class CarouselComponent implements OnInit {
     isInvisible?: boolean;
   }[] = [
     {
-      image: '',
-      alt: 'Invisible Start',
-      name: 'Invisible Start',
-      role: '',
-      isInvisible: true,
-    },
-    {
       image: '/igor.jpeg',
       alt: 'Equipe 1',
       name: 'Professor Igor Paim',
       role: 'Coordenador geral',
     },
-      {
+    {
       image: '/equipe3.jpeg',
       alt: 'Equipe 3',
       name: 'Professor Gleydson Silva',
@@ -67,58 +40,56 @@ export class CarouselComponent implements OnInit {
       name: 'Professora Gilmara Oliveira',
       role: 'Coordenadora regional',
     },
-     {
+    {
       image: '/equipe4.jpg',
       alt: 'Equipe 6',
       name: 'Professora Albene Liz Both',
       role: 'Conteudista',
     },
-
     {
       image: '/equipe5.jpg',
       alt: 'Equipe 4',
       name: 'Professora Amanda Conrado',
       role: 'Conteudista',
     },
-
     {
       image: '/equipe1.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Éder Oliveira',
       role: 'Conteudista',
     },
-      {
+    {
       image: '/eq.jpeg',
       alt: 'Equipe 4',
       name: 'Professora Rejane Santiago',
       role: 'Conteudista',
     },
-      {
+    {
       image: '/ProfessorSávio.jpeg',
       alt: 'Equipe 4',
       name: 'Professor Sávio Soares',
       role: 'Conteudista',
     },
-
     {
       image: '/equipe2.jpeg',
       alt: 'Equipe 5',
       name: 'Professor Weliton Araújo',
       role: 'Conteudista',
     },
-    {
-      image: '',
-      alt: 'Invisible End',
-      name: 'Invisible End',
-      role: '',
-      isInvisible: true,
-    },
   ];
+
+  itemsLooped: typeof this.items = [];
+  currentMiddleItem = this.items[0];
+
+  get displayItems() {
+    return this.itemsLooped;
+  }
 
   currentPage = 0;
   currentNumVisible = 3;
   isAutoplayPaused = false;
   isAutoplayPermanentlyPaused = false;
+  autoplayIntervalId: any = null;
 
   responsiveOptions = [
     {
@@ -140,32 +111,41 @@ export class CarouselComponent implements OnInit {
 
   ngOnInit() {
     this.updateNumVisible();
+    this.itemsLooped = this.createInfiniteItems(this.items);
     this.updateCurrentMiddleItem();
-    window.addEventListener('resize', () => {
-      this.updateNumVisible();
-      this.updateCurrentMiddleItem();
-    });
+    window.addEventListener('resize', this.handleResize);
+    this.startAutoplay();
   }
 
+  ngOnDestroy() {
+    if (this.autoplayIntervalId) {
+      clearInterval(this.autoplayIntervalId);
+    }
+    window.removeEventListener('resize', this.handleResize);
+  }
 
+  handleResize = () => {
+    this.updateNumVisible();
+    this.updateCurrentMiddleItem();
+  };
+
+  createInfiniteItems(items: typeof this.items): typeof this.items {
+    const loops = 4; // número de repetições para parecer "infinito"
+    let repeated: typeof this.items = [];
+    for (let i = 0; i < loops; i++) {
+      repeated = repeated.concat(items.map(item => ({ ...item })));
+    }
+    return repeated;
+  }
 
   onPageChange(event: any) {
     this.pauseAutoplayPermanently();
-
     this.updateNumVisible();
 
     let targetPage = event.page;
 
-    if (this.currentNumVisible === 3) {
-      const totalItems = this.items.length;
-      if (targetPage >= totalItems) {
-        targetPage = targetPage % totalItems;
-      }
-    } else {
-      const visibleItemsCount = this.displayItems.length;
-      if (targetPage >= visibleItemsCount) {
-        targetPage = targetPage % visibleItemsCount;
-      }
+    if (targetPage >= this.displayItems.length) {
+      targetPage = 0;
     }
 
     this.currentPage = targetPage;
@@ -187,15 +167,20 @@ export class CarouselComponent implements OnInit {
     this.isAutoplayPaused = true;
   }
 
+  startAutoplay() {
+    this.autoplayIntervalId = setInterval(() => {
+      if (!this.isAutoplayPaused && !this.isAutoplayPermanentlyPaused) {
+        this.currentPage = (this.currentPage + 1) % this.displayItems.length;
+        this.updateCurrentMiddleItem();
+      }
+    }, 3000); // tempo entre trocas
+  }
+
   updateNumVisible() {
     const width = window.innerWidth;
     const previousNumVisible = this.currentNumVisible;
 
-    if (width <= 1000) {
-      this.currentNumVisible = 1;
-    } else {
-      this.currentNumVisible = 3;
-    }
+    this.currentNumVisible = width <= 1000 ? 1 : 3;
 
     if (previousNumVisible !== this.currentNumVisible) {
       this.currentPage = 0;
@@ -205,29 +190,16 @@ export class CarouselComponent implements OnInit {
   updateCurrentMiddleItem() {
     const currentDisplayItems = this.displayItems;
 
-    if (currentDisplayItems.length === 0) {
-      return;
-    }
+    if (currentDisplayItems.length === 0) return;
 
     if (this.currentPage >= currentDisplayItems.length) {
       this.currentPage = 0;
     }
 
-    if (this.currentNumVisible === 3) {
-      const allItems = this.items;
-      const startIndex = this.currentPage;
-      const middleIndex = startIndex + 1;
+    const middleIndex = this.currentNumVisible === 3 ? this.currentPage + 1 : this.currentPage;
 
-      if (middleIndex < allItems.length && !allItems[middleIndex].isInvisible) {
-        this.currentMiddleItem = allItems[middleIndex];
-      } else {
-        const visibleItems = allItems.filter(item => !item.isInvisible);
-        if (visibleItems.length > 0) {
-          this.currentMiddleItem = visibleItems[this.currentPage % visibleItems.length];
-        }
-      }
-    } else {
-      this.currentMiddleItem = currentDisplayItems[this.currentPage];
+    if (middleIndex < currentDisplayItems.length) {
+      this.currentMiddleItem = currentDisplayItems[middleIndex];
     }
   }
 }
