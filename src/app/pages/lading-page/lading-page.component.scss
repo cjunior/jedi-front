@@ -109,6 +109,7 @@
 
         &.instagram, &.youtube, &.email {
           opacity: 1
+          
         }
 
         &.instagram {
@@ -123,7 +124,7 @@
 
         &.email {
           background-image: url(../../../../public/icons/email.png);
-          background-size: 38px;
+          background-size: 35px;
         }
       }
     }
