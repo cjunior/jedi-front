@@ -26,30 +26,30 @@ export class CarouselComponent implements OnInit, OnDestroy {
       image: '/igor.jpeg',
       alt: 'Equipe 1',
       name: 'Prof. Igor Paim',
-      role: 'Coordenador geral',
+      role: 'Coordenador-geral',
     },
     {
       image: '/equipe3.jpeg',
       alt: 'Equipe 3',
       name: 'Prof. Gleydson Silva',
-      role: 'Coordenador regional',
+      role: 'Coordenador-regional',
     },
     {
       image: '/equipe6.jpg',
       alt: 'Equipe 2',
-      name: 'prof.ª Gilmara Oliveira',
-      role: 'Coordenadora regional',
+      name: 'Prof.ª Gilmara Oliveira',
+      role: 'Coordenadora-regional',
     },
     {
       image: '/equipe4.jpg',
       alt: 'Equipe 6',
-      name: 'prof.ª Albene Liz Both',
+      name: 'Prof.ª Albene Liz Both',
       role: 'Conteudista',
     },
     {
       image: '/equipe5.jpg',
       alt: 'Equipe 4',
-      name: 'prof.ª Amanda Conrado',
+      name: 'Prof.ª Amanda Conrado',
       role: 'Conteudista',
     },
     {
@@ -61,7 +61,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     {
       image: '/eq.jpeg',
       alt: 'Equipe 4',
-      name: 'prof.ª Rejane Santiago',
+      name: 'Prof.ª Rejane Santiago',
       role: 'Conteudista',
     },
     {
