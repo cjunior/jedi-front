@@ -277,8 +277,43 @@
 
 .content-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: calc(100% - 45px); // Desconta a altura do header
+  object-fit: cover; // Volta para cover para preencher os cantos
+  object-position: center;
+  position: absolute;
+  top: 45px; // Posiciona abaixo do header
+  left: 0;
+
+  // Ajustes responsivos para posição e altura
+  @media (max-width: 1600px) {
+    height: calc(100% - 65px);
+    top: 65px;
+  }
+
+  @media (max-width: 1400px) {
+    height: calc(100% - 60px);
+    top: 60px;
+  }
+
+  @media (max-width: 1200px) {
+    height: calc(100% - 55px);
+    top: 55px;
+  }
+
+  @media (max-width: 1000px) {
+    height: calc(100% - 60px);
+    top: 60px;
+  }
+
+  @media (max-width: 768px) {
+    height: calc(100% - 55px);
+    top: 55px;
+  }
+
+  @media (max-width: 480px) {
+    height: calc(100% - 50px);
+    top: 50px;
+  }
 }
 
 .carousel-nav-btn {
