@@ -6,6 +6,82 @@
   margin: 0 auto;
   padding: 0px;
 
+  // Header container - normal por padrão, fixo após scroll
+  .header-container {
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    
+    // Sticky: header fixo após scroll
+    &.header-fixed {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      max-width: 1920px;
+      margin: 0 auto;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      
+      // Borda inferior do nav apenas quando fixo
+      nav {
+        border-bottom: 2px solid #e0e0e0;
+        
+        // Estilos específicos para a logo quando header está fixo
+        .logoimg {
+          width: 250px !important;
+          margin-bottom: 48px !important;
+        }
+      }
+      
+      // Responsividade para mobile
+      @media (max-width: 990px) {
+        .top {
+          height: 50px;
+          padding: 0 10px;
+        }
+        
+        nav {
+          height: 70px;
+          padding: 0 10px;
+          
+          img {
+            width: 200px;
+          }
+          
+          ul {
+            display: none;
+          }
+          
+          button.primary-btn {
+            font-size: 14px;
+            height: 40px;
+            padding: 8px;
+            
+            img {
+              width: 16px;
+              height: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Espaçador para header fixo (só ativo quando header está fixo)
+  .header-spacer {
+    height: 0;
+    transition: height 0.3s ease;
+    
+    &.active {
+      height: 140px; // Altura do header (60px + 80px)
+      
+      @media (max-width: 990px) {
+        height: 120px; // Altura reduzida para mobile (50px + 70px)
+      }
+    }
+  }
+
   .top {
     width: 100%;
     height: 60px;
@@ -29,32 +105,6 @@
         cursor: pointer;
       }
 
-      // .instagram-link {
-      //   display: flex;
-      //   align-items: center;
-      //   justify-content: center;
-      //   width: 31px;
-      //   height: 31px;
-      //   background-color: #fff;
-      //   border-radius: 8px;
-      //   transition: all 0.3s ease;
-      //   text-decoration: none;
-
-      //   &:hover {
-      //     background-color: #f0f0f0;
-      //     transform: scale(1.05);
-      //   }
-
-      //   .instagram-icon {
-      //     font-size: 20px;
-      //     color: #833ab4;
-      //     transition: color 0.3s ease;
-      //   }
-
-      //   &:hover .instagram-icon {
-      //     color: #bc2a8d;
-      //   }
-      // }
       .icon {
         background-repeat: no-repeat;
         background-color: transparent;
@@ -71,7 +121,6 @@
         &.instagram, &.youtube, &.email {
           opacity: 1
         }
-
 
         &.instagram {
           background-image: url(../../../../public/icons/instagram.svg);
@@ -96,6 +145,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 80px;
+    background-color: #fff;
+    height: 80px;
 
     img {
       width: 303px;

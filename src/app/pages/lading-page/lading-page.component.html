@@ -10,6 +10,9 @@
     </div>
   </div>
 </div>
+
+
+
 <div class="container" *ngIf="!isInitialLoading">
   <button
     class="back-to-top-btn"
@@ -19,61 +22,68 @@
   >
     <i class="pi pi-angle-up"></i>
   </button>
-  <div class="top bg-gradient-to-b from-[#C1CFA0] to-[#FFFFFF]">
-    <app-dropdown />
-    <div class="itens flex flex-row items-center gap-5">
-      @if(isAuthenticated()) {
-      <p-button
-        label="Configurações"
-        icon="pi pi-cog"
-        styleClass="bg-white! text-emerald-800! border-emerald-700! hover:bg-gray-100"
-        (onClick)="redirectToConfigs()"
-        size="small"
-      />
-      }
-      <div class="flex items-center gap-2">
-        <a
-          href="https://www.instagram.com/jovensempreendedores.digitais/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="instagram-link"
-          aria-label="Seguir no Instagram"
-        >
-          <div class="icon instagram"></div>
-        </a>
-        <a
-          href="https://www.instagram.com/jovensempreendedores.digitais/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="instagram-link"
-          aria-label="Seguir no Instagram"
-        >
-          <div class="icon youtube"></div>
-        </a>
-        <a
-          href="mailto:empreendedoresdigitais@ifce.edu.br"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="instagram-link"
-          aria-label="Seguir no Instagram"
-        >
-          <div class="icon email"></div>
-        </a>
+  
+  <!-- Header com scroll fixo -->
+  <div class="header-container" [class.header-fixed]="isHeaderFixed">
+    <div class="top bg-gradient-to-b from-[#C1CFA0] to-[#FFFFFF]">
+      <app-dropdown />
+      <div class="itens flex flex-row items-center gap-5">
+        @if(isAuthenticated()) {
+        <p-button
+          label="Configurações"
+          icon="pi pi-cog"
+          styleClass="bg-white! text-emerald-800! border-emerald-700! hover:bg-gray-100"
+          (onClick)="redirectToConfigs()"
+          size="small"
+        />
+        }
+        <div class="flex items-center gap-2">
+          <a
+            href="https://www.instagram.com/jovensempreendedores.digitais/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="instagram-link"
+            aria-label="Seguir no Instagram"
+          >
+            <div class="icon instagram"></div>
+          </a>
+          <a
+            href="https://www.instagram.com/jovensempreendedores.digitais/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="instagram-link"
+            aria-label="Seguir no Instagram"
+          >
+            <div class="icon youtube"></div>
+          </a>
+          <a
+            href="mailto:empreendedoresdigitais@ifce.edu.br"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="instagram-link"
+            aria-label="Seguir no Instagram"
+          >
+            <div class="icon email"></div>
+          </a>
+        </div>
       </div>
     </div>
+    <nav>
+      <img [src]="headerResponseDto.urllogo" alt="" class="logoimg"/>
+      <ul>
+        <li><a href="#project">Projeto</a></li>
+        <li><a href="#contentC">Conteúdo</a></li>
+        <li><a href="#help">Ajuda</a></li>
+        <li><a href="#notices">Notícias</a></li>
+      </ul>
+      <button class="primary-btn" (click)="showDialog()">
+        <img src="./tes.svg" alt="" />Pré-Cadastro
+      </button>
+    </nav>
   </div>
-  <nav>
-    <img [src]="headerResponseDto.urllogo" alt="" />
-    <ul>
-      <li><a href="#project">Projeto</a></li>
-      <li><a href="#contentC">Conteúdo</a></li>
-      <li><a href="#help">Ajuda</a></li>
-      <li><a href="#notices">Notícias</a></li>
-    </ul>
-    <button class="primary-btn" (click)="showDialog()">
-      <img src="./tes.svg" alt="" />Pré-Cadastro
-    </button>
-  </nav>
+  
+  <!-- Espaçamento dinâmico para header fixo -->
+  <div class="header-spacer" [class.active]="isHeaderFixed"></div>
 
   <div class="container-one">
     <div class="containertext">

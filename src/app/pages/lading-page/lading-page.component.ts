@@ -86,6 +86,7 @@ export class LadingPageComponent {
     equipttext: 'Equipe',
   };
   showBackToTop = false;
+  isHeaderFixed = false;
 
   blogDestaque: BlogCard | null = null;
   redeJediSectionDto = {
@@ -105,6 +106,8 @@ export class LadingPageComponent {
   ngOnInit() {
     window.addEventListener('scroll', () => {
       this.showBackToTop = window.pageYOffset > 300;
+      // Controla quando o header fica fixo
+      this.isHeaderFixed = window.pageYOffset > 140; // Altura do header inicial
     });
     
     // Iniciar pré-carregamento das imagens
