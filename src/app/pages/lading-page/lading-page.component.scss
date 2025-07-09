@@ -6,84 +6,68 @@
   margin: 0 auto;
   padding: 0px;
 
-  // Header container - normal por padrão, fixo após scroll
+  // Header sempre fixo
   .header-container {
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    max-width: 1920px;
+    margin: 0 auto;
     
-    // Sticky: header fixo após scroll
-    &.header-fixed {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      max-width: 1920px;
-      margin: 0 auto;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      
-      // Borda inferior do nav apenas quando fixo
-      nav {
-        border-bottom: 2px solid #e0e0e0;
-        
-        // Estilos específicos para a logo quando header está fixo
-        .logoimg {
-          width: 250px !important;
-          margin-bottom: 48px !important;
+    nav {
+      // Estilos específicos para a logo quando header está fixo
+      .logoimg {
+        width: 250px !important;
+        margin-bottom: 48px !important;
 
-          @media (max-width: 990px) {
-               width: 177px !important;
-    margin-bottom: 19px !important;
-          }
+        @media (max-width: 990px) {
+             width: 177px !important;
+          margin-bottom: 19px !important;
         }
       }
+    }
+    
+    // Responsividade para mobile
+    @media (max-width: 990px) {
+      .top {
+        height: 50px;
+        padding: 0 10px;
+      }
       
-      // Responsividade para mobile
-      @media (max-width: 990px) {
-        .top {
-          height: 50px;
-          padding: 0 10px;
+      nav {
+        height: 70px;
+        padding: 0 10px;
+        
+        img {
+          width: 200px;
         }
         
-        nav {
-          height: 70px;
-          padding: 0 10px;
+        ul {
+          display: none;
+        }
+        
+        button.primary-btn {
+          font-size: 14px;
+          height: 40px;
+          padding: 8px;
           
           img {
-            width: 200px;
-          }
-          
-          ul {
-            display: none;
-          }
-          
-          button.primary-btn {
-            font-size: 14px;
-            height: 40px;
-            padding: 8px;
-            
-            img {
-              width: 16px;
-              height: 16px;
-            }
+            width: 16px;
+            height: 16px;
           }
         }
       }
     }
   }
 
-  // Espaçador para header fixo (só ativo quando header está fixo)
+  // Espaçador para header fixo (sempre ativo)
   .header-spacer {
-    height: 0;
-    transition: height 0.3s ease;
+    height: 140px; // Altura total do header (60px + 80px)
     
-    &.active {
-      height: 140px; // Altura do header (60px + 80px)
-      
-      @media (max-width: 990px) {
-        height: 120px; // Altura reduzida para mobile (50px + 70px)
-      }
+    @media (max-width: 990px) {
+      height: 120px; // Altura reduzida para mobile (50px + 70px)
     }
   }
 
@@ -1727,6 +1711,18 @@ h4 {
       }
     }
    }
+  }
+}
+
+// Animação para quando o header fica fixo
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

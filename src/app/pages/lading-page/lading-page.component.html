@@ -23,8 +23,8 @@
     <i class="pi pi-angle-up"></i>
   </button>
   
-  <!-- Header com scroll fixo -->
-  <div class="header-container" [class.header-fixed]="isHeaderFixed">
+  <!-- Header sempre fixo -->
+  <div class="header-container header-fixed">
     <div class="top bg-gradient-to-b from-[#C1CFA0] to-[#FFFFFF]">
       <app-dropdown />
       <div class="itens flex flex-row items-center gap-5">
@@ -82,8 +82,8 @@
     </nav>
   </div>
   
-  <!-- Espaçamento dinâmico para header fixo -->
-  <div class="header-spacer" [class.active]="isHeaderFixed"></div>
+  <!-- Espaçamento fixo para compensar header -->
+  <div class="header-spacer"></div>
 
   <div class="container-one">
     <div class="containertext">
