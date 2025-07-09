@@ -18,15 +18,23 @@
     
     nav {
       // Estilos específicos para a logo quando header está fixo
-      .logoimg {
-        width: 250px !important;
-        margin-bottom: 48px !important;
+     .logoimg {
+  width: 250px !important;
+  height: auto !important;
+  margin-bottom: 48px !important;
+  object-fit: contain !important;
+  image-rendering: -webkit-optimize-contrast !important;
+  image-rendering: crisp-edges !important;
 
-        @media (max-width: 990px) {
-             width: 178px !important;
-          margin-bottom: 19px !important;
-        }
-      }
+  @media (max-width: 990px) {
+    width: 178px !important;
+    height: auto !important;
+    margin-bottom: 19px !important;
+    // Força renderização de alta qualidade
+    image-rendering: -webkit-optimize-contrast !important;
+    image-rendering: crisp-edges !important;
+  }
+}
     }
     
     // Responsividade para mobile
