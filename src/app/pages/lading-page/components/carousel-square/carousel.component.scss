@@ -150,14 +150,14 @@
 
 .content-image {
   width: 100%;
-  height: calc(100% - 50px);
+  height: 100%;
   object-fit: cover; // Volta para cover para preencher todo o espaço
   object-position: center; // Centraliza a imagem
   display: block;
 
   @media (max-width: 1000px) {
-    height: calc(100% - 45px);
-    object-fit: cover; // Mantém cover no mobile
+    // height: calc(100% - 45px);
+    // object-fit: cover; // Mantém cover no mobile
   }
 }
 

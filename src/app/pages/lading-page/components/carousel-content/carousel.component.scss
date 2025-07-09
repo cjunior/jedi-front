@@ -277,42 +277,42 @@
 
 .content-image {
   width: 100%;
-  height: calc(100% - 45px); // Desconta a altura do header
-  object-fit: cover; // Volta para cover para preencher os cantos
+  height: 100%; // Agora ocupa 100% da altura do card
+  object-fit: cover;
   object-position: center;
   position: absolute;
-  top: 45px; // Posiciona abaixo do header
+  top: 0; // Começa do topo do card
   left: 0;
 
   // Ajustes responsivos para posição e altura
   @media (max-width: 1600px) {
-    height: calc(100% - 50px);
-    top: 50px;
+    // height: calc(100% - 50px);
+    // top: 50px;
   }
 
   @media (max-width: 1400px) {
-    height: calc(100% - 48px);
-    top: 48px;
+    // height: calc(100% - 48px);
+    // top: 48px;
   }
 
   @media (max-width: 1200px) {
-    height: calc(100% - 46px);
-    top: 46px;
+    // height: calc(100% - 46px);
+    // top: 46px;
   }
 
   @media (max-width: 1000px) {
-    height: calc(100% - 60px);
-    top: 60px;
+    // height: calc(100% - 60px);
+    // top: 60px;
   }
 
   @media (max-width: 768px) {
-    height: calc(100% - 55px);
-    top: 55px;
+    // height: calc(100% - 55px);
+    // top: 55px;
   }
 
   @media (max-width: 480px) {
-    height: calc(100% - 50px);
-    top: 50px;
+    // height: calc(100% - 50px);
+    // top: 50px;
   }
 }
 

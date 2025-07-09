@@ -37,19 +37,19 @@ export class CarouselComponent implements OnInit, OnDestroy {
     {
       image: '/equipe6.jpg',
       alt: 'Equipe 2',
-      name: 'Profa. Gilmara Oliveira',
+      name: 'prof.ª Gilmara Oliveira',
       role: 'Coordenadora regional',
     },
     {
       image: '/equipe4.jpg',
       alt: 'Equipe 6',
-      name: 'Profa. Albene Liz Both',
+      name: 'prof.ª Albene Liz Both',
       role: 'Conteudista',
     },
     {
       image: '/equipe5.jpg',
       alt: 'Equipe 4',
-      name: 'Profa. Amanda Conrado',
+      name: 'prof.ª Amanda Conrado',
       role: 'Conteudista',
     },
     {
@@ -61,7 +61,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
     {
       image: '/eq.jpeg',
       alt: 'Equipe 4',
-      name: 'Profa. Rejane Santiago',
+      name: 'prof.ª Rejane Santiago',
       role: 'Conteudista',
     },
     {
