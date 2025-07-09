@@ -210,3 +210,40 @@
   transition: transform 0.5s ease-in-out;
 }
 
+
+
+
+
+
+// ...existing code...
+
+// Remove o bloco atual e substitui por este:
+:host ::ng-deep .carousel-equipe {
+  // Desabilita completamente a interação com touch/mouse nos containers do carrossel
+  .p-carousel-items-container,
+  .p-carousel-items-content {
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
+  
+  .p-carousel-item {
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
+  
+  // Reabilita apenas o que precisa funcionar
+  .circle-container {
+    pointer-events: auto !important;
+  }
+  
+  .circle-image {
+    pointer-events: auto !important;
+  }
+  
+  // Mantém setas funcionando (se existirem)
+  .p-carousel-prev,
+  .p-carousel-next {
+    pointer-events: auto !important;
+  }
+}
+
