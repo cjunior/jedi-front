@@ -271,6 +271,7 @@
         vertical-align: middle;
         text-transform: uppercase;
         color: #eeda66;
+        width: 100%;
       }
 
       .text-project {
@@ -1410,6 +1411,10 @@
   @media (max-width: 400px) {
     .sub {
       margin-top: 46px !important;
+     
+    }
+    .pr{
+       font-size: 28px !important;
     }
   }
 }
