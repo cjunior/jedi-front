@@ -17,8 +17,6 @@ export class CarouselSquareComponent implements OnInit {
   visibleSlides = 1;
   maxIndex = 0;
   transitionEnabled = true;
-
-  // Quantas vezes duplicar (1x antes e 1x depois = 3 blocos)
   duplicateCount = 1;
 
   originalSlides = [
@@ -48,7 +46,7 @@ export class CarouselSquareComponent implements OnInit {
     { type: 'image', imageUrl: './kits/6CapaVendasPLR.jpg', text: 'Vendas PLR' },
   ];
 
-  slides = [...this.originalSlides]; // vai ser preenchido com duplicados
+  slides = [...this.originalSlides]; 
 
   ngOnInit() {
     this.setupSlides();
