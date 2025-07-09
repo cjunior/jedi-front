@@ -767,6 +767,7 @@
     justify-content: center !important;
     align-items: center !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-container {
@@ -775,12 +776,14 @@
     display: flex !important;
     justify-content: center !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-content {
     width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-items-content {
@@ -790,6 +793,7 @@
     justify-content: center !important;
     align-items: center !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-items-container {
@@ -800,6 +804,7 @@
     width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   ::ng-deep .content-carousel .p-carousel-item {
@@ -810,6 +815,7 @@
     align-items: center !important;
     flex-shrink: 0 !important;
     overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   // Responsividade para o carrossel de conteúdo
