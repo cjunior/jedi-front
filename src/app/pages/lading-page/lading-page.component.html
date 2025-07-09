@@ -2,6 +2,12 @@
   <div class="loading-content">
     <img src="/logo.svg" alt="Logo" class="loading-logo" />
     <div class="loading-text">Carregando...</div>
+    <div class="loading-progress">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="loadingProgress"></div>
+      </div>
+      <div class="progress-text">{{ loadingProgress }}%</div>
+    </div>
   </div>
 </div>
 <div class="container" *ngIf="!isInitialLoading">
@@ -175,7 +181,7 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
     <div class="w-full md:w-200 md:h-100 rounded-lg overflow-hidden shadow-md mb-3 md:mb-8 mx-auto">
       <img
         [src]="blogDestaque?.imagem"
-        alt="Imagem do post"
+        alt="Post destacado"
         class="w-full h-full object-cover"
       />
     </div>
