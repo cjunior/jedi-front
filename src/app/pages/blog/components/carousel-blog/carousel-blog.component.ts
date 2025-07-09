@@ -1,4 +1,12 @@
-import { Component, Input, OnInit, OnDestroy, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  inject,
+  HostListener,
+  ViewChild
+} from '@angular/core';
 import { Carousel, CarouselPageEvent } from 'primeng/carousel';
 import { ButtonModule } from 'primeng/button';
 import { IPost } from '../../../../core/interfaces/blog.interface';
@@ -11,32 +19,44 @@ import { Router } from '@angular/router';
   templateUrl: './carousel-blog.component.html',
   styleUrl: './carousel-blog.component.scss'
 })
-export class CarouselBlogComponent implements OnInit, OnDestroy {
+export class CarouselBlogComponent implements OnInit {
   private readonly router = inject(Router);
   @Input() posts: IPost[] = [];
 
-  currentIndex = 0;
   autoplayIntervalId: any;
 
+  numVisible = 1;
+
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 3,
+      numScroll: 1
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
+
   ngOnInit(): void {
-    this.iniciarAutoplay();
+    this.atualizarNumVisiveis(window.innerWidth);
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.autoplayIntervalId);
-  }
-
-  iniciarAutoplay() {
-    this.autoplayIntervalId = setInterval(() => {
-      if (!this.posts.length) return;
-      this.currentIndex = (this.currentIndex + 1) % this.posts.length;
-    }, 5000);
-  }
-
-  aoTrocarPagina(event: CarouselPageEvent) {
-    this.currentIndex = event.page ?? 0;
-    clearInterval(this.autoplayIntervalId);
-    this.iniciarAutoplay();
+  atualizarNumVisiveis(width: number) {
+    if (width >= 1024) {
+      this.numVisible = 3;
+    } else if (width >= 768) {
+      this.numVisible = 2;
+    } else {
+      this.numVisible = 1;
+    }
   }
 
   viewPost(postId: string) {
