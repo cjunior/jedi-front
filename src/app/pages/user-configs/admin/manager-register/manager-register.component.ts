@@ -320,14 +320,6 @@ export class ManagerRegisterComponent implements OnInit {
       }
 
       const userId = usuario.id;
-
-      console.log('Dados sendo enviados para edição:');
-      console.log('User ID:', userId);
-      console.log('FormData entries:');
-      for (let pair of formDataToSend.entries()) {
-        console.log(pair[0] + ': ' + pair[1]);
-      }
-
       this.manageRegisterService
         .putManagerRegister(userId, formDataToSend)
         .subscribe({
