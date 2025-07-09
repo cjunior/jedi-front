@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { CarouselComponent } from './components/carousel/carousel.component';
 
 import { AcordionComponent } from './components/acordion/acordion.component';
-import { FormComponent } from './components/form/form.component';
 import { CarouselSquareComponent } from './components/carousel-square/carousel.component';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
 import { ButtonModule } from 'primeng/button';
@@ -45,7 +44,6 @@ interface BlogCard {
   imports: [
     CarouselComponent,
     AcordionComponent,
-    FormComponent,
     CarouselSquareComponent,
     DropdownComponent,
     DialogModule,
@@ -79,6 +77,9 @@ export class LadingPageComponent {
   showErrors = signal(false);
   isLoading = signal(false);
   isInitialLoading = true;
+  imagesLoaded = false;
+  dataLoaded = false;
+  loadingProgress = 0;
   confirmVisible = false;
   successVisible = false;
   teamResponseDto = {
@@ -105,6 +106,10 @@ export class LadingPageComponent {
     window.addEventListener('scroll', () => {
       this.showBackToTop = window.pageYOffset > 300;
     });
+    
+    // Iniciar pré-carregamento das imagens
+    this.preloadImages();
+    
     if (this.blogDestaque?.descricao) {
       const div = document.createElement('div');
       div.innerHTML = this.blogDestaque.descricao;
@@ -113,7 +118,9 @@ export class LadingPageComponent {
     }
     this.landingPageService.getdados().subscribe({
       next: (dados) => {
-        this.isInitialLoading = false;
+        this.dataLoaded = true;
+        this.loadingProgress = Math.max(this.loadingProgress, 50) + 50; // Adiciona 50% quando dados carregam
+        this.checkLoadingComplete();
         const blogItems = dados.blogSectionResponseDto?.items || [];
 
         this.redeJediSectionDto = {
@@ -261,16 +268,73 @@ export class LadingPageComponent {
             buttonText: item.buttonText,
             buttonUrl: item.buttonUrl,
           })
-        );
-      },
-      error: (error) => {
+        );       },
+       error: (error) => {
+         this.dataLoaded = true;
+         this.loadingProgress = 100;
+         this.checkLoadingComplete();
+         this.messageService.add({
+           severity: 'error',
+           summary: 'Erro',
+           detail: 'Ocorreu um erro ao carregar os dados.',
+         });
+       },
+     });
+   }
+
+  // Método para verificar se tanto dados quanto imagens foram carregados
+  private checkLoadingComplete() {
+    if (this.dataLoaded && this.imagesLoaded) {
+      this.loadingProgress = 100;
+      // Pequeno delay para uma transição mais suave
+      setTimeout(() => {
         this.isInitialLoading = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Erro',
-          detail: 'Ocorreu um erro ao carregar os dados.',
-        });
-      },
+      }, 800);
+    }
+  }
+
+  // Método para pré-carregar todas as imagens importantes
+  private preloadImages() {
+    const imageUrls = [
+      '/logo.svg',
+      './diva4.jpg',
+      './ondas.svg',
+      './onda2.svg',
+      './step/ttt.jpg',
+      './step/Passo1.svg',
+      './step/Passo2.svg',
+      './step/Passo3.svg',
+      './step/Passo4.svg',
+      './fotoH.jpg',
+      './edit.svg',
+      './tes.svg',
+      '../../../../public/icons/instagram.svg',
+      '../../../../public/icons/youtube.svg',
+      '../../../../public/icons/email.png'
+    ];
+
+    let loadedCount = 0;
+    const totalImages = imageUrls.length;
+
+    imageUrls.forEach(url => {
+      const img = new Image();
+      img.onload = () => {
+        loadedCount++;
+        this.loadingProgress = Math.round((loadedCount / totalImages) * 50); // 50% para imagens
+        if (loadedCount === totalImages) {
+          this.imagesLoaded = true;
+          this.checkLoadingComplete();
+        }
+      };
+      img.onerror = () => {
+        loadedCount++;
+        this.loadingProgress = Math.round((loadedCount / totalImages) * 50); // 50% para imagens
+        if (loadedCount === totalImages) {
+          this.imagesLoaded = true;
+          this.checkLoadingComplete();
+        }
+      };
+      img.src = url;
     });
   }
 

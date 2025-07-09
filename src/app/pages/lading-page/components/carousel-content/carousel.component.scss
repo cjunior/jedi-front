@@ -11,22 +11,22 @@
 
   // Breakpoint para telas grandes (1400px - 1600px)
   @media (max-width: 1600px) {
-    width: 540px;
-    height: 250px;
+    width: 720px; // Aumenta de 540px para 720px
+    height: 380px; // Aumenta de 250px para 380px
     padding: 0 70px;
   }
 
   // Breakpoint para telas médias-grandes (1200px - 1400px)
   @media (max-width: 1400px) {
-    width: 520px;
-    height: 240px;
+    width: 680px; // Aumenta de 520px para 680px
+    height: 360px; // Aumenta de 240px para 360px
     padding: 0 65px;
   }
 
   // Breakpoint para telas médias (1024px - 1200px)
   @media (max-width: 1200px) {
-    width: 500px;
-    height: 220px;
+    width: 620px; // Aumenta de 500px para 620px
+    height: 340px; // Aumenta de 220px para 340px
     padding: 0 60px;
   }
 
@@ -58,20 +58,20 @@
 
   // Breakpoint para telas grandes (1400px - 1600px)
   @media (max-width: 1600px) {
-    width: 380px;
-    height: 250px;
+    width: 580px; // Aumenta de 380px para 580px
+    height: 380px; // Aumenta de 250px para 380px
   }
 
   // Breakpoint para telas médias-grandes (1200px - 1400px)
   @media (max-width: 1400px) {
-    width: 350px;
-    height: 240px;
+    width: 550px; // Aumenta de 350px para 550px
+    height: 360px; // Aumenta de 240px para 360px
   }
 
   // Breakpoint para telas médias (1024px - 1200px)
   @media (max-width: 1200px) {
-    width: 320px;
-    height: 220px;
+    width: 500px; // Aumenta de 320px para 500px
+    height: 340px; // Aumenta de 220px para 340px
   }
 
   // MUDANÇA: Abaixo de 1000px usa toda largura disponível
@@ -110,15 +110,15 @@
 
   // Apenas altura responsiva, largura vem do JS
   @media (max-width: 1600px) {
-    height: 250px;
+    height: 380px; // Aumenta de 250px para 380px
   }
 
   @media (max-width: 1400px) {
-    height: 240px;
+    height: 360px; // Aumenta de 240px para 360px
   }
 
   @media (max-width: 1200px) {
-    height: 220px;
+    height: 340px; // Aumenta de 220px para 340px
   }
 
   @media (max-width: 1000px) {
@@ -191,35 +191,7 @@
 
   // Resto dos breakpoints permanecem iguais...
   @media (max-width: 1600px) {
-    height: 65px;
-    gap: 14px;
-
-    .play-icon {
-      width: 26px;
-      height: 26px;
-    }
-
-    h1 {
-      font-size: 1.25rem;
-    }
-  }
-
-  @media (max-width: 1400px) {
-    height: 60px;
-    gap: 13px;
-
-    .play-icon {
-      width: 25px;
-      height: 25px;
-    }
-
-    h1 {
-      font-size: 1.2rem;
-    }
-  }
-
-  @media (max-width: 1200px) {
-    height: 55px;
+    height: 50px; // Ajusta proporcionalmente
     gap: 12px;
 
     .play-icon {
@@ -229,6 +201,34 @@
 
     h1 {
       font-size: 1.15rem;
+    }
+  }
+
+  @media (max-width: 1400px) {
+    height: 48px; // Ajusta proporcionalmente
+    gap: 11px;
+
+    .play-icon {
+      width: 23px;
+      height: 23px;
+    }
+
+    h1 {
+      font-size: 1.1rem;
+    }
+  }
+
+  @media (max-width: 1200px) {
+    height: 46px; // Ajusta proporcionalmente
+    gap: 10px;
+
+    .play-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    h1 {
+      font-size: 1.05rem;
     }
   }
 
@@ -277,8 +277,43 @@
 
 .content-image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: calc(100% - 45px); // Desconta a altura do header
+  object-fit: cover; // Volta para cover para preencher os cantos
+  object-position: center;
+  position: absolute;
+  top: 45px; // Posiciona abaixo do header
+  left: 0;
+
+  // Ajustes responsivos para posição e altura
+  @media (max-width: 1600px) {
+    height: calc(100% - 50px);
+    top: 50px;
+  }
+
+  @media (max-width: 1400px) {
+    height: calc(100% - 48px);
+    top: 48px;
+  }
+
+  @media (max-width: 1200px) {
+    height: calc(100% - 46px);
+    top: 46px;
+  }
+
+  @media (max-width: 1000px) {
+    height: calc(100% - 60px);
+    top: 60px;
+  }
+
+  @media (max-width: 768px) {
+    height: calc(100% - 55px);
+    top: 55px;
+  }
+
+  @media (max-width: 480px) {
+    height: calc(100% - 50px);
+    top: 50px;
+  }
 }
 
 .carousel-nav-btn {

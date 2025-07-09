@@ -41,7 +41,7 @@
   @media (max-width: 1000px) {
     width: 100vw;
     max-width: 100vw;
-    height: 250px;
+    height: 380px; // Aumenta ainda mais para acomodar cards maiores
     padding: 0 60px;
 
     &::before,
@@ -59,7 +59,7 @@
   @media (max-width: 1000px) {
     width: calc(100vw - 120px);
     max-width: none;
-    height: 250px;
+    height: 380px; // Aumenta ainda mais para acomodar cards maiores
   }
 }
 
@@ -85,7 +85,7 @@
 
   // Mobile: apenas altura responsiva, largura vem do JS
   @media (max-width: 1000px) {
-    height: 250px;
+    height: 380px; // Aumenta ainda mais para acomodar cards maiores
     justify-content: center; // Centraliza o card
   }
 }
@@ -101,8 +101,8 @@
 
   @media (max-width: 1000px) {
     width: 90%; // Usa 90% do slide
-    max-width: 400px; // Máximo no mobile
-    height: 250px;
+    max-width: 320px; // Largura adequada
+    height: 360px; // Aumenta significativamente a altura
     margin: 0 auto; // Centraliza horizontalmente
   }
 }
@@ -151,11 +151,13 @@
 .content-image {
   width: 100%;
   height: calc(100% - 50px);
-  object-fit: cover;
+  object-fit: cover; // Volta para cover para preencher todo o espaço
+  object-position: center; // Centraliza a imagem
   display: block;
 
   @media (max-width: 1000px) {
     height: calc(100% - 45px);
+    object-fit: cover; // Mantém cover no mobile
   }
 }
 

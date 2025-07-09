@@ -75,14 +75,14 @@ export class CarouselContentComponent implements OnInit {
       this.containerWidth = window.innerWidth - 120;
       this.slideWidth = this.containerWidth;
     } else if (window.innerWidth <= 1200) {
-      this.slideWidth = 320;
-      this.containerWidth = 320;
+      this.slideWidth = 500; // Aumenta de 320 para 500
+      this.containerWidth = 500;
     } else if (window.innerWidth <= 1400) {
-      this.slideWidth = 350;
-      this.containerWidth = 350;
+      this.slideWidth = 550; // Aumenta de 350 para 550
+      this.containerWidth = 550;
     } else if (window.innerWidth <= 1600) {
-      this.slideWidth = 380;
-      this.containerWidth = 380;
+      this.slideWidth = 580; // Aumenta de 380 para 580
+      this.containerWidth = 580;
     } else {
       this.slideWidth = 600;
       this.containerWidth = 600;
