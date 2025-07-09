@@ -99,7 +99,7 @@ export class LadingPageComponent {
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(11)],
     ],
-    confirmUseMyData: [false, Validators.required]
+    acceptedTerms: [false, Validators.required]
   });
   ngOnInit() {
     window.addEventListener('scroll', () => {
@@ -405,6 +405,7 @@ export class LadingPageComponent {
 
   redirectToBlog() {
     this.router.navigate(['/noticias']);
+    window.scrollTo(0, 0);
   }
 
   isAuthenticated(): boolean {
@@ -430,21 +431,16 @@ export class LadingPageComponent {
     const completeName = this.form.value.name ?? '';
     const email = this.form.value.email ?? '';
     const cellphone = this.form.value.phone ?? '';
+    const acceptedTerms = this.form.value.acceptedTerms ?? false;
 
     this.confirmVisible = false;
     this.isLoading.set(true);
 
     this.pregristrationService
-      .makePreRegistration({ completeName, email, cellphone })
+      .makePreRegistration({ completeName, email, cellphone, acceptedTerms })
       .subscribe({
         next: (response) => {
           this.isLoading.set(false);
-
-          // this.messageService.add({
-          //   severity: 'success',
-          //   summary: 'Sucesso!',
-          //   detail: response.message,
-          // });
 
           this.showErrors.set(false);
           this.visible = false;

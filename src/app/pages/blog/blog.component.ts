@@ -65,6 +65,7 @@ export class BlogComponent {
   protected searchTerm: WritableSignal<string> = signal('');
 
   private searchSubject = new Subject<string>();
+  showBackToTop = signal(false);
 
   protected bgColors = signal([
     "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457",
@@ -74,6 +75,10 @@ export class BlogComponent {
   ]);
 
   constructor() {
+    window.addEventListener('scroll', () => {
+      this.showBackToTop.set(window.pageYOffset > 300)
+    });
+
     this.loadPosts();
     this.carouselCharge();
 
@@ -184,6 +189,10 @@ export class BlogComponent {
       (B < 255 ? (B < 1 ? 0 : B) : 255))
       .toString(16)
       .slice(1)}`;
+  }
+
+  scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
 }

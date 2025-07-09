@@ -214,7 +214,7 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
 <p-toast />
 
 <p-dialog
-  styleClass="!bg-orange-50"
+  styleClass="!bg-orange-50 mx-1! md:mx-0!"
   [modal]="true"
   [(visible)]="visible"
   [style]="{ width: '40rem' }"
@@ -228,9 +228,7 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
     <div class="px-4">
       <div class="flex flex-col justify-center items-center gap-2 pt-6 pb-4">
         <h1 class="text-3xl uppercase text-green-700">Pré-Cadastro</h1>
-        <span class="text-green-700 text-lg"
-          >Preencha com seus dados e dê um play no seu futuro!</span
-        >
+        <span class="text-green-700 text-lg text-center">Preencha com seus dados e dê um play no seu futuro!</span>
       </div>
       <div class="flex flex-col gap-1 mb-4">
         <label for="name" class="font-semibold text-gray-700"
@@ -303,16 +301,16 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
       <div class="flex flex-col gap-3 mb-8">
         <div class="flex gap-3">
           <p-checkbox
-          formControlName="confirmUseMyData"
+          formControlName="acceptedTerms"
           [binary]="true"
-          inputId="confirmUseMyDada"
+          inputId="acceptedTerms"
         />
-        <label for="confirmUseMyDada">
-          Declaro, para todos os devidos fins, que autorizo o tratamento dos meus dados pessoais fornecidos no presente formulário, com a finalidade de viabilizar minha participação no proceso de seleção e, se aprovado(a), na matrícula do curso Empreendedores Digitais. <br><br>
+        <label for="acceptedTerms">
+          Autorizo o tratamento dos meus dados pessoais fornecidos neste formulário, com a finalidade de participar do banco de vagas do projeto Jovens Empreendedores Digitais e viabilizar futuras etapas de seleção e matrícula. <br><br>
           Estou ciente de que os dados serão utilizados para fins administrativos, educacionais e de comunicação relacionados ao referido curso, respeitando as disposições da Lei Geral de Proteção de Dados Pessoais (Lei n° 13.709/2018).
         </label>
         </div>
-        @if(showErrors() && form.get('confirmUseMyData')?.hasError('required')) {
+        @if(showErrors() && form.get('acceptedTerms')?.hasError('required')) {
           <p-message
             severity="error"
             text="Confirme o termo de uso para realizar o pré-cadastro."
