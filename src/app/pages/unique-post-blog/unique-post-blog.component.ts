@@ -44,14 +44,7 @@ export class UniquePostBlogComponent implements OnInit{
         }
       });
     });
-
-    window.addEventListener('scroll', this.onScroll, true);
   }
-
-  ngOnDestroy(): void {
-    window.removeEventListener('scroll', this.onScroll, true);
-  }
-
 
   getSafeHtml(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);
@@ -60,11 +53,5 @@ export class UniquePostBlogComponent implements OnInit{
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  private onScroll = (): void => {
-    const scrollPosition = window.scrollY || document.documentElement.scrollTop;
-    const viewportHeight = window.innerHeight;
-    this.showScrollTop = scrollPosition > (viewportHeight + 10);
-  };
 
 }

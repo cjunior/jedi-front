@@ -126,3 +126,13 @@
   </div>
 </div>
 <app-footer [isBlog]="true" />
+<button
+class="back-to-top-btn"
+[class.show]="showBackToTop()"
+(click)="scrollToTop()"
+aria-label="Voltar ao topo"
+>
+<i class="pi pi-angle-up"></i>
+</button>
+
+
