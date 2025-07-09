@@ -1593,6 +1593,15 @@ h4 {
 }
 
 @media (max-width: 1300px) and (min-width: 1100px) {
+  .container-one{
+    .containertext{
+      .text{
+        h1{
+          font-size: 54px !important;
+        }
+      }
+    }
+  }
   .container-four {
    .text{
     h1{
