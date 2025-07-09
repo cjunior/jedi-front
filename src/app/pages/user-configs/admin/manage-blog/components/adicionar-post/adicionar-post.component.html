@@ -54,8 +54,8 @@
 
     <div class="flex flex-col">
       <label for="description">Conteúdo <span class="text-red-500">*</span></label>
-      <ngx-editor-menu [editor]="editor" />
-      <ngx-editor formControlName="description" [editor]="editor" name="description" onchange="" />
+      <ngx-editor-menu [editor]="editor"/>
+      <ngx-editor formControlName="description" [editor]="editor" name="description" onchange="" [placeholder]="'Digite aqui a descrição do conteúdo...'" />
       @if (hasError('description', 'required') || hasError('description', 'minlengthHtml')) {
         <p-message
           severity="error"
@@ -116,6 +116,7 @@
         type="submit"
         pButton
         label="Salvar"
+        class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
         [disabled]="postForm.invalid || !selectedBannerFile"
         [loading]="isLoading"
       ></button>

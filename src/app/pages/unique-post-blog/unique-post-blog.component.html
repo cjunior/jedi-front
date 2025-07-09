@@ -12,18 +12,6 @@
         <!-- <div class="w-full h-[1px] bg-zinc-300"></div> -->
       </div>
       <div class="flex flex-col items-center mt-6">
-        <!-- <div class="flex pb-4">
-          <p-avatar
-            styleClass="mr-2"
-            size="large"
-            shape="circle"
-            [image]="post?.iconUrl"
-          />
-          <div class="">
-            <p class="text-zinc-600 font-bold">{{ post?.author }}</p>
-            <p class="text-zinc-600 text-xs">{{ post?.date}}</p>
-          </div>
-        </div> -->
         <div class="w-full max-w-4xl">
           <img [src]="post?.imageUrl" alt="" class="w-full h-100 object-cover rounded-lg">
           <div [innerHTML]="getSafeHtml(post?.description || '')" class="keep-html"></div>
@@ -31,11 +19,4 @@
       </div>
     </div>
   </div>
-  @if(showScrollTop) {
-    <p-button
-      icon="pi pi-angle-up"
-      (click)="scrollToTop()"
-      styleClass="fixed! bottom-6! right-6! h-8! w-8! border-emerald-700! bg-emerald-800! text-white rounded-full! shadow-lg! hover:bg-emerald-900! transition-opacity! duration-300!"
-    />
-  }
 </div>

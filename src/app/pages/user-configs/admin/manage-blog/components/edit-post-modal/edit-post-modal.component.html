@@ -63,7 +63,7 @@
     <div class="flex flex-col">
       <label>Conteúdo <span class="text-red-500">*</span></label>
       <ngx-editor-menu [editor]="editor" />
-      <ngx-editor [editor]="editor" formControlName="description" />
+      <ngx-editor [editor]="editor" formControlName="description" [placeholder]="'Digite aqui a descrição do conteúdo...'" />
       @if(f['description'].invalid && f['description'].touched) {
         <p-message
           severity="error"
@@ -134,6 +134,7 @@
         type="submit"
         pButton
         label="Salvar alterações"
+        class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
         [disabled]="form.invalid"
         [loading]="isLoading"
       ></button>

@@ -2,6 +2,7 @@ export interface IPreRegistration {
   completeName: string;
   email: string;
   cellphone: string;
+  acceptedTerms: boolean;
 }
 
 export interface ICompleteRegistrationPayload {

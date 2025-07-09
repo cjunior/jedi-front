@@ -40,9 +40,9 @@
   }
 
   .keep-html p {
-    min-height: 1em; /* mostra mesmo que vazio */
-    white-space: pre-wrap; /* respeita espaços e quebras de linha */
-    margin: 0.5rem 0; /* melhora o espaçamento */
+    min-height: 1em;
+    white-space: pre-wrap;
+    margin: 0.5rem 0;
   }
 }
 
