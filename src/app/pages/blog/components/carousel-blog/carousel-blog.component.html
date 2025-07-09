@@ -1,28 +1,30 @@
-<div class="card">
+<div class="card -mx-2">
   <p-carousel
+    #carousel
     [value]="posts"
-    [numVisible]="1"
+    [numVisible]="numVisible"
     [numScroll]="1"
     [circular]="true"
-    [page]="currentIndex"
-    (onPage)="aoTrocarPagina($event)"
+    [responsiveOptions]="responsiveOptions"
   >
-    <ng-template let-post #item>
-      <div class="relative w-full h-[24rem] overflow-hidden rounded-xl shadow-lg group cursor-pointer" (click)="viewPost(post.id)">
-        <!-- Imagem -->
+    <ng-template let-post pTemplate="item">
+      <div
+        class="relative w-full aspect-square overflow-hidden rounded-xl shadow-md group cursor-pointer sm:px-2"
+        (click)="viewPost(post.id)"
+      >
         <img
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-101"
           [src]="post?.imageUrl"
           [alt]="post?.imageDescription || post?.title"
         />
-
-        <!-- Sobreposição com texto -->
-        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-6 py-4 text-white">
-          <h3 class="text-xl md:text-2xl font-semibold mb-1">{{ post?.title }}</h3>
-          <div class="flex flex-wrap items-center text-sm text-zinc-100 gap-x-4">
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-4 py-3 text-white"
+        >
+          <h3 class="text-lg font-semibold mb-1 line-clamp-2">{{ post?.title }}</h3>
+          <div class="flex flex-wrap items-center text-xs text-zinc-100 gap-x-2">
             <span>{{ post?.readingTime }} de leitura</span>
             <span class="opacity-70">•</span>
-            <span>{{ post?.date}}</span>
+            <span>{{ post?.date }}</span>
           </div>
         </div>
       </div>

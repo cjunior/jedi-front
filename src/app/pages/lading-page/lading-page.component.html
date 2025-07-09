@@ -22,7 +22,7 @@
   >
     <i class="pi pi-angle-up"></i>
   </button>
-  
+
   <!-- Header sempre fixo -->
   <div class="header-container header-fixed">
     <div class="top bg-gradient-to-b from-[#C1CFA0] to-[#FFFFFF]">
@@ -81,7 +81,7 @@
       </button>
     </nav>
   </div>
-  
+
   <!-- Espaçamento fixo para compensar header -->
   <div class="header-spacer"></div>
 
@@ -121,7 +121,7 @@
           <li>• apoio para transformar sua ideia em realidade.</li>
         </ul>
         <p class="projectleft">
-         
+
 O projeto é realizado pelo Instituto Federal de Educação, Ciência e Tecnologia do Ceará (IFCE), por meio do Centro de Referência em Educação a Distância (CREaD), em parceria com o Ministério da Ciência, Tecnologia e Inovação (MCTI).
         </p>
       </div>
@@ -183,17 +183,21 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
 
   <div class="container-nine flex flex-col justify-center max-w-7xl mx-auto px-4 py-16" id="notices">
     <div>
-      <h1 class="title-container text-center font-medium">Notícias</h1>
-      <p class="text-center text-zinc-600 subtitle-container mb-4">
+      <h1 class="title-container text-[#426b53]! text-center font-medium uppercase">Notícias</h1>
+      <p class="text-center text-zinc-600 subtitle-container mb-8">
         Explore ideias, conquistas e histórias que movimentam o futuro do empreendedorismo jovem no Brasil.
       </p>
     </div>
-    <div class="w-full md:w-200 md:h-100 rounded-lg overflow-hidden shadow-md mb-3 md:mb-8 mx-auto">
-      <img
-        [src]="blogDestaque?.imagem"
-        alt="Post destacado"
-        class="w-full h-full object-cover"
-      />
+
+    <!-- Container da imagem responsivo -->
+    <div class="w-full max-w-md sm:max-w-lg mx-auto mb-6 md:mb-8">
+      <div class="aspect-square rounded-lg overflow-hidden shadow-md">
+        <img
+          [src]="blogDestaque?.imagem"
+          alt="Post destacado"
+          class="w-full h-full object-cover"
+        />
+      </div>
     </div>
 
     <div class="flex flex-col items-center text-center gap-4">
@@ -204,13 +208,13 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
         <span>{{ blogDestaque?.tempoLeitura }}</span> de leitura
       </div>
 
-      <h1 class="text-3xl md:text-4xl font-bold text-zinc-800 leading-tight">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-zinc-800 leading-tight max-w-4xl">
         {{ blogDestaque?.titulo }}
       </h1>
 
       <button
         (click)="redirectToBlog()"
-        class="border-none border border-emerald-700 cursor-pointer px-6 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold rounded-lg transition"
+        class="border-none border border-emerald-700 cursor-pointer px-6 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold rounded-lg transition mt-2"
       >
         Ver notícias
       </button>
@@ -415,7 +419,7 @@ Para se aprofundar ainda mais no seu tipo de negócio, você também terá acess
       <h2 class="text-xl font-bold text-green-700 uppercase">Estamos quase lá!</h2>
       <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
         <p class="text-gray-700 leading-relaxed">
-          <strong>Seu pré-cadastro foi enviado com sucesso!</strong> Em breve, você receberá um e-mail para completar seu cadastro.
+          <strong> Acesse o seu e-mail</strong> e finalize o cadastro para registrar sua inscrição no banco de vagas.
         </p>
       </div>
       <div class="flex justify-center gap-3 mt-4">
