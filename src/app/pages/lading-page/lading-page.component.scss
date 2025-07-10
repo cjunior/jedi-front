@@ -15,7 +15,7 @@
     z-index: 1000;
     max-width: 1920px;
     margin: 0 auto;
-    
+
     nav {
       // Estilos específicos para a logo quando header está fixo
      .logoimg {
@@ -36,31 +36,31 @@
   }
 }
     }
-    
+
     // Responsividade para mobile
     @media (max-width: 990px) {
       .top {
         height: 50px;
         padding: 0 10px;
       }
-      
+
       nav {
         height: 70px;
         padding: 0 10px;
-        
+
         img {
           width: 200px;
         }
-        
+
         ul {
           display: none;
         }
-        
+
         button.primary-btn {
           font-size: 14px;
           height: 40px;
           padding: 8px;
-          
+
           img {
             width: 16px;
             height: 16px;
@@ -73,7 +73,7 @@
   // Espaçador para header fixo (sempre ativo)
   .header-spacer {
     height: 140px; // Altura total do header (60px + 80px)
-    
+
     @media (max-width: 990px) {
       height: 120px; // Altura reduzida para mobile (50px + 70px)
     }
@@ -117,7 +117,7 @@
 
         &.instagram, &.youtube, &.email {
           opacity: 1
-          
+
         }
 
         &.instagram {
@@ -221,11 +221,10 @@
       justify-content: space-between;
       padding: 0 80px;
       padding-top: 114px;
-      margin-bottom: 74px;
+      padding-bottom: 74px;
 
       .text {
-        width: auto;
-        height: 259.88px;
+        height: fit-content;
         align-items: center;
         display: flex;
 
@@ -243,7 +242,6 @@
 
       h1 {
         width: 623px;
-        height: 146.76px;
        font-family: 'Roboto', sans-serif;
         font-weight: 800;
         font-size: 28px;
@@ -273,7 +271,7 @@
         display: flex;
         font-family: "Bebas Neue", sans-serif;
         font-weight: 400;
-        font-size: 60px;
+        font-size: 54px;
         line-height: 45px;
         letter-spacing: 1.25px;
         text-align: center;
@@ -540,7 +538,7 @@
       h1 {
         font-family: "Bebas Neue", sans-serif;
         font-weight: 400;
-        font-size: 60px;
+        font-size: 54px;
         line-height: 45px;
         letter-spacing: 1.25px;
         vertical-align: middle;
@@ -628,8 +626,6 @@
     justify-content: center;
 
     .title-container {
-      font-family: "Bebas Neue", sans-serif;
-      font-size: 46px;
       letter-spacing: 0.15px;
       color: #132937;
     }
@@ -867,7 +863,7 @@
     box-sizing: border-box !important;
   }
 
-  
+
   @media (max-width: 1024px) {
     .content-carousel {
       max-width: 100%;
@@ -1074,7 +1070,7 @@
       }
     }
     .container-four {
-     
+
       padding: 0px 100px !important;
       transition: all 0.3s ease-in-out;
 
@@ -1108,7 +1104,7 @@
             width: 100% !important;
           }
         }
-        .cards {
+        cards {
           .minor-card {
             height: auto !important;
             img {
@@ -1125,14 +1121,14 @@
     }
   }
   @media (max-width: 1096px) and (min-width: 992px) {
-    .project {
-      .text-project {
-        h1 {
-          font-size: 18px !important;
-          line-height: 28px !important;
-        }
-      }
-    }
+    // .project {
+    //   .text-project {
+    //     h1 {
+    //       font-size: 18px !important;
+    //       line-height: 28px !important;
+    //     }
+    //   }
+    // }
   }
 
   @media (max-width: 990px) {
@@ -1269,7 +1265,7 @@
       h1{
         font-size: 33px !important;
       }
-     
+
     }
 
     .container-one,
@@ -1339,7 +1335,8 @@
   @media (max-width: 768px) {
     .container-one{
       .containertext {
-       padding-top: 0px !important;
+       padding-top: 80px !important;
+       gap: 45px !important
       }
     }
     .container-two,
@@ -1364,8 +1361,8 @@
         font-size: 14px;
       }
       img {
-       
-        
+
+
       }
 
       button.primary-btn {
@@ -1390,7 +1387,7 @@
 
         .text {
           width: 100%;
-          
+
 
           h1 {
             font-size: 46px;
@@ -1445,7 +1442,7 @@
   @media (max-width: 400px) {
     .sub {
       margin-top: 46px !important;
-     
+
     }
     .pr{
        font-size: 28px !important;
@@ -1702,7 +1699,7 @@ h4 {
 }
 }
 
-@media (max-width: 1300px) and (min-width: 1100px) {
+@media (max-width: 1300px){
   .container-one{
     .containertext{
       .text{
@@ -1710,6 +1707,11 @@ h4 {
           font-size: 54px !important;
         }
       }
+      .sub {
+        font-size: 26px !important;
+        line-height: 30px !important;
+      }
+
     }
   }
   .container-four {
