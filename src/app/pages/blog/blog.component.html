@@ -1,17 +1,17 @@
 @if(isLoading()) {
   <div class="custom-loading">
     <div class="loading-content">
-      <img src="/logo.png" alt="Logo" class="loading-logo" />
+      <img src="/logo.svg" alt="Logo" class="loading-logo" />
       <div class="loading-text">Carregando...</div>
     </div>
   </div>
 }
 
 <div class="w-full min-h-full bg-gradient-to-b from-orange-50 to-lime-100">
-  <div class="max-w-[1440px]! mx-auto py-8">
+  <div class="max-w-[1440px]! mx-auto py-8 relative">
     <div class="flex items-center justify-between px-2">
       <img src="logo.svg" alt="" class="h-30 cursor-pointer" (click)="redirectToInitialPage()" />
-      <ul class="hidden md:block">
+      <ul class="hidden md:block absolute left-1/2 transform -translate-x-1/2">
         <li class="text-emerald-900 font-bold cursor-pointer pt-4" (click)="redirectToInitialPage()">Página inicial</li>
       </ul>
       <div class="pt-4 hidden md:block">
