@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { environment } from '../../../../../../environment/environment';
+import { environment } from '../../../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,7 +14,7 @@ export class editService {
     getdados(): Observable<any> {
         return this.http.get(`${this.apiUrl}loadlandpage/get`);
       }
-      
+
       putdados(formData: FormData): Observable<any> {
         return this.http.put(`${this.apiUrl}header/update`, formData);
       }
@@ -62,7 +62,7 @@ export class editService {
    postcontent(formData: FormData): Observable<any> {
   return this.http.post(`${this.apiUrl}content/slides/add`, formData, { responseType: 'text' });
 }
-      
+
 
    Deletecontet(id: number): Observable<any> {
   return this.http.delete(`${this.apiUrl}content/slide/${id}`, );

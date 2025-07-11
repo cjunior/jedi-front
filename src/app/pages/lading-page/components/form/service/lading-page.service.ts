@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../../../../environment/environment';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +18,5 @@ postcontact(payload: any): Observable<any> {
   });
   return this.http.post(`${this.apiUrl}contact/email`, formData,  { responseType: 'text' });
 }
- 
+
 }
