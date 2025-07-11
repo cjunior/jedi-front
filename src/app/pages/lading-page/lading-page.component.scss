@@ -1192,14 +1192,15 @@
         }
         .text {
           h1 {
-            font-size: 46px;
+            font-size: 46px !important;
             line-height: 51px;
             width: 100%;
           }
         }
-        h1 {
-          width: 297px;
-          font-size: 26px;
+        .sub {
+          font-size: 26px !important;
+          width: 80% !important;
+          margin: 0 auto 0 0;
         }
       }
       .project {
@@ -1355,6 +1356,13 @@
   }
 
   @media (max-width: 500px) {
+
+    .container-one{
+      .containertext {
+       padding: 80px 20px 0px 20px;
+       gap: 45px !important
+      }
+    }
     nav {
       padding: 0px 10px;
       button.primary-btn {
@@ -1390,12 +1398,12 @@
 
 
           h1 {
-            font-size: 46px;
+            font-size: 37px !important;
             line-height: 51px;
           }
         }
         .sub {
-          line-height: 28px;
+          line-height: 28px !important;
           font-size: 18px !important;
         }
       }

@@ -139,7 +139,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(event: any) {
-    this.pauseAutoplayPermanently();
+    this.pauseAutoplay(); // apenas pausa temporariamente (remove o permanently)
     this.updateNumVisible();
 
     let targetPage = event.page;
@@ -150,6 +150,9 @@ export class CarouselComponent implements OnInit, OnDestroy {
 
     this.currentPage = targetPage;
     this.updateCurrentMiddleItem();
+
+    // Opcional: reinicia o autoplay após um tempo
+    setTimeout(() => this.resumeAutoplay(), 5000); // 5 segundos de pausa
   }
 
   pauseAutoplay() {
