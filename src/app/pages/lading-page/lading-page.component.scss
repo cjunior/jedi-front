@@ -23,16 +23,11 @@
   height: auto !important;
   margin-bottom: 48px !important;
   object-fit: contain !important;
-  image-rendering: -webkit-optimize-contrast !important;
-  image-rendering: crisp-edges !important;
 
   @media (max-width: 990px) {
     width: 178px !important;
     height: auto !important;
     margin-bottom: 19px !important;
-    // Força renderização de alta qualidade
-    image-rendering: -webkit-optimize-contrast !important;
-    image-rendering: crisp-edges !important;
   }
 }
     }
@@ -1346,6 +1341,10 @@
   }
 
   @media (max-width: 500px) {
+
+    .header-container nav .logoimg {
+      width: 180px !important;
+    }
 
     .container-one{
       .containertext {
