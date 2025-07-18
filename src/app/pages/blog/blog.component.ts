@@ -69,9 +69,7 @@ export class BlogComponent {
 
   protected bgColors = signal([
     "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457",
-    "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457",
-    "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457",
-    "#2e5b39", "#dc7f3a", "#efa95d", "#1e6197", "#7c8457"
+  "#86377b", "#b84a39", "#37638c", "#8e6e53", "#297d77"
   ]);
 
   constructor() {
@@ -189,6 +187,11 @@ export class BlogComponent {
       (B < 255 ? (B < 1 ? 0 : B) : 255))
       .toString(16)
       .slice(1)}`;
+  }
+
+  getColorForPost(id: number): string {
+    const colors = this.bgColors();
+    return colors[id % colors.length];
   }
 
   scrollToTop(): void {
