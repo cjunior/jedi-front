@@ -92,6 +92,7 @@ export class LadingPageComponent {
     titulo: 'REDE JEDI',
   };
   resumoDoPost: string = '';
+  blogItems = []
 
   form = this.formBuilder.group({
     name: ['', [Validators.minLength(6), Validators.required]],
@@ -106,10 +107,10 @@ export class LadingPageComponent {
     window.addEventListener('scroll', () => {
       this.showBackToTop = window.pageYOffset > 300;
     });
-    
+
     // Iniciar pré-carregamento das imagens
     this.preloadImages();
-    
+
     if (this.blogDestaque?.descricao) {
       const div = document.createElement('div');
       div.innerHTML = this.blogDestaque.descricao;
@@ -122,6 +123,8 @@ export class LadingPageComponent {
         this.loadingProgress = Math.max(this.loadingProgress, 50) + 50; // Adiciona 50% quando dados carregam
         this.checkLoadingComplete();
         const blogItems = dados.blogSectionResponseDto?.items || [];
+        this.blogItems = blogItems
+        console.log(blogItems);
 
         this.redeJediSectionDto = {
           titulo: (dados.redeJediSectionDto.titulo || '')

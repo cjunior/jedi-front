@@ -197,8 +197,9 @@
       <h1 class="title-container text-[#426b53]! text-center font-medium uppercase text-[33px]  lg:text-[54px]">Notícias</h1>
     </div>
 
-    <!-- Container da imagem responsivo -->
-    <div class="w-full max-w-md sm:max-w-lg mx-auto mb-6 md:mb-8">
+   @if(blogItems.length > 0) {
+     <!-- Container da imagem responsivo -->
+     <div class="w-full max-w-md sm:max-w-lg mx-auto mb-6 md:mb-8">
       <div class="aspect-square rounded-lg overflow-hidden shadow-md">
         <img
           [src]="blogDestaque?.imagem"
@@ -231,6 +232,9 @@
         Ver notícias
       </button>
     </div>
+    } @else {
+      <span class="text-center">Sem nenhuma postagem até o momento!</span>
+    }
   </div>
 
   <app-footer />
