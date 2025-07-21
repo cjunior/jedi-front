@@ -65,7 +65,7 @@ export class CarouselComponent implements OnInit, OnDestroy {
       role: 'Conteudista',
     },
     {
-      image: '/ProfessorSávio.jpeg',
+      image: '/Savio.jpg',
       alt: 'Equipe 4',
       name: 'Prof. Sávio Soares',
       role: 'Conteudista',
