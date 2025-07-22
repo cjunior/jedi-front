@@ -48,19 +48,66 @@ export class CompleteRegisterComponent implements OnInit{
   isLoading = signal<boolean>(false);
   protected showErrors = signal<boolean>(false);
 
-  protected estados = signal([
-    { label: 'Bahia', value: 'BA' },
-    { label: 'São Paulo', value: 'SP' },
-    { label: 'Rio de Janeiro', value: 'RJ' },
-    { label: 'Minas Gerais', value: 'MG' },
-    { label: 'Rio Grande do Sul', value: 'RS' },
-    { label: 'Santa Catarina', value: 'SC' },
-  ]);
+  protected municipiosDisponiveis = [
+    { label: 'Abaetetuba', value: 'Abaetetuba' },
+    { label: 'Acará', value: 'Acará' },
+    { label: 'Alenquer', value: 'Alenquer' },
+    { label: 'Altamira', value: 'Altamira' },
+    { label: 'Ananindeua', value: 'Ananindeua' },
+    { label: 'Baião', value: 'Baião' },
+    { label: 'Barcarena', value: 'Barcarena' },
+    { label: 'Belém', value: 'Belém' },
+    { label: 'Benevides', value: 'Benevides' },
+    { label: 'Bragança', value: 'Bragança' },
+    { label: 'Breu Branco', value: 'Breu Branco' },
+    { label: 'Breves', value: 'Breves' },
+    { label: 'Cametá', value: 'Cametá' },
+    { label: 'Canaã dos Carajás', value: 'Canaã dos Carajás' },
+    { label: 'Capanema', value: 'Capanema' },
+    { label: 'Capitão-Poço', value: 'Capitão-Poço' },
+    { label: 'Castanhal', value: 'Castanhal' },
+    { label: 'Conceição do Araguaia', value: 'Conceição do Araguaia' },
+    { label: 'Curuçá', value: 'Curuçá' },
+    { label: 'Dom Eliseu', value: 'Dom Eliseu' },
+    { label: 'Igarapé-Miri', value: 'Igarapé-Miri' },
+    { label: 'Itaituba', value: 'Itaituba' },
+    { label: 'Itupiranga', value: 'Itupiranga' },
+    { label: 'Jacundá', value: 'Jacundá' },
+    { label: 'Juruti', value: 'Juruti' },
+    { label: 'Marabá', value: 'Marabá' },
+    { label: 'Marituba', value: 'Marituba' },
+    { label: 'Mojú', value: 'Mojú' },
+    { label: 'Monte Alegre', value: 'Monte Alegre' },
+    { label: 'Novo Repartimento', value: 'Novo Repartimento' },
+    { label: 'Óbidos', value: 'Óbidos' },
+    { label: 'Oriximiná', value: 'Oriximiná' },
+    { label: 'Pacajá', value: 'Pacajá' },
+    { label: 'Paragominas', value: 'Paragominas' },
+    { label: 'Parauapebas', value: 'Parauapebas' },
+    { label: 'Portel', value: 'Portel' },
+    { label: 'Redenção', value: 'Redenção' },
+    { label: 'Rondon do Pará', value: 'Rondon do Pará' },
+    { label: 'Salinópolis', value: 'Salinópolis' },
+    { label: 'Santa Izabel do Pará', value: 'Santa Izabel do Pará' },
+    { label: 'Santarém', value: 'Santarém' },
+    { label: 'São Felix do Xingu', value: 'São Felix do Xingu' },
+    { label: 'São Miguel do Guamá', value: 'São Miguel do Guamá' },
+    { label: 'Tailândia', value: 'Tailândia' },
+    { label: 'Terra Santa', value: 'Terra Santa' },
+    { label: 'Tomé-Açú', value: 'Tomé-Açú' },
+    { label: 'Tucumã', value: 'Tucumã' },
+    { label: 'Tucuruí', value: 'Tucuruí' },
+    { label: 'Ulianópolis', value: 'Ulianópolis' },
+    { label: 'Uruará', value: 'Uruará' },
+    { label: 'Vigia', value: 'Vigia' },
+    { label: 'Viseu', value: 'Viseu' },
+    { label: 'Xinguara', value: 'Xinguara' },
+  ];
 
   form = this.formBuilder.group({
     completeName: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
-    cellphone: ['', [Validators.required, Validators.pattern(/^\(\d{2}\) \d{5}-\d{4}$/)]],
+    cellphone: ['', [Validators.required]],
     municipality: [null, Validators.required],
     cpf: ['', [Validators.required, cpfValidator]],
     birthDate: [null, [Validators.required, birthDateInFutureValidator]],
@@ -118,15 +165,15 @@ export class CompleteRegisterComponent implements OnInit{
 
       const token = this.route.snapshot.paramMap.get('token') || '';
       this.preRegistrationService.completeRegistration(formData, token).subscribe({
-        next: (response) => {
+        next: (_response) => {
           this.isLoading.set(false);
-          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro completo com sucesso!' });
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cadastro completo com sucesso! Você será redirecionado para a página inicial' });
           this.form.reset();
           this.nomeArquivoRG.set(null);
           this.nomeArquivoComprovante.set(null);
           setInterval(() => {
             this.router.navigate(['/']);
-          }, 1000)
+          }, 2000)
         },
         error: (err) => {
           this.isLoading.set(false);
@@ -199,7 +246,7 @@ export class CompleteRegisterComponent implements OnInit{
     }
   }
 
-  teste(event:any) {
+  inputDatepicker(event:any) {
     const input = event.target as HTMLInputElement;
     let value = input.value.replace(/\D/g, ''); // remove tudo que não for número
 
