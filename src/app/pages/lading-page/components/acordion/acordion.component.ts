@@ -22,7 +22,7 @@ export class AcordionComponent implements OnInit {
     },
     {
       title: 'Quem pode participar?',
-      content: 'Pessoas de 16 a 29 anos que residem no estado do Pará.'
+      content: 'Pessoas de 16 a 29 anos que residem em um dos 53 municípios paraenses participantes.'
     },
     {
       title: 'Qual a duração do curso?',
