@@ -26,12 +26,10 @@
         <div>{{ userRegister?.birthDate | date: 'dd/MM/yyyy' }}</div>
       </div>
     }
-    @if(userRegister?.municipality) {
-      <div>
-        <label><strong>Município:</strong></label>
-        <div>{{ userRegister?.municipality }}</div>
-      </div>
-    }
+    <div>
+      <label><strong>Município:</strong></label>
+      <div>{{ userRegister?.municipality === 'Outros' ? userRegister?.otherMunicipality : userRegister?.municipality }}</div>
+    </div>
     @if(userRegister?.cpf) {
       <div >
         <label><strong>CPF:</strong></label>

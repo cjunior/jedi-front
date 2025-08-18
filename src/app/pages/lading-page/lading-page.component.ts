@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 import { Checkbox } from 'primeng/checkbox';
+import { DropdownModule } from 'primeng/dropdown';
 
 interface BlogCard {
   id: number;
@@ -59,7 +60,8 @@ interface BlogCard {
     ProgressSpinnerModule,
     FooterComponent,
     CarouselContentComponent,
-    Checkbox
+    Checkbox,
+    DropdownModule
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
@@ -101,8 +103,42 @@ export class LadingPageComponent {
       '',
       [Validators.required, Validators.minLength(10), Validators.maxLength(11)],
     ],
+    municipality: [''],
+    otherMunicipality: [{ value: '', disabled: true }, Validators.required], // Define o estado disabled na criação
+    isOtherMunicipality: [false], // Adicionado ao formGroup
     acceptedTerms: [false, Validators.required]
   });
+
+  protected municipiosDisponiveis = [
+    { label: 'Belém', value: 'Belém' },
+    { label: 'Ananindeua', value: 'Ananindeua' },
+    { label: 'Castanhal', value: 'Castanhal' },
+    { label: 'Santa Izabel do Pará', value: 'Santa Izabel do Pará' },
+    { label: 'Marituba', value: 'Marituba' },
+    { label: 'Benevides', value: 'Benevides' },
+    { label: 'Vigia', value: 'Vigia' },
+    { label: 'Portel', value: 'Portel' },
+    { label: 'Breves', value: 'Breves' },
+    { label: 'Abaetetuba', value: 'Abaetetuba' },
+    { label: 'Moju', value: 'Moju' },
+    { label: 'Cametá', value: 'Cametá' },
+    { label: 'Barcarena', value: 'Barcarena' },
+    { label: 'Tailândia', value: 'Tailândia' },
+    { label: 'Igarapé-Miri', value: 'Igarapé-Miri' },
+    { label: 'Acará', value: 'Acará' },
+    { label: 'Tomé-Açú', value: 'Tomé-Açú' },
+    { label: 'Baião', value: 'Baião' },
+    { label: 'Bragança', value: 'Bragança' },
+    { label: 'Capanema', value: 'Capanema' },
+    { label: 'Viseu', value: 'Viseu' },
+    { label: 'Capitão Poço', value: 'Capitão Poço' },
+    { label: 'Curuçá', value: 'Curuçá' },
+    { label: 'São Miguel do Guamá', value: 'São Miguel do Guamá' },
+    { label: 'Salinópolis', value: 'Salinópolis' },
+  ];
+
+  protected isOtherMunicipality = false;
+
   ngOnInit() {
     window.addEventListener('scroll', () => {
       this.showBackToTop = window.pageYOffset > 300;
@@ -483,11 +519,43 @@ export class LadingPageComponent {
     this.router.navigate(['/configuracoes']);
   }
 
+  onOtherMunicipalityChange(isChecked: boolean) {
+    this.isOtherMunicipality = isChecked; // Atualiza a variável de controle
+    this.form.patchValue({ isOtherMunicipality: isChecked }); // Atualiza o valor no formGroup
+
+    if (isChecked) {
+      this.form.patchValue({ municipality: 'Outros' }); // Define "Outros" no campo municipality
+      this.form.get('municipality')?.disable(); // Desabilita o campo municipality
+
+      this.form.get('otherMunicipality')?.enable(); // Habilita o campo otherMunicipality
+      this.form.get('otherMunicipality')?.setValidators([Validators.required]);
+      this.form.get('otherMunicipality')?.updateValueAndValidity();
+    } else {
+      this.form.patchValue({ municipality: '', otherMunicipality: '' }); // Limpa os campos
+      this.form.get('municipality')?.enable(); // Habilita o campo municipality
+      this.form.get('municipality')?.setValidators([Validators.required]);
+      this.form.get('municipality')?.updateValueAndValidity();
+
+      this.form.get('otherMunicipality')?.clearValidators();
+      this.form.get('otherMunicipality')?.updateValueAndValidity();
+      this.form.get('otherMunicipality')?.disable(); // Desabilita o campo otherMunicipality
+    }
+  }
+
   async onSubmit() {
     this.showErrors.set(true);
 
     if (this.form.valid) {
-      // Abrir modal de confirmação
+      const payload = {
+        completeName: this.form.value.name,
+        email: this.form.value.email,
+        cellphone: this.form.value.phone,
+        municipality: this.isOtherMunicipality ? 'Outros' : this.form.value.municipality, // Define "Outros" se o checkbox estiver marcado
+        otherMunicipality: this.isOtherMunicipality ? this.form.value.otherMunicipality : '', // Preenche apenas se marcado
+        acceptedTerms: this.form.value.acceptedTerms,
+      };
+
+      console.log('Payload enviado:', payload); // Para depuração
       this.confirmVisible = true;
     } else {
       this.form.markAllAsTouched();
@@ -495,16 +563,18 @@ export class LadingPageComponent {
   }
 
   confirmSubmit() {
-    const completeName = this.form.value.name ?? '';
-    const email = this.form.value.email ?? '';
-    const cellphone = this.form.value.phone ?? '';
-    const acceptedTerms = this.form.value.acceptedTerms ?? false;
+    const completeName: string = this.form.value.name ?? '';
+    const email: string = this.form.value.email ?? '';
+    const cellphone: string = this.form.value.phone ?? '';
+    const municipality: string = this.form.value.otherMunicipality ? 'Outros' : (this.form.value.municipality ?? '');
+    const otherMunicipality: string = this.form.value.otherMunicipality ?? '';
+    const acceptedTerms: boolean = this.form.value.acceptedTerms ?? false;
 
     this.confirmVisible = false;
     this.isLoading.set(true);
 
     this.pregristrationService
-      .makePreRegistration({ completeName, email, cellphone, acceptedTerms })
+      .makePreRegistration({ completeName, email, cellphone, municipality, otherMunicipality, acceptedTerms })
       .subscribe({
         next: (response) => {
           this.isLoading.set(false);

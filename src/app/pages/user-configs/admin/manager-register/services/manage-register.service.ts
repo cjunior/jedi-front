@@ -7,7 +7,7 @@ import { environment } from '../../../../../../environments/environment';
 })
 export class ManageRegisterService {
 
-  private readonly apiUrl = environment.apiUrl; 
+  private readonly apiUrl = environment.apiUrl;
   private readonly http = inject(HttpClient);
 
   postManagerRegister(data: FormData) {
@@ -19,11 +19,11 @@ export class ManageRegisterService {
     let params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    
+
     if (searchTerm && searchTerm.trim() !== '') {
       params = params.set('searchTerm', searchTerm.trim());
     }
-    
+
     return this.http.get(`${this.apiUrl}management/users`, { params });
   }
 
