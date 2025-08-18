@@ -11,7 +11,7 @@ import { ToastModule } from 'primeng/toast';
 import { AuthService } from '../../../core/services/auth.service';
 import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +25,7 @@ import { Router } from '@angular/router';
     PasswordModule,
     MessageModule,
     ToastModule,
+    RouterModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
