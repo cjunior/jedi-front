@@ -329,6 +329,63 @@
         }
       </div>
 
+      <div class="flex flex-col gap-1 mb-4">
+        <label for="municipality" class="font-semibold text-gray-700">Município</label>
+        <p-dropdown
+          id="municipality"
+          formControlName="municipality"
+          [options]="municipiosDisponiveis"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Selecione seu município"
+          class="!border-gray-300 h-10"
+          [showClear]="true"
+          [disabled]="isOtherMunicipality"
+        ></p-dropdown>
+        @if(showErrors() && form.get('municipality')?.hasError('required') && !isOtherMunicipality) {
+        <p-message
+          severity="error"
+          text="O município é obrigatório."
+          variant="simple"
+        ></p-message>
+        }
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <p-checkbox
+          formControlName="isOtherMunicipality"
+          (onChange)="onOtherMunicipalityChange($event.checked)"
+          [binary]="true"
+          inputId="otherMunicipalityCheckbox"
+          class="!flex"
+        ></p-checkbox>
+        <label for="otherMunicipalityCheckbox" class=" text-gray-700">
+          Meu município não está na lista
+        </label>
+      </div>
+
+      <div class="flex flex-col gap-1 mb-4">
+        <label for="otherMunicipality" class="font-semibold text-gray-700">
+          Digite seu município
+        </label>
+        <input
+          id="otherMunicipality"
+          pInputText
+          placeholder="Nome do seu município"
+          formControlName="otherMunicipality"
+          class="flex-auto !border-gray-300 h-10"
+          autocomplete="off"
+          [disabled]="!isOtherMunicipality"
+        />
+        @if(showErrors() && form.get('otherMunicipality')?.hasError('required') && form.get('isOtherMunicipality')?.value) {
+        <p-message
+          severity="error"
+          text="Digite o nome do seu município."
+          variant="simple"
+        ></p-message>
+        }
+      </div>
+
       <div class="flex flex-col gap-3 mb-8">
         <div class="flex gap-3">
           <p-checkbox

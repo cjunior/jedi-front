@@ -64,15 +64,12 @@
 
           <div class="w-1/2">
             <label class="text-green-900 block mb-1">Município de moradia</label>
-            <p-dropdown
-              [options]="municipiosDisponiveis"
-              optionLabel="label"
+            <input
+              pInputText
               formControlName="municipality"
               placeholder="Selecione seu município"
-              [filter]="true"
-              filterPlaceholder="Digite para buscar"
-              optionValue="value"
               class="w-full"
+              [disabled]="true"
             />
             @if(showErrors() && form.get('municipality')?.hasError('required')) {
               <p-message

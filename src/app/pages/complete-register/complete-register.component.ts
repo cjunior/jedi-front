@@ -108,7 +108,7 @@ export class CompleteRegisterComponent implements OnInit{
     completeName: ['', [Validators.required, Validators.minLength(6)]],
     email: ['', [Validators.required, Validators.email]],
     cellphone: ['', [Validators.required]],
-    municipality: [null, Validators.required],
+    municipality: ['', Validators.required],
     cpf: ['', [Validators.required, cpfValidator]],
     birthDate: [null, [Validators.required, birthDateInFutureValidator]],
     rg: ['', [Validators.required]],
@@ -125,10 +125,12 @@ export class CompleteRegisterComponent implements OnInit{
             completeName: data.completeName,
             email: data.email,
             cellphone: data.cellphone,
+            municipality: data.municipality === 'Outros' ? data.otherMunicipality : data.municipality,
           });
           this.form.get('completeName')?.disable();
           this.form.get('email')?.disable();
           this.form.get('cellphone')?.disable();
+          this.form.get('municipality')?.disable();
         }
       },
       error: (err) => {
@@ -151,7 +153,6 @@ export class CompleteRegisterComponent implements OnInit{
         : String(rawValues.birthDate || '');
 
       formData.append('birthDate', birthDate);
-      formData.append('municipality', rawValues.municipality || '');
       formData.append('cpf', rawValues.cpf || '');
       formData.append('rg', rawValues.rg || '');
 
