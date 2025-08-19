@@ -27,7 +27,9 @@ export class PreRegistrationService {
     if (filters.nome) params.nome = filters.nome;
     if (filters.email) params.email = filters.email;
 
-    return this.http.get<any>(`${this.apiUrl}management/pre-inscricoes`, { params });
+    return this.http.get<any>(`${this.apiUrl}management/pre-inscricoes`, { params, headers: {
+      'ngrok-skip-browser-warning': '1'
+    } });
   }
   makePreRegistration(payload: IPreRegistration): Observable<IPreRegistrationResponse> {
     return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload);
@@ -38,7 +40,9 @@ export class PreRegistrationService {
   }
 
   verifyPreRegistration(token: string): Observable<IPreRegistration> {
-    return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`);
+    return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`, { headers: {
+      'ngrok-skip-browser-warning': '1'
+    }});
   }
 
   downloadRegistrations(status: string): Observable<Blob> {

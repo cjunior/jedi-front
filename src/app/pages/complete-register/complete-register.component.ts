@@ -188,7 +188,7 @@ export class CompleteRegisterComponent implements OnInit{
     }
   }
 
-  private readonly TAMANHO_MAXIMO_MB = 1;
+  private readonly TAMANHO_MAXIMO_MB = 10;
 
   onRGUpload(event: any) {
     const file = event.files?.[0];
