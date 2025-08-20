@@ -15,20 +15,20 @@ export class LoginService {
     return this.httpClient.post<{ token: string }>(`${this.authUrl}/login`, {email, password});
   }
   forgotPassword(email: string): Observable<string> {
-    return this.httpClient.post(`${this.authUrl}auth/forgot-password`, 
+    return this.httpClient.post(`${this.authUrl}/forgot-password`, 
       { email }, 
       { responseType: 'text' }
     );
   }
  
   validateResetToken(token: string): Observable<any> {
-    return this.httpClient.get(`${this.authUrl}auth/reset-password/${token}`, 
+    return this.httpClient.get(`${this.authUrl}/reset-password/${token}`, 
       { responseType: 'text' }
     );
   }
 
   resetPassword(token: string, newPassword: string): Observable<string> {
-    return this.httpClient.put(`${this.authUrl}auth/reset-password/${token}`, 
+    return this.httpClient.put(`${this.authUrl}/reset-password/${token}`, 
       { newPassword }, 
       { responseType: 'text' }
     );
