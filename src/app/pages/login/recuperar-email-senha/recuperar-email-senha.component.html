@@ -1,0 +1,92 @@
+<div class="login-container">
+    <div class="image-container"></div>
+    <div class="login-card">
+      <div class="flex flex-col items-center gap-1">
+        <h1>REDEFINIR SENHA</h1>
+        <p>Digite sua nova senha para continuar</p>
+      </div>
+  
+      @if(isLoading() && !tokenValid()) {
+        <div class="flex justify-center items-center py-8">
+          <p-button 
+            label="Validando token..." 
+            [loading]="true" 
+            severity="secondary"
+            disabled>
+          </p-button>
+        </div>
+      } @else if(tokenValid()) {
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col">
+          <!-- Nova Senha -->
+          <p-floatLabel variant="on">
+            <p-password
+              inputId="newPassword"
+              formControlName="newPassword"
+              inputStyleClass="w-full"
+              size="large"
+              [toggleMask]="true"
+              [feedback]="false"
+              autocomplete="new-password"
+            />
+            <label for="newPassword">Nova Senha</label>
+          </p-floatLabel>
+          @if(submitted() && form.get('newPassword')?.hasError('required')) {
+            <p-message
+              class="pt-1"
+              severity="error"
+              text="Nova senha obrigatória"
+              variant="simple"
+              size="small"
+            ></p-message>
+          }
+          @if(submitted() && form.get('newPassword')?.hasError('minlength')) {
+            <p-message
+              class="pt-1"
+              severity="error"
+              text="Senha deve ter pelo menos 6 caracteres"
+              variant="simple"
+              size="small"
+            ></p-message>
+          }
+    
+          <!-- Confirmar Nova Senha -->
+          <p-floatLabel variant="on" class="mt-4">
+            <p-password
+              inputId="confirmPassword"
+              formControlName="confirmPassword"
+              inputStyleClass="w-full"
+              size="large"
+              [toggleMask]="true"
+              [feedback]="false"
+              autocomplete="new-password"
+            />
+            <label for="confirmPassword">Confirmar Nova Senha</label>
+          </p-floatLabel>
+          @if(submitted() && form.get('confirmPassword')?.hasError('required')) {
+            <p-message
+              class="pt-1"
+              severity="error"
+              text="Confirmação de senha obrigatória"
+              variant="simple"
+              size="small"
+            ></p-message>
+          }
+    
+          <!-- Botão -->
+          <button
+            pButton
+            type="submit"
+            label="Redefinir Senha"
+            class="bg-emerald-800! hover:bg-emerald-900! border-emerald-700! mt-4"
+            [loading]="isLoading()"
+          ></button>
+        </form>
+      }
+  
+      <a routerLink="/recuperar-senha" class="forgot-password">
+        Solicitar <strong>novo link</strong>
+      </a>
+    </div>
+  </div>
+  
+  <p-toast />

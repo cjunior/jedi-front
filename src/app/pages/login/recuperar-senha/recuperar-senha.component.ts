@@ -48,44 +48,29 @@ export class RecuperarSenhaComponent {
     if (this.form.valid) {
       this.isLoading.set(true);
       
-      // Aqui você pode implementar o serviço de recuperação de senha
-      // Por enquanto, vou simular uma requisição
-      setTimeout(() => {
-        this.isLoading.set(false);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Email enviado',
-          detail: 'Instruções de recuperação foram enviadas para seu email.'
-        });
-        
-        // Opcional: redirecionar para login após alguns segundos
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3000);
-      }, 2000);
-      
-      // Implementação real seria algo como:
-      // this.loginService.recuperarSenha(email).subscribe({
-      //   next: (response) => {
-      //     this.isLoading.set(false);
-      //     this.messageService.add({
-      //       severity: 'success',
-      //       summary: 'Email enviado',
-      //       detail: 'Instruções de recuperação foram enviadas para seu email.'
-      //     });
-      //     setTimeout(() => {
-      //       this.router.navigate(['/login']);
-      //     }, 3000);
-      //   },
-      //   error: (error) => {
-      //     this.isLoading.set(false);
-      //     this.messageService.add({
-      //       severity: 'error',
-      //       summary: 'Erro ao enviar email',
-      //       detail: error.error.message ?? 'Ocorreu um erro ao tentar enviar o email. Tente novamente.'
-      //     });
-      //   }
-      // });
+      this.loginService.forgotPassword(email).subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Email enviado',
+            detail: response || 'Instruções de recuperação foram enviadas para seu email.'
+          });
+          
+          // Redirecionar para login após alguns segundos
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 3000);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro ao enviar email',
+            detail: error.error || 'Ocorreu um erro ao tentar enviar o email. Tente novamente.'
+          });
+        }
+      });
     }
   }
 }
