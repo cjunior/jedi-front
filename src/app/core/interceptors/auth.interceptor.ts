@@ -9,8 +9,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (token) {
       const cloned = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${token}`,
-          'ngrok-skip-browser-warning': '1'
+          Authorization: `Bearer ${token}`
         }
       });
       return next.handle(cloned);
