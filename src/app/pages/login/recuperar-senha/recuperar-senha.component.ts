@@ -1,74 +1,76 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
+import { Router, RouterModule } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { FloatLabelModule } from 'primeng/floatlabel';
-import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
-import { AuthService } from '../../../core/services/auth.service';
 import { MessageService } from 'primeng/api';
-import { HttpClientModule } from '@angular/common/http';
-import { Router, RouterModule } from '@angular/router';
+import { LoginService } from '../services/login.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-recuperar-senha',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterModule,
     InputTextModule,
     ButtonModule,
     FloatLabelModule,
-    PasswordModule,
     MessageModule,
     ToastModule,
-    RouterModule
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './recuperar-senha.component.html',
+  styleUrls: ['./recuperar-senha.component.scss'],
   providers: [MessageService]
 })
-export class LoginComponent {
-  private readonly formBuilder = inject(FormBuilder)
+export class RecuperarSenhaComponent {
+  private readonly formBuilder = inject(FormBuilder);
   private readonly loginService = inject(LoginService);
-  private readonly authService = inject(AuthService);
-  private readonly messageService = inject(MessageService)
-  private readonly router = inject(Router)
+  private readonly messageService = inject(MessageService);
+  private readonly router = inject(Router);
 
   private readonly submittedSignal = signal(false);
   protected submitted = computed(() => this.submittedSignal());
   protected isLoading = signal(false);
 
   form = this.formBuilder.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    email: ['', [Validators.required, Validators.email]]
   });
-
 
   onSubmit() {
     this.submittedSignal.set(true);
     const email = this.form.value.email ?? '';
-    const password = this.form.value.password ?? '';
+    
     if (this.form.valid) {
       this.isLoading.set(true);
-      this.loginService.login(email, password).subscribe({
+      
+      this.loginService.forgotPassword(email).subscribe({
         next: (response) => {
-          this.authService.login(response.token)
-          this.router.navigate(['/configuracoes']);
           this.isLoading.set(false);
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Email enviado',
+            detail: response || 'Instruções de recuperação foram enviadas para seu email.'
+          });
+          
+          // Redirecionar para login após alguns segundos
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 3000);
         },
         error: (error) => {
           this.isLoading.set(false);
           this.messageService.add({
             severity: 'error',
-            summary: 'Erro ao fazer login',
-            detail: error.error.message ?? 'Ocorreu um erro ao tentar fazer login. Por favor, tente novamente.'
+            summary: 'Erro ao enviar email',
+            detail: error.error || 'Ocorreu um erro ao tentar enviar o email. Tente novamente.'
           });
         }
-      })
+      });
     }
   }
 }

@@ -28,6 +28,15 @@ export const routes: Routes = [
         canActivate: [loginGuard]
     },
     {
+      path: 'recuperar-senha',
+      loadComponent: () => import('./pages/login/recuperar-senha/recuperar-senha.component').then(m => m.RecuperarSenhaComponent),
+      canActivate: [loginGuard]
+  },
+  {
+    path: 'auth/:token',
+    loadComponent: () => import('./pages/login/recuperar-email-senha/recuperar-email-senha.component').then(m => m.RecuperarEmailSenhaComponent)
+  },
+    {
       path: 'pre-inscricao/continuar/:token',
       loadComponent: () => import('./pages/complete-register/complete-register.component').then(m => m.CompleteRegisterComponent),
       canActivate: [preRegistrationGuard]
