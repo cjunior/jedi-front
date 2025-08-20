@@ -95,7 +95,19 @@
           }
         </td>
         <td>
-          <button pButton icon="pi pi-eye" (click)="verMais(customer)" class="p-button-text"></button>
+          <button
+            pButton
+            icon="pi pi-eye"
+            (click)="verMais(customer)"
+            class="p-button-text"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            (click)="confirmDeleteRegister($event, customer)"
+            severity="danger"
+            class="p-button-text"
+          ></button>
         </td>
       </tr>
     </ng-template>
@@ -127,5 +139,6 @@
       </div>
   </div>
 </p-popover>
+<p-confirmdialog />
 <p-toast />
 
