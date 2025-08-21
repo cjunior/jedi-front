@@ -18,7 +18,8 @@ import { ViewRegisterModalComponent } from './components/view-register-modal/vie
 import type { ICompleteRegister } from '../../../../core/interfaces/pre-registration.interface';
 import { BlobConverterService } from '../../../../core/services/blob-converter.service';
 import { Toast } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-manage-pre-registration',
@@ -38,16 +39,18 @@ import { MessageService } from 'primeng/api';
     FloatLabel,
     cellphonePipe,
     ViewRegisterModalComponent,
-    Toast
+    Toast,
+    ConfirmDialog
   ],
   templateUrl: './manage-pre-registrations.component.html',
   styleUrl: './manage-pre-registrations.component.scss',
-  providers: [MessageService]
+  providers: [MessageService, ConfirmationService]
 })
 export class ManagePreRegistrationsComponent implements OnInit {
   private readonly preRegistrationService = inject(PreRegistrationService);
   private readonly blobConverterService = inject(BlobConverterService);
   private readonly messageService = inject(MessageService);
+  private readonly confirmationService = inject(ConfirmationService)
 
   protected selectedUser: ICompleteRegister | null = null;
   protected isVisible = false;
@@ -56,6 +59,7 @@ export class ManagePreRegistrationsComponent implements OnInit {
   protected size = 5;
   protected loadingTable = true;
   protected loadingDownload = false;
+  protected isLoading = false;
 
   private page$ = new BehaviorSubject<number>(0);
 
@@ -150,6 +154,49 @@ export class ManagePreRegistrationsComponent implements OnInit {
 
     this.selectedUser = user;
     this.isVisible = true;
+  }
+
+  confirmDeleteRegister(event: Event, register: ICompleteRegister) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Tem certeza que você deseja excluir esse cadastro?',
+      header: 'Aviso!',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancelar',
+      rejectButtonProps: {
+        label: 'Cancelar',
+        severity: 'secondary',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: 'Apagar',
+        severity: 'danger'
+      },
+      accept: () => {
+        this.isLoading = true;
+        this.preRegistrationService.deleteRegistration(register.id).subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Registro excluido!',
+              detail: 'Registro deletado com sucesso.'
+            });
+            this.page$.next(this.page$.value);
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: error?.err?.message || 'Não foi possível excluir o post.'
+            });
+          }
+        })
+      }
+    })
   }
 
   onModalClosed() {

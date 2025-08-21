@@ -44,4 +44,8 @@ export class PreRegistrationService {
   downloadRegistrations(status: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}management/relatorio/pre-inscricoes/pdf`, { responseType: 'blob', params: { status } });
   }
+
+  deleteRegistration(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}pre-inscricao/soft/${id}`);
+  }
 }
