@@ -179,11 +179,20 @@ export class ManagePreRegistrationsComponent implements OnInit {
         this.preRegistrationService.deleteRegistration(register.id).subscribe({
           next: () => {
             this.isLoading = false;
-            this.messageService.add({ severity: 'success', summary: 'Registro excluido!', detail: 'Registro deletado com sucesso.' });
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Registro excluido!',
+              detail: 'Registro deletado com sucesso.'
+            });
+            this.page$.next(this.page$.value);
           },
           error: (error) => {
             this.isLoading = false;
-            this.messageService.add({ severity: 'error', summary: 'Erro', detail: error?.err?.message || 'Não foi possível excluir o post.' });
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: error?.err?.message || 'Não foi possível excluir o post.'
+            });
           }
         })
       }

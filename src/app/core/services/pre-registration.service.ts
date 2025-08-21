@@ -46,6 +46,6 @@ export class PreRegistrationService {
   }
 
   deleteRegistration(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}management/pre-inscricoes/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}pre-inscricao/soft/${id}`);
   }
 }
