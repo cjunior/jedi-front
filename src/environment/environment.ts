@@ -1,5 +1,5 @@
 export const environment = {
     env: 'dev01',
     production: false,
-    apiUrl: 'https://api.banco.ltap.ifce.edu.br/',
+    apiUrl: 'https://f1c5ac002cc3.ngrok-free.app/',
   };

@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://api.banco.ltap.ifce.edu.br/',
-  authUrl: 'https://api.banco.ltap.ifce.edu.br/auth',
+  apiUrl: 'https://f1c5ac002cc3.ngrok-free.app/',
+  authUrl: 'https://f1c5ac002cc3.ngrok-free.app/auth',
 }
