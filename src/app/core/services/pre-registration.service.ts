@@ -27,25 +27,41 @@ export class PreRegistrationService {
     if (filters.nome) params.nome = filters.nome;
     if (filters.email) params.email = filters.email;
 
-    return this.http.get<any>(`${this.apiUrl}management/pre-inscricoes`, { params });
+    return this.http.get<any>(`${this.apiUrl}management/pre-inscricoes`, { 
+      params,
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
   makePreRegistration(payload: IPreRegistration): Observable<IPreRegistrationResponse> {
-    return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload);
+    return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload, {
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 
   completeRegistration(payload: FormData, token: string): Observable<any> {
-    return this.http.put(`${this.apiUrl}pre-inscricao/continuar/${token}`, payload, { responseType: 'text' });
+    return this.http.put(`${this.apiUrl}pre-inscricao/continuar/${token}`, payload, { 
+      responseType: 'text',
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 
   verifyPreRegistration(token: string): Observable<IPreRegistration> {
-    return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`);
+    return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`, {
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 
   downloadRegistrations(status: string): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}management/relatorio/pre-inscricoes/pdf`, { responseType: 'blob', params: { status } });
+    return this.http.get(`${this.apiUrl}management/relatorio/pre-inscricoes/pdf`, { 
+      responseType: 'blob', 
+      params: { status },
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 
   deleteRegistration(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}pre-inscricao/soft/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}pre-inscricao/soft/${id}`, {
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 }
