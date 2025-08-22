@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { IPreRegistration } from '../interfaces/pre-registration.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IPreRegistrationResponse } from '../interfaces/pre-registration.interface';
 
@@ -10,7 +10,32 @@ import { IPreRegistrationResponse } from '../interfaces/pre-registration.interfa
 })
 export class PreRegistrationService {
   private readonly apiUrl = environment.apiUrl;
-  private readonly http = inject(HttpClient)
+  private readonly http = inject(HttpClient);
+
+  // Headers padrão para todas as requisições
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'ngrok-skip-browser-warning': '1',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      'User-Agent': 'Mozilla/5.0 (compatible; JovensEmpreendedores/1.0)'
+    });
+  }
+
+  // Headers específicos para FormData
+  private getFormDataHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'ngrok-skip-browser-warning': '1',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+      'User-Agent': 'Mozilla/5.0 (compatible; JovensEmpreendedores/1.0)'
+      // Não adiciona Content-Type para FormData - deixa o browser definir
+    });
+  }
 
   getRegistrations(
     page = 0,
@@ -29,25 +54,26 @@ export class PreRegistrationService {
 
     return this.http.get<any>(`${this.apiUrl}management/pre-inscricoes`, { 
       params,
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getHeaders()
     });
   }
+
   makePreRegistration(payload: IPreRegistration): Observable<IPreRegistrationResponse> {
     return this.http.post<IPreRegistrationResponse>(`${this.apiUrl}pre-inscricao/inicial`, payload, {
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getHeaders()
     });
   }
 
   completeRegistration(payload: FormData, token: string): Observable<any> {
     return this.http.put(`${this.apiUrl}pre-inscricao/continuar/${token}`, payload, { 
       responseType: 'text',
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getFormDataHeaders() // Headers específicos para FormData
     });
   }
 
   verifyPreRegistration(token: string): Observable<IPreRegistration> {
     return this.http.get<IPreRegistration>(`${this.apiUrl}pre-inscricao/continuar/${token}`, {
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getHeaders()
     });
   }
 
@@ -55,13 +81,13 @@ export class PreRegistrationService {
     return this.http.get(`${this.apiUrl}management/relatorio/pre-inscricoes/pdf`, { 
       responseType: 'blob', 
       params: { status },
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getHeaders()
     });
   }
 
   deleteRegistration(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}pre-inscricao/soft/${id}`, {
-      headers: { 'ngrok-skip-browser-warning': '1' }
+      headers: this.getHeaders()
     });
   }
 }
