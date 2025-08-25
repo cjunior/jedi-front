@@ -93,7 +93,6 @@ export class EditPostModalComponent implements OnInit, OnChanges, OnDestroy {
         readingTime: this.postData.readingTime,
         description: this.postData.description
       });
-      console.log('Post data loaded:', this.postData);
     }
   }
 

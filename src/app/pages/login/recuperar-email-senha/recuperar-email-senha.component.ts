@@ -62,7 +62,6 @@ export class RecuperarEmailSenhaComponent implements OnInit {
     
     this.loginService.validateResetToken(this.token).subscribe({
       next: (response) => {
-        console.log('Token válido:', response);
         this.isLoading.set(false);
         this.tokenValid.set(true);
       },
@@ -109,9 +108,6 @@ export class RecuperarEmailSenhaComponent implements OnInit {
     
     if (this.form.valid && this.tokenValid()) {
       this.isLoading.set(true);
-      
-      console.log('Enviando token:', this.token);
-      console.log('Nova senha:', newPassword);
       
       this.loginService.resetPassword(this.token, newPassword).subscribe({
         next: (response) => {

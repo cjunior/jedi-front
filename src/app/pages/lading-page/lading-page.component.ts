@@ -160,7 +160,6 @@ export class LadingPageComponent {
         this.checkLoadingComplete();
         const blogItems = dados.blogSectionResponseDto?.items || [];
         this.blogItems = blogItems
-        console.log(blogItems);
 
         this.redeJediSectionDto = {
           titulo: (dados.redeJediSectionDto.titulo || '')
@@ -555,7 +554,6 @@ export class LadingPageComponent {
         acceptedTerms: this.form.value.acceptedTerms,
       };
 
-      console.log('Payload enviado:', payload); // Para depuração
       this.confirmVisible = true;
     } else {
       this.form.markAllAsTouched();
