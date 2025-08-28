@@ -1,6 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://api.banco.ltap.ifce.edu.br/',
-  authUrl: 'https://api.banco.ltap.ifce.edu.br/auth',
+  apiUrl: 'http://localhost:8090/',
+  authUrl: 'http://localhost:8090/auth',
 }
-  
