@@ -1,5 +1,5 @@
 <p-dialog
-  header="Adicionar Ciclo"
+  header="Editar Ciclo"
   [(visible)]="isVisible"
   [modal]="true"
   [closable]="true"
@@ -81,6 +81,7 @@
         placeholder="Selecione"
         appendTo="body"
         [selectedItemsLabel]="(cicle.municipios.length || 0) + ' selecionados'"
+        [displaySelectedLabel]="true"
         display="chip"
         required
       ></p-multiSelect>

@@ -1,20 +1,19 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, EventEmitter, inject, Input, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { CalendarModule } from 'primeng/calendar';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { Dialog } from "primeng/dialog";
-import { DatePickerModule } from 'primeng/datepicker';
+import { Component, EventEmitter, inject, Input, Output, type OnChanges, type OnInit, type SimpleChanges } from '@angular/core';
+import type { ICicleResponse, ICicle } from '../../../../../../core/interfaces/ciclies.interface';
 import { CiclesService } from '../../../../../../core/services/cicles.service';
-import type { ICicle } from '../../../../../../core/interfaces/ciclies.interface';
+import { CommonModule } from '@angular/common';
+import { FormsModule, type NgForm } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
+import { DatePickerModule } from 'primeng/datepicker';
+import { Dialog } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { Toast, ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
 
 @Component({
-  selector: 'app-add-cicle',
-  standalone: true,
+  selector: 'app-edit-cicle',
   imports: [
     CommonModule,
     FormsModule,
@@ -22,31 +21,34 @@ import { Toast } from 'primeng/toast';
     InputTextModule,
     DatePickerModule,
     MultiSelectModule,
+    ToastModule,
+    MessageModule,
     Dialog,
     Toast
-],
-  templateUrl: './add-cicle.component.html',
-  styleUrl: './add-cicle.component.scss',
+  ],
+  templateUrl: './edit-cicle.component.html',
+  styleUrl: './edit-cicle.component.scss',
 })
-export class AddCicleComponent {
+export class EditCicleComponent implements OnInit, OnChanges {
   private readonly cicleService = inject(CiclesService);
   private readonly messageService = inject(MessageService);
 
   @Input() isVisible = false;
-  @Output() onFinish = new EventEmitter<void>();
+  @Input() cicleData: ICicleResponse | null = null;
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
   @Output() onError = new EventEmitter<string>();
 
+  protected selectedId = this.cicleData?.id || '';
   protected isLoading = false;
   protected submitted = false; // controla se clicou em salvar
 
   protected cicle: ICicle = {
-    nome: '',
-    dataInicio: null,
-    dataFim: null,
-    municipios: [],
-  };
+    nome: this.cicleData?.nome || '',
+    dataInicio: this.cicleData?.dataInicio || null,
+    dataFim: this.cicleData?.dataFim || null,
+    municipios: [...(this.cicleData?.municipios || [])],
+  }
 
   protected municipiosOptions = [
     { label: 'Abaetetuba', value: 'Abaetetuba' },
@@ -103,7 +105,20 @@ export class AddCicleComponent {
     { label: 'Viseu', value: 'Viseu' },
     { label: 'Xinguara', value: 'Xinguara' },
   ];
-  protected dateError = false;
+
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['cicleData'] && this.cicleData) {
+      this.selectedId = this.cicleData.id;
+      this.cicle = {
+        nome: this.cicleData.nome,
+        dataInicio: this.cicleData.dataInicio ? new Date(this.cicleData.dataInicio) : null,
+        dataFim: this.cicleData.dataFim ? new Date(this.cicleData.dataFim) : null,
+        municipios: [...(this.cicleData.municipios || [])]
+      };
+    }
+  }
 
   onSubmitEmitter(form: NgForm) {
     this.submitted = true; // ativa validação
@@ -124,22 +139,20 @@ export class AddCicleComponent {
     }
 
     this.isLoading = true;
-    this.cicleService.createCicle(this.cicle).subscribe({
+    this.cicleService.updateCicle(this.selectedId, this.cicle).subscribe({
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Ciclo Criado',
-          detail: 'O ciclo foi criado com sucesso.',
+          summary: 'Ciclo Atualizado',
+          detail: 'O ciclo foi atualizado com sucesso.',
         });
         this.isLoading = false;
         this.submitted = false; // reseta
-        this.isVisible = false;
         this.onSuccess.emit();
-        form.resetForm();
       },
       error: (err) => {
         this.isLoading = false;
-        const errorMessage = err?.error?.message || 'Ocorreu um erro ao criar o ciclo.';
+        const errorMessage = err?.error?.message || 'Ocorreu um erro ao atualizar o ciclo.';
         this.messageService.add({
           severity: 'error',
           summary: 'Erro',
@@ -157,16 +170,14 @@ export class AddCicleComponent {
 
   onDateInput(event: any, field: 'dataInicio' | 'dataFim') {
     const input = event.target as HTMLInputElement;
-    let value = input.value.replace(/\D/g, ''); // só números
+    let value = input.value.replace(/\D/g, '');
 
-    // formata como dd/MM/yyyy
     if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
     if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5);
     if (value.length > 10) value = value.slice(0, 10);
 
     input.value = value;
 
-    // tenta converter para Date válido
     if (value.length === 10) {
       const [day, month, year] = value.split('/').map(Number);
       const date = new Date(year, month - 1, day);
@@ -176,14 +187,4 @@ export class AddCicleComponent {
       }
     }
   }
-
-  resetForm() {
-    this.cicle = {
-      nome: '',
-      dataInicio: null,
-      dataFim: null,
-      municipios: [],
-    };
-  }
-
 }

@@ -57,15 +57,27 @@
 
     <ng-template pTemplate="body" let-customer>
       <tr>
-        <td [title]="customer.name">{{ customer.name | truncate:35 }}</td>
-        <td [title]="customer.startDate">{{ customer.startDate | truncate:35 }}</td>
-        <td [title]="customer.endDate">{{ customer.endDate | cellphone }}</td>
+        <td [title]="customer.name">{{ customer.nome | truncate:35 }}</td>
+        <td [title]="customer.startDate">{{ customer.dataInicio | date }}</td>
+        <td [title]="customer.endDate">{{ customer.dataFim | date }}</td>
         <td>
           <button
             pButton
             icon="pi pi-eye"
-            (click)="verMais(customer)"
+            (click)="handleViewCicle(customer)"
             class="p-button-text"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            (click)="handleEditCicle(customer)"
+            class="p-button-text"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            (click)="confirmDeleteRegister($event, customer)"
+            class="p-button-text p-button-danger"
           ></button>
         </td>
       </tr>
@@ -82,7 +94,29 @@
 
 <app-add-cicle
   [isVisible]="isVisible"
-  (onFinish)="handleAddCicleModalClose($event)"
+  (onSuccess)="handleAddCicleModalClose(true)"
+  (onError)="handleAddCicleModalClose(false)"
   (onCancel)="handleCancelAddCicleModal($event)"
-/>
+></app-add-cicle>
+
+@if(isEditCicleVisible) {
+  <app-edit-cicle
+    [isVisible]="isEditCicleVisible"
+    [cicleData]="selectedCicle"
+    (onSuccess)="handleEditCicleModalClose(true)"
+    (onError)="handleEditCicleModalClose(false)"
+    (onCancel)="handleEditCicleModalClose(false)"
+  ></app-edit-cicle>
+}
+
+@if(isViewCicleVisible) {
+  <app-view-cicle
+    [isVisible]="isViewCicleVisible"
+    [cicleData]="selectedCicle"
+    (onClose)="handleViewCicleModalClose($event)"
+  ></app-view-cicle>
+}
+
+<p-confirmdialog></p-confirmdialog>
+<p-toast></p-toast>
 

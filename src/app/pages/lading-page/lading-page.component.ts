@@ -28,6 +28,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
 import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 import { Checkbox } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
+import { MapsComponent } from './components/maps/maps.component';
 
 interface BlogCard {
   id: number;
@@ -61,7 +62,8 @@ interface BlogCard {
     FooterComponent,
     CarouselContentComponent,
     Checkbox,
-    DropdownModule
+    DropdownModule,
+    MapsComponent
   ],
   templateUrl: './lading-page.component.html',
   styleUrl: './lading-page.component.scss',
@@ -160,6 +162,7 @@ export class LadingPageComponent {
         this.checkLoadingComplete();
         const blogItems = dados.blogSectionResponseDto?.items || [];
         this.blogItems = blogItems
+        console.log(blogItems);
 
         this.redeJediSectionDto = {
           titulo: (dados.redeJediSectionDto.titulo || '')
@@ -554,6 +557,7 @@ export class LadingPageComponent {
         acceptedTerms: this.form.value.acceptedTerms,
       };
 
+      console.log('Payload enviado:', payload); // Para depuração
       this.confirmVisible = true;
     } else {
       this.form.markAllAsTouched();

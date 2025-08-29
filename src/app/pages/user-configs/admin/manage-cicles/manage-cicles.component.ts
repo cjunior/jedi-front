@@ -12,6 +12,13 @@ import { TruncatePipe } from '../../../../core/pipes/truncate.pipe';
 import { cellphonePipe } from '../../../../core/pipes/cellphone.pipe';
 import { ButtonModule } from 'primeng/button';
 import { AddCicleComponent } from './components/add-cicle/add-cicle.component';
+import { CiclesService } from '../../../../core/services/cicles.service';
+import { DatePipe } from '@angular/common';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import type { ICicleResponse } from '../../../../core/interfaces/ciclies.interface';
+import { Toast } from "primeng/toast";
+import { EditCicleComponent } from './components/edit-cicle/edit-cicle.component';
+import { ViewCicleComponent } from './components/view-cicle/view-cicle.component';
 
 @Component({
   selector: 'app-manage-cicles',
@@ -20,10 +27,14 @@ import { AddCicleComponent } from './components/add-cicle/add-cicle.component';
     TableModule,
     TagModule,
     TruncatePipe,
-    cellphonePipe,
     ButtonModule,
-    AddCicleComponent
-  ],
+    AddCicleComponent,
+    DatePipe,
+    ConfirmDialog,
+    Toast,
+    EditCicleComponent,
+    ViewCicleComponent
+],
   templateUrl: './manage-cicles.component.html',
   styleUrl: './manage-cicles.component.scss',
   providers: [MessageService, ConfirmationService]
@@ -31,9 +42,12 @@ import { AddCicleComponent } from './components/add-cicle/add-cicle.component';
 export class ManageCiclesComponent implements OnInit{
   private readonly messageService = inject(MessageService);
   private readonly confirmationService = inject(ConfirmationService)
+  private readonly ciclesService = inject(CiclesService);
 
-  protected selectedCicle: ICompleteRegister | null = null;
+  protected selectedCicle: ICicleResponse | null = null;
   protected isVisible = false;
+  protected isEditCicleVisible = false;
+  protected isViewCicleVisible = false;
   protected customers: any[] = [
     {
       name: 'Ciclo 1',
@@ -61,24 +75,70 @@ export class ManageCiclesComponent implements OnInit{
     }
   ];
   protected totalRecords = 0;
-  protected size = 5;
+  protected size = 100;
   protected loadingTable = true;
   protected isLoading = false;
 
   ngOnInit(): void {
       this.loadingTable = false;
+      this.loadCicles();
   }
 
   handleAddCicle() {
     this.isVisible = true;
   }
 
-  handleAddCicleModalClose(event: any) {
-    console.log('fechou com sucesso')
+  handleAddCicleModalClose(event: boolean) {
+    if (event) {
+      this.loadCicles(); // Recarrega a lista de ciclos
+    }
+    this.isVisible = false;
   }
 
   handleCancelAddCicleModal(event: any) {
     this.isVisible = false;
+  }
+
+  handleEditCicle(cicle: ICicleResponse) {
+    this.selectedCicle = cicle;
+    this.isEditCicleVisible = true;
+  }
+
+  handleEditCicleModalClose(event: boolean) {
+    if (event) {
+      this.loadCicles();
+    }
+    this.isEditCicleVisible = false;
+  }
+
+  handleCancelEditCicleModal(event: any) {
+    this.selectedCicle = null;
+    this.isEditCicleVisible = false;
+  }
+
+  handleViewCicle(cicle: ICicleResponse) {
+    this.selectedCicle = cicle;
+    this.isViewCicleVisible = true;
+  }
+
+  handleViewCicleModalClose(event: any) {
+    this.selectedCicle = null;
+    this.isViewCicleVisible = false;
+  }
+
+  loadCicles() {
+    this.loadingTable = true;
+    this.ciclesService.getCicles().subscribe({
+      next: (res: any) => {
+        this.customers = res;
+        this.totalRecords = res.length;
+        this.loadingTable = false;
+      },
+      error: (err) => {
+        this.loadingTable = false;
+        this.messageService.add({ severity: 'error', summary: 'Erro', detail: err?.error?.message || 'Não foi possível carregar os ciclos.' });
+      }
+    });
   }
 
   // loadPage(event: TableLazyLoadEvent) {
@@ -101,55 +161,53 @@ export class ManageCiclesComponent implements OnInit{
   //   this.somenteCompletos$.next(value);
   // }
 
-  verMais(user: ICompleteRegister) {
-    this.isVisible = false;
-
-    this.selectedCicle = user;
-    this.isVisible = true;
+  verMais(cicle: ICicleResponse) {
+    console.log(cicle)
   }
 
-  // confirmDeleteRegister(event: Event, register: ICompleteRegister) {
-  //   this.confirmationService.confirm({
-  //     target: event.target as EventTarget,
-  //     message: 'Tem certeza que você deseja excluir esse cadastro?',
-  //     header: 'Aviso!',
-  //     closable: true,
-  //     closeOnEscape: true,
-  //     icon: 'pi pi-info-circle',
-  //     rejectLabel: 'Cancelar',
-  //     rejectButtonProps: {
-  //       label: 'Cancelar',
-  //       severity: 'secondary',
-  //       outlined: true
-  //     },
-  //     acceptButtonProps: {
-  //       label: 'Apagar',
-  //       severity: 'danger'
-  //     },
-  //     accept: () => {
-  //       this.isLoading = true;
-  //       this.preRegistrationService.deleteRegistration(register.id).subscribe({
-  //         next: () => {
-  //           this.isLoading = false;
-  //           this.messageService.add({
-  //             severity: 'success',
-  //             summary: 'Registro excluido!',
-  //             detail: 'Registro deletado com sucesso.'
-  //           });
-  //           this.page$.next(this.page$.value);
-  //         },
-  //         error: (error) => {
-  //           this.isLoading = false;
-  //           this.messageService.add({
-  //             severity: 'error',
-  //             summary: 'Erro',
-  //             detail: error?.err?.message || 'Não foi possível excluir o post.'
-  //           });
-  //         }
-  //       })
-  //     }
-  //   })
-  // }
+  confirmDeleteRegister(event: Event, register: ICicleResponse) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Tem certeza que você deseja excluir esse ciclo?',
+      header: 'Aviso!',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancelar',
+      rejectButtonProps: {
+        label: 'Cancelar',
+        severity: 'secondary',
+        outlined: true
+      },
+      acceptButtonProps: {
+        label: 'Apagar',
+        severity: 'danger'
+      },
+      accept: () => {
+        this.isLoading = true;
+        this.ciclesService.deleteCicle(register.id).subscribe({
+          next: () => {
+            console.log('entrou aqui')
+            this.isLoading = false;
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Ciclo excluido!',
+              detail: 'Ciclo deletado com sucesso.'
+            });
+            this.loadCicles();
+          },
+          error: (error) => {
+            this.isLoading = false;
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Erro',
+              detail: error?.err?.message || 'Não foi possível excluir o ciclo.'
+            });
+          }
+        })
+      }
+    })
+  }
 
   onModalClosed() {
     this.isVisible = false;
