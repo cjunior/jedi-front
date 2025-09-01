@@ -10,7 +10,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { CiclesService } from '../../../../../../core/services/cicles.service';
 import type { ICicle } from '../../../../../../core/interfaces/ciclies.interface';
 import { MessageService } from 'primeng/api';
-import { Toast } from 'primeng/toast';
+import { Toast, ToastModule } from 'primeng/toast';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-add-cicle',
@@ -23,7 +24,9 @@ import { Toast } from 'primeng/toast';
     DatePickerModule,
     MultiSelectModule,
     Dialog,
-    Toast
+    Toast,
+    ToastModule,
+    MessageModule
 ],
   templateUrl: './add-cicle.component.html',
   styleUrl: './add-cicle.component.scss',
@@ -36,7 +39,6 @@ export class AddCicleComponent {
   @Output() onFinish = new EventEmitter<void>();
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
-  @Output() onError = new EventEmitter<string>();
 
   protected isLoading = false;
   protected submitted = false; // controla se clicou em salvar
@@ -145,7 +147,6 @@ export class AddCicleComponent {
           summary: 'Erro',
           detail: errorMessage,
         });
-        this.onError.emit(errorMessage);
       },
     });
   }

@@ -90,7 +90,7 @@ export class ManageCiclesComponent implements OnInit{
 
   handleAddCicleModalClose(event: boolean) {
     if (event) {
-      this.loadCicles(); // Recarrega a lista de ciclos
+      this.loadCicles();
     }
     this.isVisible = false;
   }

@@ -92,19 +92,19 @@
 
 </p-panel>
 
-<app-add-cicle
-  [isVisible]="isVisible"
-  (onSuccess)="handleAddCicleModalClose(true)"
-  (onError)="handleAddCicleModalClose(false)"
-  (onCancel)="handleCancelAddCicleModal($event)"
-></app-add-cicle>
+@if(isVisible) {
+  <app-add-cicle
+    [isVisible]="isVisible"
+    (onSuccess)="handleAddCicleModalClose(true)"
+    (onCancel)="handleCancelAddCicleModal($event)"
+  ></app-add-cicle>
+}
 
 @if(isEditCicleVisible) {
   <app-edit-cicle
     [isVisible]="isEditCicleVisible"
     [cicleData]="selectedCicle"
     (onSuccess)="handleEditCicleModalClose(true)"
-    (onError)="handleEditCicleModalClose(false)"
     (onCancel)="handleEditCicleModalClose(false)"
   ></app-edit-cicle>
 }

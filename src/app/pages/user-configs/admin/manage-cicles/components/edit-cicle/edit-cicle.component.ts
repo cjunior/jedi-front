@@ -9,8 +9,8 @@ import { Dialog } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { MessageService } from 'primeng/api';
-import { Toast, ToastModule } from 'primeng/toast';
 import { MessageModule } from 'primeng/message';
+import { Toast, ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-edit-cicle',
@@ -37,7 +37,6 @@ export class EditCicleComponent implements OnInit, OnChanges {
   @Input() cicleData: ICicleResponse | null = null;
   @Output() onCancel = new EventEmitter<void>();
   @Output() onSuccess = new EventEmitter<void>();
-  @Output() onError = new EventEmitter<string>();
 
   protected selectedId = this.cicleData?.id || '';
   protected isLoading = false;
@@ -158,7 +157,6 @@ export class EditCicleComponent implements OnInit, OnChanges {
           summary: 'Erro',
           detail: errorMessage,
         });
-        this.onError.emit(errorMessage);
       },
     });
   }
