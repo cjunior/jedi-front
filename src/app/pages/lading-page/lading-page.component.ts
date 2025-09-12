@@ -52,7 +52,6 @@ interface BlogCard {
     ButtonModule,
     InputTextModule,
     InputMaskModule,
-    Message,
     FormsModule,
     ReactiveFormsModule,
     Toast,
@@ -61,7 +60,6 @@ interface BlogCard {
     ProgressSpinnerModule,
     FooterComponent,
     CarouselContentComponent,
-    Checkbox,
     DropdownModule,
     MapsComponent
   ],
