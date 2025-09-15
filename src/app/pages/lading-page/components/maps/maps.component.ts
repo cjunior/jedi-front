@@ -1,6 +1,6 @@
-import { Component, inject, type OnInit } from '@angular/core';
-import { GoogleMap, MapMarker } from '@angular/google-maps';
+import { Component, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import maplibregl, { Map, Marker } from 'maplibre-gl';
 import { CiclesService } from '../../../../core/services/cicles.service';
 import type { ICurrentCicleResponse } from '../../../../core/interfaces/ciclies.interface';
 import municipiosBr from '../../mock-geoMunicipalities.json';
@@ -8,27 +8,37 @@ import municipiosBr from '../../mock-geoMunicipalities.json';
 @Component({
   selector: 'app-maps',
   standalone: true,
-  imports: [GoogleMap, MapMarker, CommonModule],
+  imports: [CommonModule],
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.scss']
 })
-export class MapsComponent implements OnInit {
+export class MapsComponent implements AfterViewInit, OnDestroy {
   private readonly ciclesService = inject(CiclesService);
 
+  private map!: Map;
+  private markers: Marker[] = [];
+
   protected currentCicle: ICurrentCicleResponse | null = null;
+  hasCicle: boolean = false;
 
-  center: google.maps.LatLngLiteral = { lat: -3.5, lng: -52 };
-  markers: { position: google.maps.LatLngLiteral; nome: string }[] = [];
+  ngAfterViewInit(): void {
+    this.map = new maplibregl.Map({
+      container: 'map',
+      style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+      center: [-52, -3.5],
+      zoom: 2,
+    });
 
-  ngOnInit(): void {
     this.ciclesService.getCurrentCicle().subscribe({
       next: (cicle) => {
-        console.log('Ciclo atual:', cicle);
+        cicle.municipios.length ? this.hasCicle = true : this.hasCicle = false;
+        console.log(this.hasCicle, 'oi')
         this.currentCicle = cicle;
         this.loadMarkers();
       },
-      error: (error) => {
-        console.error('Erro ao obter o ciclo atual:', error);
+      error: (err) => {
+        console.error('Erro ao obter ciclo atual:', err)
+        console.log('caiu no erro')
       },
     });
   }
@@ -36,23 +46,33 @@ export class MapsComponent implements OnInit {
   private loadMarkers(): void {
     if (!this.currentCicle) return;
 
-    // Filtra apenas os municípios que vieram do backend
+    // Remove markers antigos
+    this.markers.forEach((m) => m.remove());
+    this.markers = [];
+
     const filtered = municipiosBr.filter((mun: any) =>
       this.currentCicle!.municipios.includes(mun.nome)
     );
 
-    // Cria os markers
-    this.markers = filtered.map((mun: any) => ({
-      position: {
-        lat: mun.latitude,
-        lng: mun.longitude
-      },
-      nome: mun.nome
-    }));
+    filtered.forEach((mun: any) => {
+      const marker = new maplibregl.Marker()
+        .setLngLat([mun.longitude, mun.latitude])
+        .setPopup(new maplibregl.Popup().setHTML(`<b>${mun.nome}</b>`))
+        .addTo(this.map);
 
-    // Opcional: centralizar o mapa no primeiro município
-    if (this.markers.length) {
-      this.center = this.markers[0].position;
+      this.markers.push(marker);
+    });
+
+    // Centraliza no primeiro município
+    if (filtered.length) {
+      this.map.setCenter([filtered[0].longitude, filtered[0].latitude]);
+      this.map.setZoom(8);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.map) {
+      this.map.remove();
     }
   }
 }

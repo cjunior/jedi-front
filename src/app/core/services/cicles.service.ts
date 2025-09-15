@@ -14,7 +14,9 @@ export class CiclesService {
   }
 
   getCurrentCicle(): Observable<ICurrentCicleResponse> {
-    return this.http.get<ICurrentCicleResponse>(`${this.environment.apiUrl}management/ciclo/municipios-ativos`);
+    return this.http.get<ICurrentCicleResponse>(`${this.environment.apiUrl}management/ciclo/municipios-ativos`, {
+      headers: { 'ngrok-skip-browser-warning': '1' }
+    });
   }
 
   createCicle(cicle: ICicle): Observable<ICicleResponse> {
