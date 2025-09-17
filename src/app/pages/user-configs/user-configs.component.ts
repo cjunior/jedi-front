@@ -24,6 +24,10 @@ export class UserConfigsComponent {
     return this.authService.hasRole(['ROLE_ADMIN', 'ROLE_GERENTE']);
   }
 
+  canManageCicles(): boolean {
+    return this.authService.hasRole(['ROLE_ADMIN']);
+  }
+
   canManageBlog(): boolean {
     return this.authService.hasRole(['ROLE_ADMIN', 'ROLE_GERENTE', 'ROLE_BLOG']);
   }

@@ -9,7 +9,7 @@ const redirectBasedOnRole = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const userRole = authService.getUserRole();
-  
+
   switch (userRole) {
     case 'ROLE_ADMIN':
     case 'ROLE_GERENTE':
@@ -50,6 +50,11 @@ export const userConfigsRoutes: Routes = [
       {
         path: 'gerenciar-usuarios',
         loadComponent: () => import('./admin/manager-register/manager-register.component').then(m => m.ManagerRegisterComponent),
+        canActivate: [adminGuard]
+      },
+      {
+        path: 'gerenciar-ciclos',
+        loadComponent: () => import('./admin/manage-cicles/manage-cicles.component').then(m => m.ManageCiclesComponent),
         canActivate: [adminGuard]
       }
     ]

@@ -3,4 +3,3 @@ export const environment = {
   apiUrl: 'https://api.banco.ltap.ifce.edu.br/',
   authUrl: 'https://api.banco.ltap.ifce.edu.br/auth',
 }
-  

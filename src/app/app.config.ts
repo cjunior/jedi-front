@@ -7,7 +7,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
-import ptBr from "@angular/common/locales/pt"
+import ptBr from "@angular/common/locales/pt";
 
 registerLocaleData(ptBr)
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';

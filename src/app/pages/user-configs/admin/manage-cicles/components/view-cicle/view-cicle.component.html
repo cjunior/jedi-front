@@ -1,0 +1,31 @@
+<p-dialog
+  header="Ver Ciclo"
+  [(visible)]="isVisible"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '600px', margin: '0 10px' }"
+  (onHide)="onCloseEmitter()"
+  [draggable]="false"
+>
+  @if(cicleData) {
+    <div class="flex flex-col gap-4 p-4">
+      <span>
+        <strong>Nome do Ciclo:</strong> {{ cicleData.nome }}
+      </span>
+      <span>
+        <strong>Data de Início:</strong> {{ cicleData.dataInicio | date: 'dd/MM/yyyy' }}
+      </span>
+      <span>
+        <strong>Data de Fim:</strong> {{ cicleData.dataFim | date: 'dd/MM/yyyy' }}
+      </span>
+      <div>
+        <strong>Municípios:</strong>
+        <ul class="list-disc list-inside">
+          @for(municipio of cicleData.municipios; track $index) {
+            <li class="inline-block bg-emerald-100 text-emerald-700 text-sm font-medium mr-2 mt-2 px-2.5 py-0.5 rounded">{{ municipio }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  }
+</p-dialog>

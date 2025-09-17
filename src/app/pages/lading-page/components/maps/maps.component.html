@@ -1,0 +1,15 @@
+<div id="map" style="height: 600px; width: 100%"></div>
+
+@if (hasCicle) {
+  <div class="flex gap-4 mt-4 flex-wrap">
+    @for (municipio of currentCicle?.municipios?.sort(); track $index) {
+      <p class="p-1 rounded-lg bg-emerald-700 text-white">
+        {{ municipio }}
+      </p>
+    }
+  </div>
+} @else {
+  <p class="text-center text-gray-500 text-xl mt-4">
+    Não há municípios disponíveis no momento.
+  </p>
+}

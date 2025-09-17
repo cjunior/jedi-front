@@ -17,7 +17,7 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
   </div>
 </div>
 <nav class="flex flex-col gap-2 p-4">
- 
+
   @if(canManagePreRegistrations()) {
   <div
     class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
@@ -31,6 +31,22 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
   >
     <i class="pi pi-users"></i>
     <span class="text-sm font-medium">Pré-cadastros</span>
+  </div>
+  }
+
+  @if(canManageCicles()) {
+  <div
+    class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+    routerLink="gerenciar-ciclos"
+    routerLinkActive="active"
+    (click)="sidebarOpen = false"
+    (keydown.enter)="sidebarOpen = false"
+    (keydown.space)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
+  >
+    <i class="pi pi-calendar"></i>
+    <span class="text-sm font-medium">Gerenciar Ciclos</span>
   </div>
   }
 
@@ -51,7 +67,7 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
   </div>
   }
 
-  
+
   @if(canManageUsers()) {
   <div
     class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
@@ -86,7 +102,7 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
 <div class="dashboard flex flex-col gap-8 overflow-x-scroll">
   <header class="flex justify-between">
     <div class="flex items-center gap-4">
-     
+
       <button
         class="lg:hidden bg-emerald-800 hover:bg-emerald-900 border-emerald-700 text-white p-2 rounded-md"
         (click)="sidebarOpen = !sidebarOpen"
@@ -97,18 +113,18 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
     </div>
     <button pButton (click)="op.toggle($event)" class="!bg-transparent !p-0 !m-0 !block !border-none">
       @if(getUserPhoto()) {
-        <p-avatar 
-          [image]="getUserPhoto()!" 
-          styleClass="!bg-emerald-800 text-white!" 
-          size="large" 
-          shape="circle" 
+        <p-avatar
+          [image]="getUserPhoto()!"
+          styleClass="!bg-emerald-800 text-white!"
+          size="large"
+          shape="circle"
         />
       } @else {
-        <p-avatar 
-          [label]="getUserInitials()" 
-          styleClass="!bg-emerald-800 text-white!" 
-          size="large" 
-          shape="circle" 
+        <p-avatar
+          [label]="getUserInitials()"
+          styleClass="!bg-emerald-800 text-white!"
+          size="large"
+          shape="circle"
         />
       }
       <p-popover #op>
@@ -117,18 +133,18 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
           <div class="border-b border-gray-200 pb-3">
             <div class="flex items-center gap-3 mb-2">
               @if(getUserPhoto()) {
-                <p-avatar 
-                  [image]="getUserPhoto()!" 
-                  styleClass="!bg-emerald-800 text-white!" 
-                  size="normal" 
-                  shape="circle" 
+                <p-avatar
+                  [image]="getUserPhoto()!"
+                  styleClass="!bg-emerald-800 text-white!"
+                  size="normal"
+                  shape="circle"
                 />
               } @else {
-                <p-avatar 
-                  [label]="getUserInitials()" 
-                  styleClass="!bg-emerald-800 text-white!" 
-                  size="normal" 
-                  shape="circle" 
+                <p-avatar
+                  [label]="getUserInitials()"
+                  styleClass="!bg-emerald-800 text-white!"
+                  size="normal"
+                  shape="circle"
                 />
               }
               <div class="flex flex-col">
@@ -140,13 +156,13 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
               <span class="text-xs text-gray-600">{{ getUserEmail() }}</span>
             }
           </div>
-          
+
           <!-- Ações -->
           <div>
             <span class="font-semibold block mb-2">Ações</span>
             <ul class="list-none p-0 m-0 flex flex-col">
-              <li 
-                class="flex items-center gap-2 px-2 py-3 hover:bg-emerald-50 cursor-pointer rounded-md" 
+              <li
+                class="flex items-center gap-2 px-2 py-3 hover:bg-emerald-50 cursor-pointer rounded-md"
                 (click)="logout()"
                 (keydown.enter)="logout()"
                 (keydown.space)="logout()"

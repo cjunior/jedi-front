@@ -1,0 +1,122 @@
+<div class="flex justify-between items-center mb-4">
+  <h3 class="text-lg text-zinc-700">Pré-cadastros</h3>
+  <button
+    pButton
+    type="button"
+    icon="pi pi-plus"
+    label="Adicionar ciclo"
+    class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+    (click)="handleAddCicle()"
+  ></button>
+</div>
+
+<div class="flex gap-4 mb-2 mt-12 items-end">
+  <!-- <p-floatlabel variant="on">
+    <input
+      pInputText
+      id="name"
+      type="text"
+      [ngModel]="nome"
+      (ngModelChange)="onNomeChange($event)"
+      class="w-full!"
+    />
+    <label for="name">Busca pelo nome</label>
+  </p-floatlabel>
+  <p-floatlabel variant="on">
+    <input
+      pInputText
+      id="email"
+      type="email"
+      [ngModel]="email"
+      (ngModelChange)="onEmailChange($event)"
+      class="w-full!"
+    />
+    <label for="email">Busca pelo email</label>
+  </p-floatlabel> -->
+</div>
+<p-panel showHeader="false">
+  <p-table
+    #dt
+    [value]="customers || []"
+    [paginator]="true"
+    [rows]="size"
+    [lazy]="true"
+    [totalRecords]="totalRecords"
+    [loading]="loadingTable"
+    stripedRows
+    scrollable="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="min-w-48">Nome</th>
+        <th class="min-w-48">Data inicial</th>
+        <th class="min-w-48">Data Final</th>
+        <th class="min-w-48">Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td [title]="customer.name">{{ customer.nome | truncate:35 }}</td>
+        <td [title]="customer.startDate">{{ customer.dataInicio | date }}</td>
+        <td [title]="customer.endDate">{{ customer.dataFim | date }}</td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-eye"
+            (click)="handleViewCicle(customer)"
+            class="p-button-text"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            (click)="handleEditCicle(customer)"
+            class="p-button-text"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-trash"
+            (click)="confirmDeleteRegister($event, customer)"
+            class="p-button-text p-button-danger"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">Nenhum registro encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</p-panel>
+
+@if(isVisible) {
+  <app-add-cicle
+    [isVisible]="isVisible"
+    (onSuccess)="handleAddCicleModalClose(true)"
+    (onCancel)="handleCancelAddCicleModal($event)"
+  ></app-add-cicle>
+}
+
+@if(isEditCicleVisible) {
+  <app-edit-cicle
+    [isVisible]="isEditCicleVisible"
+    [cicleData]="selectedCicle"
+    (onSuccess)="handleEditCicleModalClose(true)"
+    (onCancel)="handleEditCicleModalClose(false)"
+  ></app-edit-cicle>
+}
+
+@if(isViewCicleVisible) {
+  <app-view-cicle
+    [isVisible]="isViewCicleVisible"
+    [cicleData]="selectedCicle"
+    (onClose)="handleViewCicleModalClose($event)"
+  ></app-view-cicle>
+}
+
+<p-confirmdialog></p-confirmdialog>
+<p-toast></p-toast>
+

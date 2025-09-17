@@ -1,0 +1,130 @@
+<p-dialog
+  header="Editar Ciclo"
+  [(visible)]="isVisible"
+  [modal]="true"
+  [closable]="true"
+  [style]="{ width: '600px', height: '600px', margin: '0 10px' }"
+  (onHide)="onCancelEmitter()"
+  [draggable]="false"
+>
+  <form #f="ngForm" (ngSubmit)="onSubmitEmitter(f)" class="flex flex-col gap-4">
+
+    <!-- Nome -->
+    <div class="flex flex-col gap-2">
+      <label for="name">Nome do ciclo</label>
+      <input
+        id="name"
+        type="text"
+        pInputText
+        name="nome"
+        placeholder="Ex: Ciclo 2024"
+        [(ngModel)]="cicle.nome"
+        required
+      />
+      <small *ngIf="submitted && !cicle.nome" class="text-red-500">
+        O nome do ciclo é obrigatório.
+      </small>
+    </div>
+
+    <!-- Datas -->
+    <div class="flex gap-4">
+      <div class="flex flex-col gap-2 w-1/2">
+        <label for="dataInicio">Data de início</label>
+        <p-datepicker
+          id="dataInicio"
+          name="dataInicio"
+          appendTo="body"
+          [(ngModel)]="cicle.dataInicio"
+          dateFormat="dd/mm/yy"
+          placeholder="dd/mm/aaaa"
+          showIcon="true"
+          class="!w-full !block"
+          [tabIndex]="0"
+          (onInput)="onDateInput($event, 'dataInicio')"
+          required
+        ></p-datepicker>
+        <small *ngIf="submitted && !cicle.dataInicio" class="text-red-500">
+          A data de início é obrigatória.
+        </small>
+      </div>
+
+      <div class="flex flex-col gap-2 w-1/2">
+        <label for="dataFim">Data de fim</label>
+        <p-datepicker
+          id="dataFim"
+          name="dataFim"
+          appendTo="body"
+          [(ngModel)]="cicle.dataFim"
+          dateFormat="dd/mm/yy"
+          placeholder="dd/mm/aaaa"
+          showIcon="true"
+          class="!w-full !block"
+          (onInput)="onDateInput($event, 'dataFim')"
+          required
+        ></p-datepicker>
+        <small *ngIf="submitted && !cicle.dataFim" class="text-red-500">
+          A data de fim é obrigatória.
+        </small>
+      </div>
+    </div>
+
+    <!-- Municípios -->
+    <div class="flex flex-col gap-2">
+      <label for="municipios">Municípios</label>
+      <p-multiSelect
+        id="municipios"
+        name="municipios"
+        [options]="municipiosOptions"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="cicle.municipios"
+        placeholder="Selecione"
+        appendTo="body"
+        [selectedItemsLabel]="(cicle.municipios.length || 0) + ' selecionados'"
+        [displaySelectedLabel]="true"
+        display="chip"
+        required
+      ></p-multiSelect>
+      <small *ngIf="submitted && (!cicle.municipios || cicle.municipios.length === 0)" class="text-red-500">
+        Pelo menos um município deve ser selecionado.
+      </small>
+    </div>
+
+    <!-- Lista de selecionados -->
+    <div>
+      <label>Municípios selecionados:</label>
+      <div>
+        @for(municipality of cicle.municipios || []; track $index) {
+          <span class="inline-block bg-emerald-100 text-emerald-700 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">
+            {{ municipality }}
+          </span>
+        }
+      </div>
+    </div>
+  </form>
+
+  <ng-template #footer>
+    <button
+      pButton
+      type="button"
+      label="Cancelar"
+      class="p-button-text"
+      (click)="onCancelEmitter()"
+    ></button>
+    <button
+      pButton
+      type="submit"
+      label="Salvar"
+      [disabled]="isLoading"
+      (click)="onSubmitEmitter(f)"
+    >
+      <i
+        *ngIf="isLoading"
+        class="pi pi-spin pi-spinner"
+        style="font-size: 1rem"
+      ></i>
+    </button>
+  </ng-template>
+</p-dialog>
+
+<p-toast />
