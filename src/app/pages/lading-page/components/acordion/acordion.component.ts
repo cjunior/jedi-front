@@ -22,15 +22,15 @@ export class AcordionComponent implements OnInit {
     },
     {
       title: 'Quem pode participar?',
-      content: 'Pessoas de 16 a 29 anos que residem em um dos 53 municípios paraenses participantes.'
+      content: 'Pessoas de 16 a 35 anos que residem em um dos 53 municípios participantes do estado do Pará.'
     },
     {
       title: 'Qual a duração do curso?',
-      content: 'O curso tem carga horária total de 40 horas.'
+      content: 'O curso tem duração de 4 semanas, com carga horária total de 40 horas.'
     },
     {
       title: 'O curso é presencial ou on-line?',
-      content: 'As aulas são on-line, com alguns encontros presenciais no município onde você se inscrever.'
+      content: 'As aulas são on-line por meio de uma plataforma virtual desenvolvida para o curso, com dois encontros presenciais no município no qual a pessoa se inscrever.'
     },
     {
       title: 'Em quais municípios do Pará o curso será realizado? ',
@@ -54,7 +54,7 @@ export class AcordionComponent implements OnInit {
     //       title: item.question,
     //       content: item.answer
     //     }));
-  
+
     //     const mockItems = [
     //       {
     //         title: 'Em quais municípios do Pará o curso será realizado? ',
@@ -70,7 +70,7 @@ export class AcordionComponent implements OnInit {
     //       }
     //     ];
 
-  
+
     //     this.faqSectionResponseDto = [...apiItems, ...mockItems];
     //   },
     //   error: (error) => {
