@@ -84,6 +84,7 @@ export class LadingPageComponent {
   loadingProgress = 0;
   confirmVisible = false;
   successVisible = false;
+  showRegistrationModal = false;
   teamResponseDto = {
     equipttext: 'Equipe',
   };
@@ -602,5 +603,16 @@ export class LadingPageComponent {
 
   cancelSubmit() {
     this.confirmVisible = false;
+  }
+
+  redirectToRegistration(state: 'para' | 'ceara') {
+    this.showRegistrationModal = false;
+    
+    const urls = {
+      para: 'https://ee.kobotoolbox.org/x/MhHcsBoM',
+      ceara: 'https://ee.kobotoolbox.org/x/GjJmopXx'
+    };
+    
+    window.open(urls[state], '_blank');
   }
 }
