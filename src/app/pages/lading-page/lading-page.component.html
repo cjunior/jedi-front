@@ -94,6 +94,18 @@
       </h1>
     </div>
 
+    <!-- Banner de Notícia Destacada - Imagem -->
+    @if(blogDestaque && blogItems.length > 0) {
+      <div class="news-banner-image-container">
+        <img 
+          src="/banner-vagas-fortaleza.png" 
+          alt="Inscrições abertas para Fortaleza"
+          class="news-banner-image cursor-pointer"
+          (click)="openLatestNews()"
+        />
+      </div>
+    }
+
    <div class="photo" id="project2">
   <!-- Substitua a img por um iframe do YouTube -->
   <div class="video-container">

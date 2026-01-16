@@ -1766,9 +1766,15 @@ h4 {
   }
 }
 .photo {
+  width: 100%;
+  padding: 0 80px 30px 80px;
+  margin-bottom: 0;
+  
   .video-container {
     position: relative;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
     height: 0;
     padding-bottom: 43.25%;
     margin-bottom: 20px;
@@ -1779,8 +1785,21 @@ h4 {
       left: 0;
       width: 100%;
       height: 100%;
-      border-radius: 8px;
+      border-radius: 12px;
       border: none;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  img {
+    margin-top: 0;
+  }
+  
+  @media (max-width: 990px) {
+    padding: 0 20px 20px 20px;
+    
+    .video-container {
+      margin-bottom: 15px;
     }
   }
 }
@@ -1789,19 +1808,11 @@ h4 {
 @media (max-width: 990px) {
   .photo {
     .video-container {
-      width: 100%; 
-      padding-bottom: 56.25%; 
-      margin: 0 0 15px 0;
-    }
-  }
-}
-
-@media (max-width: 768px) {
-  .photo {
-    .video-container {
-      width: 100%;
       padding-bottom: 56.25%;
-      margin: 0 0 10px 0;
+      
+      iframe.foto {
+        border-radius: 8px;
+      }
     }
   }
 }
@@ -1809,29 +1820,63 @@ h4 {
 @media (max-width: 500px) {
   .photo {
     .video-container {
-      width: 100%;
-      padding-bottom: 56.25%; 
-      margin: 0 0 10px 0;
+      padding-bottom: 56.25%;
       
       iframe.foto {
-        border-radius: 4px;
+        border-radius: 6px;
       }
     }
   }
 }
 
-
 @media (max-width: 400px) {
   .photo {
     .video-container {
-      width: 100%;
-      height: 250px; 
-      padding-bottom: 0; 
-      margin: 0 0 10px 0;
+      height: 250px;
+      padding-bottom: 0;
       
       iframe.foto {
-        border-radius: 4px;
+        border-radius: 6px;
       }
     }
+  }
+}
+
+// Estilos para o banner de notícia destacada
+.news-banner-image-container {
+  width: 100%;
+  padding: 0 80px;
+  margin: 30px 0 50px 0;
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+  
+  @media (max-width: 990px) {
+    padding: 0 20px;
+    margin: 20px 0 40px 0;
+  }
+}
+
+.news-banner-image {
+  width: 100%;
+  max-width: 1200px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: block;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (max-width: 990px) {
+    border-radius: 8px;
+  }
+  
+  @media (max-width: 768px) {
+    border-radius: 6px;
   }
 }

@@ -507,6 +507,13 @@ export class LadingPageComponent {
     window.open(`/noticias/${postId}`, '_blank');
   }
 
+  openLatestNews() {
+    if (this.blogDestaque?.id) {
+      this.router.navigate(['/noticias', this.blogDestaque.id]);
+      window.scrollTo(0, 0);
+    }
+  }
+
   redirectToBlog() {
     this.router.navigate(['/noticias']);
     window.scrollTo(0, 0);
