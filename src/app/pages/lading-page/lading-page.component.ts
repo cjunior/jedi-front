@@ -514,6 +514,13 @@ export class LadingPageComponent {
     }
   }
 
+  openFortalezaNews() {
+    // ID fixo da notícia sobre inscrições em Fortaleza
+    const fortalezaNewsId = 15;
+    this.router.navigate(['/noticias', fortalezaNewsId]);
+    window.scrollTo(0, 0);
+  }
+
   redirectToBlog() {
     this.router.navigate(['/noticias']);
     window.scrollTo(0, 0);

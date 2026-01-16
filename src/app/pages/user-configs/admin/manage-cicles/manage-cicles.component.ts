@@ -162,7 +162,6 @@ export class ManageCiclesComponent implements OnInit{
   // }
 
   verMais(cicle: ICicleResponse) {
-    console.log(cicle)
   }
 
   confirmDeleteRegister(event: Event, register: ICicleResponse) {
@@ -187,7 +186,6 @@ export class ManageCiclesComponent implements OnInit{
         this.isLoading = true;
         this.ciclesService.deleteCicle(register.id).subscribe({
           next: () => {
-            console.log('entrou aqui')
             this.isLoading = false;
             this.messageService.add({
               severity: 'success',

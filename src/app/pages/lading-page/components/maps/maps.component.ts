@@ -32,13 +32,11 @@ export class MapsComponent implements AfterViewInit, OnDestroy {
     this.ciclesService.getCurrentCicle().subscribe({
       next: (cicle) => {
         cicle.municipios.length ? this.hasCicle = true : this.hasCicle = false;
-        console.log(this.hasCicle, 'oi')
         this.currentCicle = cicle;
         this.loadMarkers();
       },
       error: (err) => {
         console.error('Erro ao obter ciclo atual:', err)
-        console.log('caiu no erro')
       },
     });
   }
