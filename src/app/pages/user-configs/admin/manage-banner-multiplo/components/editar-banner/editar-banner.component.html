@@ -1,0 +1,94 @@
+<p-dialog
+  [(visible)]="isVisible"
+  modal="true"
+  header="Editar Banner"
+  [style]="{ width: '600px' }"
+  [closable]="true"
+  (onHide)="onCloseModal()"
+  [styleClass]="'banner-edit-dialog'"
+>
+  <form [formGroup]="bannerForm" (ngSubmit)="onSubmit()" class="p-fluid space-y-3">
+    @if (bannerData) {
+      <div class="flex flex-col mb-3">
+        <label>Imagem atual</label>
+        <img
+          [src]="bannerData.imgUrl"
+          [alt]="'Banner ' + bannerData.id"
+          class="max-w-full max-h-48 object-contain border rounded p-2"
+          (error)="onImageError($event)"
+        />
+      </div>
+    }
+
+    <div class="flex flex-col">
+      <label for="title">Título do banner (opcional)</label>
+      <input
+        id="title"
+        type="text"
+        pInputText
+        formControlName="title"
+        placeholder="Ex: Banner Promocional"
+      />
+    </div>
+
+    <div class="flex flex-col">
+      <label>Nova imagem do banner (opcional)</label>
+      <p-fileUpload
+        mode="basic"
+        name="file"
+        accept="image/*"
+        auto="true"
+        chooseLabel="Escolher nova imagem"
+        (onSelect)="onFileSelected($event)"
+        [customUpload]="true"
+      />
+      @if (selectedFile) {
+        <div class="mt-2 text-sm text-green-800">
+          Nova imagem selecionada: <strong>{{ selectedFile.name }}</strong>
+        </div>
+      }
+      <p class="text-sm text-gray-500 mt-1">
+        Se não selecionar uma nova imagem, a imagem atual será mantida.
+      </p>
+    </div>
+
+    <div class="flex flex-col">
+      <label for="linkUrl">Link URL <span class="text-red-500">*</span></label>
+      <input
+        id="linkUrl"
+        type="url"
+        pInputText
+        formControlName="linkUrl"
+        placeholder="https://exemplo.com"
+      />
+      @if (hasError('linkUrl', 'required')) {
+        <p-message
+          severity="error"
+          text="O link URL é obrigatório."
+          variant="simple"
+        />
+      }
+      @if (hasError('linkUrl', 'pattern')) {
+        <p-message
+          severity="error"
+          text="O link URL deve começar com http:// ou https://"
+          variant="simple"
+        />
+      }
+    </div>
+
+    <div class="flex justify-end mt-4 gap-2">
+      <button type="button" pButton label="Cancelar" severity="secondary" (click)="onCloseModal()"></button>
+      <button
+        type="submit"
+        pButton
+        label="Salvar"
+        class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+        [disabled]="bannerForm.invalid"
+        [loading]="isLoading"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-toast />

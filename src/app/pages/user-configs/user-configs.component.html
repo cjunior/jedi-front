@@ -83,6 +83,22 @@ class="fixed lg:relative z-40 top-0 left-0 h-full bg-white shadow-lg lg:shadow-n
     <span class="text-sm font-medium">Gerenciar Usuários</span>
   </div>
   }
+
+  @if(canManageBannerMultiplo()) {
+  <div
+    class="flex items-center py-2 px-4 gap-3 hover:bg-emerald-100 hover:text-emerald-700 rounded-lg cursor-pointer"
+    routerLink="gerenciar-banners-multiplos"
+    routerLinkActive="active"
+    (click)="sidebarOpen = false"
+    (keydown.enter)="sidebarOpen = false"
+    (keydown.space)="sidebarOpen = false"
+    tabindex="0"
+    role="button"
+  >
+    <i class="pi pi-images"></i>
+    <span class="text-sm font-medium">Gerenciar Banners Múltiplos</span>
+  </div>
+  }
 </nav>
 </aside>
 

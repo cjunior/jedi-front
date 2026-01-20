@@ -1,0 +1,159 @@
+<p-dialog
+  [(visible)]="isVisible"
+  modal="true"
+  header="Adicionar Banner(s)"
+  [style]="{ width: '650px' }"
+  [closable]="true"
+  (onHide)="onCloseModal()"
+  [styleClass]="'banner-add-dialog'"
+>
+  <div class="dialog-content">
+    <form [formGroup]="bannerForm" (ngSubmit)="onSubmit(); $event.preventDefault()" class="banner-form">
+      <div formArrayName="banners" class="banners-list">
+        @for (banner of bannersArray.controls; track $index) {
+          <div class="banner-item" [formGroupName]="$index">
+            <div class="banner-item-header">
+              <div class="banner-number">
+                <span class="number-badge">{{ $index + 1 }}</span>
+                <span class="banner-label">Banner {{ $index + 1 }}</span>
+              </div>
+              @if (bannersArray.length > 1) {
+                <button
+                  type="button"
+                  pButton
+                  icon="pi pi-times"
+                  class="p-button-text p-button-danger remove-banner-btn"
+                  [title]="'Remover banner ' + ($index + 1)"
+                  (click)="removeBannerField($index)"
+                ></button>
+              }
+            </div>
+
+            <div class="banner-item-body">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="title-{{ $index }}">
+                    Título do banner
+                    <span class="optional-badge">(opcional)</span>
+                  </label>
+                  <input
+                    id="title-{{ $index }}"
+                    type="text"
+                    pInputText
+                    formControlName="title"
+                    placeholder="Ex: Banner Promocional"
+                    class="w-full"
+                  />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="linkUrl-{{ $index }}">
+                    Link URL
+                    <span class="required-badge">*</span>
+                  </label>
+                  <input
+                    id="linkUrl-{{ $index }}"
+                    type="text"
+                    pInputText
+                    formControlName="linkUrl"
+                    placeholder="Digite o link (ex: https://exemplo.com)"
+                    class="w-full"
+                  />
+                  @if (hasError('linkUrl', 'required', $index)) {
+                    <small class="error-text">O link URL é obrigatório.</small>
+                  }
+                </div>
+              </div>
+
+              <div class="form-row image-upload-row">
+                <div class="form-field image-field">
+                  <label>
+                    Imagem do banner
+                    <span class="required-badge">*</span>
+                  </label>
+                  <div class="image-upload-container">
+                    @if (selectedFiles[$index]) {
+                      <div class="image-preview-wrapper">
+                        <img
+                          [src]="getImagePreview($index)"
+                          [alt]="'Preview banner ' + ($index + 1)"
+                          class="image-preview"
+                        />
+                        <button
+                          type="button"
+                          pButton
+                          icon="pi pi-times"
+                          class="p-button-rounded p-button-danger p-button-text remove-image-btn"
+                          [title]="'Remover imagem'"
+                          (click)="removeImage($index)"
+                        ></button>
+                        <div class="image-info">
+                          <span class="image-name">{{ selectedFiles[$index].name }}</span>
+                          <span class="image-size">{{ getFileSize(selectedFiles[$index].size) }}</span>
+                        </div>
+                      </div>
+                    } @else {
+                      <div class="upload-placeholder">
+                        <p-fileUpload
+                          mode="basic"
+                          name="file"
+                          accept="image/*"
+                          auto="true"
+                          chooseLabel="Escolher imagem"
+                          (onSelect)="onFileSelected($event, $index)"
+                          [customUpload]="true"
+                          [style]="{ width: '100%' }"
+                        />
+                        @if (fileTouched) {
+                          <small class="error-text">A imagem é obrigatória.</small>
+                        }
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="form-actions-top">
+        <button
+          type="button"
+          pButton
+          label="Adicionar Mais Banner"
+          icon="pi pi-plus"
+          severity="secondary"
+          outlined
+          (click)="addBannerField()"
+        ></button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <button
+        type="button"
+        pButton
+        label="Cancelar"
+        severity="secondary"
+        (click)="onCloseModal()"
+      ></button>
+      <button
+        type="button"
+        pButton
+        label="Salvar Banner(s)"
+        icon="pi pi-check"
+        class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+        [disabled]="bannerForm.invalid || isLoading"
+        [loading]="isLoading"
+        (click)="onSubmit()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-toast />

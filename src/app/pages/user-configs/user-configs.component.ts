@@ -36,6 +36,10 @@ export class UserConfigsComponent {
     return this.authService.hasRole(['ROLE_ADMIN']);
   }
 
+  canManageBannerMultiplo(): boolean {
+    return this.authService.hasRole(['ROLE_ADMIN']);
+  }
+
   getUserName(): string {
     const name = this.authService.getUserName();
     return name ?? this.getUserDisplayName();

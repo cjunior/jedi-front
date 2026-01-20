@@ -56,6 +56,11 @@ export const userConfigsRoutes: Routes = [
         path: 'gerenciar-ciclos',
         loadComponent: () => import('./admin/manage-cicles/manage-cicles.component').then(m => m.ManageCiclesComponent),
         canActivate: [adminGuard]
+      },
+      {
+        path: 'gerenciar-banners-multiplos',
+        loadComponent: () => import('./admin/manage-banner-multiplo/manage-banner-multiplo.component').then(m => m.ManageBannerMultiploComponent),
+        canActivate: [managerGuard]
       }
     ]
   }

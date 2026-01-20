@@ -1358,10 +1358,6 @@
       button.primary-btn {
         font-size: 14px;
       }
-      img {
-
-
-      }
 
       button.primary-btn {
         width: 157px;
@@ -1843,6 +1839,7 @@ h4 {
 }
 
 // Estilos para o banner de notícia destacada
+// Proporção base: 1200x500 (2.4:1) - mesma do banner-vagas-fortaleza.png
 .news-banner-image-container {
   width: 100%;
   padding: 0 80px;
@@ -1861,7 +1858,9 @@ h4 {
 .news-banner-image {
   width: 100%;
   max-width: 1200px;
-  height: auto;
+  aspect-ratio: 2.4 / 1; // Proporção 1200x500 (2.4:1)
+  object-fit: cover;
+  object-position: center;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   transition: all 0.3s ease;
@@ -1878,5 +1877,101 @@ h4 {
   
   @media (max-width: 768px) {
     border-radius: 6px;
+  }
+}
+
+// Estilos para o carrossel de banners
+.banner-carousel {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  ::ng-deep {
+    .p-carousel-container {
+      width: 100%;
+    }
+    
+    .p-carousel-content {
+      width: 100%;
+    }
+    
+    .p-carousel-item {
+      width: 100%;
+    }
+    
+    .p-carousel-prev,
+    .p-carousel-next {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+      }
+      
+      @media (max-width: 768px) {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    
+    .p-carousel-indicators {
+      margin-top: 15px;
+      
+      .p-carousel-indicator {
+        button {
+          background-color: rgba(0, 0, 0, 0.3);
+          border-radius: 50%;
+          width: 12px;
+          height: 12px;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.5);
+          }
+        }
+        
+        &.p-highlight button {
+          background-color: #426b53;
+        }
+      }
+    }
+  }
+}
+
+.banner-carousel-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  img {
+    width: 100%;
+    max-width: 1200px;
+    aspect-ratio: 2.4 / 1; // Proporção 1200x500 (2.4:1) - mesma do banner-vagas-fortaleza.png
+    object-fit: cover;
+    object-position: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 990px) {
+      border-radius: 8px;
+    }
+    
+    @media (max-width: 768px) {
+      border-radius: 6px;
+    }
   }
 }

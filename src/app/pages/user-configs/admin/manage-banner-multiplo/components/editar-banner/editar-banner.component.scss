@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+// Estilos responsivos para o dialog
+::ng-deep .banner-edit-dialog {
+  .p-dialog {
+    @media (max-width: 768px) {
+      width: 95vw !important;
+      max-width: 95vw !important;
+      margin: 1rem auto !important;
+    }
+  }
+  
+  .p-dialog-content {
+    padding: 1rem !important;
+    
+    @media (max-width: 768px) {
+      padding: 0.75rem !important;
+    }
+  }
+}

@@ -94,16 +94,44 @@
       </h1>
     </div>
 
-    <!-- Banner de Notícia Destacada - Imagem -->
-    @if(blogDestaque && blogItems.length > 0) {
-      <div class="news-banner-image-container">
-        <img 
-          src="/banner-vagas-fortaleza.png" 
-          alt="Inscrições abertas para Fortaleza"
-          class="news-banner-image cursor-pointer"
-          (click)="openFortalezaNews()"
-        />
-      </div>
+    <!-- Banners Múltiplos -->
+    @if(bannersMultiplos.length > 0) {
+      @if(bannersMultiplos.length === 1) {
+        <!-- Banner único -->
+        <div class="news-banner-image-container">
+          <img 
+            [src]="getBannerImageUrl(bannersMultiplos[0])" 
+            [alt]="'Banner ' + bannersMultiplos[0].id"
+            class="news-banner-image cursor-pointer"
+            (click)="openBannerLink(bannersMultiplos[0].linkUrl)"
+          />
+        </div>
+      } @else {
+        <!-- Carrossel de banners -->
+        <div class="news-banner-image-container">
+          <p-carousel
+            [value]="bannersMultiplos"
+            [numVisible]="1"
+            [numScroll]="1"
+            [circular]="true"
+            [autoplayInterval]="5000"
+            [showIndicators]="true"
+            [showNavigators]="false"
+            styleClass="banner-carousel"
+          >
+            <ng-template let-banner pTemplate="item">
+              <div class="banner-carousel-item">
+                <img 
+                  [src]="getBannerImageUrl(banner)" 
+                  [alt]="'Banner ' + banner.id"
+                  class="news-banner-image cursor-pointer w-full"
+                  (click)="openBannerLink(banner.linkUrl)"
+                />
+              </div>
+            </ng-template>
+          </p-carousel>
+        </div>
+      }
     }
 
    <div class="photo" id="project2">

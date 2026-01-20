@@ -1,0 +1,184 @@
+<div class="flex justify-between items-center mb-4">
+  <h3 class="text-lg text-zinc-700">Gerenciar Banners Múltiplos</h3>
+  <div class="flex gap-2">
+    <button
+      pButton
+      type="button"
+      icon="pi pi-sort"
+      label="Ajustar Ordem"
+      severity="secondary"
+      (click)="openReorderModal()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-plus"
+      label="Adicionar Banner"
+      class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+      (click)="showAddBannerModal = true"
+    ></button>
+  </div>
+</div>
+
+<p-panel showHeader="false">
+    <p-table
+      [value]="banners() || []"
+      [loading]="loadingTable"
+      stripedRows
+      scrollable="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="min-w-48">Ordem</th>
+          <th class="min-w-48">Título</th>
+          <th class="min-w-48">Imagem</th>
+          <th class="min-w-48">Link URL</th>
+          <th class="min-w-48">Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-banner let-i="rowIndex">
+        <tr>
+          <td>{{ banner.position || (i + 1) }}</td>
+          <td>{{ banner.title || '-' }}</td>
+          <td>
+            <img
+              [src]="banner.imgUrl"
+              [alt]="banner.title || 'Banner ' + banner.id"
+              class="max-w-32 max-h-20 object-contain"
+              (error)="onImageError($event)"
+            />
+          </td>
+          <td>
+            <a
+              [href]="banner.linkUrl"
+              target="_blank"
+              class="text-blue-600 hover:underline"
+              [title]="banner.linkUrl"
+            >
+              {{ banner.linkUrl.length > 50 ? (banner.linkUrl | slice:0:50) + '...' : banner.linkUrl }}
+            </a>
+          </td>
+          <td>
+            <button
+              pButton
+              icon="pi pi-pencil"
+              class="p-button-text mr-2"
+              (click)="onEditBanner(banner)"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-text ml-2"
+              (click)="onDeleteBanner($event, banner.id)"
+              [disabled]="loadingTable"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="5">Nenhum banner encontrado.</td></tr>
+      </ng-template>
+    </p-table>
+</p-panel>
+
+<!-- Modal de Reordenação -->
+<p-dialog
+  [(visible)]="showReorderModal"
+  modal="true"
+  header="Ajustar Ordem dos Banners"
+  [style]="{ width: '600px' }"
+  [closable]="true"
+  (onHide)="closeReorderModal()"
+  [styleClass]="'banner-reorder-dialog'"
+>
+  <div class="reorder-modal-content">
+    <p class="text-sm text-gray-600 mb-4">
+      Arraste os banners para reordená-los. A ordem será aplicada na landing page.
+    </p>
+    
+    <div class="drag-drop-container">
+      @for (banner of reorderBanners; track banner.id; let i = $index) {
+        <div
+          class="banner-card-vertical"
+          [class.dragging]="draggedIndex === i"
+          [class.drag-over]="dragOverIndex === i"
+          [draggable]="true"
+          (dragstart)="onDragStart($event, i)"
+          (dragend)="onDragEnd($event)"
+          (dragover)="onDragOver($event, i)"
+          (dragleave)="onDragLeave($event)"
+          (drop)="onDrop($event, i)"
+          (touchstart)="onTouchStart($event, i)"
+          (touchmove)="onTouchMove($event, i)"
+          (touchend)="onTouchEnd($event, i)"
+          (touchcancel)="onTouchCancel($event)"
+        >
+          <div class="drag-handle-vertical">
+            <i class="pi pi-bars"></i>
+          </div>
+          <div class="banner-content-vertical">
+            <img
+              [src]="banner.imgUrl"
+              [alt]="'Banner ' + banner.id"
+              class="banner-image-vertical"
+              (error)="onImageError($event)"
+            />
+            <div class="banner-info-vertical">
+              <p class="banner-title-vertical">{{ banner.title || 'Sem título' }}</p>
+              <p class="banner-id-vertical">Ordem: {{ banner.position || (i + 1) }}</p>
+              <a
+                [href]="banner.linkUrl"
+                target="_blank"
+                class="banner-link-vertical"
+                [title]="banner.linkUrl"
+              >
+                {{ banner.linkUrl.length > 50 ? (banner.linkUrl | slice:0:50) + '...' : banner.linkUrl }}
+              </a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    
+    @if (reorderBanners.length === 0) {
+      <p class="text-center text-gray-500 mt-4">Nenhum banner encontrado.</p>
+    }
+  </div>
+  
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <button
+        pButton
+        type="button"
+        label="Cancelar"
+        severity="secondary"
+        (click)="closeReorderModal()"
+      ></button>
+      <button
+        pButton
+        type="button"
+        label="Salvar Ordem"
+        class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+        [loading]="isSavingOrder"
+        (click)="saveNewOrder()"
+      ></button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<app-adicionar-banner
+  [isVisible]="showAddBannerModal"
+  (closed)="closeAddBannerModal()"
+  (bannerCreated)="reloadBanners($event)"
+/>
+<app-editar-banner
+  [isVisible]="showEditBannerModal"
+  [bannerData]="selectedBanner"
+  (closed)="closeEditBannerModal()"
+  (bannerUpdated)="reloadBanners($event)"
+/>
+
+<p-confirmdialog />
+<p-toast />
