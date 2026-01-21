@@ -1,0 +1,118 @@
+<div class="w-full min-h-full bg-gradient-to-b from-orange-50 to-lime-100">
+  <div class="max-w-[1440px]! mx-auto py-8 relative">
+    <div class="flex items-center justify-between px-2">
+      <img src="logo.svg" alt="" class="h-30 cursor-pointer" (click)="redirectToInitialPage()" />
+      <ul class="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+        <li class="text-emerald-900 font-bold cursor-pointer pt-4" (click)="redirectToInitialPage()">Página inicial</li>
+      </ul>
+      <div class="md:hidden relative">
+        @if(isMobileMenuOpen()) {
+          <i class="pi pi-times text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        } @else {
+          <i class="pi pi-bars text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        }
+
+        @if(isMobileMenuOpen()) {
+          <div class="fixed inset-0 z-40 bg-opacity-10!" (click)="closeMenu()"></div>
+
+          <div
+            class="fixed top-35 left-0 right-0 z-50 bg-white shadow-md mx-2 mt-2 rounded-md animate-slide-down"
+            (click)="$event.stopPropagation()"
+          >
+            <ul class="flex flex-col px-6 py-4 space-y-4">
+              <li class="text-emerald-900 sm:text-xl font-bold cursor-pointer" (click)="redirectToInitialPage(); closeMenu()">
+                Página inicial
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="px-2">
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+      <div>
+        <div class="flex flex-col items-center py-12">
+          <button
+            class="back-button"
+            (click)="redirectToResults()"
+          >
+            <i class="pi pi-arrow-left mr-2"></i>
+            Voltar para Resultados
+          </button>
+          <h1 class="text-emerald-900 text-center text-4xl mt-4">{{ categoryName() }}</h1>
+        </div>
+      </div>
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+
+      <div class="mt-8 mb-8">
+        @if(files().length > 0) {
+          <div class="files-container">
+            @for (file of files(); track file.id) {
+              <div 
+                class="file-card"
+                [class.disabled]="file.fileUrl === '#'"
+              >
+                <div class="file-card-content">
+                  <div class="file-icon-wrapper" [attr.data-category]="file.category.toLowerCase()">
+                    <i class="pi pi-file-pdf"></i>
+                  </div>
+                  <div class="file-info">
+                    <span class="file-category-badge" [attr.data-category]="file.category.toLowerCase()">
+                      {{ file.category }}
+                    </span>
+                    <h3 class="file-title">{{ file.title }}</h3>
+                  </div>
+                  <div class="file-actions">
+                    @if(file.fileUrl !== '#') {
+                      <button
+                        class="file-action-btn view-btn"
+                        (click)="viewFile(file); $event.stopPropagation()"
+                        title="Ver documento"
+                      >
+                        <i class="pi pi-eye"></i>
+                        <span>Ver</span>
+                      </button>
+                      <button
+                        class="file-action-btn download-btn"
+                        (click)="downloadFile(file); $event.stopPropagation()"
+                        [disabled]="loadingFile() === file.id"
+                        title="Baixar documento"
+                      >
+                        @if(loadingFile() === file.id) {
+                          <i class="pi pi-spin pi-spinner"></i>
+                        } @else {
+                          <i class="pi pi-download"></i>
+                        }
+                        <span>Baixar</span>
+                      </button>
+                    } @else {
+                      <div class="file-action-disabled">
+                        <i class="pi pi-clock"></i>
+                        <span>Em breve</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <i class="pi pi-inbox text-6xl text-gray-400 mb-4"></i>
+            <span class="text-center block text-gray-600 text-lg">Nenhum documento disponível nesta categoria.</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer [isBlog]="true" />
+<button
+  class="back-to-top-btn"
+  [class.show]="showBackToTop()"
+  (click)="scrollToTop()"
+  aria-label="Voltar ao topo"
+>
+  <i class="pi pi-angle-up"></i>
+</button>

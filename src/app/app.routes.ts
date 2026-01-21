@@ -23,6 +23,20 @@ export const routes: Routes = [
       ]
     },
     {
+      path: 'resultados',
+      children: [
+        {
+          path: '',
+          redirectTo: 'fortaleza',
+          pathMatch: 'full'
+        },
+        {
+          path: 'fortaleza',
+          loadComponent: () => import('./pages/results/results.component').then(m => m.ResultsComponent)
+        }
+      ]
+    },
+    {
         path: 'login',
         loadComponent: () => import('./pages/login/login/login.component').then(m => m.LoginComponent),
         canActivate: [loginGuard]
