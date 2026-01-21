@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import type { IBanner } from '../interfaces/banner.interface';
-import { transformImageUrl } from '../utils/url-transformer.util';
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +16,7 @@ export class BannerMultiploService {
       headers: {
         'ngrok-skip-browser-warning': '1'
       }
-    }).pipe(
-      map(banners => banners.map(banner => ({
-        ...banner,
-        imgUrl: transformImageUrl(banner.imgUrl)
-      })))
-    );
+    });
   }
 
   getBannerById(id: number): Observable<IBanner> {
@@ -30,12 +24,7 @@ export class BannerMultiploService {
       headers: {
         'ngrok-skip-browser-warning': '1'
       }
-    }).pipe(
-      map(banner => ({
-        ...banner,
-        imgUrl: transformImageUrl(banner.imgUrl)
-      }))
-    );
+    });
   }
 
   createBanner(formData: FormData): Observable<any> {
