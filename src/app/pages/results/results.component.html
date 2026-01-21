@@ -1,0 +1,140 @@
+<div class="w-full min-h-full bg-gradient-to-b from-orange-50 to-lime-100">
+  <div class="max-w-[1440px]! mx-auto py-8 relative">
+    <div class="flex items-center justify-between px-2">
+      <img src="/logo.svg" alt="" class="h-30 cursor-pointer" (click)="redirectToInitialPage()" />
+      <ul class="hidden md:block absolute left-1/2 transform -translate-x-1/2">
+        <li class="text-emerald-900 font-bold cursor-pointer pt-4" (click)="redirectToInitialPage()">Página inicial</li>
+      </ul>
+      <div class="md:hidden relative">
+        @if(isMobileMenuOpen()) {
+          <i class="pi pi-times text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        } @else {
+          <i class="pi pi-bars text-2xl cursor-pointer pt-4" (click)="toggleMenu()" [style]="{ 'font-size': '1.4rem'}"></i>
+        }
+
+        @if(isMobileMenuOpen()) {
+          <div class="fixed inset-0 z-40 bg-opacity-10!" (click)="closeMenu()"></div>
+
+          <div
+            class="fixed top-35 left-0 right-0 z-50 bg-white shadow-md mx-2 mt-2 rounded-md animate-slide-down"
+            (click)="$event.stopPropagation()"
+          >
+            <ul class="flex flex-col px-6 py-4 space-y-4">
+              <li class="text-emerald-900 sm:text-xl font-bold cursor-pointer" (click)="redirectToInitialPage(); closeMenu()">
+                Página inicial
+              </li>
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="px-2">
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+      <div>
+        <div class="flex flex-col items-center py-12">
+          <h1 class="text-emerald-900 text-center text-4xl">Resultados | Fortaleza - Ceará</h1>
+        </div>
+      </div>
+      <div class="w-full h-[1px] bg-zinc-300"></div>
+
+      <div class="mt-8 mb-8">
+        <div class="info-section max-w-4xl mx-auto mb-8">
+          <p class="text-emerald-900 text-lg mb-6 text-center">
+            Confira abaixo os documentos referentes às vagas de Fortaleza, Ceará, do curso Jovens Empreendedores Digitais.
+          </p>
+
+          <div class="info-cards">
+            <div class="info-card classified">
+              <div class="info-card-header">
+                <i class="pi pi-check-circle"></i>
+                <h3>Classificados(as)</h3>
+              </div>
+              <p>Fique atento(a) ao seu e-mail. Você vai receber todas as informações necessárias para o início do curso até o dia 26 de janeiro (data de início das aulas).</p>
+            </div>
+
+            <div class="info-card reserve">
+              <div class="info-card-header">
+                <i class="pi pi-clock"></i>
+                <h3>Cadastro de reserva</h3>
+              </div>
+              <p>Até o fim de janeiro, será divulgado o cronograma para o início das novas turmas. Acompanhe as atualizações no <a href="https://www.instagram.com/jovensempreendedores.digitais/" target="_blank" rel="noopener noreferrer" class="instagram-link">Instagram</a>.</p>
+            </div>
+
+            <div class="info-card rejected">
+              <div class="info-card-header">
+                <i class="pi pi-info-circle"></i>
+                <h3>Indeferidos(as)</h3>
+              </div>
+              <p>Por enquanto, as vagas são destinadas a residentes de Fortaleza.</p>
+            </div>
+          </div>
+        </div>
+
+        @if(files.length > 0) {
+          <div class="files-container">
+            @for (file of files; track file.id) {
+              <div 
+                class="file-card"
+                [class.disabled]="file.fileUrl === '#'"
+              >
+                <div class="file-card-content">
+                  <div class="file-icon-wrapper" [attr.data-category]="file.category.toLowerCase()">
+                    <i class="pi pi-file-pdf"></i>
+                  </div>
+                  <div class="file-info">
+                    <h3 class="file-title">{{ file.title }}</h3>
+                  </div>
+                  <div class="file-actions">
+                    @if(file.fileUrl !== '#') {
+                      <button
+                        class="file-action-btn view-btn"
+                        (click)="viewFile(file); $event.stopPropagation()"
+                        title="Ver documento"
+                      >
+                        <i class="pi pi-eye"></i>
+                        <span>Ver</span>
+                      </button>
+                      <button
+                        class="file-action-btn download-btn"
+                        (click)="downloadFile(file); $event.stopPropagation()"
+                        [disabled]="loadingFile() === file.id"
+                        title="Baixar documento"
+                      >
+                        @if(loadingFile() === file.id) {
+                          <i class="pi pi-spin pi-spinner"></i>
+                        } @else {
+                          <i class="pi pi-download"></i>
+                        }
+                        <span>Baixar</span>
+                      </button>
+                    } @else {
+                      <div class="file-action-disabled">
+                        <i class="pi pi-clock"></i>
+                        <span>Em breve</span>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <i class="pi pi-inbox text-6xl text-gray-400 mb-4"></i>
+            <span class="text-center block text-gray-600 text-lg">Nenhum documento disponível até o momento.</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer [isBlog]="true" />
+<button
+  class="back-to-top-btn"
+  [class.show]="showBackToTop()"
+  (click)="scrollToTop()"
+  aria-label="Voltar ao topo"
+>
+  <i class="pi pi-angle-up"></i>
+</button>
