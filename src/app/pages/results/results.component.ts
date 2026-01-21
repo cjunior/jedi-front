@@ -28,7 +28,7 @@ export class ResultsComponent {
   protected files: ResultFile[] = [
     {
       id: 1,
-      title: 'Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza - Turmas 1 e 2',
+      title: 'Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza',
       fileName: 'Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza.pdf',
       fileUrl: '/Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza.pdf',
       category: 'Resultados | Fortaleza - Ceará'
