@@ -46,6 +46,20 @@ export class ResultsComponent {
       fileName: 'Lista de indeferidos - Jovens Empreendedores Digitais - Fortaleza.pdf',
       fileUrl: '/Lista de indeferidos - Jovens Empreendedores Digitais - Fortaleza.pdf',
       category: 'Resultados | Fortaleza - Ceará'
+    },
+    {
+      id: 4,
+      title: 'Cronograma - Jovens Empreendedores Digitais - Fortaleza - Turma 1',
+      fileName: 'jovens-empreendedores-digitais-cronograma-turma-1.pdf',
+      fileUrl: '/jovens-empreendedores-digitais-cronograma-turma-1.pdf',
+      category: 'Resultados | Fortaleza - Ceará'
+    },
+    {
+      id: 5,
+      title: 'Cronograma - Jovens Empreendedores Digitais - Fortaleza - Turma 2',
+      fileName: 'jovens-empreendedores-digitais-cronograma-turma-2.pdf',
+      fileUrl: '/jovens-empreendedores-digitais-cronograma-turma-2.pdf',
+      category: 'Resultados | Fortaleza - Ceará'
     }
   ];
 
