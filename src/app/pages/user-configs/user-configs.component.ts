@@ -40,6 +40,10 @@ export class UserConfigsComponent {
     return this.authService.hasRole(['ROLE_ADMIN']);
   }
 
+  canManagePastas(): boolean {
+    return this.authService.hasRole(['ROLE_ADMIN', 'ROLE_GERENTE']);
+  }
+
   getUserName(): string {
     const name = this.authService.getUserName();
     return name ?? this.getUserDisplayName();

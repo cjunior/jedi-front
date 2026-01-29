@@ -27,12 +27,11 @@ export const routes: Routes = [
       children: [
         {
           path: '',
-          redirectTo: 'fortaleza',
-          pathMatch: 'full'
+          loadComponent: () => import('./pages/results/results.component').then(m => m.ResultsComponent)
         },
         {
-          path: 'fortaleza',
-          loadComponent: () => import('./pages/results/results.component').then(m => m.ResultsComponent)
+          path: ':pastaId',
+          loadComponent: () => import('./pages/results/results-detail/results-detail.component').then(m => m.ResultsDetailComponent)
         }
       ]
     },

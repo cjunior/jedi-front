@@ -12,45 +12,28 @@ export class BannerMultiploService {
   private readonly apiUrl = environment.apiUrl;
 
   getBanners(): Observable<IBanner[]> {
-    return this.http.get<IBanner[]>(`${this.apiUrl}bannermultiplo`, {
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
-    });
+    return this.http.get<IBanner[]>(`${this.apiUrl}bannermultiplo`);
   }
 
   getBannerById(id: number): Observable<IBanner> {
-    return this.http.get<IBanner>(`${this.apiUrl}bannermultiplo/${id}`, {
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
-    });
+    return this.http.get<IBanner>(`${this.apiUrl}bannermultiplo/${id}`);
   }
 
   createBanner(formData: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}bannermultiplo`, formData, {
-      responseType: 'text',
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
+      responseType: 'text'
     });
   }
 
   updateBanner(id: number, formData: FormData): Observable<any> {
     return this.http.put(`${this.apiUrl}bannermultiplo/${id}`, formData, {
-      responseType: 'text',
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
+      responseType: 'text'
     });
   }
 
   deleteBanner(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}bannermultiplo/${id}`, {
-      responseType: 'text',
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
+      responseType: 'text'
     });
   }
 
@@ -60,7 +43,6 @@ export class BannerMultiploService {
     }, {
       responseType: 'text',
       headers: {
-        'ngrok-skip-browser-warning': '1',
         'Content-Type': 'application/json'
       }
     });

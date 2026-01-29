@@ -1,10 +1,12 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { FooterComponent } from '../../shared/footer/footer.component';
-import { ResultFile } from './results-data';
+import { Pasta } from './results-data';
+import { environment } from '../../../environments/environment';
+import { generateSlugFromNome } from '../../core/utils/slug-helper';
 
 @Component({
   selector: 'app-results',
@@ -16,57 +18,48 @@ import { ResultFile } from './results-data';
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss'
 })
-export class ResultsComponent {
+export class ResultsComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
 
   protected showBackToTop = signal(false);
   protected isMobileMenuOpen = signal(false);
-  protected loadingFile = signal<number | null>(null);
+  protected pastas = signal<Pasta[]>([]);
+  protected loading = signal(false);
+  protected error = signal<string | null>(null);
 
-  // Lista de arquivos PDF
-  protected files: ResultFile[] = [
-    {
-      id: 1,
-      title: 'Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza',
-      fileName: 'Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      fileUrl: '/Lista de cadastro de reserva - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      category: 'Resultados | Fortaleza - Ceará'
-    },
-    {
-      id: 2,
-      title: 'Lista de classificados - Jovens Empreendedores Digitais - Fortaleza - Turmas 1 e 2',
-      fileName: 'Lista de classificados - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      fileUrl: '/Lista de classificados - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      category: 'Resultados | Fortaleza - Ceará'
-    },
-    {
-      id: 3,
-      title: 'Lista de indeferidos - Jovens Empreendedores Digitais - Fortaleza - Turmas 1 e 2',
-      fileName: 'Lista de indeferidos - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      fileUrl: '/Lista de indeferidos - Jovens Empreendedores Digitais - Fortaleza.pdf',
-      category: 'Resultados | Fortaleza - Ceará'
-    },
-    {
-      id: 4,
-      title: 'Cronograma - Jovens Empreendedores Digitais - Fortaleza - Turma 1',
-      fileName: 'jovens-empreendedores-digitais-cronograma-turma-1.pdf',
-      fileUrl: '/jovens-empreendedores-digitais-cronograma-turma-1.pdf',
-      category: 'Resultados | Fortaleza - Ceará'
-    },
-    {
-      id: 5,
-      title: 'Cronograma - Jovens Empreendedores Digitais - Fortaleza - Turma 2',
-      fileName: 'jovens-empreendedores-digitais-cronograma-turma-2.pdf',
-      fileUrl: '/jovens-empreendedores-digitais-cronograma-turma-2.pdf',
-      category: 'Resultados | Fortaleza - Ceará'
-    }
-  ];
-
-  constructor() {
+  ngOnInit(): void {
+    this.loadPastas();
+    
     window.addEventListener('scroll', () => {
       this.showBackToTop.set(window.pageYOffset > 300);
     });
+  }
+
+  async loadPastas(): Promise<void> {
+    try {
+      this.loading.set(true);
+      this.error.set(null);
+      
+      const pastas = await firstValueFrom(
+        this.http.get<Pasta[]>(`${this.apiUrl}pastas`)
+      );
+      
+      const pastasRaiz = (pastas || []).filter(p => !p.parentId || p.parentId === 0);
+      const pastasOrdenadas = pastasRaiz.sort((a, b) => b.id - a.id);
+      this.pastas.set(pastasOrdenadas);
+    } catch (error) {
+      console.error('Erro ao carregar pastas:', error);
+      this.error.set('Erro ao carregar pastas. Tente novamente mais tarde.');
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  navigateToPasta(pasta: Pasta): void {
+    const routeParam = pasta.slug || generateSlugFromNome(pasta.nome) || pasta.id.toString();
+    this.router.navigate(['/resultados', routeParam]);
   }
 
   redirectToInitialPage(): void {
@@ -83,44 +76,5 @@ export class ResultsComponent {
 
   scrollToTop(): void {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  viewFile(file: ResultFile): void {
-    if (file.fileUrl && file.fileUrl !== '#') {
-      window.open(file.fileUrl, '_blank');
-    }
-  }
-
-  async downloadFile(file: ResultFile): Promise<void> {
-    if (!file.fileUrl || file.fileUrl === '#') {
-      return;
-    }
-
-    try {
-      this.loadingFile.set(file.id);
-      
-      // Fazer requisição para obter o arquivo como blob
-      const blob = await firstValueFrom(this.http.get(file.fileUrl, { responseType: 'blob' }));
-      
-      if (blob) {
-        // Criar URL temporária para o blob
-        const url = window.URL.createObjectURL(blob);
-        
-        // Criar elemento <a> temporário para download
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = file.fileName;
-        document.body.appendChild(link);
-        link.click();
-        
-        // Limpar
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-      }
-    } catch (error) {
-      console.error('Erro ao baixar arquivo:', error);
-    } finally {
-      this.loadingFile.set(null);
-    }
   }
 }

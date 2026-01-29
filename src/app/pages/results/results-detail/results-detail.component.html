@@ -40,34 +40,85 @@
             <i class="pi pi-arrow-left mr-2"></i>
             Voltar para Resultados
           </button>
-          <h1 class="text-emerald-900 text-center text-4xl mt-4">{{ categoryName() }}</h1>
+          <h1 class="text-emerald-900 text-center text-4xl mt-4">{{ pastaNome() }}</h1>
         </div>
       </div>
       <div class="w-full h-[1px] bg-zinc-300"></div>
 
       <div class="mt-8 mb-8">
-        @if(files().length > 0) {
+        <div class="info-section max-w-4xl mx-auto mb-8">
+          @if(pastaDescricao()) {
+            <p class="text-emerald-900 text-lg mb-6 text-center">
+              {{ pastaDescricao() }}
+            </p>
+          }
+
+          <div class="info-cards">
+            <div class="info-card classified">
+              <div class="info-card-header">
+                <i class="pi pi-check-circle"></i>
+                <h3>Classificados(as)</h3>
+              </div>
+              <p>Fique atento(a) ao seu e-mail. Você vai receber todas as informações necessárias para o início do curso até o dia 26 de janeiro (data de início das aulas).</p>
+            </div>
+
+            <div class="info-card reserve">
+              <div class="info-card-header">
+                <i class="pi pi-clock"></i>
+                <h3>Cadastro de reserva</h3>
+              </div>
+              <p>Até o fim de janeiro, será divulgado o cronograma para o início das novas turmas. Acompanhe as atualizações no <a href="https://www.instagram.com/jovensempreendedores.digitais/" target="_blank" rel="noopener noreferrer" class="instagram-link">Instagram</a>.</p>
+            </div>
+
+            <div class="info-card rejected">
+              <div class="info-card-header">
+                <i class="pi pi-info-circle"></i>
+                <h3>Indeferidos(as)</h3>
+              </div>
+              <p>Por enquanto, as vagas são destinadas a residentes de Fortaleza.</p>
+            </div>
+          </div>
+        </div>
+
+        @if(loading()) {
+          <div class="flex justify-center items-center py-12">
+            <i class="pi pi-spin pi-spinner text-4xl text-emerald-900"></i>
+          </div>
+        } @else if(error()) {
+          <div class="empty-state">
+            <i class="pi pi-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+            <span class="text-center block text-red-600 text-lg">{{ error() }}</span>
+            <button
+              class="mt-4 px-6 py-2 bg-emerald-900 text-white rounded-lg hover:bg-emerald-800"
+              (click)="loadPastaData(pastaId()!)"
+            >
+              Tentar novamente
+            </button>
+          </div>
+        } @else if(arquivos().length > 0) {
           <div class="files-container">
-            @for (file of files(); track file.id) {
+            @for (arquivo of arquivos(); track arquivo.id) {
               <div 
                 class="file-card"
-                [class.disabled]="file.fileUrl === '#'"
               >
                 <div class="file-card-content">
-                  <div class="file-icon-wrapper" [attr.data-category]="file.category.toLowerCase()">
+                  <div class="file-icon-wrapper">
                     <i class="pi pi-file-pdf"></i>
                   </div>
                   <div class="file-info">
-                    <span class="file-category-badge" [attr.data-category]="file.category.toLowerCase()">
-                      {{ file.category }}
-                    </span>
-                    <h3 class="file-title">{{ file.title }}</h3>
+                    <h3 class="file-title">{{ arquivo.nome }}</h3>
+                    @if(arquivo.uploadedAt) {
+                      <p class="file-date">
+                        <i class="pi pi-calendar text-xs mr-1"></i>
+                        {{ arquivo.uploadedAt | date:'dd/MM/yyyy \'às\' HH:mm' }}
+                      </p>
+                    }
                   </div>
                   <div class="file-actions">
-                    @if(file.fileUrl !== '#') {
+                    @if(arquivo.url) {
                       <button
                         class="file-action-btn view-btn"
-                        (click)="viewFile(file); $event.stopPropagation()"
+                        (click)="viewFile(arquivo); $event.stopPropagation()"
                         title="Ver documento"
                       >
                         <i class="pi pi-eye"></i>
@@ -75,11 +126,11 @@
                       </button>
                       <button
                         class="file-action-btn download-btn"
-                        (click)="downloadFile(file); $event.stopPropagation()"
-                        [disabled]="loadingFile() === file.id"
+                        (click)="downloadFile(arquivo); $event.stopPropagation()"
+                        [disabled]="loadingFile() === arquivo.id"
                         title="Baixar documento"
                       >
-                        @if(loadingFile() === file.id) {
+                        @if(loadingFile() === arquivo.id) {
                           <i class="pi pi-spin pi-spinner"></i>
                         } @else {
                           <i class="pi pi-download"></i>
@@ -100,7 +151,7 @@
         } @else {
           <div class="empty-state">
             <i class="pi pi-inbox text-6xl text-gray-400 mb-4"></i>
-            <span class="text-center block text-gray-600 text-lg">Nenhum documento disponível nesta categoria.</span>
+            <span class="text-center block text-gray-600 text-lg">Nenhum documento disponível nesta pasta.</span>
           </div>
         }
       </div>

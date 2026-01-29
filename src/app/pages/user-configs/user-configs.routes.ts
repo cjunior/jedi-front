@@ -61,6 +61,11 @@ export const userConfigsRoutes: Routes = [
         path: 'gerenciar-banners-multiplos',
         loadComponent: () => import('./admin/manage-banner-multiplo/manage-banner-multiplo.component').then(m => m.ManageBannerMultiploComponent),
         canActivate: [managerGuard]
+      },
+      {
+        path: 'gerenciar-pastas',
+        loadComponent: () => import('./admin/manage-pastas/manage-pastas.component').then(m => m.ManagePastasComponent),
+        canActivate: [managerGuard]
       }
     ]
   }

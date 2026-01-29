@@ -1,0 +1,81 @@
+<div class="flex justify-between items-center mb-4">
+  <h3 class="text-lg text-zinc-700">Gerenciar Pastas</h3>
+  <button
+    pButton
+    type="button"
+    icon="pi pi-plus"
+    label="Adicionar Pasta"
+    class="!bg-emerald-800 hover:bg-emerald-900! !border-emerald-700"
+    (click)="showAddPastaModal = true"
+  ></button>
+</div>
+
+<p-panel showHeader="false">
+    <p-table
+      [value]="pastas() || []"
+      [loading]="loadingTable"
+      stripedRows
+      scrollable="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="min-w-48">Nome</th>
+          <th class="min-w-48">Ações</th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-pasta>
+        <tr>
+          <td>{{ pasta.nome }}</td>
+          <td>
+            <button
+              pButton
+              icon="pi pi-folder-open"
+              class="p-button-text mr-2"
+              pTooltip="Gerenciar Arquivos"
+              (click)="onManageArquivos(pasta)"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-pencil"
+              class="p-button-text mr-2"
+              pTooltip="Editar Pasta"
+              (click)="onEditPasta(pasta)"
+            ></button>
+            <button
+              pButton
+              icon="pi pi-trash"
+              class="p-button-text ml-2"
+              pTooltip="Excluir Pasta"
+              (click)="onDeletePasta($event, pasta.id)"
+              [disabled]="loadingTable"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="emptymessage">
+        <tr><td colspan="2">Nenhuma pasta encontrada.</td></tr>
+      </ng-template>
+    </p-table>
+</p-panel>
+
+<app-adicionar-pasta
+  [isVisible]="showAddPastaModal"
+  (closed)="closeAddPastaModal()"
+  (pastaCreated)="reloadPastas($event)"
+/>
+<app-editar-pasta
+  [isVisible]="showEditPastaModal"
+  [pastaData]="selectedPasta"
+  (closed)="closeEditPastaModal()"
+  (pastaUpdated)="reloadPastas($event)"
+/>
+<app-gerenciar-arquivos
+  [isVisible]="showManageArquivosModal"
+  [pastaData]="selectedPasta"
+  (closed)="closeManageArquivosModal()"
+/>
+
+<p-confirmdialog />
+<p-toast />

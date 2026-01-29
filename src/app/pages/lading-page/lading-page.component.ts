@@ -372,11 +372,7 @@ export class LadingPageComponent {
       return;
     }
 
-    fetch(imageUrl, {
-      headers: {
-        'ngrok-skip-browser-warning': '1'
-      }
-    })
+    fetch(imageUrl)
       .then(response => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
