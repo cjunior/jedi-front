@@ -21,7 +21,7 @@ import { landingPageService } from './services/lading-page.service';
 import { CarouselModule } from 'primeng/carousel';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FooterComponent } from '../../shared/footer/footer.component';
 import { CarouselContentComponent } from './components/carousel-content/carousel.component';
 import { DropdownModule } from 'primeng/dropdown';
@@ -72,6 +72,7 @@ export class LadingPageComponent {
   private readonly landingPageService = inject(landingPageService);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly bannerMultiploService = inject(BannerMultiploService);
 
   showErrors = signal(false);
@@ -197,7 +198,15 @@ export class LadingPageComponent {
       this.loadingProgress = 100;
       setTimeout(() => {
         this.isInitialLoading = false;
+        setTimeout(() => this.scrollToMunicipiosIfNeeded(), 150);
       }, 800);
+    }
+  }
+
+  private scrollToMunicipiosIfNeeded(): void {
+    const fragment = this.route.snapshot.fragment ?? window.location.hash?.slice(1);
+    if (fragment === 'municipios') {
+      document.getElementById('municipios')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
 

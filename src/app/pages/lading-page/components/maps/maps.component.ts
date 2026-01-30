@@ -17,6 +17,7 @@ export class MapsComponent implements AfterViewInit, OnDestroy {
 
   private map!: Map;
   private markers: Marker[] = [];
+  private resizeListener = () => this.map?.resize();
 
   protected currentCicle: ICurrentCicleResponse | null = null;
   hasCicle: boolean = false;
@@ -28,6 +29,8 @@ export class MapsComponent implements AfterViewInit, OnDestroy {
       center: [-52, -3.5],
       zoom: 2,
     });
+
+    window.addEventListener('resize', this.resizeListener);
 
     this.ciclesService.getCurrentCicle().subscribe({
       next: (cicle) => {
@@ -69,6 +72,7 @@ export class MapsComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    window.removeEventListener('resize', this.resizeListener);
     if (this.map) {
       this.map.remove();
     }

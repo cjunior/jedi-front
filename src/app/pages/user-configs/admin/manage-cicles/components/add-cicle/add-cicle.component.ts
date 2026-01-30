@@ -71,6 +71,7 @@ export class AddCicleComponent {
     { label: 'Conceição do Araguaia', value: 'Conceição do Araguaia' },
     { label: 'Curuçá', value: 'Curuçá' },
     { label: 'Dom Eliseu', value: 'Dom Eliseu' },
+    { label: 'Fortaleza', value: 'Fortaleza' },
     { label: 'Igarapé-Miri', value: 'Igarapé-Miri' },
     { label: 'Itaituba', value: 'Itaituba' },
     { label: 'Itupiranga', value: 'Itupiranga' },

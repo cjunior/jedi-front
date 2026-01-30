@@ -1,6 +1,6 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { FooterComponent } from '../../../shared/footer/footer.component';
@@ -13,7 +13,8 @@ import { slugToId, generateSlugFromNome } from '../../../core/utils/slug-helper'
   standalone: true,
   imports: [
     CommonModule,
-    FooterComponent
+    FooterComponent,
+    RouterLink
   ],
   templateUrl: './results-detail.component.html',
   styleUrl: './results-detail.component.scss'

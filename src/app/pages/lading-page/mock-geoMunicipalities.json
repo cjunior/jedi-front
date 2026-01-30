@@ -462,6 +462,17 @@
     "fuso_horario": "America/Sao_Paulo"
   },
   {
+    "codigo_ibge": 2304400,
+    "nome": "Fortaleza",
+    "latitude": -3.71722,
+    "longitude": -38.5434,
+    "capital": 1,
+    "codigo_uf": 6,
+    "siafi_id": 2304400,
+    "ddd": 85,
+    "fuso_horario": "America/Fortaleza"
+  },
+  {
     "codigo_ibge": 1507607,
     "nome": "São Miguel do Guamá",
     "latitude": -1.61307,
