@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, inject, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { landingPageService } from '../../services/lading-page.service';
 
 @Component({
   selector: 'app-acordion',
@@ -10,7 +9,6 @@ import { landingPageService } from '../../services/lading-page.service';
   styleUrls: ['./acordion.component.scss']
 })
 export class AcordionComponent implements OnInit {
-  private readonly landingpageservice = inject(landingPageService)
   faqSectionResponseDto = [
     {
       title: 'O curso é gratuito?',
@@ -22,7 +20,7 @@ export class AcordionComponent implements OnInit {
     },
     {
       title: 'Quem pode participar?',
-      content: 'Pessoas de 16 a 35 anos que residem em um dos 53 municípios participantes do estado do Pará.'
+      content: 'Pessoas de 16 a 35 anos que residem em um dos 53 municípios participantes do estado do Pará, e na cidade de Fortaleza - CE.'
     },
     {
       title: 'Qual a duração do curso?',
