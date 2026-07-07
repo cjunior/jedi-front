@@ -44,9 +44,14 @@ export class CarouselSquareComponent implements OnInit {
     { type: 'image', imageUrl: './kits/12VendasWhatsApp.jpg', text: 'Vendas no WhatsApp' },
     { type: 'image', imageUrl: './kits/15VendasYoutube.jpg', text: 'Vendas no YouTube' },
     { type: 'image', imageUrl: './kits/6CapaVendasPLR.jpg', text: 'Vendas PLR' },
+    { type: 'image', imageUrl: './kits/26FormacaoDePrecos.jpg', text: 'Formação de preços' },
+    { type: 'image', imageUrl: './kits/27FinancasPessoais.jpg', text: 'Finanças pessoais' },
+    { type: 'image', imageUrl: './kits/28GestaoDeVendas.jpg', text: 'Gestão de vendas' },
+    { type: 'image', imageUrl: './kits/29PagamentosDigitais.jpg', text: 'Pagamentos digitais' },
+    { type: 'image', imageUrl: './kits/CapaGastosModeloNegocios.jpg', text: 'Gastos no modelo de negócios' },
   ];
 
-  slides = [...this.originalSlides]; 
+  slides = [...this.originalSlides];
 
   ngOnInit() {
     this.setupSlides();

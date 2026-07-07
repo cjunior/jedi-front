@@ -20,7 +20,7 @@ export class AcordionComponent implements OnInit {
     },
     {
       title: 'Quem pode participar?',
-      content: 'Pessoas de 16 a 35 anos que residem em um dos 53 municípios participantes do estado do Pará, e na cidade de Fortaleza - CE.'
+      content: 'Pessoas de 16 a 59 anos que residem em um dos 53 municípios participantes do estado do Pará, e na cidade de Fortaleza - CE.'
     },
     {
       title: 'Qual a duração do curso?',
