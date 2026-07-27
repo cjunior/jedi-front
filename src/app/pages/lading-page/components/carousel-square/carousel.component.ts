@@ -22,7 +22,7 @@ export class CarouselSquareComponent implements OnInit {
   originalSlides = [
     { type: 'image', imageUrl: './kits/7Afiliadodeinfoprodutos.jpg', text: 'Afiliados de infoprodutores' },
     { type: 'image', imageUrl: './kits/8AfiliadosEncapsulados.jpg', text: 'Afiliados de encapsulados' },
-    { type: 'image', imageUrl: './kits/2CapaModelodenegóciosCanvas.jpg', text: 'Modelo de negócios canvas' },
+    { type: 'image', imageUrl: './kits/02-capa-modelo-negocios-canvas.jpg', text: 'Modelo de negócios canvas' },
     { type: 'image', imageUrl: './kits/18CooperativismodePlataforma.jpg', text: 'Cooperativismo de plataforma' },
     { type: 'image', imageUrl: './kits/19.jpeg', text: 'Copywriting' },
     { type: 'image', imageUrl: './kits/24.jpeg', text: 'Digital influencer' },
@@ -32,7 +32,7 @@ export class CarouselSquareComponent implements OnInit {
     { type: 'image', imageUrl: './kits/CapaPersona.jpg', text: 'Persona' },
     { type: 'image', imageUrl: './kits/22.jpeg', text: 'Social media' },
     { type: 'image', imageUrl: './kits/23.jpeg', text: 'Técnicas de design' },
-    { type: 'image', imageUrl: './kits/13TráfegoPago.jpg', text: 'Tráfego pago' },
+    { type: 'image', imageUrl: './kits/13-trafego-pago.jpg', text: 'Tráfego pago' },
     { type: 'image', imageUrl: './kits/18.jpeg', text: 'UI/UX' },
     { type: 'image', imageUrl: './kits/5CapaVendasdropshipping.jpg', text: 'Vendas dropshipping' },
     { type: 'image', imageUrl: './kits/9VendasE-commerceemercadodigital.jpg', text: 'Vendas e-commerce e mercado digital' },

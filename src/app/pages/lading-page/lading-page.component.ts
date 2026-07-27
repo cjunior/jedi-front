@@ -84,7 +84,8 @@ export class LadingPageComponent {
   visible = false;
   confirmVisible = false;
   successVisible = false;
-  showRegistrationModal = false;
+  // Fluxo anterior de cadastro por estado:
+  // showRegistrationModal = false;
   showBackToTop = false;
 
   blogDestaque: BlogCard | null = null;
@@ -365,16 +366,17 @@ export class LadingPageComponent {
       });
   }
 
-  redirectToRegistration(state: 'para' | 'ceara') {
-    this.showRegistrationModal = false;
-    
-    const urls = {
-      para: 'https://ee.kobotoolbox.org/x/MhHcsBoM',
-      ceara: 'https://ee.kobotoolbox.org/x/GjJmopXx'
-    };
-    
-    window.open(urls[state], '_blank');
-  }
+  // Fluxo anterior de cadastro por estado:
+  // redirectToRegistration(state: 'para' | 'ceara') {
+  //   this.showRegistrationModal = false;
+  //
+  //   const urls = {
+  //     para: 'https://ee.kobotoolbox.org/x/MhHcsBoM',
+  //     ceara: 'https://ee.kobotoolbox.org/x/GjJmopXx'
+  //   };
+  //
+  //   window.open(urls[state], '_blank');
+  // }
 
   loadImageWithNgrokHeader(imageUrl: string): void {
     if (this.bannerImageCache.has(imageUrl)) {
@@ -405,4 +407,3 @@ export class LadingPageComponent {
     return cachedUrl || banner.imgUrl;
   }
 }
-
