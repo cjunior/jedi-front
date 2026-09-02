@@ -4,11 +4,31 @@
   <div class="menu" *ngIf="isMenuOpen">
     <ul>
       <li><a href="#project" (click)="toggleMenu()">{{ header.text1 || 'O Projeto' }}</a></li>
-      <li><a href="#team">Equipe</a></li>
+      <li><a href="#team" (click)="toggleMenu()">Equipe</a></li>
       <li><a href="#contentC" (click)="toggleMenu()">{{ header.text2 || 'Conteúdo' }}</a></li>
       <li><a href="#help" (click)="toggleMenu()">Perguntas Frequentes</a></li>
-      <li><a href="#notices">Notícias</a></li>
+      <li><a href="#notices" (click)="toggleMenu()">Notícias</a></li>
       <li><a href="/resultados" (click)="toggleMenu()">Resultados</a></li>
+      <li class="menu-action menu-action-primary">
+        <a
+          href="https://empreendedoresdigitais.ifce.edu.br/inscricoes/"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="toggleMenu()"
+        >
+          <i class="pi pi-user-plus" aria-hidden="true"></i>Cadastro
+        </a>
+      </li>
+      <li class="menu-action menu-action-secondary">
+        <a
+          href="https://ava.empreendedoresdigitais.ifce.edu.br/sign-in"
+          target="_blank"
+          rel="noopener noreferrer"
+          (click)="toggleMenu()"
+        >
+          <i class="pi pi-sign-in" aria-hidden="true"></i>Login
+        </a>
+      </li>
     </ul>
   </div>
 </div>
